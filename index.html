@@ -2,35 +2,46 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+    content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"
   >
-
-  <meta name="theme-color" content="#17233b">
+  <meta name="theme-color" content="#1A2A44">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta
     name="apple-mobile-web-app-status-bar-style"
     content="black-translucent"
   >
-  <meta name="apple-mobile-web-app-title" content="WWA Manager">
+  <meta
+    name="apple-mobile-web-app-title"
+    content="WWA Manager"
+  >
 
   <title>WWA Manager</title>
 
   <style>
     :root {
-      --ink: #17233b;
-      --blue: #79afe0;
-      --paper: #f7f7f3;
-      --white: #ffffff;
-      --line: #dfe4ec;
-      --muted: #707887;
-      --ok: #2d7a4c;
-      --warn: #9a6c00;
-      --violet: #6d4a8a;
-      --danger: #b44a4a;
-      --shadow: 0 10px 30px rgba(23, 35, 59, 0.09);
+      --hogwarts: #1A2A44;
+      --patronus: #7FB7E6;
+      --moon: #C7CCD6;
+      --stone: #6F7682;
+      --winter: #F8F8F5;
+
+      --white: #FFFFFF;
+      --ink: #162033;
+      --line: #DDE2E9;
+      --line-dark: rgba(255, 255, 255, 0.12);
+
+      --success: #4F8A68;
+      --warning: #9B7A3B;
+      --danger: #B45A62;
+
+      --shadow:
+        0 16px 40px rgba(26, 42, 68, 0.1);
+
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
     }
 
     * {
@@ -42,11 +53,12 @@
     body {
       min-height: 100%;
       margin: 0;
-      background: var(--paper);
+      background: var(--winter);
       color: var(--ink);
       font-family:
         -apple-system,
         BlinkMacSystemFont,
+        "SF Pro Display",
         "Segoe UI",
         "Noto Sans KR",
         sans-serif;
@@ -64,102 +76,173 @@
     }
 
     button {
-      min-height: 46px;
-      padding: 11px 15px;
       border: 0;
-      border-radius: 14px;
-      background: var(--ink);
-      color: var(--white);
-      font-weight: 800;
       cursor: pointer;
     }
 
-    button.secondary,
-    .file-button {
-      border: 1px solid var(--line);
-      background: var(--white);
-      color: var(--ink);
-    }
-
-    button.danger {
-      background: var(--danger);
-    }
-
     button:disabled {
-      opacity: 0.45;
+      opacity: 0.42;
+      cursor: default;
+    }
+
+    .app-shell {
+      min-height: 100dvh;
+      background:
+        linear-gradient(
+          180deg,
+          var(--hogwarts) 0 280px,
+          var(--winter) 280px 100%
+        );
     }
 
     .app {
-      width: min(100%, 780px);
-      margin: auto;
+      width: min(100%, 920px);
+      margin: 0 auto;
       padding:
-        calc(16px + env(safe-area-inset-top))
-        14px
-        calc(100px + env(safe-area-inset-bottom));
+        calc(14px + env(safe-area-inset-top))
+        16px
+        calc(110px + env(safe-area-inset-bottom));
     }
 
     .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin:
-        calc(-16px - env(safe-area-inset-top))
-        -14px
-        14px;
-      padding:
-        calc(14px + env(safe-area-inset-top))
-        14px
-        12px;
-      border-bottom: 1px solid rgba(223, 228, 236, 0.8);
-      background: rgba(247, 247, 243, 0.92);
-      backdrop-filter: blur(16px);
+      gap: 16px;
+      color: var(--white);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       min-width: 0;
     }
 
-    .mark {
+    .logo-slot {
       display: grid;
       place-items: center;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--ink);
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.07);
       color: var(--white);
       font-size: 12px;
       font-weight: 900;
+      letter-spacing: 0.14em;
     }
 
     .brand h1 {
       margin: 0;
       font-size: 22px;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
     }
 
     .brand p {
-      margin: 3px 0 0;
-      color: var(--muted);
+      margin: 5px 0 0;
+      color: var(--moon);
       font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    .toolbar {
+    .icon-btn,
+    .primary-btn,
+    .secondary-btn,
+    .danger-btn,
+    .file-button {
+      min-height: 44px;
+      padding: 0 15px;
+      border-radius: 14px;
+      font-weight: 800;
+    }
+
+    .primary-btn {
+      background: var(--patronus);
+      color: var(--hogwarts);
+    }
+
+    .secondary-btn,
+    .file-button {
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--hogwarts);
+    }
+
+    .danger-btn {
+      background: var(--danger);
+      color: var(--white);
+    }
+
+    .icon-btn {
       display: grid;
-      grid-template-columns: 1fr 132px;
-      gap: 9px;
-      margin-bottom: 12px;
+      place-items: center;
+      width: 46px;
+      padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--white);
+      font-size: 24px;
+      font-weight: 400;
+    }
+
+    .hero {
+      margin-top: 24px;
+      padding: 0 2px;
+      color: var(--white);
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--patronus);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .hero h2 {
+      max-width: 620px;
+      margin: 0;
+      font-size: clamp(30px, 6vw, 48px);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+    }
+
+    .hero-copy {
+      max-width: 560px;
+      margin: 13px 0 0;
+      color: var(--moon);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .workspace {
+      margin-top: 25px;
+    }
+
+    .command-panel {
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1fr)
+        150px
+        auto;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      box-shadow:
+        0 20px 50px rgba(10, 20, 38, 0.16);
     }
 
     .control {
       width: 100%;
       min-height: 48px;
-      padding: 11px 13px;
+      padding: 0 14px;
       border: 1px solid var(--line);
       border-radius: 14px;
       outline: none;
@@ -169,36 +252,146 @@
     }
 
     .control:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(121, 175, 224, 0.2);
+      border-color: var(--patronus);
+      box-shadow:
+        0 0 0 4px rgba(127, 183, 230, 0.18);
     }
 
-    .stats {
+    .command-panel .control {
+      border-color: rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.96);
+    }
+
+    .overview {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 9px;
-      margin-bottom: 14px;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
     }
 
-    .stat {
-      padding: 14px;
+    .overview-card {
       border: 1px solid var(--line);
-      border-radius: 18px;
+      border-radius: var(--radius-xl);
       background: var(--white);
       box-shadow: var(--shadow);
     }
 
-    .stat strong {
-      display: block;
-      font-size: 25px;
-      line-height: 1;
+    .overview-main {
+      padding: 22px;
     }
 
-    .stat span {
+    .overview-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .overview-title h3 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.025em;
+    }
+
+    .overview-title p {
+      margin: 5px 0 0;
+      color: var(--stone);
+      font-size: 13px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .metric {
+      padding: 14px;
+      border-radius: 17px;
+      background: #F1F4F8;
+    }
+
+    .metric strong {
       display: block;
-      margin-top: 6px;
-      color: var(--muted);
+      color: var(--hogwarts);
+      font-size: 28px;
+      letter-spacing: -0.04em;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 5px;
+      color: var(--stone);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .overview-side {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 22px;
+      background: var(--hogwarts);
+      color: var(--white);
+    }
+
+    .overview-side p {
+      margin: 0;
+      color: var(--moon);
       font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .overview-side strong {
+      display: block;
+      margin-top: 12px;
+      font-size: 24px;
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .overview-side .rule {
+      height: 1px;
+      margin: 18px 0;
+      background: var(--line-dark);
+    }
+
+    .overview-side small {
+      color: var(--patronus);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 30px 2px 12px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      color: var(--hogwarts);
+      font-size: 20px;
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 5px 0 0;
+      color: var(--stone);
+      font-size: 12px;
+    }
+
+    .record-count {
+      color: var(--stone);
+      font-size: 12px;
+      font-weight: 800;
     }
 
     .list {
@@ -206,201 +399,278 @@
       gap: 12px;
     }
 
-    .card {
-      padding: 14px;
+    .record {
+      display: grid;
+      grid-template-columns: 104px minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      padding: 12px;
       border: 1px solid var(--line);
-      border-radius: 20px;
+      border-radius: 22px;
       background: var(--white);
-      box-shadow: var(--shadow);
+      box-shadow:
+        0 10px 30px rgba(26, 42, 68, 0.06);
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
     }
 
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
+    .record:active {
+      transform: scale(0.992);
     }
 
-    .card-main {
-      display: flex;
-      gap: 12px;
-      min-width: 0;
+    .record-image {
+      width: 104px;
+      height: 104px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #EDF1F6;
     }
 
-    .thumb {
-      width: 78px;
-      height: 78px;
-      flex: 0 0 auto;
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      background: #eef2f7;
+    .record-image img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
     }
 
-    .thumb.placeholder {
+    .record-placeholder {
       display: grid;
       place-items: center;
-      font-size: 28px;
+      width: 100%;
+      height: 100%;
+      color: var(--stone);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-align: center;
     }
 
-    .copy {
+    .record-body {
       min-width: 0;
     }
 
-    .copy h2 {
-      margin: 2px 0 6px;
-      overflow-wrap: anywhere;
-      font-size: 17px;
-      line-height: 1.3;
-    }
-
-    .meta {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .badge {
-      height: max-content;
-      padding: 7px 9px;
-      border-radius: 999px;
+    .record-kicker {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--stone);
       font-size: 11px;
       font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--patronus);
+    }
+
+    .status-dot.designing {
+      background: #8E7EB5;
+    }
+
+    .status-dot.review {
+      background: #B59451;
+    }
+
+    .status-dot.complete {
+      background: var(--success);
+    }
+
+    .record h4 {
+      margin: 8px 0 7px;
+      overflow-wrap: anywhere;
+      color: var(--hogwarts);
+      font-size: 19px;
+      line-height: 1.22;
+      letter-spacing: -0.03em;
+    }
+
+    .record-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px 14px;
+      color: var(--stone);
+      font-size: 12px;
+    }
+
+    .record-meta span {
       white-space: nowrap;
     }
 
-    .collecting {
-      background: #eef4fb;
-      color: #366f9e;
-    }
-
-    .designing {
-      background: #f4f0fa;
-      color: var(--violet);
-    }
-
-    .review {
-      background: #fff7e7;
-      color: var(--warn);
-    }
-
-    .complete {
-      background: #eaf6ec;
-      color: var(--ok);
-    }
-
-    .progress {
+    .record-progress {
       display: flex;
       align-items: center;
-      gap: 9px;
-      margin-top: 13px;
+      gap: 10px;
+      margin-top: 14px;
     }
 
     .track {
-      height: 9px;
+      height: 5px;
       flex: 1;
       overflow: hidden;
       border-radius: 999px;
-      background: #e9edf2;
+      background: #E8ECF1;
     }
 
     .bar {
       display: block;
       height: 100%;
-      background: var(--blue);
+      background: var(--patronus);
     }
 
-    .pct {
-      width: 38px;
-      color: var(--muted);
-      font-size: 12px;
+    .percent {
+      width: 34px;
+      color: var(--stone);
+      font-size: 11px;
+      font-weight: 800;
       text-align: right;
     }
 
-    .card-actions {
+    .record-action {
       display: flex;
-      justify-content: flex-end;
-      margin-top: 12px;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .open-btn {
+      min-width: 76px;
+      min-height: 42px;
+      border-radius: 13px;
+      background: var(--hogwarts);
+      color: var(--white);
+      font-weight: 800;
     }
 
     .empty {
-      padding: 50px 20px;
-      border: 1px dashed #c9d0dc;
-      border-radius: 20px;
-      background: var(--white);
-      color: var(--muted);
+      padding: 60px 22px;
+      border: 1px dashed var(--moon);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.74);
+      color: var(--stone);
       text-align: center;
+    }
+
+    .empty strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--hogwarts);
+      font-size: 18px;
     }
 
     .utility {
       display: flex;
       gap: 9px;
-      margin-top: 15px;
+      margin-top: 18px;
     }
 
     .file-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 46px;
-      padding: 11px 15px;
-      border-radius: 14px;
-      font-weight: 800;
       cursor: pointer;
     }
 
     dialog {
-      width: min(720px, 100vw);
+      width: min(760px, 100vw);
       max-width: 100vw;
-      height: min(94dvh, 900px);
-      max-height: 94dvh;
+      height: min(95dvh, 940px);
+      max-height: 95dvh;
       margin: auto;
       padding: 0;
       overflow: hidden;
       border: 0;
-      border-radius: 24px 24px 0 0;
-      background: var(--white);
-      box-shadow: 0 30px 100px rgba(23, 35, 59, 0.35);
+      border-radius: 28px 28px 0 0;
+      background: var(--winter);
+      box-shadow:
+        0 34px 110px rgba(13, 24, 42, 0.4);
     }
 
     dialog::backdrop {
-      background: rgba(23, 35, 59, 0.58);
-      backdrop-filter: blur(4px);
+      background: rgba(15, 25, 42, 0.64);
+      backdrop-filter: blur(7px);
     }
 
     .modal-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px;
-      background: var(--ink);
+      gap: 14px;
+      padding:
+        calc(16px + env(safe-area-inset-top))
+        18px
+        16px;
+      background: var(--hogwarts);
       color: var(--white);
+    }
+
+    .modal-head .eyebrow {
+      margin-bottom: 5px;
     }
 
     .modal-head h2 {
       margin: 0;
-      font-size: 19px;
+      font-size: 21px;
+      letter-spacing: -0.03em;
     }
 
     .modal-body {
-      height: calc(94dvh - 70px);
+      height: calc(95dvh - 85px);
       overflow-y: auto;
       padding:
-        16px
-        calc(16px + env(safe-area-inset-right))
-        calc(100px + env(safe-area-inset-bottom))
-        calc(16px + env(safe-area-inset-left));
+        18px
+        calc(18px + env(safe-area-inset-right))
+        calc(112px + env(safe-area-inset-bottom))
+        calc(18px + env(safe-area-inset-left));
+    }
+
+    .panel {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--white);
+      box-shadow:
+        0 8px 24px rgba(26, 42, 68, 0.04);
+    }
+
+    .panel + .panel {
+      margin-top: 14px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .panel-head h3 {
+      margin: 0;
+      color: var(--hogwarts);
+      font-size: 17px;
+      letter-spacing: -0.02em;
+    }
+
+    .panel-head p {
+      margin: 5px 0 0;
+      color: var(--stone);
+      font-size: 12px;
+      line-height: 1.5;
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 11px;
+      gap: 13px;
     }
 
     .field {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
     }
 
     .field.full {
@@ -408,85 +678,77 @@
     }
 
     .field label {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
+      color: var(--stone);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.045em;
+      text-transform: uppercase;
     }
 
     .field textarea {
-      min-height: 100px;
+      min-height: 110px;
+      padding-top: 13px;
       resize: vertical;
-    }
-
-    .section {
-      margin-top: 23px;
-    }
-
-    .section h3 {
-      margin: 0 0 10px;
-      font-size: 17px;
-    }
-
-    .note {
-      margin: -3px 0 11px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
     }
 
     .check-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 9px;
     }
 
     .check {
       display: flex;
       align-items: center;
-      gap: 9px;
-      min-height: 46px;
-      padding: 10px;
+      gap: 10px;
+      min-height: 48px;
+      padding: 10px 12px;
       border: 1px solid var(--line);
-      border-radius: 13px;
-      background: #f7f9fc;
+      border-radius: 14px;
+      background: #F6F7F9;
+      color: var(--ink);
       font-size: 13px;
+      font-weight: 700;
     }
 
     .check input {
       width: 20px;
       height: 20px;
+      accent-color: var(--hogwarts);
     }
 
     .asset-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 11px;
     }
 
     .asset {
       padding: 10px;
-      border: 1px dashed #c9d0dc;
-      border-radius: 16px;
-      background: #fbfcfe;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #F6F7F9;
     }
 
     .asset img {
       display: none;
       width: 100%;
-      height: 145px;
-      border-radius: 11px;
-      background: #eef2f7;
+      height: 160px;
+      border-radius: 12px;
+      background: #E9EDF2;
       object-fit: cover;
     }
 
     .asset strong {
       display: block;
-      margin: 9px 0 7px;
+      margin: 10px 0 8px;
+      color: var(--hogwarts);
       font-size: 13px;
     }
 
     .asset input {
       width: 100%;
+      color: var(--stone);
       font-size: 12px;
     }
 
@@ -494,27 +756,33 @@
       width: 100%;
       min-height: 38px;
       margin-top: 8px;
-      padding: 7px 9px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--white);
+      color: var(--danger);
       font-size: 12px;
+      font-weight: 800;
     }
 
     .sticky-actions {
       position: sticky;
-      bottom: calc(-100px - env(safe-area-inset-bottom));
+      bottom: calc(
+        -112px - env(safe-area-inset-bottom)
+      );
       display: flex;
       justify-content: space-between;
       gap: 10px;
       margin:
-        24px
-        -16px
-        calc(-100px - env(safe-area-inset-bottom));
+        22px
+        -18px
+        calc(-112px - env(safe-area-inset-bottom));
       padding:
         12px
-        16px
+        18px
         calc(12px + env(safe-area-inset-bottom));
       border-top: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(16px);
+      background: rgba(248, 248, 245, 0.94);
+      backdrop-filter: blur(18px);
     }
 
     .right {
@@ -525,17 +793,18 @@
     .toast {
       position: fixed;
       left: 50%;
-      bottom: calc(22px + env(safe-area-inset-bottom));
+      bottom:
+        calc(24px + env(safe-area-inset-bottom));
       z-index: 100;
       padding: 11px 15px;
       border-radius: 999px;
-      background: rgba(23, 35, 59, 0.94);
+      background: rgba(26, 42, 68, 0.96);
       color: var(--white);
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       opacity: 0;
       pointer-events: none;
-      transform: translate(-50%, 20px);
+      transform: translate(-50%, 18px);
       transition: 0.2s;
     }
 
@@ -544,8 +813,64 @@
       transform: translate(-50%, 0);
     }
 
+    @media (max-width: 700px) {
+      .app-shell {
+        background:
+          linear-gradient(
+            180deg,
+            var(--hogwarts) 0 330px,
+            var(--winter) 330px 100%
+          );
+      }
+
+      .command-panel {
+        grid-template-columns: 1fr 118px;
+      }
+
+      .command-panel .primary-btn {
+        grid-column: 1 / -1;
+      }
+
+      .overview {
+        grid-template-columns: 1fr;
+      }
+
+      .overview-side {
+        min-height: 180px;
+      }
+
+      .record {
+        grid-template-columns: 86px minmax(0, 1fr);
+        gap: 13px;
+      }
+
+      .record-image {
+        width: 86px;
+        height: 100px;
+      }
+
+      .record-action {
+        grid-column: 1 / -1;
+      }
+
+      .open-btn {
+        width: 100%;
+      }
+    }
+
     @media (max-width: 560px) {
-      .toolbar,
+      .brand p {
+        display: none;
+      }
+
+      .hero {
+        margin-top: 22px;
+      }
+
+      .hero-copy {
+        font-size: 13px;
+      }
+
       .form-grid,
       .check-grid,
       .asset-grid {
@@ -556,272 +881,477 @@
         grid-column: auto;
       }
 
-      .brand p {
-        display: none;
-      }
-
-      .stats {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .stat {
+      .metric {
         padding: 12px;
       }
 
-      .stat strong {
-        font-size: 22px;
+      .metric strong {
+        font-size: 23px;
+      }
+
+      .metric span {
+        font-size: 10px;
       }
 
       dialog {
         align-self: end;
         margin: auto 0 0;
-        border-radius: 24px 24px 0 0;
+        border-radius: 28px 28px 0 0;
       }
     }
   </style>
 </head>
 
 <body>
-  <main class="app">
-    <header class="topbar">
-      <div class="brand">
-        <div class="mark">WWA</div>
+  <div class="app-shell">
+    <main class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo-slot">WWA</div>
 
-        <div>
-          <h1>WWA Manager</h1>
-          <p>Wizarding World LEGO Archive · v0.3</p>
+          <div>
+            <h1>WWA Manager</h1>
+            <p>Archive Production System</p>
+          </div>
         </div>
-      </div>
 
-      <button id="addBtn" type="button">+ 추가</button>
-    </header>
+        <button
+          id="addBtn"
+          class="icon-btn"
+          type="button"
+          aria-label="세트 추가"
+        >
+          +
+        </button>
+      </header>
 
-    <section class="toolbar">
-      <input
-        id="search"
-        class="control"
-        type="search"
-        placeholder="세트번호 또는 세트명 검색"
-      >
+      <section class="hero">
+        <p class="eyebrow">
+          Workspace · My Collection
+        </p>
 
-      <select id="filter" class="control">
-        <option value="">전체 상태</option>
-        <option value="collecting">자료수집</option>
-        <option value="designing">제작중</option>
-        <option value="review">검토중</option>
-        <option value="complete">완료</option>
-      </select>
-    </section>
+        <h2>
+          Build the archive.<br>
+          Prepare the book.
+        </h2>
 
-    <section class="stats">
-      <div class="stat">
-        <strong id="total">0</strong>
-        <span>총 세트</span>
-      </div>
+        <p class="hero-copy">
+          LEGO Harry Potter 컬렉션의 자료,
+          메타데이터, 제작 상태를 한곳에서
+          관리합니다.
+        </p>
+      </section>
 
-      <div class="stat">
-        <strong id="active">0</strong>
-        <span>진행 중</span>
-      </div>
-
-      <div class="stat">
-        <strong id="done">0</strong>
-        <span>완료</span>
-      </div>
-    </section>
-
-    <section id="list" class="list"></section>
-
-    <div class="utility">
-      <button id="backup" class="secondary" type="button">
-        백업
-      </button>
-
-      <label class="file-button" for="restore">
-        복원
-      </label>
-
-      <input
-        id="restore"
-        type="file"
-        accept=".json,application/json"
-        hidden
-      >
-    </div>
-  </main>
-
-  <dialog id="dialog">
-    <div class="modal-head">
-      <h2 id="dialogTitle">세트 추가</h2>
-
-      <button id="close" class="secondary" type="button">
-        닫기
-      </button>
-    </div>
-
-    <form id="form" class="modal-body">
-      <input id="editId" type="hidden">
-
-      <div class="form-grid">
-        <div class="field">
-          <label for="setNumber">세트번호</label>
+      <section class="workspace">
+        <div class="command-panel">
           <input
-            id="setNumber"
+            id="search"
             class="control"
-            required
-            inputmode="numeric"
-            placeholder="예: 76417"
+            type="search"
+            placeholder="세트번호 또는 세트명 검색"
           >
-        </div>
 
-        <div class="field">
-          <label for="setName">세트명</label>
-          <input
-            id="setName"
-            class="control"
-            required
-            placeholder="예: 그린고트 마법 은행"
-          >
-        </div>
-
-        <div class="field">
-          <label for="releaseDate">출시일</label>
-          <input
-            id="releaseDate"
-            class="control"
-            type="date"
-          >
-        </div>
-
-        <div class="field">
-          <label for="retailPrice">출시 정가(₩)</label>
-          <input
-            id="retailPrice"
-            class="control"
-            type="number"
-            inputmode="numeric"
-            min="0"
-            step="100"
-          >
-        </div>
-
-        <div class="field">
-          <label for="pieceCount">피스 수</label>
-          <input
-            id="pieceCount"
-            class="control"
-            type="number"
-            inputmode="numeric"
-            min="0"
-          >
-        </div>
-
-        <div class="field">
-          <label for="minifigureCount">미니피겨 수</label>
-          <input
-            id="minifigureCount"
-            class="control"
-            type="number"
-            inputmode="numeric"
-            min="0"
-          >
-        </div>
-
-        <div class="field">
-          <label for="dimensions">크기</label>
-          <input
-            id="dimensions"
-            class="control"
-            placeholder="예: 32 × 25 × 75 cm"
-          >
-        </div>
-
-        <div class="field">
-          <label for="status">진행 상태</label>
-          <select id="status" class="control">
+          <select id="filter" class="control">
+            <option value="">전체 상태</option>
             <option value="collecting">자료수집</option>
             <option value="designing">제작중</option>
             <option value="review">검토중</option>
             <option value="complete">완료</option>
           </select>
+
+          <button
+            id="addBtnWide"
+            class="primary-btn"
+            type="button"
+          >
+            새 레코드
+          </button>
         </div>
 
-        <div class="field">
-          <label for="purchaseDate">구매일</label>
+        <section class="overview">
+          <div class="overview-card overview-main">
+            <div class="overview-title">
+              <div>
+                <h3>Collection Overview</h3>
+                <p>
+                  WWA Book 제작을 위한 현재 작업 현황
+                </p>
+              </div>
+            </div>
+
+            <div class="metric-grid">
+              <div class="metric">
+                <strong id="total">0</strong>
+                <span>Total</span>
+              </div>
+
+              <div class="metric">
+                <strong id="active">0</strong>
+                <span>In Progress</span>
+              </div>
+
+              <div class="metric">
+                <strong id="done">0</strong>
+                <span>Complete</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="overview-card overview-side">
+            <div>
+              <small>WWA Standard</small>
+
+              <strong>
+                Museum-grade records.<br>
+                Creator-first workflow.
+              </strong>
+            </div>
+
+            <div class="rule"></div>
+
+            <p>
+              브랜드 컬러는 유지하되,
+              화면은 장식보다 정확한 입력과
+              빠른 제작 흐름을 우선합니다.
+            </p>
+          </div>
+        </section>
+
+        <div class="section-head">
+          <div>
+            <h3>Collection Records</h3>
+            <p>세트별 자료와 제작 상태</p>
+          </div>
+
+          <span
+            id="recordCount"
+            class="record-count"
+          >
+            0 records
+          </span>
+        </div>
+
+        <section
+          id="list"
+          class="list"
+        ></section>
+
+        <div class="utility">
+          <button
+            id="backup"
+            class="secondary-btn"
+            type="button"
+          >
+            JSON 백업
+          </button>
+
+          <label
+            class="file-button"
+            for="restore"
+          >
+            데이터 복원
+          </label>
+
           <input
-            id="purchaseDate"
-            class="control"
-            type="date"
+            id="restore"
+            type="file"
+            accept=".json,application/json"
+            hidden
           >
         </div>
-
-        <div class="field">
-          <label for="purchaseStore">구매처</label>
-          <input
-            id="purchaseStore"
-            class="control"
-          >
-        </div>
-
-        <div class="field">
-          <label for="purchasePrice">구매가(₩)</label>
-          <input
-            id="purchasePrice"
-            class="control"
-            type="number"
-            inputmode="numeric"
-            min="0"
-            step="100"
-          >
-        </div>
-
-        <div class="field">
-          <label for="buildDate">조립일</label>
-          <input
-            id="buildDate"
-            class="control"
-            type="date"
-          >
-        </div>
-
-        <div class="field full">
-          <label for="storageStatus">보관 상태</label>
-          <input
-            id="storageStatus"
-            class="control"
-            placeholder="예: 전시 중 / 박스 보관"
-          >
-        </div>
-
-        <div class="field full">
-          <label for="notes">메모</label>
-          <textarea
-            id="notes"
-            class="control"
-          ></textarea>
-        </div>
-      </div>
-
-      <section class="section">
-        <h3>자료 체크리스트</h3>
-        <div id="checks" class="check-grid"></div>
       </section>
+    </main>
+  </div>
 
-      <section class="section">
-        <h3>사진 자료</h3>
-
-        <p class="note">
-          사진은 아이폰에서 자동 축소 저장됩니다.
-          대표 이미지는 조립 완성 사진 → 박스 사진 순으로 표시됩니다.
+  <dialog id="dialog">
+    <div class="modal-head">
+      <div>
+        <p class="eyebrow">
+          Collection Record
         </p>
 
-        <div id="assets" class="asset-grid"></div>
+        <h2 id="dialogTitle">
+          세트 추가
+        </h2>
+      </div>
+
+      <button
+        id="close"
+        class="icon-btn"
+        type="button"
+        aria-label="닫기"
+      >
+        ×
+      </button>
+    </div>
+
+    <form
+      id="form"
+      class="modal-body"
+    >
+      <input
+        id="editId"
+        type="hidden"
+      >
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Set Information</h3>
+
+            <p>
+              LEGO 공식 정보와 기본 메타데이터
+            </p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="setNumber">
+              Set Number
+            </label>
+
+            <input
+              id="setNumber"
+              class="control"
+              required
+              inputmode="numeric"
+              placeholder="76417"
+            >
+          </div>
+
+          <div class="field">
+            <label for="setName">
+              Set Name
+            </label>
+
+            <input
+              id="setName"
+              class="control"
+              required
+              placeholder="Gringotts Wizarding Bank"
+            >
+          </div>
+
+          <div class="field">
+            <label for="releaseDate">
+              Release Date
+            </label>
+
+            <input
+              id="releaseDate"
+              class="control"
+              type="date"
+            >
+          </div>
+
+          <div class="field">
+            <label for="retailPrice">
+              MSRP (KRW)
+            </label>
+
+            <input
+              id="retailPrice"
+              class="control"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="field">
+            <label for="pieceCount">
+              Pieces
+            </label>
+
+            <input
+              id="pieceCount"
+              class="control"
+              type="number"
+              inputmode="numeric"
+              min="0"
+            >
+          </div>
+
+          <div class="field">
+            <label for="minifigureCount">
+              Minifigures
+            </label>
+
+            <input
+              id="minifigureCount"
+              class="control"
+              type="number"
+              inputmode="numeric"
+              min="0"
+            >
+          </div>
+
+          <div class="field">
+            <label for="dimensions">
+              Size
+            </label>
+
+            <input
+              id="dimensions"
+              class="control"
+              placeholder="32 × 25 × 75 cm"
+            >
+          </div>
+
+          <div class="field">
+            <label for="status">
+              Production Status
+            </label>
+
+            <select
+              id="status"
+              class="control"
+            >
+              <option value="collecting">
+                자료수집
+              </option>
+
+              <option value="designing">
+                제작중
+              </option>
+
+              <option value="review">
+                검토중
+              </option>
+
+              <option value="complete">
+                완료
+              </option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Collection Information</h3>
+            <p>구매 및 보관 기록</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="purchaseDate">
+              Purchase Date
+            </label>
+
+            <input
+              id="purchaseDate"
+              class="control"
+              type="date"
+            >
+          </div>
+
+          <div class="field">
+            <label for="purchaseStore">
+              Purchase Store
+            </label>
+
+            <input
+              id="purchaseStore"
+              class="control"
+            >
+          </div>
+
+          <div class="field">
+            <label for="purchasePrice">
+              My Price (KRW)
+            </label>
+
+            <input
+              id="purchasePrice"
+              class="control"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="field">
+            <label for="buildDate">
+              Build Date
+            </label>
+
+            <input
+              id="buildDate"
+              class="control"
+              type="date"
+            >
+          </div>
+
+          <div class="field full">
+            <label for="storageStatus">
+              Storage Status
+            </label>
+
+            <input
+              id="storageStatus"
+              class="control"
+              placeholder="전시 중 / 박스 보관"
+            >
+          </div>
+
+          <div class="field full">
+            <label for="notes">
+              Notes
+            </label>
+
+            <textarea
+              id="notes"
+              class="control"
+            ></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Production Checklist</h3>
+
+            <p>
+              WWA Book 제작 준비 상태
+            </p>
+          </div>
+        </div>
+
+        <div
+          id="checks"
+          class="check-grid"
+        ></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Assets</h3>
+
+            <p>
+              사진은 최대 1,600px로
+              최적화되어 기기에 저장됩니다.
+            </p>
+          </div>
+        </div>
+
+        <div
+          id="assets"
+          class="asset-grid"
+        ></div>
       </section>
 
       <div class="sticky-actions">
         <button
           id="deleteBtn"
-          class="danger"
+          class="danger-btn"
           type="button"
           hidden
         >
@@ -831,13 +1361,16 @@
         <div class="right">
           <button
             id="cancel"
-            class="secondary"
+            class="secondary-btn"
             type="button"
           >
             취소
           </button>
 
-          <button type="submit">
+          <button
+            class="primary-btn"
+            type="submit"
+          >
             저장
           </button>
         </div>
@@ -845,7 +1378,10 @@
     </form>
   </dialog>
 
-  <div id="toast" class="toast"></div>
+  <div
+    id="toast"
+    class="toast"
+  ></div>
 
   <script>
     "use strict";
@@ -863,25 +1399,27 @@
       product: "조립 완성 사진",
       detail: "디테일 사진",
       minifigures: "미니피겨",
-      blueprint: "가설계도/도면",
-      movie: "영화 장면",
-      goods: "굿즈",
+      blueprint: "공식 Blueprint",
+      movie: "영화 스틸",
+      goods: "직접 촬영 굿즈",
       page: "페이지 제작",
       review: "검토",
       final: "최종 완료"
     };
 
     const ASSETS = {
-      box: "박스 사진",
-      product: "조립 완성 사진",
+      box: "LEGO 공식 박스",
+      product: "LEGO 공식 제품 사진",
       detail: "디테일 사진",
       minifigures: "미니피겨",
-      blueprint: "가설계도/도면",
-      movie: "영화 장면",
-      goods: "굿즈"
+      blueprint: "공식 Blueprint",
+      movie: "영화 스틸",
+      goods: "직접 촬영 굿즈"
     };
 
-    const $ = (id) => document.getElementById(id);
+    const $ = (id) => {
+      return document.getElementById(id);
+    };
 
     const dialog = $("dialog");
     const form = $("form");
@@ -890,20 +1428,26 @@
 
     function load() {
       try {
-        const current = localStorage.getItem(STORAGE_KEY);
+        const current =
+          localStorage.getItem(STORAGE_KEY);
 
         if (current) {
-          return normalize(JSON.parse(current));
+          return normalize(
+            JSON.parse(current)
+          );
         }
 
         for (const key of OLD_KEYS) {
-          const old = localStorage.getItem(key);
+          const old =
+            localStorage.getItem(key);
 
           if (!old) {
             continue;
           }
 
-          const parsed = normalize(JSON.parse(old));
+          const parsed = normalize(
+            JSON.parse(old)
+          );
 
           localStorage.setItem(
             STORAGE_KEY,
@@ -924,15 +1468,18 @@
         return [];
       }
 
-      const defaultChecklist = Object.fromEntries(
-        Object.keys(CHECKS).map((key) => [key, false])
-      );
+      const checklistDefaults =
+        Object.fromEntries(
+          Object.keys(CHECKS).map(
+            (key) => [key, false]
+          )
+        );
 
       return data.map((item) => ({
         ...item,
 
         checklist: {
-          ...defaultChecklist,
+          ...checklistDefaults,
           ...(item.checklist || {})
         },
 
@@ -953,8 +1500,9 @@
         console.error(error);
 
         alert(
-          "저장 공간이 부족합니다.\n" +
-          "백업 후 사용하지 않는 사진을 삭제해 주세요."
+          "저장 공간이 부족합니다. " +
+          "JSON 백업 후 사용하지 않는 " +
+          "사진을 삭제해 주세요."
         );
       }
     }
@@ -984,14 +1532,19 @@
     }
 
     function calculateProgress(item) {
-      const values = Object.keys(CHECKS).map(
-        (key) => Boolean(item.checklist?.[key])
-      );
+      const values = Object
+        .keys(CHECKS)
+        .map((key) => {
+          return Boolean(
+            item.checklist?.[key]
+          );
+        });
 
-      const completed = values.filter(Boolean).length;
+      const completed =
+        values.filter(Boolean).length;
 
       return Math.round(
-        (completed / values.length) * 100
+        completed / values.length * 100
       );
     }
 
@@ -1010,58 +1563,90 @@
         .trim()
         .toLowerCase();
 
-      const selectedStatus = $("filter").value;
+      const selectedStatus =
+        $("filter").value;
 
       const visibleSets = sets
         .filter((item) => {
-          const number = String(
+          const setNumber = String(
             item.setNumber || ""
           ).toLowerCase();
 
-          const name = String(
+          const setName = String(
             item.setName || ""
           ).toLowerCase();
 
           const matchesSearch =
             !searchText ||
-            number.includes(searchText) ||
-            name.includes(searchText);
+            setNumber.includes(searchText) ||
+            setName.includes(searchText);
 
           const matchesStatus =
             !selectedStatus ||
             item.status === selectedStatus;
 
-          return matchesSearch && matchesStatus;
+          return (
+            matchesSearch &&
+            matchesStatus
+          );
         })
         .sort((a, b) => {
-          return String(a.setNumber).localeCompare(
-            String(b.setNumber),
-            undefined,
-            { numeric: true }
-          );
+          return String(a.setNumber)
+            .localeCompare(
+              String(b.setNumber),
+              undefined,
+              {
+                numeric: true
+              }
+            );
         });
 
-      $("total").textContent = sets.length;
+      $("total").textContent =
+        sets.length;
 
-      $("done").textContent = sets.filter(
-        (item) => item.status === "complete"
-      ).length;
+      $("done").textContent =
+        sets.filter((item) => {
+          return item.status === "complete";
+        }).length;
 
-      $("active").textContent = sets.filter(
-        (item) => item.status !== "complete"
-      ).length;
+      $("active").textContent =
+        sets.filter((item) => {
+          return item.status !== "complete";
+        }).length;
+
+      $("recordCount").textContent =
+        `${visibleSets.length} record${
+          visibleSets.length === 1
+            ? ""
+            : "s"
+        }`;
 
       if (!visibleSets.length) {
-        const message = sets.length
+        const title = sets.length
           ? "검색 결과가 없습니다."
-          : "등록된 세트가 없습니다.";
+          : "첫 컬렉션 레코드를 추가하세요.";
+
+        const description = sets.length
+          ? "검색어나 상태 필터를 확인해 주세요."
+          : (
+            "WWA Book 제작에 필요한 " +
+            "세트 정보와 이미지를 관리할 수 있습니다."
+          );
 
         $("list").innerHTML = `
           <div class="empty">
-            ${message}
+            <strong>${title}</strong>
+
+            ${description}
+
             <br><br>
-            <button type="button" id="emptyAdd">
-              첫 세트 추가
+
+            <button
+              type="button"
+              class="primary-btn"
+              id="emptyAdd"
+            >
+              새 레코드
             </button>
           </div>
         `;
@@ -1074,160 +1659,208 @@
         return;
       }
 
-      $("list").innerHTML = visibleSets
-        .map((item) => {
-          const progress = calculateProgress(item);
-          const thumbnail = getThumbnail(item);
+      $("list").innerHTML =
+        visibleSets.map((item) => {
+          const progress =
+            calculateProgress(item);
 
-          const thumbnailHtml = thumbnail
+          const thumbnail =
+            getThumbnail(item);
+
+          const pieces = item.pieceCount
+            ? (
+              `${Number(
+                item.pieceCount
+              ).toLocaleString()} pieces`
+            )
+            : "Pieces not entered";
+
+          const minifigures =
+            `${Number(
+              item.minifigureCount || 0
+            )} minifigures`;
+
+          const releaseYear =
+            item.releaseDate
+              ? `
+                <span>
+                  Released ${
+                    escapeHtml(
+                      item.releaseDate.slice(
+                        0,
+                        4
+                      )
+                    )
+                  }
+                </span>
+              `
+              : "";
+
+          const image = thumbnail
             ? `
               <img
-                class="thumb"
                 src="${thumbnail}"
                 alt=""
               >
             `
             : `
-              <div class="thumb placeholder">
-                🧱
+              <div class="record-placeholder">
+                NO<br>ASSET
               </div>
             `;
 
-          const pieceText = item.pieceCount
-            ? `${Number(item.pieceCount).toLocaleString()} pcs`
-            : "피스 수 미입력";
-
-          const figureText =
-            `${Number(item.minifigureCount || 0)} figures`;
-
           return `
-            <article class="card">
-              <div class="card-top">
-                <div class="card-main">
-                  ${thumbnailHtml}
-
-                  <div class="copy">
-                    <h2>
-                      ${escapeHtml(item.setNumber)}
-                      ·
-                      ${escapeHtml(item.setName)}
-                    </h2>
-
-                    <div class="meta">
-                      ${pieceText} · ${figureText}
-                    </div>
-                  </div>
-                </div>
-
-                <span
-                  class="badge ${escapeHtml(item.status)}"
-                >
-                  ${statusLabel(item.status)}
-                </span>
+            <article class="record">
+              <div class="record-image">
+                ${image}
               </div>
 
-              <div class="progress">
-                <div class="track">
+              <div class="record-body">
+                <div class="record-kicker">
                   <span
-                    class="bar"
-                    style="width: ${progress}%"
+                    class="status-dot ${
+                      escapeHtml(item.status)
+                    }"
                   ></span>
+
+                  ${
+                    escapeHtml(
+                      item.setNumber ||
+                      "No number"
+                    )
+                  }
+
+                  ·
+
+                  ${statusLabel(item.status)}
                 </div>
 
-                <span class="pct">
-                  ${progress}%
-                </span>
+                <h4>
+                  ${
+                    escapeHtml(
+                      item.setName ||
+                      "Untitled Set"
+                    )
+                  }
+                </h4>
+
+                <div class="record-meta">
+                  <span>${pieces}</span>
+                  <span>${minifigures}</span>
+                  ${releaseYear}
+                </div>
+
+                <div class="record-progress">
+                  <div class="track">
+                    <span
+                      class="bar"
+                      style="width:${progress}%"
+                    ></span>
+                  </div>
+
+                  <span class="percent">
+                    ${progress}%
+                  </span>
+                </div>
               </div>
 
-              <div class="card-actions">
+              <div class="record-action">
                 <button
-                  class="secondary open"
+                  class="open-btn open"
                   type="button"
-                  data-id="${escapeHtml(item.id)}"
+                  data-id="${
+                    escapeHtml(item.id)
+                  }"
                 >
-                  열기
+                  편집
                 </button>
               </div>
             </article>
           `;
-        })
-        .join("");
+        }).join("");
 
       document
         .querySelectorAll(".open")
         .forEach((button) => {
           button.addEventListener(
             "click",
-            () => openEditor(button.dataset.id)
+            () => {
+              openEditor(
+                button.dataset.id
+              );
+            }
           );
         });
     }
 
     function renderChecks(item) {
-      $("checks").innerHTML = Object
-        .entries(CHECKS)
-        .map(([key, label]) => {
-          const checked = item?.checklist?.[key]
-            ? "checked"
-            : "";
+      $("checks").innerHTML =
+        Object.entries(CHECKS)
+          .map(([key, label]) => {
+            const checked =
+              item?.checklist?.[key]
+                ? "checked"
+                : "";
 
-          return `
-            <label class="check">
-              <input
-                type="checkbox"
-                data-check="${key}"
-                ${checked}
-              >
+            return `
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-check="${key}"
+                  ${checked}
+                >
 
-              <span>${label}</span>
-            </label>
-          `;
-        })
-        .join("");
+                <span>${label}</span>
+              </label>
+            `;
+          })
+          .join("");
     }
 
     function renderAssets(item) {
-      $("assets").innerHTML = Object
-        .entries(ASSETS)
-        .map(([key, label]) => {
-          const source = item?.assets?.[key] || "";
-          const display = source
-            ? "display: block;"
-            : "";
+      $("assets").innerHTML =
+        Object.entries(ASSETS)
+          .map(([key, label]) => {
+            const source =
+              item?.assets?.[key] || "";
 
-          const disabled = source
-            ? ""
-            : "disabled";
+            return `
+              <div class="asset">
+                <img
+                  id="preview-${key}"
+                  src="${source}"
+                  alt=""
+                  style="${
+                    source
+                      ? "display:block"
+                      : ""
+                  }"
+                >
 
-          return `
-            <div class="asset">
-              <img
-                id="preview-${key}"
-                src="${source}"
-                alt=""
-                style="${display}"
-              >
+                <strong>${label}</strong>
 
-              <strong>${label}</strong>
+                <input
+                  type="file"
+                  accept="image/*"
+                  data-asset="${key}"
+                >
 
-              <input
-                type="file"
-                accept="image/*"
-                data-asset="${key}"
-              >
-
-              <button
-                type="button"
-                class="secondary remove"
-                data-remove="${key}"
-                ${disabled}
-              >
-                이미지 삭제
-              </button>
-            </div>
-          `;
-        })
-        .join("");
+                <button
+                  type="button"
+                  class="remove"
+                  data-remove="${key}"
+                  ${
+                    source
+                      ? ""
+                      : "disabled"
+                  }
+                >
+                  이미지 삭제
+                </button>
+              </div>
+            `;
+          })
+          .join("");
 
       document
         .querySelectorAll("[data-remove]")
@@ -1236,7 +1869,8 @@
             "click",
             () => {
               const preview = $(
-                `preview-${button.dataset.remove}`
+                "preview-" +
+                button.dataset.remove
               );
 
               preview.src = "";
@@ -1249,8 +1883,13 @@
         });
     }
 
-    function setInputValue(id, item, key = id) {
-      $(id).value = item?.[key] ?? "";
+    function setInputValue(
+      id,
+      item,
+      key = id
+    ) {
+      $(id).value =
+        item?.[key] ?? "";
     }
 
     function openEditor(id = "") {
@@ -1258,11 +1897,13 @@
         (set) => set.id === id
       );
 
-      $("dialogTitle").textContent = item
-        ? "세트 편집"
-        : "세트 추가";
+      $("dialogTitle").textContent =
+        item
+          ? "레코드 편집"
+          : "새 레코드";
 
-      $("editId").value = item?.id || "";
+      $("editId").value =
+        item?.id || "";
 
       const fields = [
         "setNumber",
@@ -1281,64 +1922,86 @@
         "notes"
       ];
 
-      fields.forEach(
-        (field) => setInputValue(field, item)
-      );
+      fields.forEach((field) => {
+        setInputValue(
+          field,
+          item
+        );
+      });
 
       if (!item) {
-        $("status").value = "collecting";
+        $("status").value =
+          "collecting";
       }
 
-      $("deleteBtn").hidden = !item;
+      $("deleteBtn").hidden =
+        !item;
 
       renderChecks(item);
       renderAssets(item);
 
       dialog.showModal();
 
-      setTimeout(
-        () => $("setNumber").focus(),
-        100
-      );
+      setTimeout(() => {
+        $("setNumber").focus();
+      }, 100);
     }
 
     async function compressImage(file) {
-      if (!file.type.startsWith("image/")) {
-        throw new Error("이미지 파일이 아닙니다.");
+      if (
+        !file.type.startsWith("image/")
+      ) {
+        throw new Error(
+          "이미지 파일이 아닙니다."
+        );
       }
 
-      const dataUrl = await new Promise(
-        (resolve, reject) => {
-          const reader = new FileReader();
+      const dataUrl =
+        await new Promise(
+          (resolve, reject) => {
+            const reader =
+              new FileReader();
 
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = reject;
+            reader.onload = () => {
+              resolve(reader.result);
+            };
 
-          reader.readAsDataURL(file);
-        }
-      );
+            reader.onerror = reject;
 
-      const image = await new Promise(
-        (resolve, reject) => {
-          const element = new Image();
+            reader.readAsDataURL(file);
+          }
+        );
 
-          element.onload = () => resolve(element);
-          element.onerror = reject;
-          element.src = dataUrl;
-        }
-      );
+      const image =
+        await new Promise(
+          (resolve, reject) => {
+            const element =
+              new Image();
+
+            element.onload = () => {
+              resolve(element);
+            };
+
+            element.onerror = reject;
+            element.src = dataUrl;
+          }
+        );
 
       const maximumSize = 1600;
 
       const scale = Math.min(
         1,
-        maximumSize / Math.max(
+        maximumSize /
+        Math.max(
           image.width,
           image.height
         )
       );
 
-      const canvas = document.createElement("canvas");
+      const canvas =
+        document.createElement(
+          "canvas"
+        );
 
       canvas.width = Math.round(
         image.width * scale
@@ -1348,11 +2011,12 @@
         image.height * scale
       );
 
-      const context = canvas.getContext("2d");
+      const context =
+        canvas.getContext("2d");
 
       if (!context) {
         throw new Error(
-          "이미지 처리 기능을 사용할 수 없습니다."
+          "Canvas unavailable"
         );
       }
 
@@ -1383,29 +2047,38 @@
         }
 
         try {
-          const source = await compressImage(
-            input.files[0]
-          );
+          const source =
+            await compressImage(
+              input.files[0]
+            );
 
           const preview = $(
-            `preview-${input.dataset.asset}`
+            "preview-" +
+            input.dataset.asset
           );
 
           preview.src = source;
           preview.style.display = "block";
-          preview.dataset.pending = source;
+          preview.dataset.pending =
+            source;
 
           delete preview.dataset.removed;
 
-          const removeButton = document.querySelector(
-            `[data-remove="${input.dataset.asset}"]`
-          );
+          const removeButton =
+            document.querySelector(
+              `[data-remove="${
+                input.dataset.asset
+              }"]`
+            );
 
           if (removeButton) {
-            removeButton.disabled = false;
+            removeButton.disabled =
+              false;
           }
 
-          toast("사진을 최적화했습니다");
+          toast(
+            "사진을 최적화했습니다"
+          );
         } catch (error) {
           console.error(error);
 
@@ -1421,7 +2094,8 @@
       (event) => {
         event.preventDefault();
 
-        const id = $("editId").value;
+        const id =
+          $("editId").value;
 
         const oldItem = sets.find(
           (item) => item.id === id
@@ -1430,27 +2104,39 @@
         const checklist = {};
 
         document
-          .querySelectorAll("[data-check]")
+          .querySelectorAll(
+            "[data-check]"
+          )
           .forEach((checkbox) => {
-            checklist[checkbox.dataset.check] =
-              checkbox.checked;
+            checklist[
+              checkbox.dataset.check
+            ] = checkbox.checked;
           });
 
         const assets = {
           ...(oldItem?.assets || {})
         };
 
-        Object.keys(ASSETS).forEach((key) => {
-          const preview = $(`preview-${key}`);
+        Object.keys(ASSETS)
+          .forEach((key) => {
+            const preview = $(
+              "preview-" + key
+            );
 
-          if (preview.dataset.removed) {
-            delete assets[key];
-          } else if (preview.dataset.pending) {
-            assets[key] = preview.dataset.pending;
-          }
-        });
+            if (
+              preview.dataset.removed
+            ) {
+              delete assets[key];
+            } else if (
+              preview.dataset.pending
+            ) {
+              assets[key] =
+                preview.dataset.pending;
+            }
+          });
 
-        const now = new Date().toISOString();
+        const now =
+          new Date().toISOString();
 
         const item = {
           id:
@@ -1458,32 +2144,73 @@
             crypto.randomUUID?.() ||
             `${Date.now()}-${Math.random()}`,
 
-          setNumber: $("setNumber").value.trim(),
-          setName: $("setName").value.trim(),
-          releaseDate: $("releaseDate").value,
-          retailPrice: $("retailPrice").value,
-          pieceCount: $("pieceCount").value,
-          minifigureCount: $("minifigureCount").value,
-          dimensions: $("dimensions").value.trim(),
-          status: $("status").value,
-          purchaseDate: $("purchaseDate").value,
-          purchaseStore: $("purchaseStore").value.trim(),
-          purchasePrice: $("purchasePrice").value,
-          buildDate: $("buildDate").value,
-          storageStatus: $("storageStatus").value.trim(),
-          notes: $("notes").value.trim(),
+          setNumber:
+            $("setNumber")
+              .value
+              .trim(),
+
+          setName:
+            $("setName")
+              .value
+              .trim(),
+
+          releaseDate:
+            $("releaseDate").value,
+
+          retailPrice:
+            $("retailPrice").value,
+
+          pieceCount:
+            $("pieceCount").value,
+
+          minifigureCount:
+            $("minifigureCount").value,
+
+          dimensions:
+            $("dimensions")
+              .value
+              .trim(),
+
+          status:
+            $("status").value,
+
+          purchaseDate:
+            $("purchaseDate").value,
+
+          purchaseStore:
+            $("purchaseStore")
+              .value
+              .trim(),
+
+          purchasePrice:
+            $("purchasePrice").value,
+
+          buildDate:
+            $("buildDate").value,
+
+          storageStatus:
+            $("storageStatus")
+              .value
+              .trim(),
+
+          notes:
+            $("notes")
+              .value
+              .trim(),
+
           checklist,
           assets,
           updatedAt: now,
-          createdAt: oldItem?.createdAt || now
+          createdAt:
+            oldItem?.createdAt || now
         };
 
         sets = oldItem
-          ? sets.map((set) => (
-              set.id === id
-                ? item
-                : set
-            ))
+          ? sets.map((set) => {
+            return set.id === id
+              ? item
+              : set;
+          })
           : [item, ...sets];
 
         persist();
@@ -1494,7 +2221,8 @@
     $("deleteBtn").addEventListener(
       "click",
       () => {
-        const id = $("editId").value;
+        const id =
+          $("editId").value;
 
         const item = sets.find(
           (set) => set.id === id
@@ -1505,7 +2233,9 @@
         }
 
         const confirmed = confirm(
-          `${item.setNumber} · ${item.setName}\n삭제할까요?`
+          `${item.setNumber} · ` +
+          `${item.setName}\n` +
+          "삭제할까요?"
         );
 
         if (!confirmed) {
@@ -1527,7 +2257,8 @@
         const backupData = {
           app: "WWA Manager",
           version: 3,
-          exportedAt: new Date().toISOString(),
+          exportedAt:
+            new Date().toISOString(),
           sets
         };
 
@@ -1544,27 +2275,36 @@
           }
         );
 
-        const link = document.createElement("a");
+        const link =
+          document.createElement("a");
 
-        link.href = URL.createObjectURL(blob);
+        link.href =
+          URL.createObjectURL(blob);
 
         link.download =
-          `WWA_Manager_${new Date()
-            .toISOString()
-            .slice(0, 10)}.json`;
+          `WWA_Manager_${
+            new Date()
+              .toISOString()
+              .slice(0, 10)
+          }.json`;
 
         link.click();
 
-        URL.revokeObjectURL(link.href);
+        URL.revokeObjectURL(
+          link.href
+        );
 
-        toast("백업 파일을 만들었습니다");
+        toast(
+          "백업 파일을 만들었습니다"
+        );
       }
     );
 
     $("restore").addEventListener(
       "change",
       async (event) => {
-        const file = event.target.files?.[0];
+        const file =
+          event.target.files?.[0];
 
         if (!file) {
           return;
@@ -1591,12 +2331,14 @@
           }
 
           sets = incoming;
+
           persist();
         } catch (error) {
           console.error(error);
 
           alert(
-            "올바른 WWA Manager 백업 파일이 아닙니다."
+            "올바른 WWA Manager " +
+            "백업 파일이 아닙니다."
           );
         } finally {
           event.target.value = "";
@@ -1605,20 +2347,34 @@
     );
 
     function toast(message) {
-      const element = $("toast");
+      const element =
+        $("toast");
 
-      element.textContent = message;
-      element.classList.add("show");
+      element.textContent =
+        message;
 
-      clearTimeout(toast.timer);
-
-      toast.timer = setTimeout(
-        () => element.classList.remove("show"),
-        1800
+      element.classList.add(
+        "show"
       );
+
+      clearTimeout(
+        toast.timer
+      );
+
+      toast.timer =
+        setTimeout(() => {
+          element.classList.remove(
+            "show"
+          );
+        }, 1800);
     }
 
     $("addBtn").addEventListener(
+      "click",
+      () => openEditor()
+    );
+
+    $("addBtnWide").addEventListener(
       "click",
       () => openEditor()
     );
@@ -1646,7 +2402,9 @@
     dialog.addEventListener(
       "click",
       (event) => {
-        if (event.target === dialog) {
+        if (
+          event.target === dialog
+        ) {
           dialog.close();
         }
       }
