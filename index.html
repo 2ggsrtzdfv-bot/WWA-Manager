@@ -2,15 +2,17 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
+
   <meta
     name="viewport"
-    content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
   >
-  <meta name="theme-color" content="#1A2A44">
+
+  <meta name="theme-color" content="#F8F8F5">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta
     name="apple-mobile-web-app-status-bar-style"
-    content="black-translucent"
+    content="default"
   >
   <meta
     name="apple-mobile-web-app-title"
@@ -21,27 +23,23 @@
 
   <style>
     :root {
-      --hogwarts: #1A2A44;
-      --patronus: #7FB7E6;
-      --moon: #C7CCD6;
-      --stone: #6F7682;
-      --winter: #F8F8F5;
+      --hogwarts-blue: #1A2A44;
+      --patronus-blue: #7FB7E6;
+      --moon-silver: #C7CCD6;
+      --castle-stone: #6F7682;
+      --winter-white: #F8F8F5;
 
-      --white: #FFFFFF;
-      --ink: #162033;
-      --line: #DDE2E9;
-      --line-dark: rgba(255, 255, 255, 0.12);
+      --surface: #FFFFFF;
+      --line: rgba(199, 204, 214, 0.72);
+      --soft-blue: rgba(127, 183, 230, 0.13);
+      --soft-navy: rgba(26, 42, 68, 0.07);
 
-      --success: #4F8A68;
-      --warning: #9B7A3B;
-      --danger: #B45A62;
+      --radius-small: 12px;
+      --radius-medium: 16px;
+      --radius-large: 24px;
 
-      --shadow:
-        0 16px 40px rgba(26, 42, 68, 0.1);
-
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 14px;
+      --safe-top: env(safe-area-inset-top);
+      --safe-bottom: env(safe-area-inset-bottom);
     }
 
     * {
@@ -49,22 +47,24 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html,
+    html {
+      min-height: 100%;
+      background: var(--winter-white);
+    }
+
     body {
       min-height: 100%;
       margin: 0;
-      background: var(--winter);
-      color: var(--ink);
+      background: var(--winter-white);
+      color: var(--hogwarts-blue);
       font-family:
         -apple-system,
         BlinkMacSystemFont,
         "SF Pro Display",
-        "Segoe UI",
-        "Noto Sans KR",
+        "SF Pro Text",
+        "Helvetica Neue",
+        Arial,
         sans-serif;
-    }
-
-    body {
       overscroll-behavior-y: none;
     }
 
@@ -81,1297 +81,1631 @@
     }
 
     button:disabled {
-      opacity: 0.42;
       cursor: default;
+      opacity: 0.42;
     }
 
-    .app-shell {
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .wwa-app {
+      width: min(100%, 820px);
       min-height: 100dvh;
-      background:
-        linear-gradient(
-          180deg,
-          var(--hogwarts) 0 280px,
-          var(--winter) 280px 100%
-        );
-    }
-
-    .app {
-      width: min(100%, 920px);
       margin: 0 auto;
       padding:
-        calc(14px + env(safe-area-inset-top))
-        16px
-        calc(110px + env(safe-area-inset-bottom));
+        calc(16px + var(--safe-top))
+        20px
+        calc(110px + var(--safe-bottom));
     }
 
-    .topbar {
+    .wwa-screen {
+      display: none;
+      animation: screenFade 180ms ease;
+    }
+
+    .wwa-screen.is-active {
+      display: block;
+    }
+
+    @keyframes screenFade {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Header */
+
+    .wwa-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      color: var(--white);
+      min-height: 46px;
     }
 
-    .brand {
+    .wwa-brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      min-width: 0;
+      gap: 10px;
     }
 
-    .logo-slot {
+    .wwa-brand-mark {
       display: grid;
       place-items: center;
-      width: 46px;
-      height: 46px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.07);
-      color: var(--white);
-      font-size: 12px;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--moon-silver);
+      border-radius: 11px;
+      background: var(--winter-white);
+      color: var(--hogwarts-blue);
+      font-size: 10px;
       font-weight: 900;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.1em;
     }
 
-    .brand h1 {
-      margin: 0;
-      font-size: 22px;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
+    .wwa-brand-name {
+      font-size: 16px;
+      font-weight: 760;
+      letter-spacing: -0.02em;
     }
 
-    .brand p {
-      margin: 5px 0 0;
-      color: var(--moon);
+    .wwa-icon-button {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--hogwarts-blue);
+    }
+
+    .wwa-icon-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Page title */
+
+    .wwa-page-heading {
+      margin-top: 36px;
+    }
+
+    .wwa-page-kicker {
+      margin: 0 0 9px;
+      color: var(--castle-stone);
       font-size: 11px;
-      letter-spacing: 0.08em;
+      font-weight: 760;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
     }
 
-    .icon-btn,
-    .primary-btn,
-    .secondary-btn,
-    .danger-btn,
-    .file-button {
-      min-height: 44px;
-      padding: 0 15px;
-      border-radius: 14px;
-      font-weight: 800;
+    .wwa-page-title {
+      margin: 0;
+      color: var(--hogwarts-blue);
+      font-size: clamp(38px, 10vw, 58px);
+      font-weight: 760;
+      line-height: 0.98;
+      letter-spacing: -0.06em;
     }
 
-    .primary-btn {
-      background: var(--patronus);
-      color: var(--hogwarts);
-    }
+    /* World entrance */
 
-    .secondary-btn,
-    .file-button {
+    .wwa-world-entrance {
+      position: relative;
+      min-height: 245px;
+      margin-top: 30px;
+      overflow: hidden;
       border: 1px solid var(--line);
-      background: var(--white);
-      color: var(--hogwarts);
+      border-radius: var(--radius-large);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(127, 183, 230, 0.16),
+          rgba(248, 248, 245, 0.5) 58%
+        );
     }
 
-    .danger-btn {
-      background: var(--danger);
-      color: var(--white);
+    .wwa-blueprint {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      color: var(--hogwarts-blue);
+      opacity: 0.09;
+      pointer-events: none;
     }
 
-    .icon-btn {
-      display: grid;
-      place-items: center;
-      width: 46px;
+    .wwa-world-copy {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      min-height: 245px;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+    }
+
+    .wwa-world-label {
+      margin: 0 0 8px;
+      color: var(--castle-stone);
+      font-size: 11px;
+      font-weight: 760;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .wwa-world-title {
+      max-width: 270px;
+      margin: 0;
+      font-size: 34px;
+      font-weight: 760;
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .wwa-world-meta {
+      margin-top: 14px;
+      color: var(--castle-stone);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Sections */
+
+    .wwa-section {
+      margin-top: 48px;
+    }
+
+    .wwa-section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .wwa-section-title {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 740;
+      letter-spacing: -0.035em;
+    }
+
+    .wwa-section-link {
       padding: 0;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--white);
-      font-size: 24px;
+      background: transparent;
+      color: var(--castle-stone);
+      font-size: 13px;
+      font-weight: 690;
+    }
+
+    /* World navigation */
+
+    .wwa-world-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .wwa-world-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      width: 100%;
+      min-height: 84px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      color: inherit;
+      text-align: left;
+    }
+
+    .wwa-world-row:active {
+      opacity: 0.6;
+    }
+
+    .wwa-world-row-name {
+      display: block;
+      font-size: 19px;
+      font-weight: 710;
+      letter-spacing: -0.025em;
+    }
+
+    .wwa-world-row-meta {
+      display: block;
+      margin-top: 6px;
+      color: var(--castle-stone);
+      font-size: 12px;
+    }
+
+    .wwa-world-arrow {
+      color: var(--moon-silver);
+      font-size: 22px;
       font-weight: 400;
     }
 
-    .hero {
-      margin-top: 24px;
-      padding: 0 2px;
-      color: var(--white);
+    /* Record component B+ */
+
+    .wwa-record-list {
+      border-top: 1px solid var(--line);
     }
 
-    .eyebrow {
-      margin: 0 0 8px;
-      color: var(--patronus);
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+    .wwa-record {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 52px;
+      gap: 16px;
+      align-items: center;
+      width: 100%;
+      min-height: 124px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      color: inherit;
+      text-align: left;
     }
 
-    .hero h2 {
-      max-width: 620px;
+    .wwa-record:active {
+      opacity: 0.58;
+      transform: scale(0.995);
+    }
+
+    .wwa-record-number {
       margin: 0;
-      font-size: clamp(30px, 6vw, 48px);
-      line-height: 1.02;
+      color: var(--castle-stone);
+      font-size: 12px;
+      font-weight: 780;
+      letter-spacing: 0.08em;
+    }
+
+    .wwa-record-name {
+      margin: 5px 0 0;
+      overflow-wrap: anywhere;
+      color: var(--hogwarts-blue);
+      font-size: 20px;
+      font-weight: 740;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+    }
+
+    .wwa-record-status {
+      margin: 10px 0 0;
+      color: var(--hogwarts-blue);
+      font-size: 12px;
+      font-weight: 690;
+    }
+
+    .wwa-record-metadata {
+      margin: 5px 0 0;
+      color: var(--castle-stone);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .wwa-record-side {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .wwa-record-progress {
+      color: var(--hogwarts-blue);
+      font-size: 13px;
+      font-weight: 790;
+    }
+
+    .wwa-record-thumb {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--castle-stone);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-align: center;
+    }
+
+    .wwa-record-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Archive status */
+
+    .wwa-status-panel {
+      padding: 22px 0 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .wwa-status-total {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .wwa-status-total strong {
+      font-size: 38px;
+      font-weight: 760;
       letter-spacing: -0.055em;
     }
 
-    .hero-copy {
-      max-width: 560px;
-      margin: 13px 0 0;
-      color: var(--moon);
-      font-size: 14px;
-      line-height: 1.6;
+    .wwa-status-total span {
+      color: var(--castle-stone);
+      font-size: 12px;
+      font-weight: 690;
     }
 
-    .workspace {
-      margin-top: 25px;
-    }
-
-    .command-panel {
+    .wwa-status-breakdown {
       display: grid;
-      grid-template-columns:
-        minmax(0, 1fr)
-        150px
-        auto;
-      gap: 10px;
-      padding: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 22px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      box-shadow:
-        0 20px 50px rgba(10, 20, 38, 0.16);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 20px;
     }
 
-    .control {
+    .wwa-status-item {
+      min-width: 0;
+    }
+
+    .wwa-status-item strong {
+      display: block;
+      font-size: 20px;
+      font-weight: 730;
+    }
+
+    .wwa-status-item span {
+      display: block;
+      margin-top: 5px;
+      color: var(--castle-stone);
+      font-size: 11px;
+    }
+
+    /* Search and filter */
+
+    .wwa-tools {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 130px;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .wwa-control {
       width: 100%;
       min-height: 48px;
       padding: 0 14px;
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: var(--radius-medium);
       outline: none;
-      background: var(--white);
-      color: var(--ink);
+      background: transparent;
+      color: var(--hogwarts-blue);
       font-size: 16px;
     }
 
-    .control:focus {
-      border-color: var(--patronus);
-      box-shadow:
-        0 0 0 4px rgba(127, 183, 230, 0.18);
+    .wwa-control:focus {
+      border-color: var(--patronus-blue);
+      box-shadow: 0 0 0 3px var(--soft-blue);
     }
 
-    .command-panel .control {
-      border-color: rgba(255, 255, 255, 0.24);
-      background: rgba(255, 255, 255, 0.96);
-    }
+    /* Empty state */
 
-    .overview {
-      display: grid;
-      grid-template-columns: 1.35fr 1fr;
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .overview-card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      background: var(--white);
-      box-shadow: var(--shadow);
-    }
-
-    .overview-main {
-      padding: 22px;
-    }
-
-    .overview-title {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 14px;
-    }
-
-    .overview-title h3 {
-      margin: 0;
-      font-size: 18px;
-      letter-spacing: -0.025em;
-    }
-
-    .overview-title p {
-      margin: 5px 0 0;
-      color: var(--stone);
-      font-size: 13px;
-    }
-
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 22px;
-    }
-
-    .metric {
-      padding: 14px;
-      border-radius: 17px;
-      background: #F1F4F8;
-    }
-
-    .metric strong {
-      display: block;
-      color: var(--hogwarts);
-      font-size: 28px;
-      letter-spacing: -0.04em;
-    }
-
-    .metric span {
-      display: block;
-      margin-top: 5px;
-      color: var(--stone);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .overview-side {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 22px;
-      background: var(--hogwarts);
-      color: var(--white);
-    }
-
-    .overview-side p {
-      margin: 0;
-      color: var(--moon);
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .overview-side strong {
-      display: block;
-      margin-top: 12px;
-      font-size: 24px;
-      line-height: 1.12;
-      letter-spacing: -0.035em;
-    }
-
-    .overview-side .rule {
-      height: 1px;
-      margin: 18px 0;
-      background: var(--line-dark);
-    }
-
-    .overview-side small {
-      color: var(--patronus);
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 16px;
-      margin: 30px 2px 12px;
-    }
-
-    .section-head h3 {
-      margin: 0;
-      color: var(--hogwarts);
-      font-size: 20px;
-      letter-spacing: -0.03em;
-    }
-
-    .section-head p {
-      margin: 5px 0 0;
-      color: var(--stone);
-      font-size: 12px;
-    }
-
-    .record-count {
-      color: var(--stone);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .record {
-      display: grid;
-      grid-template-columns: 104px minmax(0, 1fr) auto;
-      gap: 16px;
-      align-items: center;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: var(--white);
-      box-shadow:
-        0 10px 30px rgba(26, 42, 68, 0.06);
-      transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease;
-    }
-
-    .record:active {
-      transform: scale(0.992);
-    }
-
-    .record-image {
-      width: 104px;
-      height: 104px;
-      overflow: hidden;
-      border-radius: 16px;
-      background: #EDF1F6;
-    }
-
-    .record-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .record-placeholder {
-      display: grid;
-      place-items: center;
-      width: 100%;
-      height: 100%;
-      color: var(--stone);
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
+    .wwa-empty {
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      color: var(--castle-stone);
       text-align: center;
     }
 
-    .record-body {
-      min-width: 0;
-    }
-
-    .record-kicker {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--stone);
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--patronus);
-    }
-
-    .status-dot.designing {
-      background: #8E7EB5;
-    }
-
-    .status-dot.review {
-      background: #B59451;
-    }
-
-    .status-dot.complete {
-      background: var(--success);
-    }
-
-    .record h4 {
-      margin: 8px 0 7px;
-      overflow-wrap: anywhere;
-      color: var(--hogwarts);
-      font-size: 19px;
-      line-height: 1.22;
-      letter-spacing: -0.03em;
-    }
-
-    .record-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px 14px;
-      color: var(--stone);
-      font-size: 12px;
-    }
-
-    .record-meta span {
-      white-space: nowrap;
-    }
-
-    .record-progress {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .track {
-      height: 5px;
-      flex: 1;
-      overflow: hidden;
-      border-radius: 999px;
-      background: #E8ECF1;
-    }
-
-    .bar {
-      display: block;
-      height: 100%;
-      background: var(--patronus);
-    }
-
-    .percent {
-      width: 34px;
-      color: var(--stone);
-      font-size: 11px;
-      font-weight: 800;
-      text-align: right;
-    }
-
-    .record-action {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .open-btn {
-      min-width: 76px;
-      min-height: 42px;
-      border-radius: 13px;
-      background: var(--hogwarts);
-      color: var(--white);
-      font-weight: 800;
-    }
-
-    .empty {
-      padding: 60px 22px;
-      border: 1px dashed var(--moon);
-      border-radius: 22px;
-      background: rgba(255, 255, 255, 0.74);
-      color: var(--stone);
-      text-align: center;
-    }
-
-    .empty strong {
+    .wwa-empty strong {
       display: block;
       margin-bottom: 7px;
-      color: var(--hogwarts);
+      color: var(--hogwarts-blue);
       font-size: 18px;
     }
 
-    .utility {
-      display: flex;
-      gap: 9px;
-      margin-top: 18px;
+    /* Assets */
+
+    .wwa-asset-list {
+      border-top: 1px solid var(--line);
     }
 
-    .file-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    dialog {
-      width: min(760px, 100vw);
-      max-width: 100vw;
-      height: min(95dvh, 940px);
-      max-height: 95dvh;
-      margin: auto;
-      padding: 0;
-      overflow: hidden;
-      border: 0;
-      border-radius: 28px 28px 0 0;
-      background: var(--winter);
-      box-shadow:
-        0 34px 110px rgba(13, 24, 42, 0.4);
-    }
-
-    dialog::backdrop {
-      background: rgba(15, 25, 42, 0.64);
-      backdrop-filter: blur(7px);
-    }
-
-    .modal-head {
+    .wwa-asset-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      padding:
-        calc(16px + env(safe-area-inset-top))
-        18px
-        16px;
-      background: var(--hogwarts);
-      color: var(--white);
+      min-height: 74px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
     }
 
-    .modal-head .eyebrow {
-      margin-bottom: 5px;
-    }
-
-    .modal-head h2 {
-      margin: 0;
-      font-size: 21px;
-      letter-spacing: -0.03em;
-    }
-
-    .modal-body {
-      height: calc(95dvh - 85px);
-      overflow-y: auto;
-      padding:
-        18px
-        calc(18px + env(safe-area-inset-right))
-        calc(112px + env(safe-area-inset-bottom))
-        calc(18px + env(safe-area-inset-left));
-    }
-
-    .panel {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: var(--white);
-      box-shadow:
-        0 8px 24px rgba(26, 42, 68, 0.04);
-    }
-
-    .panel + .panel {
-      margin-top: 14px;
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .panel-head h3 {
-      margin: 0;
-      color: var(--hogwarts);
+    .wwa-asset-row strong {
       font-size: 17px;
-      letter-spacing: -0.02em;
+      font-weight: 710;
     }
 
-    .panel-head p {
-      margin: 5px 0 0;
-      color: var(--stone);
+    .wwa-asset-row span {
+      color: var(--castle-stone);
       font-size: 12px;
-      line-height: 1.5;
     }
 
-    .form-grid {
+    /* Pages */
+
+    .wwa-page-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .wwa-page-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 13px;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      min-height: 84px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
     }
 
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
+    .wwa-page-number {
+      color: var(--castle-stone);
+      font-size: 12px;
+      font-weight: 770;
     }
 
-    .field.full {
-      grid-column: 1 / -1;
+    .wwa-page-name {
+      font-size: 18px;
+      font-weight: 710;
     }
 
-    .field label {
-      color: var(--stone);
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.045em;
-      text-transform: uppercase;
+    .wwa-page-state {
+      color: var(--castle-stone);
+      font-size: 12px;
     }
 
-    .field textarea {
-      min-height: 110px;
-      padding-top: 13px;
-      resize: vertical;
+    /* Buttons */
+
+    .wwa-primary-button,
+    .wwa-secondary-button,
+    .wwa-danger-button {
+      min-height: 48px;
+      padding: 0 17px;
+      border-radius: var(--radius-medium);
+      font-weight: 760;
     }
 
-    .check-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
+    .wwa-primary-button {
+      background: var(--hogwarts-blue);
+      color: var(--winter-white);
     }
 
-    .check {
+    .wwa-secondary-button {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--hogwarts-blue);
+    }
+
+    .wwa-danger-button {
+      background: var(--hogwarts-blue);
+      color: var(--winter-white);
+      opacity: 0.76;
+    }
+
+    .wwa-full-button {
+      width: 100%;
+    }
+
+    /* Settings */
+
+    .wwa-settings-group {
+      margin-top: 30px;
+      border-top: 1px solid var(--line);
+    }
+
+    .wwa-settings-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      min-height: 48px;
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #F6F7F9;
-      color: var(--ink);
-      font-size: 13px;
+      justify-content: space-between;
+      min-height: 68px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wwa-settings-row strong {
+      font-size: 16px;
       font-weight: 700;
     }
 
-    .check input {
-      width: 20px;
-      height: 20px;
-      accent-color: var(--hogwarts);
+    .wwa-settings-row span {
+      color: var(--castle-stone);
+      font-size: 12px;
     }
 
-    .asset-grid {
+    .wwa-settings-actions {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 11px;
-    }
-
-    .asset {
-      padding: 10px;
-      border: 1px solid var(--line);
-      border-radius: 17px;
-      background: #F6F7F9;
-    }
-
-    .asset img {
-      display: none;
-      width: 100%;
-      height: 160px;
-      border-radius: 12px;
-      background: #E9EDF2;
-      object-fit: cover;
-    }
-
-    .asset strong {
-      display: block;
-      margin: 10px 0 8px;
-      color: var(--hogwarts);
-      font-size: 13px;
-    }
-
-    .asset input {
-      width: 100%;
-      color: var(--stone);
-      font-size: 12px;
-    }
-
-    .asset .remove {
-      width: 100%;
-      min-height: 38px;
-      margin-top: 8px;
-      border: 1px solid var(--line);
-      border-radius: 11px;
-      background: var(--white);
-      color: var(--danger);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .sticky-actions {
-      position: sticky;
-      bottom: calc(
-        -112px - env(safe-area-inset-bottom)
-      );
-      display: flex;
-      justify-content: space-between;
       gap: 10px;
-      margin:
-        22px
-        -18px
-        calc(-112px - env(safe-area-inset-bottom));
+      margin-top: 28px;
+    }
+
+    /* Bottom navigation */
+
+    .wwa-navigation {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 50;
       padding:
-        12px
-        18px
-        calc(12px + env(safe-area-inset-bottom));
+        8px
+        14px
+        calc(8px + var(--safe-bottom));
       border-top: 1px solid var(--line);
       background: rgba(248, 248, 245, 0.94);
       backdrop-filter: blur(18px);
     }
 
-    .right {
-      display: flex;
-      gap: 8px;
+    .wwa-navigation-inner {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      width: min(100%, 820px);
+      margin: 0 auto;
     }
 
-    .toast {
+    .wwa-nav-button {
+      display: flex;
+      min-height: 55px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 0;
+      background: transparent;
+      color: var(--castle-stone);
+      font-size: 10px;
+      font-weight: 690;
+    }
+
+    .wwa-nav-button svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    .wwa-nav-button.is-active {
+      color: var(--hogwarts-blue);
+    }
+
+    /* Dialog */
+
+    .wwa-dialog {
+      width: min(760px, 100vw);
+      max-width: 100vw;
+      height: min(96dvh, 950px);
+      max-height: 96dvh;
+      margin: auto;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+      border-radius: 26px 26px 0 0;
+      background: var(--winter-white);
+      color: var(--hogwarts-blue);
+      box-shadow: 0 28px 90px rgba(26, 42, 68, 0.25);
+    }
+
+    .wwa-dialog::backdrop {
+      background: rgba(26, 42, 68, 0.55);
+      backdrop-filter: blur(5px);
+    }
+
+    .wwa-dialog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      padding:
+        calc(12px + var(--safe-top))
+        20px
+        12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wwa-dialog-header h2 {
+      margin: 0;
+      font-size: 21px;
+      letter-spacing: -0.035em;
+    }
+
+    .wwa-dialog-body {
+      height: calc(96dvh - 72px);
+      overflow-y: auto;
+      padding:
+        24px
+        20px
+        calc(120px + var(--safe-bottom));
+    }
+
+    .wwa-form-section + .wwa-form-section {
+      margin-top: 42px;
+    }
+
+    .wwa-form-section h3 {
+      margin: 0 0 18px;
+      font-size: 19px;
+      letter-spacing: -0.03em;
+    }
+
+    .wwa-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .wwa-field {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .wwa-field.is-full {
+      grid-column: 1 / -1;
+    }
+
+    .wwa-field label {
+      color: var(--castle-stone);
+      font-size: 11px;
+      font-weight: 770;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .wwa-field textarea {
+      min-height: 110px;
+      padding-top: 13px;
+      resize: vertical;
+    }
+
+    .wwa-check-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .wwa-check-row {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 54px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .wwa-check-row input {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--hogwarts-blue);
+    }
+
+    .wwa-upload-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .wwa-upload-row {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wwa-upload-preview {
+      display: none;
+      width: 100%;
+      max-height: 240px;
+      margin-bottom: 12px;
+      border-radius: var(--radius-medium);
+      object-fit: contain;
+      background: var(--surface);
+    }
+
+    .wwa-upload-row strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .wwa-upload-row input {
+      width: 100%;
+      color: var(--castle-stone);
+      font-size: 12px;
+    }
+
+    .wwa-upload-remove {
+      min-height: 38px;
+      margin-top: 10px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-small);
+      background: transparent;
+      color: var(--hogwarts-blue);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .wwa-dialog-actions {
+      position: sticky;
+      bottom: calc(
+        -120px - var(--safe-bottom)
+      );
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin:
+        34px
+        -20px
+        calc(-120px - var(--safe-bottom));
+      padding:
+        12px
+        20px
+        calc(12px + var(--safe-bottom));
+      border-top: 1px solid var(--line);
+      background: rgba(248, 248, 245, 0.95);
+      backdrop-filter: blur(18px);
+    }
+
+    .wwa-dialog-actions-right {
+      display: flex;
+      gap: 9px;
+    }
+
+    /* Toast */
+
+    .wwa-toast {
       position: fixed;
       left: 50%;
-      bottom:
-        calc(24px + env(safe-area-inset-bottom));
+      bottom: calc(92px + var(--safe-bottom));
       z-index: 100;
       padding: 11px 15px;
       border-radius: 999px;
-      background: rgba(26, 42, 68, 0.96);
-      color: var(--white);
-      font-size: 13px;
-      font-weight: 800;
+      background: var(--hogwarts-blue);
+      color: var(--winter-white);
+      font-size: 12px;
+      font-weight: 720;
       opacity: 0;
       pointer-events: none;
-      transform: translate(-50%, 18px);
-      transition: 0.2s;
+      transform: translate(-50%, 12px);
+      transition: 180ms ease;
     }
 
-    .toast.show {
+    .wwa-toast.is-visible {
       opacity: 1;
       transform: translate(-50%, 0);
     }
 
-    @media (max-width: 700px) {
-      .app-shell {
-        background:
-          linear-gradient(
-            180deg,
-            var(--hogwarts) 0 330px,
-            var(--winter) 330px 100%
-          );
-      }
-
-      .command-panel {
-        grid-template-columns: 1fr 118px;
-      }
-
-      .command-panel .primary-btn {
-        grid-column: 1 / -1;
-      }
-
-      .overview {
+    @media (max-width: 600px) {
+      .wwa-tools,
+      .wwa-form-grid {
         grid-template-columns: 1fr;
       }
 
-      .overview-side {
-        min-height: 180px;
-      }
-
-      .record {
-        grid-template-columns: 86px minmax(0, 1fr);
-        gap: 13px;
-      }
-
-      .record-image {
-        width: 86px;
-        height: 100px;
-      }
-
-      .record-action {
-        grid-column: 1 / -1;
-      }
-
-      .open-btn {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .brand p {
-        display: none;
-      }
-
-      .hero {
-        margin-top: 22px;
-      }
-
-      .hero-copy {
-        font-size: 13px;
-      }
-
-      .form-grid,
-      .check-grid,
-      .asset-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .field.full {
+      .wwa-field.is-full {
         grid-column: auto;
       }
 
-      .metric {
-        padding: 12px;
+      .wwa-status-breakdown {
+        gap: 8px;
       }
 
-      .metric strong {
-        font-size: 23px;
-      }
-
-      .metric span {
-        font-size: 10px;
-      }
-
-      dialog {
+      .wwa-dialog {
         align-self: end;
         margin: auto 0 0;
-        border-radius: 28px 28px 0 0;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="app-shell">
-    <main class="app">
-      <header class="topbar">
-        <div class="brand">
-          <div class="logo-slot">WWA</div>
+  <main class="wwa-app">
 
-          <div>
-            <h1>WWA Manager</h1>
-            <p>Archive Production System</p>
-          </div>
+    <!-- HOME -->
+
+    <section
+      id="screen-home"
+      class="wwa-screen is-active"
+      data-screen="home"
+    >
+      <header class="wwa-header">
+        <div class="wwa-brand">
+          <div class="wwa-brand-mark">WWA</div>
+          <span class="wwa-brand-name">WWA Manager</span>
         </div>
 
         <button
-          id="addBtn"
-          class="icon-btn"
+          class="wwa-icon-button"
           type="button"
-          aria-label="세트 추가"
+          data-go-screen="records"
+          aria-label="검색"
         >
-          +
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          >
+            <circle cx="11" cy="11" r="6.5"></circle>
+            <path d="M16 16L21 21"></path>
+          </svg>
         </button>
       </header>
 
-      <section class="hero">
-        <p class="eyebrow">
-          Workspace · My Collection
+      <div class="wwa-page-heading">
+        <p class="wwa-page-kicker">
+          Wizarding World Archive
         </p>
 
-        <h2>
-          Build the archive.<br>
-          Prepare the book.
-        </h2>
+        <h1 class="wwa-page-title">
+          Wizarding<br>World
+        </h1>
+      </div>
 
-        <p class="hero-copy">
-          LEGO Harry Potter 컬렉션의 자료,
-          메타데이터, 제작 상태를 한곳에서
-          관리합니다.
-        </p>
+      <section class="wwa-world-entrance">
+        <svg
+          class="wwa-blueprint"
+          viewBox="0 0 500 280"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M24 235H476"></path>
+          <path d="M72 235V170L112 145L152 170V235"></path>
+          <path d="M98 145V92L112 66L126 92V145"></path>
+          <path d="M165 235V130L205 102L245 130V235"></path>
+          <path d="M194 103V50L205 26L216 50V103"></path>
+          <path d="M257 235V155L300 125L343 155V235"></path>
+          <path d="M286 125V78L300 54L314 78V125"></path>
+          <path d="M354 235V175L389 148L424 175V235"></path>
+          <path d="M378 148V102L389 80L400 102V148"></path>
+          <path d="M57 235L205 140L300 180L443 112"></path>
+          <path d="M90 198H130"></path>
+          <path d="M185 170H225"></path>
+          <path d="M279 190H321"></path>
+          <circle cx="112" cy="187" r="9"></circle>
+          <circle cx="205" cy="158" r="9"></circle>
+          <circle cx="300" cy="182" r="9"></circle>
+          <circle cx="389" cy="193" r="9"></circle>
+        </svg>
+
+        <div class="wwa-world-copy">
+          <p class="wwa-world-label">
+            Archive Entrance
+          </p>
+
+          <h2 class="wwa-world-title">
+            Curate the world through LEGO.
+          </h2>
+
+          <p
+            id="home-world-summary"
+            class="wwa-world-meta"
+          >
+            0 Records · 0 Published
+          </p>
+        </div>
       </section>
 
-      <section class="workspace">
-        <div class="command-panel">
-          <input
-            id="search"
-            class="control"
-            type="search"
-            placeholder="세트번호 또는 세트명 검색"
-          >
+      <section class="wwa-section">
+        <div class="wwa-section-header">
+          <h2 class="wwa-section-title">
+            World Collections
+          </h2>
+        </div>
 
-          <select id="filter" class="control">
-            <option value="">전체 상태</option>
-            <option value="collecting">자료수집</option>
-            <option value="designing">제작중</option>
-            <option value="review">검토중</option>
-            <option value="complete">완료</option>
-          </select>
+        <div
+          id="home-world-list"
+          class="wwa-world-list"
+        ></div>
+      </section>
+
+      <section class="wwa-section">
+        <div class="wwa-section-header">
+          <h2 class="wwa-section-title">
+            In Progress
+          </h2>
 
           <button
-            id="addBtnWide"
-            class="primary-btn"
             type="button"
+            class="wwa-section-link"
+            data-go-screen="records"
           >
-            새 레코드
+            All Records
           </button>
         </div>
 
-        <section class="overview">
-          <div class="overview-card overview-main">
-            <div class="overview-title">
-              <div>
-                <h3>Collection Overview</h3>
-                <p>
-                  WWA Book 제작을 위한 현재 작업 현황
-                </p>
-              </div>
-            </div>
+        <div
+          id="home-current-record"
+          class="wwa-record-list"
+        ></div>
+      </section>
 
-            <div class="metric-grid">
-              <div class="metric">
-                <strong id="total">0</strong>
-                <span>Total</span>
-              </div>
+      <section class="wwa-section">
+        <div class="wwa-section-header">
+          <h2 class="wwa-section-title">
+            Archive Status
+          </h2>
+        </div>
 
-              <div class="metric">
-                <strong id="active">0</strong>
-                <span>In Progress</span>
-              </div>
-
-              <div class="metric">
-                <strong id="done">0</strong>
-                <span>Complete</span>
-              </div>
-            </div>
+        <div class="wwa-status-panel">
+          <div class="wwa-status-total">
+            <strong id="home-total-records">0</strong>
+            <span>Records</span>
           </div>
 
-          <div class="overview-card overview-side">
-            <div>
-              <small>WWA Standard</small>
-
-              <strong>
-                Museum-grade records.<br>
-                Creator-first workflow.
-              </strong>
+          <div class="wwa-status-breakdown">
+            <div class="wwa-status-item">
+              <strong id="status-published">0</strong>
+              <span>Published</span>
             </div>
 
-            <div class="rule"></div>
+            <div class="wwa-status-item">
+              <strong id="status-building">0</strong>
+              <span>Building</span>
+            </div>
 
-            <p>
-              브랜드 컬러는 유지하되,
-              화면은 장식보다 정확한 입력과
-              빠른 제작 흐름을 우선합니다.
-            </p>
+            <div class="wwa-status-item">
+              <strong id="status-research">0</strong>
+              <span>Research</span>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
+    </section>
 
-        <div class="section-head">
-          <div>
-            <h3>Collection Records</h3>
-            <p>세트별 자료와 제작 상태</p>
-          </div>
+    <!-- RECORDS -->
+
+    <section
+      id="screen-records"
+      class="wwa-screen"
+      data-screen="records"
+    >
+      <header class="wwa-header">
+        <div class="wwa-brand">
+          <div class="wwa-brand-mark">WWA</div>
+          <span class="wwa-brand-name">WWA Manager</span>
+        </div>
+
+        <button
+          id="add-record-button"
+          class="wwa-icon-button"
+          type="button"
+          aria-label="레코드 추가"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          >
+            <path d="M12 5V19"></path>
+            <path d="M5 12H19"></path>
+          </svg>
+        </button>
+      </header>
+
+      <div class="wwa-page-heading">
+        <p class="wwa-page-kicker">
+          My Collection
+        </p>
+
+        <h1 class="wwa-page-title">
+          Records
+        </h1>
+      </div>
+
+      <div class="wwa-tools">
+        <input
+          id="record-search"
+          class="wwa-control"
+          type="search"
+          placeholder="세트번호 또는 세트명"
+        >
+
+        <select
+          id="record-filter"
+          class="wwa-control"
+        >
+          <option value="">All Status</option>
+          <option value="planning">Planning</option>
+          <option value="research">Research</option>
+          <option value="building">Building</option>
+          <option value="review">Review</option>
+          <option value="published">Published</option>
+        </select>
+      </div>
+
+      <section class="wwa-section">
+        <div class="wwa-section-header">
+          <h2 class="wwa-section-title">
+            All Records
+          </h2>
 
           <span
-            id="recordCount"
-            class="record-count"
+            id="records-count"
+            class="wwa-section-link"
           >
-            0 records
+            0
           </span>
         </div>
 
-        <section
-          id="list"
-          class="list"
-        ></section>
-
-        <div class="utility">
-          <button
-            id="backup"
-            class="secondary-btn"
-            type="button"
-          >
-            JSON 백업
-          </button>
-
-          <label
-            class="file-button"
-            for="restore"
-          >
-            데이터 복원
-          </label>
-
-          <input
-            id="restore"
-            type="file"
-            accept=".json,application/json"
-            hidden
-          >
-        </div>
+        <div
+          id="records-list"
+          class="wwa-record-list"
+        ></div>
       </section>
-    </main>
-  </div>
+    </section>
 
-  <dialog id="dialog">
-    <div class="modal-head">
-      <div>
-        <p class="eyebrow">
-          Collection Record
+    <!-- ASSETS -->
+
+    <section
+      id="screen-assets"
+      class="wwa-screen"
+      data-screen="assets"
+    >
+      <header class="wwa-header">
+        <div class="wwa-brand">
+          <div class="wwa-brand-mark">WWA</div>
+          <span class="wwa-brand-name">WWA Manager</span>
+        </div>
+      </header>
+
+      <div class="wwa-page-heading">
+        <p class="wwa-page-kicker">
+          Archive Material
         </p>
 
-        <h2 id="dialogTitle">
-          세트 추가
-        </h2>
+        <h1 class="wwa-page-title">
+          Assets
+        </h1>
       </div>
 
+      <section class="wwa-section">
+        <div
+          id="asset-summary-list"
+          class="wwa-asset-list"
+        ></div>
+      </section>
+    </section>
+
+    <!-- PAGES -->
+
+    <section
+      id="screen-pages"
+      class="wwa-screen"
+      data-screen="pages"
+    >
+      <header class="wwa-header">
+        <div class="wwa-brand">
+          <div class="wwa-brand-mark">WWA</div>
+          <span class="wwa-brand-name">WWA Manager</span>
+        </div>
+      </header>
+
+      <div class="wwa-page-heading">
+        <p class="wwa-page-kicker">
+          WWA Book Production
+        </p>
+
+        <h1 class="wwa-page-title">
+          Pages
+        </h1>
+      </div>
+
+      <section class="wwa-section">
+        <div
+          id="pages-list"
+          class="wwa-page-list"
+        ></div>
+      </section>
+    </section>
+
+    <!-- SETTINGS -->
+
+    <section
+      id="screen-settings"
+      class="wwa-screen"
+      data-screen="settings"
+    >
+      <header class="wwa-header">
+        <div class="wwa-brand">
+          <div class="wwa-brand-mark">WWA</div>
+          <span class="wwa-brand-name">WWA Manager</span>
+        </div>
+      </header>
+
+      <div class="wwa-page-heading">
+        <p class="wwa-page-kicker">
+          System
+        </p>
+
+        <h1 class="wwa-page-title">
+          Settings
+        </h1>
+      </div>
+
+      <div class="wwa-settings-group">
+        <div class="wwa-settings-row">
+          <strong>Storage</strong>
+          <span>Local device</span>
+        </div>
+
+        <div class="wwa-settings-row">
+          <strong>Version</strong>
+          <span>v0.4-dev</span>
+        </div>
+
+        <div class="wwa-settings-row">
+          <strong>Platform</strong>
+          <span>GitHub Pages</span>
+        </div>
+      </div>
+
+      <div class="wwa-settings-actions">
+        <button
+          id="backup-button"
+          class="wwa-secondary-button wwa-full-button"
+          type="button"
+        >
+          JSON Backup
+        </button>
+
+        <label
+          for="restore-input"
+          class="wwa-secondary-button wwa-full-button"
+          style="
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+          "
+        >
+          Restore Backup
+        </label>
+
+        <input
+          id="restore-input"
+          type="file"
+          accept=".json,application/json"
+          hidden
+        >
+      </div>
+    </section>
+  </main>
+
+  <!-- BOTTOM NAVIGATION -->
+
+  <nav class="wwa-navigation">
+    <div class="wwa-navigation-inner">
+
       <button
-        id="close"
-        class="icon-btn"
+        class="wwa-nav-button is-active"
+        type="button"
+        data-nav-screen="home"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 10.5L12 4L20 10.5V20H4Z"></path>
+          <path d="M9 20V14H15V20"></path>
+        </svg>
+        <span>Home</span>
+      </button>
+
+      <button
+        class="wwa-nav-button"
+        type="button"
+        data-nav-screen="records"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+        >
+          <path d="M6 4H18V20H6Z"></path>
+          <path d="M9 8H15"></path>
+          <path d="M9 12H15"></path>
+          <path d="M9 16H13"></path>
+        </svg>
+        <span>Records</span>
+      </button>
+
+      <button
+        class="wwa-nav-button"
+        type="button"
+        data-nav-screen="assets"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+          <circle cx="9" cy="10" r="1.5"></circle>
+          <path d="M6 17L11 12L15 15L18 12"></path>
+        </svg>
+        <span>Assets</span>
+      </button>
+
+      <button
+        class="wwa-nav-button"
+        type="button"
+        data-nav-screen="pages"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linejoin="round"
+        >
+          <path d="M4 5.5C7 4 9.5 4.5 12 6V19C9.5 17.5 7 17 4 18.5Z"></path>
+          <path d="M20 5.5C17 4 14.5 4.5 12 6V19C14.5 17.5 17 17 20 18.5Z"></path>
+        </svg>
+        <span>Pages</span>
+      </button>
+
+      <button
+        class="wwa-nav-button"
+        type="button"
+        data-nav-screen="settings"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19 12A7 7 0 0 0 18.8 10.3L21 8.7L19 5.3L16.5 6.4A7 7 0 0 0 14.7 5.3L14.4 2.5H9.6L9.3 5.3A7 7 0 0 0 7.5 6.4L5 5.3L3 8.7L5.2 10.3A7 7 0 0 0 5 12A7 7 0 0 0 5.2 13.7L3 15.3L5 18.7L7.5 17.6A7 7 0 0 0 9.3 18.7L9.6 21.5H14.4L14.7 18.7A7 7 0 0 0 16.5 17.6L19 18.7L21 15.3L18.8 13.7A7 7 0 0 0 19 12Z"></path>
+        </svg>
+        <span>Settings</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- RECORD EDITOR -->
+
+  <dialog
+    id="record-dialog"
+    class="wwa-dialog"
+  >
+    <header class="wwa-dialog-header">
+      <h2 id="dialog-title">
+        New Record
+      </h2>
+
+      <button
+        id="dialog-close-button"
+        class="wwa-icon-button"
         type="button"
         aria-label="닫기"
       >
-        ×
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        >
+          <path d="M6 6L18 18"></path>
+          <path d="M18 6L6 18"></path>
+        </svg>
       </button>
-    </div>
+    </header>
 
     <form
-      id="form"
-      class="modal-body"
+      id="record-form"
+      class="wwa-dialog-body"
     >
       <input
-        id="editId"
+        id="record-id"
         type="hidden"
       >
 
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h3>Set Information</h3>
+      <section class="wwa-form-section">
+        <h3>Overview</h3>
 
-            <p>
-              LEGO 공식 정보와 기본 메타데이터
-            </p>
-          </div>
-        </div>
+        <div class="wwa-form-grid">
 
-        <div class="form-grid">
-          <div class="field">
-            <label for="setNumber">
+          <div class="wwa-field">
+            <label for="set-number">
               Set Number
             </label>
 
             <input
-              id="setNumber"
-              class="control"
+              id="set-number"
+              class="wwa-control"
               required
               inputmode="numeric"
               placeholder="76417"
             >
           </div>
 
-          <div class="field">
-            <label for="setName">
+          <div class="wwa-field">
+            <label for="world-name">
+              World Collection
+            </label>
+
+            <select
+              id="world-name"
+              class="wwa-control"
+            >
+              <option value="Hogwarts">
+                Hogwarts
+              </option>
+
+              <option value="Diagon Alley">
+                Diagon Alley
+              </option>
+
+              <option value="Gringotts">
+                Gringotts
+              </option>
+
+              <option value="Hogsmeade">
+                Hogsmeade
+              </option>
+
+              <option value="Ministry of Magic">
+                Ministry of Magic
+              </option>
+
+              <option value="Forbidden Forest">
+                Forbidden Forest
+              </option>
+
+              <option value="Hogwarts Express">
+                Hogwarts Express
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
+            </select>
+          </div>
+
+          <div class="wwa-field is-full">
+            <label for="set-name">
               Set Name
             </label>
 
             <input
-              id="setName"
-              class="control"
+              id="set-name"
+              class="wwa-control"
               required
               placeholder="Gringotts Wizarding Bank"
             >
           </div>
 
-          <div class="field">
-            <label for="releaseDate">
+          <div class="wwa-field">
+            <label for="record-status">
+              Status
+            </label>
+
+            <select
+              id="record-status"
+              class="wwa-control"
+            >
+              <option value="planning">
+                Planning
+              </option>
+
+              <option value="research">
+                Research
+              </option>
+
+              <option value="building">
+                Building
+              </option>
+
+              <option value="review">
+                Review
+              </option>
+
+              <option value="published">
+                Published
+              </option>
+            </select>
+          </div>
+
+          <div class="wwa-field">
+            <label for="release-date">
               Release Date
             </label>
 
             <input
-              id="releaseDate"
-              class="control"
+              id="release-date"
+              class="wwa-control"
               type="date"
             >
           </div>
 
-          <div class="field">
-            <label for="retailPrice">
-              MSRP (KRW)
-            </label>
-
-            <input
-              id="retailPrice"
-              class="control"
-              type="number"
-              inputmode="numeric"
-              min="0"
-              step="100"
-            >
-          </div>
-
-          <div class="field">
-            <label for="pieceCount">
+          <div class="wwa-field">
+            <label for="piece-count">
               Pieces
             </label>
 
             <input
-              id="pieceCount"
-              class="control"
+              id="piece-count"
+              class="wwa-control"
               type="number"
               inputmode="numeric"
               min="0"
             >
           </div>
 
-          <div class="field">
-            <label for="minifigureCount">
+          <div class="wwa-field">
+            <label for="minifigure-count">
               Minifigures
             </label>
 
             <input
-              id="minifigureCount"
-              class="control"
+              id="minifigure-count"
+              class="wwa-control"
               type="number"
               inputmode="numeric"
               min="0"
             >
           </div>
 
-          <div class="field">
-            <label for="dimensions">
+          <div class="wwa-field is-full">
+            <label for="set-size">
               Size
             </label>
 
             <input
-              id="dimensions"
-              class="control"
+              id="set-size"
+              class="wwa-control"
               placeholder="32 × 25 × 75 cm"
             >
           </div>
 
-          <div class="field">
-            <label for="status">
-              Production Status
-            </label>
-
-            <select
-              id="status"
-              class="control"
-            >
-              <option value="collecting">
-                자료수집
-              </option>
-
-              <option value="designing">
-                제작중
-              </option>
-
-              <option value="review">
-                검토중
-              </option>
-
-              <option value="complete">
-                완료
-              </option>
-            </select>
-          </div>
         </div>
       </section>
 
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h3>Collection Information</h3>
-            <p>구매 및 보관 기록</p>
-          </div>
-        </div>
+      <section class="wwa-form-section">
+        <h3>Collection</h3>
 
-        <div class="form-grid">
-          <div class="field">
-            <label for="purchaseDate">
+        <div class="wwa-form-grid">
+
+          <div class="wwa-field">
+            <label for="msrp">
+              MSRP
+            </label>
+
+            <input
+              id="msrp"
+              class="wwa-control"
+              type="number"
+              inputmode="numeric"
+              min="0"
+            >
+          </div>
+
+          <div class="wwa-field">
+            <label for="my-price">
+              My Price
+            </label>
+
+            <input
+              id="my-price"
+              class="wwa-control"
+              type="number"
+              inputmode="numeric"
+              min="0"
+            >
+          </div>
+
+          <div class="wwa-field">
+            <label for="purchase-date">
               Purchase Date
             </label>
 
             <input
-              id="purchaseDate"
-              class="control"
+              id="purchase-date"
+              class="wwa-control"
               type="date"
             >
           </div>
 
-          <div class="field">
-            <label for="purchaseStore">
+          <div class="wwa-field">
+            <label for="purchase-store">
               Purchase Store
             </label>
 
             <input
-              id="purchaseStore"
-              class="control"
+              id="purchase-store"
+              class="wwa-control"
             >
           </div>
 
-          <div class="field">
-            <label for="purchasePrice">
-              My Price (KRW)
-            </label>
-
-            <input
-              id="purchasePrice"
-              class="control"
-              type="number"
-              inputmode="numeric"
-              min="0"
-              step="100"
-            >
-          </div>
-
-          <div class="field">
-            <label for="buildDate">
-              Build Date
-            </label>
-
-            <input
-              id="buildDate"
-              class="control"
-              type="date"
-            >
-          </div>
-
-          <div class="field full">
-            <label for="storageStatus">
-              Storage Status
-            </label>
-
-            <input
-              id="storageStatus"
-              class="control"
-              placeholder="전시 중 / 박스 보관"
-            >
-          </div>
-
-          <div class="field full">
-            <label for="notes">
+          <div class="wwa-field is-full">
+            <label for="collection-notes">
               Notes
             </label>
 
             <textarea
-              id="notes"
-              class="control"
+              id="collection-notes"
+              class="wwa-control"
             ></textarea>
           </div>
+
         </div>
       </section>
 
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h3>Production Checklist</h3>
-
-            <p>
-              WWA Book 제작 준비 상태
-            </p>
-          </div>
-        </div>
+      <section class="wwa-form-section">
+        <h3>Production</h3>
 
         <div
-          id="checks"
-          class="check-grid"
+          id="checklist-container"
+          class="wwa-check-list"
         ></div>
       </section>
 
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h3>Assets</h3>
-
-            <p>
-              사진은 최대 1,600px로
-              최적화되어 기기에 저장됩니다.
-            </p>
-          </div>
-        </div>
+      <section class="wwa-form-section">
+        <h3>Assets</h3>
 
         <div
-          id="assets"
-          class="asset-grid"
+          id="upload-container"
+          class="wwa-upload-list"
         ></div>
       </section>
 
-      <div class="sticky-actions">
+      <div class="wwa-dialog-actions">
         <button
-          id="deleteBtn"
-          class="danger-btn"
+          id="delete-record-button"
+          class="wwa-danger-button"
           type="button"
           hidden
         >
-          삭제
+          Delete
         </button>
 
-        <div class="right">
+        <div class="wwa-dialog-actions-right">
           <button
-            id="cancel"
-            class="secondary-btn"
+            id="dialog-cancel-button"
+            class="wwa-secondary-button"
             type="button"
           >
-            취소
+            Cancel
           </button>
 
           <button
-            class="primary-btn"
+            class="wwa-primary-button"
             type="submit"
           >
-            저장
+            Save
           </button>
         </div>
       </div>
@@ -1380,81 +1714,100 @@
 
   <div
     id="toast"
-    class="toast"
+    class="wwa-toast"
   ></div>
 
   <script>
     "use strict";
 
-    const STORAGE_KEY = "wwa-manager-v03";
+    const STORAGE_KEY = "wwa-manager-v04";
 
-    const OLD_KEYS = [
+    const LEGACY_KEYS = [
+      "wwa-manager-v03",
       "wwa-manager-v02",
       "wwa-manager-v01",
       "wwa-manager-v1"
     ];
 
-    const CHECKS = {
-      box: "박스 사진",
-      product: "조립 완성 사진",
-      detail: "디테일 사진",
-      minifigures: "미니피겨",
-      blueprint: "공식 Blueprint",
-      movie: "영화 스틸",
-      goods: "직접 촬영 굿즈",
-      page: "페이지 제작",
-      review: "검토",
-      final: "최종 완료"
+    const WORLD_COLLECTIONS = [
+      "Hogwarts",
+      "Diagon Alley",
+      "Gringotts",
+      "Hogsmeade",
+      "Ministry of Magic",
+      "Forbidden Forest",
+      "Hogwarts Express",
+      "Other"
+    ];
+
+    const CHECKLIST = {
+      legoOfficial: "LEGO Official",
+      boxArt: "Box Art",
+      blueprint: "Blueprint",
+      movieStill: "Movie Still",
+      minifigures: "Minifigures",
+      myPhoto: "My Photo",
+      movieResearch: "Movie Research",
+      pageBuilding: "Page Building",
+      review: "Review",
+      published: "Published"
     };
 
-    const ASSETS = {
-      box: "LEGO 공식 박스",
-      product: "LEGO 공식 제품 사진",
-      detail: "디테일 사진",
-      minifigures: "미니피겨",
-      blueprint: "공식 Blueprint",
-      movie: "영화 스틸",
-      goods: "직접 촬영 굿즈"
+    const ASSET_TYPES = {
+      legoOfficial: "LEGO Official",
+      boxArt: "Box Art",
+      blueprint: "Blueprint",
+      movieStill: "Movie Still",
+      minifigures: "Minifigures",
+      myPhoto: "My Photo"
+    };
+
+    const STATUS_LABELS = {
+      planning: "Planning",
+      research: "Research",
+      building: "Building",
+      review: "Review",
+      published: "Published"
     };
 
     const $ = (id) => {
       return document.getElementById(id);
     };
 
-    const dialog = $("dialog");
-    const form = $("form");
+    const dialog = $("record-dialog");
+    const recordForm = $("record-form");
 
-    let sets = load();
+    let records = loadRecords();
 
-    function load() {
+    function loadRecords() {
       try {
         const current =
           localStorage.getItem(STORAGE_KEY);
 
         if (current) {
-          return normalize(
+          return normalizeRecords(
             JSON.parse(current)
           );
         }
 
-        for (const key of OLD_KEYS) {
-          const old =
-            localStorage.getItem(key);
+        for (const legacyKey of LEGACY_KEYS) {
+          const legacy =
+            localStorage.getItem(legacyKey);
 
-          if (!old) {
+          if (!legacy) {
             continue;
           }
 
-          const parsed = normalize(
-            JSON.parse(old)
+          const migrated = normalizeRecords(
+            JSON.parse(legacy)
           );
 
           localStorage.setItem(
             STORAGE_KEY,
-            JSON.stringify(parsed)
+            JSON.stringify(migrated)
           );
 
-          return parsed;
+          return migrated;
         }
       } catch (error) {
         console.error(error);
@@ -1463,46 +1816,136 @@
       return [];
     }
 
-    function normalize(data) {
-      if (!Array.isArray(data)) {
-        return [];
-      }
+    function normalizeRecords(data) {
+      const source =
+        Array.isArray(data)
+          ? data
+          : Array.isArray(data?.sets)
+            ? data.sets
+            : [];
 
       const checklistDefaults =
         Object.fromEntries(
-          Object.keys(CHECKS).map(
+          Object.keys(CHECKLIST).map(
             (key) => [key, false]
           )
         );
 
-      return data.map((item) => ({
-        ...item,
+      return source.map((record) => {
+        let status =
+          record.status || "planning";
 
-        checklist: {
-          ...checklistDefaults,
-          ...(item.checklist || {})
-        },
+        const legacyStatusMap = {
+          collecting: "research",
+          designing: "building",
+          complete: "published"
+        };
 
-        assets: item.assets || {}
-      }));
+        status =
+          legacyStatusMap[status] ||
+          status;
+
+        return {
+          ...record,
+
+          id:
+            record.id ||
+            createId(),
+
+          world:
+            record.world ||
+            inferWorld(record.setName) ||
+            "Other",
+
+          status,
+
+          checklist: {
+            ...checklistDefaults,
+            ...(record.checklist || {})
+          },
+
+          assets: {
+            ...(record.assets || {})
+          }
+        };
+      });
     }
 
-    function persist() {
+    function inferWorld(setName = "") {
+      const name =
+        String(setName).toLowerCase();
+
+      if (name.includes("gringotts")) {
+        return "Gringotts";
+      }
+
+      if (
+        name.includes("diagon") ||
+        name.includes("ollivander")
+      ) {
+        return "Diagon Alley";
+      }
+
+      if (
+        name.includes("express") ||
+        name.includes("station")
+      ) {
+        return "Hogwarts Express";
+      }
+
+      if (name.includes("hogsmeade")) {
+        return "Hogsmeade";
+      }
+
+      if (name.includes("ministry")) {
+        return "Ministry of Magic";
+      }
+
+      if (
+        name.includes("forest") ||
+        name.includes("aragog")
+      ) {
+        return "Forbidden Forest";
+      }
+
+      if (
+        name.includes("hogwarts") ||
+        name.includes("great hall") ||
+        name.includes("castle")
+      ) {
+        return "Hogwarts";
+      }
+
+      return "Other";
+    }
+
+    function createId() {
+      if (crypto.randomUUID) {
+        return crypto.randomUUID();
+      }
+
+      return (
+        Date.now().toString(36) +
+        Math.random().toString(36).slice(2)
+      );
+    }
+
+    function saveRecords(message = "Saved") {
       try {
         localStorage.setItem(
           STORAGE_KEY,
-          JSON.stringify(sets)
+          JSON.stringify(records)
         );
 
-        render();
-        toast("저장했습니다");
+        renderAll();
+        showToast(message);
       } catch (error) {
         console.error(error);
 
         alert(
-          "저장 공간이 부족합니다. " +
-          "JSON 백업 후 사용하지 않는 " +
-          "사진을 삭제해 주세요."
+          "저장 공간이 부족합니다.\n" +
+          "Settings에서 JSON 백업 후 " +
+          "사용하지 않는 사진을 삭제해 주세요."
         );
       }
     }
@@ -1520,25 +1963,16 @@
       );
     }
 
-    function statusLabel(status) {
-      const labels = {
-        collecting: "자료수집",
-        designing: "제작중",
-        review: "검토중",
-        complete: "완료"
-      };
+    function calculateProgress(record) {
+      const values =
+        Object.keys(CHECKLIST).map(
+          (key) =>
+            Boolean(record.checklist?.[key])
+        );
 
-      return labels[status] || "자료수집";
-    }
-
-    function calculateProgress(item) {
-      const values = Object
-        .keys(CHECKS)
-        .map((key) => {
-          return Boolean(
-            item.checklist?.[key]
-          );
-        });
+      if (!values.length) {
+        return 0;
+      }
 
       const completed =
         values.filter(Boolean).length;
@@ -1548,286 +1982,506 @@
       );
     }
 
-    function getThumbnail(item) {
+    function getThumbnail(record) {
       return (
-        item.assets?.product ||
-        item.assets?.box ||
-        item.assets?.detail ||
+        record.assets?.legoOfficial ||
+        record.assets?.boxArt ||
+        record.assets?.myPhoto ||
+        record.assets?.movieStill ||
         ""
       );
     }
 
-    function render() {
-      const searchText = $("search")
-        .value
-        .trim()
-        .toLowerCase();
+    function getReleaseYear(record) {
+      if (!record.releaseDate) {
+        return "";
+      }
 
-      const selectedStatus =
-        $("filter").value;
+      return record.releaseDate.slice(0, 4);
+    }
 
-      const visibleSets = sets
-        .filter((item) => {
-          const setNumber = String(
-            item.setNumber || ""
-          ).toLowerCase();
+    function formatMetadata(record) {
+      const values = [];
 
-          const setName = String(
-            item.setName || ""
-          ).toLowerCase();
+      const year =
+        getReleaseYear(record);
 
-          const matchesSearch =
-            !searchText ||
-            setNumber.includes(searchText) ||
-            setName.includes(searchText);
+      if (year) {
+        values.push(year);
+      }
 
-          const matchesStatus =
-            !selectedStatus ||
-            item.status === selectedStatus;
+      if (record.pieceCount) {
+        values.push(
+          `${Number(
+            record.pieceCount
+          ).toLocaleString()} pcs`
+        );
+      }
 
-          return (
-            matchesSearch &&
-            matchesStatus
-          );
-        })
-        .sort((a, b) => {
-          return String(a.setNumber)
-            .localeCompare(
-              String(b.setNumber),
+      if (
+        record.minifigureCount !== "" &&
+        record.minifigureCount != null
+      ) {
+        values.push(
+          `${Number(
+            record.minifigureCount || 0
+          )} figs`
+        );
+      }
+
+      return values.join(" · ");
+    }
+
+    function createRecordMarkup(record) {
+      const thumbnail =
+        getThumbnail(record);
+
+      const progress =
+        calculateProgress(record);
+
+      const thumbnailMarkup =
+        thumbnail
+          ? `
+            <img
+              src="${thumbnail}"
+              alt=""
+            >
+          `
+          : "NO<br>ASSET";
+
+      return `
+        <button
+          class="wwa-record"
+          type="button"
+          data-record-id="${escapeHtml(record.id)}"
+        >
+          <span>
+            <span class="wwa-record-number">
+              ${escapeHtml(record.setNumber || "No number")}
+            </span>
+
+            <span class="wwa-record-name">
+              ${escapeHtml(record.setName || "Untitled Record")}
+            </span>
+
+            <span class="wwa-record-status">
+              ${escapeHtml(
+                STATUS_LABELS[record.status] ||
+                "Planning"
+              )}
+            </span>
+
+            <span class="wwa-record-metadata">
+              ${escapeHtml(
+                formatMetadata(record) ||
+                record.world ||
+                "Metadata not entered"
+              )}
+            </span>
+          </span>
+
+          <span class="wwa-record-side">
+            <span class="wwa-record-progress">
+              ${progress}%
+            </span>
+
+            <span class="wwa-record-thumb">
+              ${thumbnailMarkup}
+            </span>
+          </span>
+        </button>
+      `;
+    }
+
+    function renderHome() {
+      const publishedCount =
+        records.filter(
+          (record) =>
+            record.status === "published"
+        ).length;
+
+      $("home-world-summary").textContent =
+        `${records.length} Records · ` +
+        `${publishedCount} Published`;
+
+      $("home-total-records").textContent =
+        records.length;
+
+      $("status-published").textContent =
+        publishedCount;
+
+      $("status-building").textContent =
+        records.filter(
+          (record) =>
+            record.status === "building"
+        ).length;
+
+      $("status-research").textContent =
+        records.filter(
+          (record) =>
+            record.status === "research"
+        ).length;
+
+      $("home-world-list").innerHTML =
+        WORLD_COLLECTIONS
+          .filter((world) => {
+            return records.some(
+              (record) =>
+                record.world === world
+            );
+          })
+          .map((world) => {
+            const worldRecords =
+              records.filter(
+                (record) =>
+                  record.world === world
+              );
+
+            const published =
+              worldRecords.filter(
+                (record) =>
+                  record.status === "published"
+              ).length;
+
+            return `
+              <button
+                class="wwa-world-row"
+                type="button"
+                data-world-filter="${escapeHtml(world)}"
+              >
+                <span>
+                  <span class="wwa-world-row-name">
+                    ${escapeHtml(world)}
+                  </span>
+
+                  <span class="wwa-world-row-meta">
+                    ${worldRecords.length} Records ·
+                    ${published} Published
+                  </span>
+                </span>
+
+                <span class="wwa-world-arrow">
+                  ›
+                </span>
+              </button>
+            `;
+          })
+          .join("");
+
+      if (
+        !$("home-world-list").innerHTML
+      ) {
+        $("home-world-list").innerHTML = `
+          <div class="wwa-empty">
+            <strong>
+              World Collection이 없습니다.
+            </strong>
+            첫 Record를 추가하면
+            이곳에 세계관별로 표시됩니다.
+          </div>
+        `;
+      }
+
+      const current =
+        [...records]
+          .filter(
+            (record) =>
+              record.status !== "published"
+          )
+          .sort((a, b) => {
+            return String(
+              b.updatedAt || ""
+            ).localeCompare(
+              String(a.updatedAt || "")
+            );
+          })[0];
+
+      $("home-current-record").innerHTML =
+        current
+          ? createRecordMarkup(current)
+          : `
+            <div class="wwa-empty">
+              <strong>
+                진행 중인 Record가 없습니다.
+              </strong>
+              Records에서 첫 Record를 추가하세요.
+            </div>
+          `;
+
+      attachRecordEvents();
+      attachWorldEvents();
+    }
+
+    function renderRecords() {
+      const search =
+        $("record-search")
+          .value
+          .trim()
+          .toLowerCase();
+
+      const status =
+        $("record-filter").value;
+
+      const filtered =
+        [...records]
+          .filter((record) => {
+            const text =
+              [
+                record.setNumber,
+                record.setName,
+                record.world
+              ]
+                .join(" ")
+                .toLowerCase();
+
+            const matchesSearch =
+              !search ||
+              text.includes(search);
+
+            const matchesStatus =
+              !status ||
+              record.status === status;
+
+            return (
+              matchesSearch &&
+              matchesStatus
+            );
+          })
+          .sort((a, b) => {
+            return String(
+              a.setNumber || ""
+            ).localeCompare(
+              String(
+                b.setNumber || ""
+              ),
               undefined,
               {
                 numeric: true
               }
             );
-        });
+          });
 
-      $("total").textContent =
-        sets.length;
+      $("records-count").textContent =
+        `${filtered.length} Records`;
 
-      $("done").textContent =
-        sets.filter((item) => {
-          return item.status === "complete";
-        }).length;
+      $("records-list").innerHTML =
+        filtered.length
+          ? filtered
+              .map(createRecordMarkup)
+              .join("")
+          : `
+            <div class="wwa-empty">
+              <strong>
+                Record가 없습니다.
+              </strong>
+              검색 조건을 바꾸거나
+              새 Record를 추가하세요.
+            </div>
+          `;
 
-      $("active").textContent =
-        sets.filter((item) => {
-          return item.status !== "complete";
-        }).length;
+      attachRecordEvents();
+    }
 
-      $("recordCount").textContent =
-        `${visibleSets.length} record${
-          visibleSets.length === 1
-            ? ""
-            : "s"
-        }`;
-
-      if (!visibleSets.length) {
-        const title = sets.length
-          ? "검색 결과가 없습니다."
-          : "첫 컬렉션 레코드를 추가하세요.";
-
-        const description = sets.length
-          ? "검색어나 상태 필터를 확인해 주세요."
-          : (
-            "WWA Book 제작에 필요한 " +
-            "세트 정보와 이미지를 관리할 수 있습니다."
-          );
-
-        $("list").innerHTML = `
-          <div class="empty">
-            <strong>${title}</strong>
-
-            ${description}
-
-            <br><br>
-
-            <button
-              type="button"
-              class="primary-btn"
-              id="emptyAdd"
-            >
-              새 레코드
-            </button>
-          </div>
-        `;
-
-        $("emptyAdd")?.addEventListener(
-          "click",
-          () => openEditor()
+    function renderAssets() {
+      const assetCounts =
+        Object.fromEntries(
+          Object.keys(ASSET_TYPES).map(
+            (key) => [key, 0]
+          )
         );
 
-        return;
-      }
+      records.forEach((record) => {
+        Object.keys(ASSET_TYPES)
+          .forEach((key) => {
+            if (record.assets?.[key]) {
+              assetCounts[key] += 1;
+            }
+          });
+      });
 
-      $("list").innerHTML =
-        visibleSets.map((item) => {
-          const progress =
-            calculateProgress(item);
+      $("asset-summary-list").innerHTML =
+        Object.entries(ASSET_TYPES)
+          .map(([key, label]) => {
+            return `
+              <div class="wwa-asset-row">
+                <strong>
+                  ${escapeHtml(label)}
+                </strong>
 
-          const thumbnail =
-            getThumbnail(item);
-
-          const pieces = item.pieceCount
-            ? (
-              `${Number(
-                item.pieceCount
-              ).toLocaleString()} pieces`
-            )
-            : "Pieces not entered";
-
-          const minifigures =
-            `${Number(
-              item.minifigureCount || 0
-            )} minifigures`;
-
-          const releaseYear =
-            item.releaseDate
-              ? `
                 <span>
-                  Released ${
-                    escapeHtml(
-                      item.releaseDate.slice(
-                        0,
-                        4
-                      )
-                    )
-                  }
+                  ${assetCounts[key]} Assets
                 </span>
-              `
-              : "";
-
-          const image = thumbnail
-            ? `
-              <img
-                src="${thumbnail}"
-                alt=""
-              >
-            `
-            : `
-              <div class="record-placeholder">
-                NO<br>ASSET
               </div>
             `;
+          })
+          .join("");
+    }
 
-          return `
-            <article class="record">
-              <div class="record-image">
-                ${image}
-              </div>
+    function renderPages() {
+      const pageRecords =
+        [...records]
+          .sort((a, b) => {
+            return String(
+              a.setNumber || ""
+            ).localeCompare(
+              String(
+                b.setNumber || ""
+              ),
+              undefined,
+              {
+                numeric: true
+              }
+            );
+          });
 
-              <div class="record-body">
-                <div class="record-kicker">
-                  <span
-                    class="status-dot ${
-                      escapeHtml(item.status)
-                    }"
-                  ></span>
+      $("pages-list").innerHTML =
+        pageRecords.length
+          ? pageRecords
+              .map((record, index) => {
+                return `
+                  <div class="wwa-page-row">
+                    <span class="wwa-page-number">
+                      ${String(index + 1)
+                        .padStart(2, "0")}
+                    </span>
 
-                  ${
-                    escapeHtml(
-                      item.setNumber ||
-                      "No number"
-                    )
-                  }
+                    <span class="wwa-page-name">
+                      ${escapeHtml(
+                        record.setName ||
+                        record.setNumber ||
+                        "Untitled Page"
+                      )}
+                    </span>
 
-                  ·
-
-                  ${statusLabel(item.status)}
-                </div>
-
-                <h4>
-                  ${
-                    escapeHtml(
-                      item.setName ||
-                      "Untitled Set"
-                    )
-                  }
-                </h4>
-
-                <div class="record-meta">
-                  <span>${pieces}</span>
-                  <span>${minifigures}</span>
-                  ${releaseYear}
-                </div>
-
-                <div class="record-progress">
-                  <div class="track">
-                    <span
-                      class="bar"
-                      style="width:${progress}%"
-                    ></span>
+                    <span class="wwa-page-state">
+                      ${escapeHtml(
+                        STATUS_LABELS[
+                          record.status
+                        ] ||
+                        "Planning"
+                      )}
+                    </span>
                   </div>
-
-                  <span class="percent">
-                    ${progress}%
-                  </span>
-                </div>
-              </div>
-
-              <div class="record-action">
-                <button
-                  class="open-btn open"
-                  type="button"
-                  data-id="${
-                    escapeHtml(item.id)
-                  }"
-                >
-                  편집
-                </button>
-              </div>
-            </article>
+                `;
+              })
+              .join("")
+          : `
+            <div class="wwa-empty">
+              <strong>
+                제작할 Page가 없습니다.
+              </strong>
+              Record를 추가하면
+              Pages 목록에 연결됩니다.
+            </div>
           `;
-        }).join("");
+    }
 
+    function renderAll() {
+      renderHome();
+      renderRecords();
+      renderAssets();
+      renderPages();
+    }
+
+    function attachRecordEvents() {
       document
-        .querySelectorAll(".open")
+        .querySelectorAll(
+          "[data-record-id]"
+        )
         .forEach((button) => {
-          button.addEventListener(
-            "click",
-            () => {
-              openEditor(
-                button.dataset.id
-              );
-            }
-          );
+          button.onclick = () => {
+            openRecordEditor(
+              button.dataset.recordId
+            );
+          };
         });
     }
 
-    function renderChecks(item) {
-      $("checks").innerHTML =
-        Object.entries(CHECKS)
+    function attachWorldEvents() {
+      document
+        .querySelectorAll(
+          "[data-world-filter]"
+        )
+        .forEach((button) => {
+          button.onclick = () => {
+            showScreen("records");
+
+            $("record-search").value =
+              button.dataset.worldFilter;
+
+            $("record-filter").value =
+              "";
+
+            renderRecords();
+          };
+        });
+    }
+
+    function showScreen(name) {
+      document
+        .querySelectorAll(
+          ".wwa-screen"
+        )
+        .forEach((screen) => {
+          screen.classList.toggle(
+            "is-active",
+            screen.dataset.screen === name
+          );
+        });
+
+      document
+        .querySelectorAll(
+          "[data-nav-screen]"
+        )
+        .forEach((button) => {
+          button.classList.toggle(
+            "is-active",
+            button.dataset.navScreen === name
+          );
+        });
+
+      window.scrollTo({
+        top: 0,
+        behavior: "instant"
+      });
+    }
+
+    function renderChecklist(record) {
+      $("checklist-container").innerHTML =
+        Object.entries(CHECKLIST)
           .map(([key, label]) => {
             const checked =
-              item?.checklist?.[key]
+              record?.checklist?.[key]
                 ? "checked"
                 : "";
 
             return `
-              <label class="check">
+              <label class="wwa-check-row">
                 <input
                   type="checkbox"
-                  data-check="${key}"
+                  data-checklist-key="${key}"
                   ${checked}
                 >
 
-                <span>${label}</span>
+                <span>${escapeHtml(label)}</span>
               </label>
             `;
           })
           .join("");
     }
 
-    function renderAssets(item) {
-      $("assets").innerHTML =
-        Object.entries(ASSETS)
+    function renderUploads(record) {
+      $("upload-container").innerHTML =
+        Object.entries(ASSET_TYPES)
           .map(([key, label]) => {
             const source =
-              item?.assets?.[key] || "";
+              record?.assets?.[key] || "";
 
             return `
-              <div class="asset">
+              <div class="wwa-upload-row">
                 <img
-                  id="preview-${key}"
+                  id="asset-preview-${key}"
+                  class="wwa-upload-preview"
                   src="${source}"
                   alt=""
                   style="${
@@ -1837,25 +2491,27 @@
                   }"
                 >
 
-                <strong>${label}</strong>
+                <strong>
+                  ${escapeHtml(label)}
+                </strong>
 
                 <input
                   type="file"
                   accept="image/*"
-                  data-asset="${key}"
+                  data-asset-key="${key}"
                 >
 
                 <button
                   type="button"
-                  class="remove"
-                  data-remove="${key}"
+                  class="wwa-upload-remove"
+                  data-remove-asset="${key}"
                   ${
                     source
                       ? ""
                       : "disabled"
                   }
                 >
-                  이미지 삭제
+                  Remove
                 </button>
               </div>
             `;
@@ -1863,87 +2519,143 @@
           .join("");
 
       document
-        .querySelectorAll("[data-remove]")
+        .querySelectorAll(
+          "[data-remove-asset]"
+        )
         .forEach((button) => {
-          button.addEventListener(
-            "click",
-            () => {
-              const preview = $(
-                "preview-" +
-                button.dataset.remove
-              );
+          button.onclick = () => {
+            const key =
+              button.dataset.removeAsset;
 
-              preview.src = "";
-              preview.style.display = "none";
-              preview.dataset.removed = "1";
+            const preview =
+              $(`asset-preview-${key}`);
 
-              button.disabled = true;
-            }
-          );
+            preview.src = "";
+            preview.style.display = "none";
+            preview.dataset.removed = "1";
+
+            delete preview.dataset.pending;
+
+            button.disabled = true;
+          };
         });
     }
 
-    function setInputValue(
-      id,
-      item,
-      key = id
-    ) {
+    function setValue(id, record, key = id) {
       $(id).value =
-        item?.[key] ?? "";
+        record?.[key] ?? "";
     }
 
-    function openEditor(id = "") {
-      const item = sets.find(
-        (set) => set.id === id
+    function openRecordEditor(id = "") {
+      const record =
+        records.find(
+          (item) => item.id === id
+        );
+
+      $("dialog-title").textContent =
+        record
+          ? "Edit Record"
+          : "New Record";
+
+      $("record-id").value =
+        record?.id || "";
+
+      setValue(
+        "set-number",
+        record,
+        "setNumber"
       );
 
-      $("dialogTitle").textContent =
-        item
-          ? "레코드 편집"
-          : "새 레코드";
+      setValue(
+        "set-name",
+        record,
+        "setName"
+      );
 
-      $("editId").value =
-        item?.id || "";
+      setValue(
+        "world-name",
+        record,
+        "world"
+      );
 
-      const fields = [
-        "setNumber",
-        "setName",
-        "releaseDate",
-        "retailPrice",
-        "pieceCount",
-        "minifigureCount",
-        "dimensions",
-        "status",
-        "purchaseDate",
-        "purchaseStore",
-        "purchasePrice",
-        "buildDate",
-        "storageStatus",
+      setValue(
+        "record-status",
+        record,
+        "status"
+      );
+
+      setValue(
+        "release-date",
+        record,
+        "releaseDate"
+      );
+
+      setValue(
+        "piece-count",
+        record,
+        "pieceCount"
+      );
+
+      setValue(
+        "minifigure-count",
+        record,
+        "minifigureCount"
+      );
+
+      setValue(
+        "set-size",
+        record,
+        "dimensions"
+      );
+
+      setValue(
+        "msrp",
+        record,
+        "retailPrice"
+      );
+
+      setValue(
+        "my-price",
+        record,
+        "purchasePrice"
+      );
+
+      setValue(
+        "purchase-date",
+        record,
+        "purchaseDate"
+      );
+
+      setValue(
+        "purchase-store",
+        record,
+        "purchaseStore"
+      );
+
+      setValue(
+        "collection-notes",
+        record,
         "notes"
-      ];
+      );
 
-      fields.forEach((field) => {
-        setInputValue(
-          field,
-          item
-        );
-      });
+      if (!record) {
+        $("world-name").value =
+          "Hogwarts";
 
-      if (!item) {
-        $("status").value =
-          "collecting";
+        $("record-status").value =
+          "planning";
       }
 
-      $("deleteBtn").hidden =
-        !item;
+      $("delete-record-button").hidden =
+        !record;
 
-      renderChecks(item);
-      renderAssets(item);
+      renderChecklist(record);
+      renderUploads(record);
 
       dialog.showModal();
 
       setTimeout(() => {
-        $("setNumber").focus();
+        $("set-number").focus();
       }, 100);
     }
 
@@ -2016,7 +2728,7 @@
 
       if (!context) {
         throw new Error(
-          "Canvas unavailable"
+          "이미지를 처리할 수 없습니다."
         );
       }
 
@@ -2037,10 +2749,13 @@
     document.addEventListener(
       "change",
       async (event) => {
-        const input = event.target;
+        const input =
+          event.target;
 
         if (
-          !input.matches("[data-asset]") ||
+          !input.matches(
+            "[data-asset-key]"
+          ) ||
           !input.files?.[0]
         ) {
           return;
@@ -2052,10 +2767,11 @@
               input.files[0]
             );
 
-          const preview = $(
-            "preview-" +
-            input.dataset.asset
-          );
+          const key =
+            input.dataset.assetKey;
+
+          const preview =
+            $(`asset-preview-${key}`);
 
           preview.src = source;
           preview.style.display = "block";
@@ -2066,9 +2782,7 @@
 
           const removeButton =
             document.querySelector(
-              `[data-remove="${
-                input.dataset.asset
-              }"]`
+              `[data-remove-asset="${key}"]`
             );
 
           if (removeButton) {
@@ -2076,52 +2790,54 @@
               false;
           }
 
-          toast(
-            "사진을 최적화했습니다"
+          showToast(
+            "Asset optimized"
           );
         } catch (error) {
           console.error(error);
 
           alert(
-            "사진을 처리하지 못했습니다."
+            "이미지를 처리하지 못했습니다."
           );
         }
       }
     );
 
-    form.addEventListener(
+    recordForm.addEventListener(
       "submit",
       (event) => {
         event.preventDefault();
 
         const id =
-          $("editId").value;
+          $("record-id").value;
 
-        const oldItem = sets.find(
-          (item) => item.id === id
-        );
+        const oldRecord =
+          records.find(
+            (record) =>
+              record.id === id
+          );
 
         const checklist = {};
 
         document
           .querySelectorAll(
-            "[data-check]"
+            "[data-checklist-key]"
           )
           .forEach((checkbox) => {
             checklist[
-              checkbox.dataset.check
+              checkbox.dataset
+                .checklistKey
             ] = checkbox.checked;
           });
 
         const assets = {
-          ...(oldItem?.assets || {})
+          ...(oldRecord?.assets || {})
         };
 
-        Object.keys(ASSETS)
+        Object.keys(ASSET_TYPES)
           .forEach((key) => {
-            const preview = $(
-              "preview-" + key
-            );
+            const preview =
+              $(`asset-preview-${key}`);
 
             if (
               preview.dataset.removed
@@ -2138,266 +2854,323 @@
         const now =
           new Date().toISOString();
 
-        const item = {
+        const record = {
           id:
             id ||
-            crypto.randomUUID?.() ||
-            `${Date.now()}-${Math.random()}`,
+            createId(),
 
           setNumber:
-            $("setNumber")
+            $("set-number")
               .value
               .trim(),
 
           setName:
-            $("setName")
+            $("set-name")
               .value
               .trim(),
 
-          releaseDate:
-            $("releaseDate").value,
-
-          retailPrice:
-            $("retailPrice").value,
-
-          pieceCount:
-            $("pieceCount").value,
-
-          minifigureCount:
-            $("minifigureCount").value,
-
-          dimensions:
-            $("dimensions")
-              .value
-              .trim(),
+          world:
+            $("world-name").value,
 
           status:
-            $("status").value,
+            $("record-status").value,
 
-          purchaseDate:
-            $("purchaseDate").value,
+          releaseDate:
+            $("release-date").value,
 
-          purchaseStore:
-            $("purchaseStore")
+          pieceCount:
+            $("piece-count").value,
+
+          minifigureCount:
+            $("minifigure-count").value,
+
+          dimensions:
+            $("set-size")
               .value
               .trim(),
 
+          retailPrice:
+            $("msrp").value,
+
           purchasePrice:
-            $("purchasePrice").value,
+            $("my-price").value,
 
-          buildDate:
-            $("buildDate").value,
+          purchaseDate:
+            $("purchase-date").value,
 
-          storageStatus:
-            $("storageStatus")
+          purchaseStore:
+            $("purchase-store")
               .value
               .trim(),
 
           notes:
-            $("notes")
+            $("collection-notes")
               .value
               .trim(),
 
           checklist,
           assets,
-          updatedAt: now,
+
           createdAt:
-            oldItem?.createdAt || now
+            oldRecord?.createdAt ||
+            now,
+
+          updatedAt: now
         };
 
-        sets = oldItem
-          ? sets.map((set) => {
-            return set.id === id
-              ? item
-              : set;
-          })
-          : [item, ...sets];
+        records =
+          oldRecord
+            ? records.map(
+                (item) =>
+                  item.id === id
+                    ? record
+                    : item
+              )
+            : [
+                record,
+                ...records
+              ];
 
-        persist();
+        saveRecords();
         dialog.close();
       }
     );
 
-    $("deleteBtn").addEventListener(
-      "click",
-      () => {
-        const id =
-          $("editId").value;
+    $("delete-record-button")
+      .addEventListener(
+        "click",
+        () => {
+          const id =
+            $("record-id").value;
 
-        const item = sets.find(
-          (set) => set.id === id
-        );
+          const record =
+            records.find(
+              (item) =>
+                item.id === id
+            );
 
-        if (!item) {
-          return;
-        }
-
-        const confirmed = confirm(
-          `${item.setNumber} · ` +
-          `${item.setName}\n` +
-          "삭제할까요?"
-        );
-
-        if (!confirmed) {
-          return;
-        }
-
-        sets = sets.filter(
-          (set) => set.id !== id
-        );
-
-        persist();
-        dialog.close();
-      }
-    );
-
-    $("backup").addEventListener(
-      "click",
-      () => {
-        const backupData = {
-          app: "WWA Manager",
-          version: 3,
-          exportedAt:
-            new Date().toISOString(),
-          sets
-        };
-
-        const blob = new Blob(
-          [
-            JSON.stringify(
-              backupData,
-              null,
-              2
-            )
-          ],
-          {
-            type: "application/json"
+          if (!record) {
+            return;
           }
-        );
 
-        const link =
-          document.createElement("a");
-
-        link.href =
-          URL.createObjectURL(blob);
-
-        link.download =
-          `WWA_Manager_${
-            new Date()
-              .toISOString()
-              .slice(0, 10)
-          }.json`;
-
-        link.click();
-
-        URL.revokeObjectURL(
-          link.href
-        );
-
-        toast(
-          "백업 파일을 만들었습니다"
-        );
-      }
-    );
-
-    $("restore").addEventListener(
-      "change",
-      async (event) => {
-        const file =
-          event.target.files?.[0];
-
-        if (!file) {
-          return;
-        }
-
-        try {
-          const parsed = JSON.parse(
-            await file.text()
-          );
-
-          const incoming = normalize(
-            Array.isArray(parsed)
-              ? parsed
-              : parsed.sets
-          );
-
-          const confirmed = confirm(
-            `${incoming.length}개 세트로 ` +
-            "현재 데이터를 교체할까요?"
-          );
+          const confirmed =
+            confirm(
+              `${record.setNumber} · ` +
+              `${record.setName}\n` +
+              "삭제할까요?"
+            );
 
           if (!confirmed) {
             return;
           }
 
-          sets = incoming;
+          records =
+            records.filter(
+              (item) =>
+                item.id !== id
+            );
 
-          persist();
-        } catch (error) {
-          console.error(error);
-
-          alert(
-            "올바른 WWA Manager " +
-            "백업 파일이 아닙니다."
-          );
-        } finally {
-          event.target.value = "";
+          saveRecords("Deleted");
+          dialog.close();
         }
-      }
-    );
+      );
 
-    function toast(message) {
-      const element =
+    $("backup-button")
+      .addEventListener(
+        "click",
+        () => {
+          const backup = {
+            app: "WWA Manager",
+            version: "0.4-dev",
+            exportedAt:
+              new Date().toISOString(),
+            records
+          };
+
+          const blob =
+            new Blob(
+              [
+                JSON.stringify(
+                  backup,
+                  null,
+                  2
+                )
+              ],
+              {
+                type:
+                  "application/json"
+              }
+            );
+
+          const link =
+            document.createElement(
+              "a"
+            );
+
+          link.href =
+            URL.createObjectURL(
+              blob
+            );
+
+          link.download =
+            `WWA_Manager_${
+              new Date()
+                .toISOString()
+                .slice(0, 10)
+            }.json`;
+
+          link.click();
+
+          URL.revokeObjectURL(
+            link.href
+          );
+
+          showToast(
+            "Backup created"
+          );
+        }
+      );
+
+    $("restore-input")
+      .addEventListener(
+        "change",
+        async (event) => {
+          const file =
+            event.target.files?.[0];
+
+          if (!file) {
+            return;
+          }
+
+          try {
+            const parsed =
+              JSON.parse(
+                await file.text()
+              );
+
+            const incoming =
+              normalizeRecords(
+                parsed.records ||
+                parsed.sets ||
+                parsed
+              );
+
+            const confirmed =
+              confirm(
+                `${incoming.length}개 Record로 ` +
+                "현재 데이터를 교체할까요?"
+              );
+
+            if (!confirmed) {
+              return;
+            }
+
+            records = incoming;
+
+            saveRecords(
+              "Backup restored"
+            );
+          } catch (error) {
+            console.error(error);
+
+            alert(
+              "올바른 WWA Manager " +
+              "백업 파일이 아닙니다."
+            );
+          } finally {
+            event.target.value = "";
+          }
+        }
+      );
+
+    function showToast(message) {
+      const toast =
         $("toast");
 
-      element.textContent =
+      toast.textContent =
         message;
 
-      element.classList.add(
-        "show"
+      toast.classList.add(
+        "is-visible"
       );
 
       clearTimeout(
-        toast.timer
+        showToast.timer
       );
 
-      toast.timer =
+      showToast.timer =
         setTimeout(() => {
-          element.classList.remove(
-            "show"
+          toast.classList.remove(
+            "is-visible"
           );
-        }, 1800);
+        }, 1700);
     }
 
-    $("addBtn").addEventListener(
-      "click",
-      () => openEditor()
-    );
+    document
+      .querySelectorAll(
+        "[data-nav-screen]"
+      )
+      .forEach((button) => {
+        button.addEventListener(
+          "click",
+          () => {
+            showScreen(
+              button.dataset.navScreen
+            );
+          }
+        );
+      });
 
-    $("addBtnWide").addEventListener(
-      "click",
-      () => openEditor()
-    );
+    document
+      .querySelectorAll(
+        "[data-go-screen]"
+      )
+      .forEach((button) => {
+        button.addEventListener(
+          "click",
+          () => {
+            showScreen(
+              button.dataset.goScreen
+            );
+          }
+        );
+      });
 
-    $("close").addEventListener(
-      "click",
-      () => dialog.close()
-    );
+    $("add-record-button")
+      .addEventListener(
+        "click",
+        () => {
+          openRecordEditor();
+        }
+      );
 
-    $("cancel").addEventListener(
-      "click",
-      () => dialog.close()
-    );
+    $("dialog-close-button")
+      .addEventListener(
+        "click",
+        () => {
+          dialog.close();
+        }
+      );
 
-    $("search").addEventListener(
-      "input",
-      render
-    );
+    $("dialog-cancel-button")
+      .addEventListener(
+        "click",
+        () => {
+          dialog.close();
+        }
+      );
 
-    $("filter").addEventListener(
-      "change",
-      render
-    );
+    $("record-search")
+      .addEventListener(
+        "input",
+        renderRecords
+      );
+
+    $("record-filter")
+      .addEventListener(
+        "change",
+        renderRecords
+      );
 
     dialog.addEventListener(
       "click",
@@ -2410,7 +3183,7 @@
       }
     );
 
-    render();
+    renderAll();
   </script>
 </body>
 </html>
