@@ -1,12 +1,1507 @@
-from pathlib import Path
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+  <meta name="theme-color" content="#1A2A44">
+  <title>WWA Manager</title>
 
-src = Path("/mnt/data/WWA_Manager_Standalone.html")
-dst = Path("/mnt/data/WWA_Manager_v0_1_mobile.html")
+  <style>
+    :root {
+      --blue-hour: #1A2A44;
+      --patronus-blue: #7FB7E6;
+      --moon-silver: #C7CCD6;
+      --castle-stone: #6F7682;
+      --winter-white: #F8F8F5;
+      --white: #FFFFFF;
+      --danger: #B44A4A;
+      --success: #2D7A4C;
+      --shadow: 0 8px 24px rgba(26, 42, 68, 0.08);
+    }
 
-if not src.exists():
-    raise FileNotFoundError("기존 단일 HTML 파일을 찾지 못했습니다.")
+    * {
+      box-sizing: border-box;
+    }
 
-html = src.read_text(encoding="utf-8")
-html = html.replace("<title>WWA Manager</title>", "<title>WWA Manager v0.1</title>")
-dst.write_text(html, encoding="utf-8")
-print(dst)
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--winter-white);
+      color: var(--blue-hour);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans KR",
+        sans-serif;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      min-height: 46px;
+      border: 0;
+      border-radius: 14px;
+      padding: 11px 16px;
+      background: var(--blue-hour);
+      color: var(--white);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      border: 1px solid var(--moon-silver);
+      background: var(--white);
+      color: var(--blue-hour);
+    }
+
+    button.danger {
+      background: var(--danger);
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding:
+        calc(18px + env(safe-area-inset-top))
+        14px
+        calc(80px + env(safe-area-inset-bottom));
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--blue-hour);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: var(--castle-stone);
+      font-size: 12px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr 140px;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .toolbar input,
+    .toolbar select,
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid var(--moon-silver);
+      border-radius: 14px;
+      padding: 11px 13px;
+      background: var(--white);
+      color: var(--blue-hour);
+      font-size: 16px;
+    }
+
+    .field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .stat {
+      border: 1px solid #E5E8EE;
+      border-radius: 18px;
+      padding: 15px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 7px;
+      color: var(--castle-stone);
+      font-size: 13px;
+    }
+
+    .set-list {
+      display: grid;
+      gap: 13px;
+    }
+
+    .set-card {
+      border: 1px solid #E5E8EE;
+      border-radius: 20px;
+      padding: 15px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .card-main {
+      display: flex;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .thumbnail {
+      width: 82px;
+      height: 82px;
+      flex: 0 0 auto;
+      border: 1px solid #DDE2EA;
+      border-radius: 15px;
+      background: #EEF2F7;
+      object-fit: cover;
+    }
+
+    .thumbnail.placeholder {
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+    }
+
+    .card-copy {
+      min-width: 0;
+    }
+
+    .card-copy h2 {
+      margin: 1px 0 6px;
+      font-size: 19px;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .meta {
+      color: var(--castle-stone);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .badge {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .status-collecting {
+      background: #EEF4FB;
+      color: #366F9E;
+    }
+
+    .status-designing {
+      background: #F4F0FA;
+      color: #6D4A8A;
+    }
+
+    .status-review {
+      background: #FFF7E7;
+      color: #9A6C00;
+    }
+
+    .status-complete {
+      background: #EAF6EC;
+      color: var(--success);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .progress-track {
+      height: 10px;
+      flex: 1;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #E9EDF2;
+    }
+
+    .progress-bar {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--patronus-blue);
+    }
+
+    .progress-number {
+      width: 42px;
+      color: var(--castle-stone);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .empty {
+      border: 1px dashed var(--moon-silver);
+      border-radius: 20px;
+      padding: 52px 20px;
+      background: var(--white);
+      color: var(--castle-stone);
+      text-align: center;
+    }
+
+    .utility-bar {
+      display: flex;
+      gap: 9px;
+      margin-top: 16px;
+    }
+
+    .upload-label {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--moon-silver);
+      border-radius: 14px;
+      padding: 11px 16px;
+      background: var(--white);
+      color: var(--blue-hour);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    dialog {
+      width: min(700px, calc(100vw - 18px));
+      max-height: 94vh;
+      border: 0;
+      border-radius: 22px;
+      padding: 0;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 26px 90px rgba(26, 42, 68, 0.32);
+    }
+
+    dialog::backdrop {
+      background: rgba(26, 42, 68, 0.55);
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding:
+        calc(16px + env(safe-area-inset-top))
+        16px
+        16px;
+      background: var(--blue-hour);
+      color: var(--white);
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .modal-body {
+      max-height: calc(94vh - 74px);
+      overflow-y: auto;
+      padding: 17px 16px calc(20px + env(safe-area-inset-bottom));
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      color: var(--castle-stone);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .section h3 {
+      margin: 0 0 11px;
+      font-size: 18px;
+    }
+
+    .section-note {
+      margin: -3px 0 12px;
+      color: var(--castle-stone);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .check-item {
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid #E4E8EF;
+      border-radius: 13px;
+      padding: 10px;
+      background: #F6F8FB;
+      font-size: 14px;
+    }
+
+    .check-item input {
+      width: 20px;
+      height: 20px;
+    }
+
+    .asset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+    }
+
+    .asset-card {
+      border: 1px dashed var(--moon-silver);
+      border-radius: 16px;
+      padding: 10px;
+      background: #FBFCFE;
+    }
+
+    .asset-preview {
+      width: 100%;
+      height: 150px;
+      display: none;
+      border-radius: 11px;
+      background: #EEF2F7;
+      object-fit: cover;
+    }
+
+    .asset-card strong {
+      display: block;
+      margin: 9px 0 7px;
+      font-size: 14px;
+    }
+
+    .asset-card input {
+      width: 100%;
+      font-size: 13px;
+    }
+
+    .asset-card .remove-image {
+      width: 100%;
+      min-height: 38px;
+      margin-top: 8px;
+      padding: 7px 9px;
+      font-size: 12px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 17px;
+      border-top: 1px solid #E5E8EE;
+    }
+
+    .right-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    @media (max-width: 560px) {
+      .toolbar,
+      .form-grid,
+      .check-grid,
+      .asset-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .brand p {
+        display: none;
+      }
+
+      .thumbnail {
+        width: 74px;
+        height: 74px;
+      }
+
+      .card-copy h2 {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">WWA</div>
+
+        <div>
+          <h1>WWA Manager</h1>
+          <p>Wizarding World LEGO Archive · v0.2</p>
+        </div>
+      </div>
+
+      <button id="addSetButton">+ 추가</button>
+    </header>
+
+    <section class="toolbar">
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="세트번호 또는 세트명 검색"
+      >
+
+      <select id="statusFilter">
+        <option value="">전체 상태</option>
+        <option value="collecting">자료수집</option>
+        <option value="designing">제작중</option>
+        <option value="review">검토중</option>
+        <option value="complete">완료</option>
+      </select>
+    </section>
+
+    <section class="stats">
+      <div class="stat">
+        <strong id="totalCount">0</strong>
+        <span>총 세트</span>
+      </div>
+
+      <div class="stat">
+        <strong id="completeCount">0</strong>
+        <span>완료</span>
+      </div>
+    </section>
+
+    <section id="setList" class="set-list"></section>
+
+    <div class="utility-bar">
+      <button id="backupButton" class="secondary">백업</button>
+
+      <label for="restoreInput" class="upload-label">
+        복원
+      </label>
+
+      <input
+        id="restoreInput"
+        type="file"
+        accept=".json,application/json"
+        hidden
+      >
+    </div>
+  </main>
+
+  <dialog id="setDialog">
+    <div class="modal-header">
+      <h2 id="dialogTitle">세트 추가</h2>
+      <button id="closeDialogButton" class="secondary" type="button">
+        닫기
+      </button>
+    </div>
+
+    <form id="setForm" class="modal-body">
+      <input id="editId" type="hidden">
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="setNumber">세트번호</label>
+          <input
+            id="setNumber"
+            required
+            inputmode="numeric"
+            placeholder="예: 76417"
+          >
+        </div>
+
+        <div class="field">
+          <label for="setName">세트명</label>
+          <input
+            id="setName"
+            required
+            placeholder="예: 그린고트 마법 은행"
+          >
+        </div>
+
+        <div class="field">
+          <label for="releaseDate">출시일</label>
+          <input id="releaseDate" type="date">
+        </div>
+
+        <div class="field">
+          <label for="retailPrice">출시 정가(₩)</label>
+          <input
+            id="retailPrice"
+            type="number"
+            inputmode="numeric"
+            min="0"
+            step="100"
+          >
+        </div>
+
+        <div class="field">
+          <label for="pieceCount">피스 수</label>
+          <input
+            id="pieceCount"
+            type="number"
+            inputmode="numeric"
+            min="0"
+          >
+        </div>
+
+        <div class="field">
+          <label for="minifigureCount">미니피겨 수</label>
+          <input
+            id="minifigureCount"
+            type="number"
+            inputmode="numeric"
+            min="0"
+          >
+        </div>
+
+        <div class="field">
+          <label for="dimensions">크기</label>
+          <input
+            id="dimensions"
+            placeholder="예: 32 × 25 × 75 cm"
+          >
+        </div>
+
+        <div class="field">
+          <label for="status">진행 상태</label>
+          <select id="status">
+            <option value="collecting">자료수집</option>
+            <option value="designing">제작중</option>
+            <option value="review">검토중</option>
+            <option value="complete">완료</option>
+          </select>
+        </div>
+      </div>
+
+      <section class="section">
+        <h3>My Collection</h3>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="purchaseDate">구매일</label>
+            <input id="purchaseDate" type="date">
+          </div>
+
+          <div class="field">
+            <label for="purchaseStore">구매처</label>
+            <input id="purchaseStore">
+          </div>
+
+          <div class="field">
+            <label for="purchasePrice">구매금액(₩)</label>
+            <input
+              id="purchasePrice"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="field">
+            <label for="buildDate">조립일</label>
+            <input id="buildDate" type="date">
+          </div>
+
+          <div class="field">
+            <label for="storageStatus">보관상태</label>
+            <input
+              id="storageStatus"
+              placeholder="예: 조립완료 / 박스보관"
+            >
+          </div>
+
+          <div class="field full">
+            <label for="notes">비고</label>
+            <textarea id="notes"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h3>자료 체크리스트</h3>
+        <div id="checklistGrid" class="check-grid"></div>
+      </section>
+
+      <section class="section">
+        <h3>Assets</h3>
+
+        <p class="section-note">
+          아이폰 사진 앱에서 이미지를 선택할 수 있어요.
+          대표 썸네일은 조립 완성 사진, 박스 사진 순으로 표시됩니다.
+        </p>
+
+        <div id="assetGrid" class="asset-grid"></div>
+      </section>
+
+      <div class="modal-actions">
+        <button
+          id="deleteSetButton"
+          class="danger"
+          type="button"
+          hidden
+        >
+          삭제
+        </button>
+
+        <div class="right-actions">
+          <button
+            id="cancelButton"
+            class="secondary"
+            type="button"
+          >
+            취소
+          </button>
+
+          <button type="submit">
+            저장
+          </button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const STORAGE_KEY = "wwa-manager-v02";
+
+    const PREVIOUS_STORAGE_KEYS = [
+      "wwa-manager-v01",
+      "wwa-manager-v1"
+    ];
+
+    const CHECKLIST_LABELS = {
+      box: "박스 사진",
+      product: "조립 완성 사진",
+      detail: "디테일 사진",
+      minifigures: "미니피겨",
+      blueprint: "가설계도/도면",
+      movie: "영화 장면",
+      goods: "굿즈",
+      page: "페이지 제작",
+      review: "검토",
+      final: "최종 완료"
+    };
+
+    const ASSET_LABELS = {
+      box: "박스 사진",
+      product: "조립 완성 사진",
+      detail: "디테일 사진",
+      minifigures: "미니피겨",
+      blueprint: "가설계도/도면",
+      movie: "영화 장면",
+      goods: "굿즈"
+    };
+
+    const element = (id) => document.getElementById(id);
+
+    const setList = element("setList");
+    const setDialog = element("setDialog");
+    const setForm = element("setForm");
+
+    let sets = loadSets();
+
+    function loadSets() {
+      try {
+        const currentData = localStorage.getItem(STORAGE_KEY);
+
+        if (currentData) {
+          return JSON.parse(currentData);
+        }
+
+        for (const oldKey of PREVIOUS_STORAGE_KEYS) {
+          const oldData = localStorage.getItem(oldKey);
+
+          if (oldData) {
+            const parsedData = JSON.parse(oldData);
+
+            localStorage.setItem(
+              STORAGE_KEY,
+              JSON.stringify(parsedData)
+            );
+
+            return parsedData;
+          }
+        }
+      } catch (error) {
+        console.error("저장 데이터를 읽지 못했습니다.", error);
+      }
+
+      return [];
+    }
+
+    function saveSets() {
+      try {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(sets)
+        );
+
+        renderSets();
+      } catch (error) {
+        alert(
+          "저장 공간이 부족합니다. 큰 사진을 줄이거나 백업 후 일부 이미지를 삭제해 주세요."
+        );
+      }
+    }
+
+    function statusLabel(status) {
+      const labels = {
+        collecting: "자료수집",
+        designing: "제작중",
+        review: "검토중",
+        complete: "완료"
+      };
+
+      return labels[status] || "자료수집";
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(
+        /[&<>"']/g,
+        (character) => {
+          const entities = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+          };
+
+          return entities[character];
+        }
+      );
+    }
+
+    function calculateProgress(item) {
+      const checklistValues = Object.values(
+        item.checklist || {}
+      );
+
+      if (!checklistValues.length) {
+        return 0;
+      }
+
+      const completedCount = checklistValues.filter(
+        Boolean
+      ).length;
+
+      return Math.round(
+        (completedCount / checklistValues.length) * 100
+      );
+    }
+
+    function getThumbnail(item) {
+      const assets = item.assets || {};
+
+      return (
+        assets.product ||
+        assets.box ||
+        assets.detail ||
+        ""
+      );
+    }
+
+    function renderSets() {
+      const searchText = element("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+      const selectedStatus =
+        element("statusFilter").value;
+
+      const visibleSets = sets.filter((item) => {
+        const number = String(
+          item.setNumber || ""
+        ).toLowerCase();
+
+        const name = String(
+          item.setName || ""
+        ).toLowerCase();
+
+        const matchesSearch =
+          !searchText ||
+          number.includes(searchText) ||
+          name.includes(searchText);
+
+        const matchesStatus =
+          !selectedStatus ||
+          item.status === selectedStatus;
+
+        return matchesSearch && matchesStatus;
+      });
+
+      element("totalCount").textContent = sets.length;
+
+      element("completeCount").textContent =
+        sets.filter(
+          (item) => item.status === "complete"
+        ).length;
+
+      if (!visibleSets.length) {
+        setList.innerHTML = `
+          <div class="empty">
+            등록된 세트가 없습니다.
+            <br><br>
+            <button type="button" onclick="openEditor()">
+              첫 세트 추가
+            </button>
+          </div>
+        `;
+
+        return;
+      }
+
+      setList.innerHTML = visibleSets
+        .map((item) => {
+          const progress = calculateProgress(item);
+          const thumbnail = getThumbnail(item);
+
+          const pieceText = item.pieceCount
+            ? `${Number(item.pieceCount).toLocaleString()} pcs`
+            : "피스 수 미입력";
+
+          const figureText =
+            `${item.minifigureCount || 0} figures`;
+
+          const thumbnailMarkup = thumbnail
+            ? `
+              <img
+                class="thumbnail"
+                src="${thumbnail}"
+                alt=""
+              >
+            `
+            : `
+              <div class="thumbnail placeholder">
+                🧱
+              </div>
+            `;
+
+          return `
+            <article class="set-card">
+              <div class="card-top">
+                <div class="card-main">
+                  ${thumbnailMarkup}
+
+                  <div class="card-copy">
+                    <h2>
+                      ${escapeHtml(item.setNumber)}
+                      ·
+                      ${escapeHtml(item.setName)}
+                    </h2>
+
+                    <div class="meta">
+                      ${pieceText}
+                      ·
+                      ${figureText}
+                    </div>
+                  </div>
+                </div>
+
+                <span
+                  class="badge status-${item.status}"
+                >
+                  ${statusLabel(item.status)}
+                </span>
+              </div>
+
+              <div class="progress-row">
+                <div class="progress-track">
+                  <span
+                    class="progress-bar"
+                    style="width: ${progress}%"
+                  ></span>
+                </div>
+
+                <span class="progress-number">
+                  ${progress}%
+                </span>
+              </div>
+
+              <div class="card-actions">
+                <button
+                  class="secondary"
+                  type="button"
+                  onclick="openEditor('${item.id}')"
+                >
+                  열기
+                </button>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+    }
+
+    window.openEditor = function openEditor(id = "") {
+      const currentItem = sets.find(
+        (item) => item.id === id
+      );
+
+      element("dialogTitle").textContent =
+        currentItem ? "세트 수정" : "세트 추가";
+
+      element("editId").value =
+        currentItem?.id || "";
+
+      element("setNumber").value =
+        currentItem?.setNumber || "";
+
+      element("setName").value =
+        currentItem?.setName || "";
+
+      element("releaseDate").value =
+        currentItem?.releaseDate || "";
+
+      element("retailPrice").value =
+        currentItem?.retailPrice || "";
+
+      element("pieceCount").value =
+        currentItem?.pieceCount ||
+        currentItem?.pieces ||
+        "";
+
+      element("minifigureCount").value =
+        currentItem?.minifigureCount ||
+        currentItem?.minifigures ||
+        "";
+
+      element("dimensions").value =
+        currentItem?.dimensions || "";
+
+      element("status").value =
+        currentItem?.status || "collecting";
+
+      element("purchaseDate").value =
+        currentItem?.purchaseDate || "";
+
+      element("purchaseStore").value =
+        currentItem?.purchaseStore || "";
+
+      element("purchasePrice").value =
+        currentItem?.purchasePrice || "";
+
+      element("buildDate").value =
+        currentItem?.buildDate || "";
+
+      element("storageStatus").value =
+        currentItem?.storageStatus || "";
+
+      element("notes").value =
+        currentItem?.notes || "";
+
+      element("deleteSetButton").hidden =
+        !currentItem;
+
+      const checklist =
+        currentItem?.checklist || {};
+
+      element("checklistGrid").innerHTML =
+        Object.entries(CHECKLIST_LABELS)
+          .map(([key, label]) => {
+            const checked = checklist[key]
+              ? "checked"
+              : "";
+
+            return `
+              <label class="check-item">
+                <input
+                  type="checkbox"
+                  data-checklist="${key}"
+                  ${checked}
+                >
+
+                <span>${label}</span>
+              </label>
+            `;
+          })
+          .join("");
+
+      const assets =
+        currentItem?.assets || {};
+
+      element("assetGrid").innerHTML =
+        Object.entries(ASSET_LABELS)
+          .map(([key, label]) => {
+            const source = assets[key] || "";
+            const displayStyle = source
+              ? "display:block"
+              : "";
+
+            const disabled = source
+              ? ""
+              : "disabled";
+
+            return `
+              <div class="asset-card">
+                <img
+                  id="asset-preview-${key}"
+                  class="asset-preview"
+                  src="${source}"
+                  alt=""
+                  style="${displayStyle}"
+                >
+
+                <strong>${label}</strong>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  data-asset-input="${key}"
+                >
+
+                <button
+                  type="button"
+                  class="secondary remove-image"
+                  data-remove-image="${key}"
+                  ${disabled}
+                >
+                  이미지 삭제
+                </button>
+              </div>
+            `;
+          })
+          .join("");
+
+      document
+        .querySelectorAll("[data-remove-image]")
+        .forEach((button) => {
+          button.addEventListener(
+            "click",
+            () => {
+              const key =
+                button.dataset.removeImage;
+
+              const preview = element(
+                `asset-preview-${key}`
+              );
+
+              preview.src = "";
+              preview.style.display = "none";
+              preview.dataset.removed = "true";
+
+              button.disabled = true;
+            }
+          );
+        });
+
+      setDialog.showModal();
+    };
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.addEventListener(
+          "load",
+          () => resolve(reader.result)
+        );
+
+        reader.addEventListener(
+          "error",
+          () => reject(reader.error)
+        );
+
+        reader.readAsDataURL(file);
+      });
+    }
+
+    document.addEventListener(
+      "change",
+      async (event) => {
+        const input = event.target;
+
+        if (
+          !input.matches("[data-asset-input]") ||
+          !input.files?.[0]
+        ) {
+          return;
+        }
+
+        const key = input.dataset.assetInput;
+        const dataUrl = await fileToDataUrl(
+          input.files[0]
+        );
+
+        const preview = element(
+          `asset-preview-${key}`
+        );
+
+        preview.src = dataUrl;
+        preview.style.display = "block";
+
+        delete preview.dataset.removed;
+
+        const removeButton =
+          document.querySelector(
+            `[data-remove-image="${key}"]`
+          );
+
+        removeButton.disabled = false;
+      }
+    );
+
+    setForm.addEventListener(
+      "submit",
+      async (event) => {
+        event.preventDefault();
+
+        const id = element("editId").value;
+
+        const existingItem = sets.find(
+          (item) => item.id === id
+        );
+
+        const checklist = {};
+
+        document
+          .querySelectorAll("[data-checklist]")
+          .forEach((checkbox) => {
+            checklist[
+              checkbox.dataset.checklist
+            ] = checkbox.checked;
+          });
+
+        const assets = {
+          ...(existingItem?.assets || {})
+        };
+
+        for (
+          const input of document.querySelectorAll(
+            "[data-asset-input]"
+          )
+        ) {
+          const key = input.dataset.assetInput;
+
+          const preview = element(
+            `asset-preview-${key}`
+          );
+
+          if (
+            preview.dataset.removed === "true"
+          ) {
+            delete assets[key];
+          } else if (input.files?.[0]) {
+            assets[key] = await fileToDataUrl(
+              input.files[0]
+            );
+          }
+        }
+
+        const newItem = {
+          id:
+            id ||
+            (
+              window.crypto?.randomUUID
+                ? crypto.randomUUID()
+                : `${Date.now()}-${Math.random()}`
+            ),
+
+          setNumber:
+            element("setNumber")
+              .value
+              .trim(),
+
+          setName:
+            element("setName")
+              .value
+              .trim(),
+
+          releaseDate:
+            element("releaseDate").value,
+
+          retailPrice:
+            element("retailPrice").value,
+
+          pieceCount:
+            element("pieceCount").value,
+
+          minifigureCount:
+            element("minifigureCount").value,
+
+          dimensions:
+            element("dimensions")
+              .value
+              .trim(),
+
+          status:
+            element("status").value,
+
+          purchaseDate:
+            element("purchaseDate").value,
+
+          purchaseStore:
+            element("purchaseStore")
+              .value
+              .trim(),
+
+          purchasePrice:
+            element("purchasePrice").value,
+
+          buildDate:
+            element("buildDate").value,
+
+          storageStatus:
+            element("storageStatus")
+              .value
+              .trim(),
+
+          notes:
+            element("notes")
+              .value
+              .trim(),
+
+          checklist,
+          assets,
+
+          updatedAt:
+            new Date().toISOString()
+        };
+
+        if (existingItem) {
+          sets = sets.map((item) =>
+            item.id === id ? newItem : item
+          );
+        } else {
+          sets.unshift(newItem);
+        }
+
+        saveSets();
+        setDialog.close();
+      }
+    );
+
+    element("deleteSetButton")
+      .addEventListener(
+        "click",
+        () => {
+          const id = element("editId").value;
+
+          if (
+            id &&
+            confirm("이 세트를 삭제할까요?")
+          ) {
+            sets = sets.filter(
+              (item) => item.id !== id
+            );
+
+            saveSets();
+            setDialog.close();
+          }
+        }
+      );
+
+    element("addSetButton")
+      .addEventListener(
+        "click",
+        () => window.openEditor()
+      );
+
+    element("closeDialogButton")
+      .addEventListener(
+        "click",
+        () => setDialog.close()
+      );
+
+    element("cancelButton")
+      .addEventListener(
+        "click",
+        () => setDialog.close()
+      );
+
+    element("searchInput")
+      .addEventListener(
+        "input",
+        renderSets
+      );
+
+    element("statusFilter")
+      .addEventListener(
+        "change",
+        renderSets
+      );
+
+    element("backupButton")
+      .addEventListener(
+        "click",
+        () => {
+          const backupData = {
+            version: "0.2",
+            exportedAt:
+              new Date().toISOString(),
+            sets
+          };
+
+          const blob = new Blob(
+            [
+              JSON.stringify(
+                backupData,
+                null,
+                2
+              )
+            ],
+            {
+              type: "application/json"
+            }
+          );
+
+          const downloadLink =
+            document.createElement("a");
+
+          downloadLink.href =
+            URL.createObjectURL(blob);
+
+          downloadLink.download =
+            `wwa-manager-backup-${
+              new Date()
+                .toISOString()
+                .slice(0, 10)
+            }.json`;
+
+          downloadLink.click();
+
+          URL.revokeObjectURL(
+            downloadLink.href
+          );
+        }
+      );
+
+    element("restoreInput")
+      .addEventListener(
+        "change",
+        async (event) => {
+          const file =
+            event.target.files?.[0];
+
+          if (!file) {
+            return;
+          }
+
+          try {
+            const parsed = JSON.parse(
+              await file.text()
+            );
+
+            const incomingSets =
+              Array.isArray(parsed)
+                ? parsed
+                : parsed.sets;
+
+            if (!Array.isArray(incomingSets)) {
+              throw new Error(
+                "올바른 백업 형식이 아닙니다."
+              );
+            }
+
+            const approved = confirm(
+              `${incomingSets.length}개 세트를 불러올까요? 현재 데이터는 대체됩니다.`
+            );
+
+            if (approved) {
+              sets = incomingSets;
+              saveSets();
+            }
+          } catch (error) {
+            alert(
+              "백업 파일을 읽지 못했습니다."
+            );
+          }
+
+          event.target.value = "";
+        }
+      );
+
+    renderSets();
+  </script>
+</body>
+</html>
