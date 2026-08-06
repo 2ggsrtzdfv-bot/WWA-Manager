@@ -1,0 +1,12 @@
+from pathlib import Path
+
+src = Path("/mnt/data/WWA_Manager_Standalone.html")
+dst = Path("/mnt/data/WWA_Manager_v0_1_mobile.html")
+
+if not src.exists():
+    raise FileNotFoundError("기존 단일 HTML 파일을 찾지 못했습니다.")
+
+html = src.read_text(encoding="utf-8")
+html = html.replace("<title>WWA Manager</title>", "<title>WWA Manager v0.1</title>")
+dst.write_text(html, encoding="utf-8")
+print(dst)
