@@ -2,42 +2,58 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
+
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
+    content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
   >
-  <meta name="theme-color" content="#1A2A44">
+
+  <meta name="theme-color" content="#17233b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+  <meta name="apple-mobile-web-app-title" content="WWA Manager">
+
   <title>WWA Manager</title>
 
   <style>
     :root {
-      --blue-hour: #1A2A44;
-      --patronus-blue: #7FB7E6;
-      --moon-silver: #C7CCD6;
-      --castle-stone: #6F7682;
-      --winter-white: #F8F8F5;
-      --white: #FFFFFF;
-      --danger: #B44A4A;
-      --success: #2D7A4C;
-      --shadow: 0 8px 24px rgba(26, 42, 68, 0.08);
+      --ink: #17233b;
+      --blue: #79afe0;
+      --paper: #f7f7f3;
+      --white: #ffffff;
+      --line: #dfe4ec;
+      --muted: #707887;
+      --ok: #2d7a4c;
+      --warn: #9a6c00;
+      --violet: #6d4a8a;
+      --danger: #b44a4a;
+      --shadow: 0 10px 30px rgba(23, 35, 59, 0.09);
     }
 
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     html,
     body {
-      margin: 0;
       min-height: 100%;
-      background: var(--winter-white);
-      color: var(--blue-hour);
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
       font-family:
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         "Noto Sans KR",
         sans-serif;
+    }
+
+    body {
+      overscroll-behavior-y: none;
     }
 
     button,
@@ -49,19 +65,20 @@
 
     button {
       min-height: 46px;
+      padding: 11px 15px;
       border: 0;
       border-radius: 14px;
-      padding: 11px 16px;
-      background: var(--blue-hour);
+      background: var(--ink);
       color: var(--white);
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
     }
 
-    button.secondary {
-      border: 1px solid var(--moon-silver);
+    button.secondary,
+    .file-button {
+      border: 1px solid var(--line);
       background: var(--white);
-      color: var(--blue-hour);
+      color: var(--ink);
     }
 
     button.danger {
@@ -70,124 +87,129 @@
 
     button:disabled {
       opacity: 0.45;
-      cursor: default;
     }
 
     .app {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
+      width: min(100%, 780px);
+      margin: auto;
       padding:
-        calc(18px + env(safe-area-inset-top))
+        calc(16px + env(safe-area-inset-top))
         14px
-        calc(80px + env(safe-area-inset-bottom));
+        calc(100px + env(safe-area-inset-bottom));
     }
 
     .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 18px;
+      margin:
+        calc(-16px - env(safe-area-inset-top))
+        -14px
+        14px;
+      padding:
+        calc(14px + env(safe-area-inset-top))
+        14px
+        12px;
+      border-bottom: 1px solid rgba(223, 228, 236, 0.8);
+      background: rgba(247, 247, 243, 0.92);
+      backdrop-filter: blur(16px);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 10px;
       min-width: 0;
     }
 
-    .brand-mark {
-      width: 48px;
-      height: 48px;
-      flex: 0 0 auto;
+    .mark {
       display: grid;
       place-items: center;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: var(--blue-hour);
+      background: var(--ink);
       color: var(--white);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
+      font-size: 12px;
+      font-weight: 900;
     }
 
     .brand h1 {
       margin: 0;
-      font-size: 24px;
-      line-height: 1.1;
+      font-size: 22px;
     }
 
     .brand p {
-      margin: 4px 0 0;
-      color: var(--castle-stone);
-      font-size: 12px;
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 11px;
     }
 
     .toolbar {
       display: grid;
-      grid-template-columns: 1fr 140px;
-      gap: 10px;
-      margin-bottom: 14px;
+      grid-template-columns: 1fr 132px;
+      gap: 9px;
+      margin-bottom: 12px;
     }
 
-    .toolbar input,
-    .toolbar select,
-    .field input,
-    .field select,
-    .field textarea {
+    .control {
       width: 100%;
       min-height: 48px;
-      border: 1px solid var(--moon-silver);
-      border-radius: 14px;
       padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      outline: none;
       background: var(--white);
-      color: var(--blue-hour);
+      color: var(--ink);
       font-size: 16px;
     }
 
-    .field textarea {
-      min-height: 100px;
-      resize: vertical;
+    .control:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(121, 175, 224, 0.2);
     }
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 15px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-bottom: 14px;
     }
 
     .stat {
-      border: 1px solid #E5E8EE;
+      padding: 14px;
+      border: 1px solid var(--line);
       border-radius: 18px;
-      padding: 15px;
       background: var(--white);
       box-shadow: var(--shadow);
     }
 
     .stat strong {
       display: block;
-      font-size: 28px;
+      font-size: 25px;
       line-height: 1;
     }
 
     .stat span {
       display: block;
-      margin-top: 7px;
-      color: var(--castle-stone);
-      font-size: 13px;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
     }
 
-    .set-list {
+    .list {
       display: grid;
-      gap: 13px;
+      gap: 12px;
     }
 
-    .set-card {
-      border: 1px solid #E5E8EE;
+    .card {
+      padding: 14px;
+      border: 1px solid var(--line);
       border-radius: 20px;
-      padding: 15px;
       background: var(--white);
       box-shadow: var(--shadow);
     }
@@ -195,7 +217,6 @@
     .card-top {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
       gap: 10px;
     }
 
@@ -205,170 +226,169 @@
       min-width: 0;
     }
 
-    .thumbnail {
-      width: 82px;
-      height: 82px;
+    .thumb {
+      width: 78px;
+      height: 78px;
       flex: 0 0 auto;
-      border: 1px solid #DDE2EA;
+      border: 1px solid var(--line);
       border-radius: 15px;
-      background: #EEF2F7;
+      background: #eef2f7;
       object-fit: cover;
     }
 
-    .thumbnail.placeholder {
+    .thumb.placeholder {
       display: grid;
       place-items: center;
-      font-size: 30px;
+      font-size: 28px;
     }
 
-    .card-copy {
+    .copy {
       min-width: 0;
     }
 
-    .card-copy h2 {
-      margin: 1px 0 6px;
-      font-size: 19px;
-      line-height: 1.25;
+    .copy h2 {
+      margin: 2px 0 6px;
       overflow-wrap: anywhere;
+      font-size: 17px;
+      line-height: 1.3;
     }
 
     .meta {
-      color: var(--castle-stone);
-      font-size: 13px;
-      line-height: 1.45;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
     }
 
     .badge {
-      flex: 0 0 auto;
+      height: max-content;
+      padding: 7px 9px;
       border-radius: 999px;
-      padding: 7px 10px;
-      font-size: 12px;
-      font-weight: 800;
+      font-size: 11px;
+      font-weight: 900;
       white-space: nowrap;
     }
 
-    .status-collecting {
-      background: #EEF4FB;
-      color: #366F9E;
+    .collecting {
+      background: #eef4fb;
+      color: #366f9e;
     }
 
-    .status-designing {
-      background: #F4F0FA;
-      color: #6D4A8A;
+    .designing {
+      background: #f4f0fa;
+      color: var(--violet);
     }
 
-    .status-review {
-      background: #FFF7E7;
-      color: #9A6C00;
+    .review {
+      background: #fff7e7;
+      color: var(--warn);
     }
 
-    .status-complete {
-      background: #EAF6EC;
-      color: var(--success);
+    .complete {
+      background: #eaf6ec;
+      color: var(--ok);
     }
 
-    .progress-row {
+    .progress {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-top: 14px;
+      gap: 9px;
+      margin-top: 13px;
     }
 
-    .progress-track {
-      height: 10px;
+    .track {
+      height: 9px;
       flex: 1;
       overflow: hidden;
       border-radius: 999px;
-      background: #E9EDF2;
+      background: #e9edf2;
     }
 
-    .progress-bar {
+    .bar {
       display: block;
       height: 100%;
-      border-radius: inherit;
-      background: var(--patronus-blue);
+      background: var(--blue);
     }
 
-    .progress-number {
-      width: 42px;
-      color: var(--castle-stone);
-      font-size: 13px;
+    .pct {
+      width: 38px;
+      color: var(--muted);
+      font-size: 12px;
       text-align: right;
     }
 
     .card-actions {
       display: flex;
-      gap: 8px;
-      margin-top: 13px;
+      justify-content: flex-end;
+      margin-top: 12px;
     }
 
     .empty {
-      border: 1px dashed var(--moon-silver);
+      padding: 50px 20px;
+      border: 1px dashed #c9d0dc;
       border-radius: 20px;
-      padding: 52px 20px;
       background: var(--white);
-      color: var(--castle-stone);
+      color: var(--muted);
       text-align: center;
     }
 
-    .utility-bar {
+    .utility {
       display: flex;
       gap: 9px;
-      margin-top: 16px;
+      margin-top: 15px;
     }
 
-    .upload-label {
-      min-height: 46px;
+    .file-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid var(--moon-silver);
+      min-height: 46px;
+      padding: 11px 15px;
       border-radius: 14px;
-      padding: 11px 16px;
-      background: var(--white);
-      color: var(--blue-hour);
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
     }
 
     dialog {
-      width: min(700px, calc(100vw - 18px));
-      max-height: 94vh;
-      border: 0;
-      border-radius: 22px;
+      width: min(720px, 100vw);
+      max-width: 100vw;
+      height: min(94dvh, 900px);
+      max-height: 94dvh;
+      margin: auto;
       padding: 0;
       overflow: hidden;
+      border: 0;
+      border-radius: 24px 24px 0 0;
       background: var(--white);
-      box-shadow: 0 26px 90px rgba(26, 42, 68, 0.32);
+      box-shadow: 0 30px 100px rgba(23, 35, 59, 0.35);
     }
 
     dialog::backdrop {
-      background: rgba(26, 42, 68, 0.55);
+      background: rgba(23, 35, 59, 0.58);
       backdrop-filter: blur(4px);
     }
 
-    .modal-header {
+    .modal-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding:
-        calc(16px + env(safe-area-inset-top))
-        16px
-        16px;
-      background: var(--blue-hour);
+      padding: 16px;
+      background: var(--ink);
       color: var(--white);
     }
 
-    .modal-header h2 {
+    .modal-head h2 {
       margin: 0;
-      font-size: 20px;
+      font-size: 19px;
     }
 
     .modal-body {
-      max-height: calc(94vh - 74px);
+      height: calc(94dvh - 70px);
       overflow-y: auto;
-      padding: 17px 16px calc(20px + env(safe-area-inset-bottom));
+      padding:
+        16px
+        calc(16px + env(safe-area-inset-right))
+        calc(100px + env(safe-area-inset-bottom))
+        calc(16px + env(safe-area-inset-left));
     }
 
     .form-grid {
@@ -388,23 +408,28 @@
     }
 
     .field label {
-      color: var(--castle-stone);
-      font-size: 13px;
-      font-weight: 700;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .field textarea {
+      min-height: 100px;
+      resize: vertical;
     }
 
     .section {
-      margin-top: 24px;
+      margin-top: 23px;
     }
 
     .section h3 {
-      margin: 0 0 11px;
-      font-size: 18px;
+      margin: 0 0 10px;
+      font-size: 17px;
     }
 
-    .section-note {
-      margin: -3px 0 12px;
-      color: var(--castle-stone);
+    .note {
+      margin: -3px 0 11px;
+      color: var(--muted);
       font-size: 12px;
       line-height: 1.5;
     }
@@ -415,19 +440,19 @@
       gap: 8px;
     }
 
-    .check-item {
-      min-height: 46px;
+    .check {
       display: flex;
       align-items: center;
       gap: 9px;
-      border: 1px solid #E4E8EF;
-      border-radius: 13px;
+      min-height: 46px;
       padding: 10px;
-      background: #F6F8FB;
-      font-size: 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #f7f9fc;
+      font-size: 13px;
     }
 
-    .check-item input {
+    .check input {
       width: 20px;
       height: 20px;
     }
@@ -435,37 +460,37 @@
     .asset-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 11px;
+      gap: 10px;
     }
 
-    .asset-card {
-      border: 1px dashed var(--moon-silver);
-      border-radius: 16px;
+    .asset {
       padding: 10px;
-      background: #FBFCFE;
+      border: 1px dashed #c9d0dc;
+      border-radius: 16px;
+      background: #fbfcfe;
     }
 
-    .asset-preview {
-      width: 100%;
-      height: 150px;
+    .asset img {
       display: none;
+      width: 100%;
+      height: 145px;
       border-radius: 11px;
-      background: #EEF2F7;
+      background: #eef2f7;
       object-fit: cover;
     }
 
-    .asset-card strong {
+    .asset strong {
       display: block;
       margin: 9px 0 7px;
-      font-size: 14px;
-    }
-
-    .asset-card input {
-      width: 100%;
       font-size: 13px;
     }
 
-    .asset-card .remove-image {
+    .asset input {
+      width: 100%;
+      font-size: 12px;
+    }
+
+    .asset .remove {
       width: 100%;
       min-height: 38px;
       margin-top: 8px;
@@ -473,18 +498,50 @@
       font-size: 12px;
     }
 
-    .modal-actions {
+    .sticky-actions {
+      position: sticky;
+      bottom: calc(-100px - env(safe-area-inset-bottom));
       display: flex;
       justify-content: space-between;
       gap: 10px;
-      margin-top: 24px;
-      padding-top: 17px;
-      border-top: 1px solid #E5E8EE;
+      margin:
+        24px
+        -16px
+        calc(-100px - env(safe-area-inset-bottom));
+      padding:
+        12px
+        16px
+        calc(12px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
     }
 
-    .right-actions {
+    .right {
       display: flex;
       gap: 8px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(22px + env(safe-area-inset-bottom));
+      z-index: 100;
+      padding: 11px 15px;
+      border-radius: 999px;
+      background: rgba(23, 35, 59, 0.94);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 20px);
+      transition: 0.2s;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
     }
 
     @media (max-width: 560px) {
@@ -503,13 +560,22 @@
         display: none;
       }
 
-      .thumbnail {
-        width: 74px;
-        height: 74px;
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
       }
 
-      .card-copy h2 {
-        font-size: 17px;
+      .stat {
+        padding: 12px;
+      }
+
+      .stat strong {
+        font-size: 22px;
+      }
+
+      dialog {
+        align-self: end;
+        margin: auto 0 0;
+        border-radius: 24px 24px 0 0;
       }
     }
   </style>
@@ -519,25 +585,26 @@
   <main class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">WWA</div>
+        <div class="mark">WWA</div>
 
         <div>
           <h1>WWA Manager</h1>
-          <p>Wizarding World LEGO Archive · v0.2</p>
+          <p>Wizarding World LEGO Archive · v0.3</p>
         </div>
       </div>
 
-      <button id="addSetButton">+ 추가</button>
+      <button id="addBtn" type="button">+ 추가</button>
     </header>
 
     <section class="toolbar">
       <input
-        id="searchInput"
+        id="search"
+        class="control"
         type="search"
         placeholder="세트번호 또는 세트명 검색"
       >
 
-      <select id="statusFilter">
+      <select id="filter" class="control">
         <option value="">전체 상태</option>
         <option value="collecting">자료수집</option>
         <option value="designing">제작중</option>
@@ -548,27 +615,34 @@
 
     <section class="stats">
       <div class="stat">
-        <strong id="totalCount">0</strong>
+        <strong id="total">0</strong>
         <span>총 세트</span>
       </div>
 
       <div class="stat">
-        <strong id="completeCount">0</strong>
+        <strong id="active">0</strong>
+        <span>진행 중</span>
+      </div>
+
+      <div class="stat">
+        <strong id="done">0</strong>
         <span>완료</span>
       </div>
     </section>
 
-    <section id="setList" class="set-list"></section>
+    <section id="list" class="list"></section>
 
-    <div class="utility-bar">
-      <button id="backupButton" class="secondary">백업</button>
+    <div class="utility">
+      <button id="backup" class="secondary" type="button">
+        백업
+      </button>
 
-      <label for="restoreInput" class="upload-label">
+      <label class="file-button" for="restore">
         복원
       </label>
 
       <input
-        id="restoreInput"
+        id="restore"
         type="file"
         accept=".json,application/json"
         hidden
@@ -576,15 +650,16 @@
     </div>
   </main>
 
-  <dialog id="setDialog">
-    <div class="modal-header">
+  <dialog id="dialog">
+    <div class="modal-head">
       <h2 id="dialogTitle">세트 추가</h2>
-      <button id="closeDialogButton" class="secondary" type="button">
+
+      <button id="close" class="secondary" type="button">
         닫기
       </button>
     </div>
 
-    <form id="setForm" class="modal-body">
+    <form id="form" class="modal-body">
       <input id="editId" type="hidden">
 
       <div class="form-grid">
@@ -592,6 +667,7 @@
           <label for="setNumber">세트번호</label>
           <input
             id="setNumber"
+            class="control"
             required
             inputmode="numeric"
             placeholder="예: 76417"
@@ -602,6 +678,7 @@
           <label for="setName">세트명</label>
           <input
             id="setName"
+            class="control"
             required
             placeholder="예: 그린고트 마법 은행"
           >
@@ -609,13 +686,18 @@
 
         <div class="field">
           <label for="releaseDate">출시일</label>
-          <input id="releaseDate" type="date">
+          <input
+            id="releaseDate"
+            class="control"
+            type="date"
+          >
         </div>
 
         <div class="field">
           <label for="retailPrice">출시 정가(₩)</label>
           <input
             id="retailPrice"
+            class="control"
             type="number"
             inputmode="numeric"
             min="0"
@@ -627,6 +709,7 @@
           <label for="pieceCount">피스 수</label>
           <input
             id="pieceCount"
+            class="control"
             type="number"
             inputmode="numeric"
             min="0"
@@ -637,6 +720,7 @@
           <label for="minifigureCount">미니피겨 수</label>
           <input
             id="minifigureCount"
+            class="control"
             type="number"
             inputmode="numeric"
             min="0"
@@ -647,85 +731,96 @@
           <label for="dimensions">크기</label>
           <input
             id="dimensions"
+            class="control"
             placeholder="예: 32 × 25 × 75 cm"
           >
         </div>
 
         <div class="field">
           <label for="status">진행 상태</label>
-          <select id="status">
+          <select id="status" class="control">
             <option value="collecting">자료수집</option>
             <option value="designing">제작중</option>
             <option value="review">검토중</option>
             <option value="complete">완료</option>
           </select>
         </div>
+
+        <div class="field">
+          <label for="purchaseDate">구매일</label>
+          <input
+            id="purchaseDate"
+            class="control"
+            type="date"
+          >
+        </div>
+
+        <div class="field">
+          <label for="purchaseStore">구매처</label>
+          <input
+            id="purchaseStore"
+            class="control"
+          >
+        </div>
+
+        <div class="field">
+          <label for="purchasePrice">구매가(₩)</label>
+          <input
+            id="purchasePrice"
+            class="control"
+            type="number"
+            inputmode="numeric"
+            min="0"
+            step="100"
+          >
+        </div>
+
+        <div class="field">
+          <label for="buildDate">조립일</label>
+          <input
+            id="buildDate"
+            class="control"
+            type="date"
+          >
+        </div>
+
+        <div class="field full">
+          <label for="storageStatus">보관 상태</label>
+          <input
+            id="storageStatus"
+            class="control"
+            placeholder="예: 전시 중 / 박스 보관"
+          >
+        </div>
+
+        <div class="field full">
+          <label for="notes">메모</label>
+          <textarea
+            id="notes"
+            class="control"
+          ></textarea>
+        </div>
       </div>
 
       <section class="section">
-        <h3>My Collection</h3>
-
-        <div class="form-grid">
-          <div class="field">
-            <label for="purchaseDate">구매일</label>
-            <input id="purchaseDate" type="date">
-          </div>
-
-          <div class="field">
-            <label for="purchaseStore">구매처</label>
-            <input id="purchaseStore">
-          </div>
-
-          <div class="field">
-            <label for="purchasePrice">구매금액(₩)</label>
-            <input
-              id="purchasePrice"
-              type="number"
-              inputmode="numeric"
-              min="0"
-              step="100"
-            >
-          </div>
-
-          <div class="field">
-            <label for="buildDate">조립일</label>
-            <input id="buildDate" type="date">
-          </div>
-
-          <div class="field">
-            <label for="storageStatus">보관상태</label>
-            <input
-              id="storageStatus"
-              placeholder="예: 조립완료 / 박스보관"
-            >
-          </div>
-
-          <div class="field full">
-            <label for="notes">비고</label>
-            <textarea id="notes"></textarea>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
         <h3>자료 체크리스트</h3>
-        <div id="checklistGrid" class="check-grid"></div>
+        <div id="checks" class="check-grid"></div>
       </section>
 
       <section class="section">
-        <h3>Assets</h3>
+        <h3>사진 자료</h3>
 
-        <p class="section-note">
-          아이폰 사진 앱에서 이미지를 선택할 수 있어요.
-          대표 썸네일은 조립 완성 사진, 박스 사진 순으로 표시됩니다.
+        <p class="note">
+          사진은 아이폰에서 자동 축소 저장됩니다.
+          대표 이미지는 조립 완성 사진 → 박스 사진 순으로 표시됩니다.
         </p>
 
-        <div id="assetGrid" class="asset-grid"></div>
+        <div id="assets" class="asset-grid"></div>
       </section>
 
-      <div class="modal-actions">
+      <div class="sticky-actions">
         <button
-          id="deleteSetButton"
+          id="deleteBtn"
           class="danger"
           type="button"
           hidden
@@ -733,9 +828,9 @@
           삭제
         </button>
 
-        <div class="right-actions">
+        <div class="right">
           <button
-            id="cancelButton"
+            id="cancel"
             class="secondary"
             type="button"
           >
@@ -750,15 +845,20 @@
     </form>
   </dialog>
 
-  <script>
-    const STORAGE_KEY = "wwa-manager-v02";
+  <div id="toast" class="toast"></div>
 
-    const PREVIOUS_STORAGE_KEYS = [
+  <script>
+    "use strict";
+
+    const STORAGE_KEY = "wwa-manager-v03";
+
+    const OLD_KEYS = [
+      "wwa-manager-v02",
       "wwa-manager-v01",
       "wwa-manager-v1"
     ];
 
-    const CHECKLIST_LABELS = {
+    const CHECKS = {
       box: "박스 사진",
       product: "조립 완성 사진",
       detail: "디테일 사진",
@@ -771,7 +871,7 @@
       final: "최종 완료"
     };
 
-    const ASSET_LABELS = {
+    const ASSETS = {
       box: "박스 사진",
       product: "조립 완성 사진",
       detail: "디테일 사진",
@@ -781,56 +881,95 @@
       goods: "굿즈"
     };
 
-    const element = (id) => document.getElementById(id);
+    const $ = (id) => document.getElementById(id);
 
-    const setList = element("setList");
-    const setDialog = element("setDialog");
-    const setForm = element("setForm");
+    const dialog = $("dialog");
+    const form = $("form");
 
-    let sets = loadSets();
+    let sets = load();
 
-    function loadSets() {
+    function load() {
       try {
-        const currentData = localStorage.getItem(STORAGE_KEY);
+        const current = localStorage.getItem(STORAGE_KEY);
 
-        if (currentData) {
-          return JSON.parse(currentData);
+        if (current) {
+          return normalize(JSON.parse(current));
         }
 
-        for (const oldKey of PREVIOUS_STORAGE_KEYS) {
-          const oldData = localStorage.getItem(oldKey);
+        for (const key of OLD_KEYS) {
+          const old = localStorage.getItem(key);
 
-          if (oldData) {
-            const parsedData = JSON.parse(oldData);
-
-            localStorage.setItem(
-              STORAGE_KEY,
-              JSON.stringify(parsedData)
-            );
-
-            return parsedData;
+          if (!old) {
+            continue;
           }
+
+          const parsed = normalize(JSON.parse(old));
+
+          localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(parsed)
+          );
+
+          return parsed;
         }
       } catch (error) {
-        console.error("저장 데이터를 읽지 못했습니다.", error);
+        console.error(error);
       }
 
       return [];
     }
 
-    function saveSets() {
+    function normalize(data) {
+      if (!Array.isArray(data)) {
+        return [];
+      }
+
+      const defaultChecklist = Object.fromEntries(
+        Object.keys(CHECKS).map((key) => [key, false])
+      );
+
+      return data.map((item) => ({
+        ...item,
+
+        checklist: {
+          ...defaultChecklist,
+          ...(item.checklist || {})
+        },
+
+        assets: item.assets || {}
+      }));
+    }
+
+    function persist() {
       try {
         localStorage.setItem(
           STORAGE_KEY,
           JSON.stringify(sets)
         );
 
-        renderSets();
+        render();
+        toast("저장했습니다");
       } catch (error) {
+        console.error(error);
+
         alert(
-          "저장 공간이 부족합니다. 큰 사진을 줄이거나 백업 후 일부 이미지를 삭제해 주세요."
+          "저장 공간이 부족합니다.\n" +
+          "백업 후 사용하지 않는 사진을 삭제해 주세요."
         );
       }
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(
+        /[&<>"']/g,
+        (character) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "\"": "&quot;",
+          "'": "&#039;"
+        })[character]
+      );
     }
 
     function statusLabel(status) {
@@ -844,136 +983,130 @@
       return labels[status] || "자료수집";
     }
 
-    function escapeHtml(value) {
-      return String(value ?? "").replace(
-        /[&<>"']/g,
-        (character) => {
-          const entities = {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#039;"
-          };
-
-          return entities[character];
-        }
-      );
-    }
-
     function calculateProgress(item) {
-      const checklistValues = Object.values(
-        item.checklist || {}
+      const values = Object.keys(CHECKS).map(
+        (key) => Boolean(item.checklist?.[key])
       );
 
-      if (!checklistValues.length) {
-        return 0;
-      }
-
-      const completedCount = checklistValues.filter(
-        Boolean
-      ).length;
+      const completed = values.filter(Boolean).length;
 
       return Math.round(
-        (completedCount / checklistValues.length) * 100
+        (completed / values.length) * 100
       );
     }
 
     function getThumbnail(item) {
-      const assets = item.assets || {};
-
       return (
-        assets.product ||
-        assets.box ||
-        assets.detail ||
+        item.assets?.product ||
+        item.assets?.box ||
+        item.assets?.detail ||
         ""
       );
     }
 
-    function renderSets() {
-      const searchText = element("searchInput")
+    function render() {
+      const searchText = $("search")
         .value
         .trim()
         .toLowerCase();
 
-      const selectedStatus =
-        element("statusFilter").value;
+      const selectedStatus = $("filter").value;
 
-      const visibleSets = sets.filter((item) => {
-        const number = String(
-          item.setNumber || ""
-        ).toLowerCase();
+      const visibleSets = sets
+        .filter((item) => {
+          const number = String(
+            item.setNumber || ""
+          ).toLowerCase();
 
-        const name = String(
-          item.setName || ""
-        ).toLowerCase();
+          const name = String(
+            item.setName || ""
+          ).toLowerCase();
 
-        const matchesSearch =
-          !searchText ||
-          number.includes(searchText) ||
-          name.includes(searchText);
+          const matchesSearch =
+            !searchText ||
+            number.includes(searchText) ||
+            name.includes(searchText);
 
-        const matchesStatus =
-          !selectedStatus ||
-          item.status === selectedStatus;
+          const matchesStatus =
+            !selectedStatus ||
+            item.status === selectedStatus;
 
-        return matchesSearch && matchesStatus;
-      });
+          return matchesSearch && matchesStatus;
+        })
+        .sort((a, b) => {
+          return String(a.setNumber).localeCompare(
+            String(b.setNumber),
+            undefined,
+            { numeric: true }
+          );
+        });
 
-      element("totalCount").textContent = sets.length;
+      $("total").textContent = sets.length;
 
-      element("completeCount").textContent =
-        sets.filter(
-          (item) => item.status === "complete"
-        ).length;
+      $("done").textContent = sets.filter(
+        (item) => item.status === "complete"
+      ).length;
+
+      $("active").textContent = sets.filter(
+        (item) => item.status !== "complete"
+      ).length;
 
       if (!visibleSets.length) {
-        setList.innerHTML = `
+        const message = sets.length
+          ? "검색 결과가 없습니다."
+          : "등록된 세트가 없습니다.";
+
+        $("list").innerHTML = `
           <div class="empty">
-            등록된 세트가 없습니다.
+            ${message}
             <br><br>
-            <button type="button" onclick="openEditor()">
+            <button type="button" id="emptyAdd">
               첫 세트 추가
             </button>
           </div>
         `;
 
+        $("emptyAdd")?.addEventListener(
+          "click",
+          () => openEditor()
+        );
+
         return;
       }
 
-      setList.innerHTML = visibleSets
+      $("list").innerHTML = visibleSets
         .map((item) => {
           const progress = calculateProgress(item);
           const thumbnail = getThumbnail(item);
+
+          const thumbnailHtml = thumbnail
+            ? `
+              <img
+                class="thumb"
+                src="${thumbnail}"
+                alt=""
+              >
+            `
+            : `
+              <div class="thumb placeholder">
+                🧱
+              </div>
+            `;
 
           const pieceText = item.pieceCount
             ? `${Number(item.pieceCount).toLocaleString()} pcs`
             : "피스 수 미입력";
 
           const figureText =
-            `${item.minifigureCount || 0} figures`;
-
-          const thumbnailMarkup = thumbnail
-            ? `
-              <img
-                class="thumbnail"
-                src="${thumbnail}"
-                alt=""
-              >
-            `
-            : `
-              <div class="thumbnail placeholder">
-                🧱
-              </div>
-            `;
+            `${Number(item.minifigureCount || 0)} figures`;
 
           return `
-            <article class="set-card">
+            <article class="card">
               <div class="card-top">
                 <div class="card-main">
-                  ${thumbnailMarkup}
+                  ${thumbnailHtml}
 
-                  <div class="card-copy">
+                  <div class="copy">
                     <h2>
                       ${escapeHtml(item.setNumber)}
                       ·
@@ -981,38 +1114,36 @@
                     </h2>
 
                     <div class="meta">
-                      ${pieceText}
-                      ·
-                      ${figureText}
+                      ${pieceText} · ${figureText}
                     </div>
                   </div>
                 </div>
 
                 <span
-                  class="badge status-${item.status}"
+                  class="badge ${escapeHtml(item.status)}"
                 >
                   ${statusLabel(item.status)}
                 </span>
               </div>
 
-              <div class="progress-row">
-                <div class="progress-track">
+              <div class="progress">
+                <div class="track">
                   <span
-                    class="progress-bar"
+                    class="bar"
                     style="width: ${progress}%"
                   ></span>
                 </div>
 
-                <span class="progress-number">
+                <span class="pct">
                   ${progress}%
                 </span>
               </div>
 
               <div class="card-actions">
                 <button
-                  class="secondary"
+                  class="secondary open"
                   type="button"
-                  onclick="openEditor('${item.id}')"
+                  data-id="${escapeHtml(item.id)}"
                 >
                   열기
                 </button>
@@ -1021,179 +1152,222 @@
           `;
         })
         .join("");
-    }
-
-    window.openEditor = function openEditor(id = "") {
-      const currentItem = sets.find(
-        (item) => item.id === id
-      );
-
-      element("dialogTitle").textContent =
-        currentItem ? "세트 수정" : "세트 추가";
-
-      element("editId").value =
-        currentItem?.id || "";
-
-      element("setNumber").value =
-        currentItem?.setNumber || "";
-
-      element("setName").value =
-        currentItem?.setName || "";
-
-      element("releaseDate").value =
-        currentItem?.releaseDate || "";
-
-      element("retailPrice").value =
-        currentItem?.retailPrice || "";
-
-      element("pieceCount").value =
-        currentItem?.pieceCount ||
-        currentItem?.pieces ||
-        "";
-
-      element("minifigureCount").value =
-        currentItem?.minifigureCount ||
-        currentItem?.minifigures ||
-        "";
-
-      element("dimensions").value =
-        currentItem?.dimensions || "";
-
-      element("status").value =
-        currentItem?.status || "collecting";
-
-      element("purchaseDate").value =
-        currentItem?.purchaseDate || "";
-
-      element("purchaseStore").value =
-        currentItem?.purchaseStore || "";
-
-      element("purchasePrice").value =
-        currentItem?.purchasePrice || "";
-
-      element("buildDate").value =
-        currentItem?.buildDate || "";
-
-      element("storageStatus").value =
-        currentItem?.storageStatus || "";
-
-      element("notes").value =
-        currentItem?.notes || "";
-
-      element("deleteSetButton").hidden =
-        !currentItem;
-
-      const checklist =
-        currentItem?.checklist || {};
-
-      element("checklistGrid").innerHTML =
-        Object.entries(CHECKLIST_LABELS)
-          .map(([key, label]) => {
-            const checked = checklist[key]
-              ? "checked"
-              : "";
-
-            return `
-              <label class="check-item">
-                <input
-                  type="checkbox"
-                  data-checklist="${key}"
-                  ${checked}
-                >
-
-                <span>${label}</span>
-              </label>
-            `;
-          })
-          .join("");
-
-      const assets =
-        currentItem?.assets || {};
-
-      element("assetGrid").innerHTML =
-        Object.entries(ASSET_LABELS)
-          .map(([key, label]) => {
-            const source = assets[key] || "";
-            const displayStyle = source
-              ? "display:block"
-              : "";
-
-            const disabled = source
-              ? ""
-              : "disabled";
-
-            return `
-              <div class="asset-card">
-                <img
-                  id="asset-preview-${key}"
-                  class="asset-preview"
-                  src="${source}"
-                  alt=""
-                  style="${displayStyle}"
-                >
-
-                <strong>${label}</strong>
-
-                <input
-                  type="file"
-                  accept="image/*"
-                  data-asset-input="${key}"
-                >
-
-                <button
-                  type="button"
-                  class="secondary remove-image"
-                  data-remove-image="${key}"
-                  ${disabled}
-                >
-                  이미지 삭제
-                </button>
-              </div>
-            `;
-          })
-          .join("");
 
       document
-        .querySelectorAll("[data-remove-image]")
+        .querySelectorAll(".open")
+        .forEach((button) => {
+          button.addEventListener(
+            "click",
+            () => openEditor(button.dataset.id)
+          );
+        });
+    }
+
+    function renderChecks(item) {
+      $("checks").innerHTML = Object
+        .entries(CHECKS)
+        .map(([key, label]) => {
+          const checked = item?.checklist?.[key]
+            ? "checked"
+            : "";
+
+          return `
+            <label class="check">
+              <input
+                type="checkbox"
+                data-check="${key}"
+                ${checked}
+              >
+
+              <span>${label}</span>
+            </label>
+          `;
+        })
+        .join("");
+    }
+
+    function renderAssets(item) {
+      $("assets").innerHTML = Object
+        .entries(ASSETS)
+        .map(([key, label]) => {
+          const source = item?.assets?.[key] || "";
+          const display = source
+            ? "display: block;"
+            : "";
+
+          const disabled = source
+            ? ""
+            : "disabled";
+
+          return `
+            <div class="asset">
+              <img
+                id="preview-${key}"
+                src="${source}"
+                alt=""
+                style="${display}"
+              >
+
+              <strong>${label}</strong>
+
+              <input
+                type="file"
+                accept="image/*"
+                data-asset="${key}"
+              >
+
+              <button
+                type="button"
+                class="secondary remove"
+                data-remove="${key}"
+                ${disabled}
+              >
+                이미지 삭제
+              </button>
+            </div>
+          `;
+        })
+        .join("");
+
+      document
+        .querySelectorAll("[data-remove]")
         .forEach((button) => {
           button.addEventListener(
             "click",
             () => {
-              const key =
-                button.dataset.removeImage;
-
-              const preview = element(
-                `asset-preview-${key}`
+              const preview = $(
+                `preview-${button.dataset.remove}`
               );
 
               preview.src = "";
               preview.style.display = "none";
-              preview.dataset.removed = "true";
+              preview.dataset.removed = "1";
 
               button.disabled = true;
             }
           );
         });
+    }
 
-      setDialog.showModal();
-    };
+    function setInputValue(id, item, key = id) {
+      $(id).value = item?.[key] ?? "";
+    }
 
-    function fileToDataUrl(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
+    function openEditor(id = "") {
+      const item = sets.find(
+        (set) => set.id === id
+      );
 
-        reader.addEventListener(
-          "load",
-          () => resolve(reader.result)
+      $("dialogTitle").textContent = item
+        ? "세트 편집"
+        : "세트 추가";
+
+      $("editId").value = item?.id || "";
+
+      const fields = [
+        "setNumber",
+        "setName",
+        "releaseDate",
+        "retailPrice",
+        "pieceCount",
+        "minifigureCount",
+        "dimensions",
+        "status",
+        "purchaseDate",
+        "purchaseStore",
+        "purchasePrice",
+        "buildDate",
+        "storageStatus",
+        "notes"
+      ];
+
+      fields.forEach(
+        (field) => setInputValue(field, item)
+      );
+
+      if (!item) {
+        $("status").value = "collecting";
+      }
+
+      $("deleteBtn").hidden = !item;
+
+      renderChecks(item);
+      renderAssets(item);
+
+      dialog.showModal();
+
+      setTimeout(
+        () => $("setNumber").focus(),
+        100
+      );
+    }
+
+    async function compressImage(file) {
+      if (!file.type.startsWith("image/")) {
+        throw new Error("이미지 파일이 아닙니다.");
+      }
+
+      const dataUrl = await new Promise(
+        (resolve, reject) => {
+          const reader = new FileReader();
+
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+
+          reader.readAsDataURL(file);
+        }
+      );
+
+      const image = await new Promise(
+        (resolve, reject) => {
+          const element = new Image();
+
+          element.onload = () => resolve(element);
+          element.onerror = reject;
+          element.src = dataUrl;
+        }
+      );
+
+      const maximumSize = 1600;
+
+      const scale = Math.min(
+        1,
+        maximumSize / Math.max(
+          image.width,
+          image.height
+        )
+      );
+
+      const canvas = document.createElement("canvas");
+
+      canvas.width = Math.round(
+        image.width * scale
+      );
+
+      canvas.height = Math.round(
+        image.height * scale
+      );
+
+      const context = canvas.getContext("2d");
+
+      if (!context) {
+        throw new Error(
+          "이미지 처리 기능을 사용할 수 없습니다."
         );
+      }
 
-        reader.addEventListener(
-          "error",
-          () => reject(reader.error)
-        );
+      context.drawImage(
+        image,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
 
-        reader.readAsDataURL(file);
-      });
+      return canvas.toDataURL(
+        "image/jpeg",
+        0.82
+      );
     }
 
     document.addEventListener(
@@ -1202,306 +1376,283 @@
         const input = event.target;
 
         if (
-          !input.matches("[data-asset-input]") ||
+          !input.matches("[data-asset]") ||
           !input.files?.[0]
         ) {
           return;
         }
 
-        const key = input.dataset.assetInput;
-        const dataUrl = await fileToDataUrl(
-          input.files[0]
-        );
-
-        const preview = element(
-          `asset-preview-${key}`
-        );
-
-        preview.src = dataUrl;
-        preview.style.display = "block";
-
-        delete preview.dataset.removed;
-
-        const removeButton =
-          document.querySelector(
-            `[data-remove-image="${key}"]`
+        try {
+          const source = await compressImage(
+            input.files[0]
           );
 
-        removeButton.disabled = false;
+          const preview = $(
+            `preview-${input.dataset.asset}`
+          );
+
+          preview.src = source;
+          preview.style.display = "block";
+          preview.dataset.pending = source;
+
+          delete preview.dataset.removed;
+
+          const removeButton = document.querySelector(
+            `[data-remove="${input.dataset.asset}"]`
+          );
+
+          if (removeButton) {
+            removeButton.disabled = false;
+          }
+
+          toast("사진을 최적화했습니다");
+        } catch (error) {
+          console.error(error);
+
+          alert(
+            "사진을 처리하지 못했습니다."
+          );
+        }
       }
     );
 
-    setForm.addEventListener(
+    form.addEventListener(
       "submit",
-      async (event) => {
+      (event) => {
         event.preventDefault();
 
-        const id = element("editId").value;
+        const id = $("editId").value;
 
-        const existingItem = sets.find(
+        const oldItem = sets.find(
           (item) => item.id === id
         );
 
         const checklist = {};
 
         document
-          .querySelectorAll("[data-checklist]")
+          .querySelectorAll("[data-check]")
           .forEach((checkbox) => {
-            checklist[
-              checkbox.dataset.checklist
-            ] = checkbox.checked;
+            checklist[checkbox.dataset.check] =
+              checkbox.checked;
           });
 
         const assets = {
-          ...(existingItem?.assets || {})
+          ...(oldItem?.assets || {})
         };
 
-        for (
-          const input of document.querySelectorAll(
-            "[data-asset-input]"
-          )
-        ) {
-          const key = input.dataset.assetInput;
+        Object.keys(ASSETS).forEach((key) => {
+          const preview = $(`preview-${key}`);
 
-          const preview = element(
-            `asset-preview-${key}`
-          );
-
-          if (
-            preview.dataset.removed === "true"
-          ) {
+          if (preview.dataset.removed) {
             delete assets[key];
-          } else if (input.files?.[0]) {
-            assets[key] = await fileToDataUrl(
-              input.files[0]
-            );
+          } else if (preview.dataset.pending) {
+            assets[key] = preview.dataset.pending;
           }
-        }
+        });
 
-        const newItem = {
+        const now = new Date().toISOString();
+
+        const item = {
           id:
             id ||
-            (
-              window.crypto?.randomUUID
-                ? crypto.randomUUID()
-                : `${Date.now()}-${Math.random()}`
-            ),
+            crypto.randomUUID?.() ||
+            `${Date.now()}-${Math.random()}`,
 
-          setNumber:
-            element("setNumber")
-              .value
-              .trim(),
-
-          setName:
-            element("setName")
-              .value
-              .trim(),
-
-          releaseDate:
-            element("releaseDate").value,
-
-          retailPrice:
-            element("retailPrice").value,
-
-          pieceCount:
-            element("pieceCount").value,
-
-          minifigureCount:
-            element("minifigureCount").value,
-
-          dimensions:
-            element("dimensions")
-              .value
-              .trim(),
-
-          status:
-            element("status").value,
-
-          purchaseDate:
-            element("purchaseDate").value,
-
-          purchaseStore:
-            element("purchaseStore")
-              .value
-              .trim(),
-
-          purchasePrice:
-            element("purchasePrice").value,
-
-          buildDate:
-            element("buildDate").value,
-
-          storageStatus:
-            element("storageStatus")
-              .value
-              .trim(),
-
-          notes:
-            element("notes")
-              .value
-              .trim(),
-
+          setNumber: $("setNumber").value.trim(),
+          setName: $("setName").value.trim(),
+          releaseDate: $("releaseDate").value,
+          retailPrice: $("retailPrice").value,
+          pieceCount: $("pieceCount").value,
+          minifigureCount: $("minifigureCount").value,
+          dimensions: $("dimensions").value.trim(),
+          status: $("status").value,
+          purchaseDate: $("purchaseDate").value,
+          purchaseStore: $("purchaseStore").value.trim(),
+          purchasePrice: $("purchasePrice").value,
+          buildDate: $("buildDate").value,
+          storageStatus: $("storageStatus").value.trim(),
+          notes: $("notes").value.trim(),
           checklist,
           assets,
-
-          updatedAt:
-            new Date().toISOString()
+          updatedAt: now,
+          createdAt: oldItem?.createdAt || now
         };
 
-        if (existingItem) {
-          sets = sets.map((item) =>
-            item.id === id ? newItem : item
-          );
-        } else {
-          sets.unshift(newItem);
-        }
+        sets = oldItem
+          ? sets.map((set) => (
+              set.id === id
+                ? item
+                : set
+            ))
+          : [item, ...sets];
 
-        saveSets();
-        setDialog.close();
+        persist();
+        dialog.close();
       }
     );
 
-    element("deleteSetButton")
-      .addEventListener(
-        "click",
-        () => {
-          const id = element("editId").value;
+    $("deleteBtn").addEventListener(
+      "click",
+      () => {
+        const id = $("editId").value;
 
-          if (
-            id &&
-            confirm("이 세트를 삭제할까요?")
-          ) {
-            sets = sets.filter(
-              (item) => item.id !== id
-            );
+        const item = sets.find(
+          (set) => set.id === id
+        );
 
-            saveSets();
-            setDialog.close();
+        if (!item) {
+          return;
+        }
+
+        const confirmed = confirm(
+          `${item.setNumber} · ${item.setName}\n삭제할까요?`
+        );
+
+        if (!confirmed) {
+          return;
+        }
+
+        sets = sets.filter(
+          (set) => set.id !== id
+        );
+
+        persist();
+        dialog.close();
+      }
+    );
+
+    $("backup").addEventListener(
+      "click",
+      () => {
+        const backupData = {
+          app: "WWA Manager",
+          version: 3,
+          exportedAt: new Date().toISOString(),
+          sets
+        };
+
+        const blob = new Blob(
+          [
+            JSON.stringify(
+              backupData,
+              null,
+              2
+            )
+          ],
+          {
+            type: "application/json"
           }
+        );
+
+        const link = document.createElement("a");
+
+        link.href = URL.createObjectURL(blob);
+
+        link.download =
+          `WWA_Manager_${new Date()
+            .toISOString()
+            .slice(0, 10)}.json`;
+
+        link.click();
+
+        URL.revokeObjectURL(link.href);
+
+        toast("백업 파일을 만들었습니다");
+      }
+    );
+
+    $("restore").addEventListener(
+      "change",
+      async (event) => {
+        const file = event.target.files?.[0];
+
+        if (!file) {
+          return;
         }
-      );
 
-    element("addSetButton")
-      .addEventListener(
-        "click",
-        () => window.openEditor()
-      );
-
-    element("closeDialogButton")
-      .addEventListener(
-        "click",
-        () => setDialog.close()
-      );
-
-    element("cancelButton")
-      .addEventListener(
-        "click",
-        () => setDialog.close()
-      );
-
-    element("searchInput")
-      .addEventListener(
-        "input",
-        renderSets
-      );
-
-    element("statusFilter")
-      .addEventListener(
-        "change",
-        renderSets
-      );
-
-    element("backupButton")
-      .addEventListener(
-        "click",
-        () => {
-          const backupData = {
-            version: "0.2",
-            exportedAt:
-              new Date().toISOString(),
-            sets
-          };
-
-          const blob = new Blob(
-            [
-              JSON.stringify(
-                backupData,
-                null,
-                2
-              )
-            ],
-            {
-              type: "application/json"
-            }
+        try {
+          const parsed = JSON.parse(
+            await file.text()
           );
 
-          const downloadLink =
-            document.createElement("a");
-
-          downloadLink.href =
-            URL.createObjectURL(blob);
-
-          downloadLink.download =
-            `wwa-manager-backup-${
-              new Date()
-                .toISOString()
-                .slice(0, 10)
-            }.json`;
-
-          downloadLink.click();
-
-          URL.revokeObjectURL(
-            downloadLink.href
+          const incoming = normalize(
+            Array.isArray(parsed)
+              ? parsed
+              : parsed.sets
           );
-        }
-      );
 
-    element("restoreInput")
-      .addEventListener(
-        "change",
-        async (event) => {
-          const file =
-            event.target.files?.[0];
+          const confirmed = confirm(
+            `${incoming.length}개 세트로 ` +
+            "현재 데이터를 교체할까요?"
+          );
 
-          if (!file) {
+          if (!confirmed) {
             return;
           }
 
-          try {
-            const parsed = JSON.parse(
-              await file.text()
-            );
+          sets = incoming;
+          persist();
+        } catch (error) {
+          console.error(error);
 
-            const incomingSets =
-              Array.isArray(parsed)
-                ? parsed
-                : parsed.sets;
-
-            if (!Array.isArray(incomingSets)) {
-              throw new Error(
-                "올바른 백업 형식이 아닙니다."
-              );
-            }
-
-            const approved = confirm(
-              `${incomingSets.length}개 세트를 불러올까요? 현재 데이터는 대체됩니다.`
-            );
-
-            if (approved) {
-              sets = incomingSets;
-              saveSets();
-            }
-          } catch (error) {
-            alert(
-              "백업 파일을 읽지 못했습니다."
-            );
-          }
-
+          alert(
+            "올바른 WWA Manager 백업 파일이 아닙니다."
+          );
+        } finally {
           event.target.value = "";
         }
-      );
+      }
+    );
 
-    renderSets();
+    function toast(message) {
+      const element = $("toast");
+
+      element.textContent = message;
+      element.classList.add("show");
+
+      clearTimeout(toast.timer);
+
+      toast.timer = setTimeout(
+        () => element.classList.remove("show"),
+        1800
+      );
+    }
+
+    $("addBtn").addEventListener(
+      "click",
+      () => openEditor()
+    );
+
+    $("close").addEventListener(
+      "click",
+      () => dialog.close()
+    );
+
+    $("cancel").addEventListener(
+      "click",
+      () => dialog.close()
+    );
+
+    $("search").addEventListener(
+      "input",
+      render
+    );
+
+    $("filter").addEventListener(
+      "change",
+      render
+    );
+
+    dialog.addEventListener(
+      "click",
+      (event) => {
+        if (event.target === dialog) {
+          dialog.close();
+        }
+      }
+    );
+
+    render();
   </script>
 </body>
 </html>
