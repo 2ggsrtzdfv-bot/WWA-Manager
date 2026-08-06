@@ -5,7 +5,7 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"
   >
 
   <meta name="theme-color" content="#F8F8F5">
@@ -23,20 +23,20 @@
 
   <style>
     :root {
-      --hogwarts-blue: #1A2A44;
-      --patronus-blue: #7FB7E6;
-      --moon-silver: #C7CCD6;
-      --castle-stone: #6F7682;
-      --winter-white: #F8F8F5;
+      --hogwarts: #1A2A44;
+      --patronus: #7FB7E6;
+      --moon: #C7CCD6;
+      --stone: #6F7682;
+      --winter: #F8F8F5;
 
-      --surface: #FFFFFF;
-      --line: rgba(199, 204, 214, 0.72);
-      --soft-blue: rgba(127, 183, 230, 0.13);
-      --soft-navy: rgba(26, 42, 68, 0.07);
+      --line: rgba(199, 204, 214, 0.78);
+      --blue-soft: rgba(127, 183, 230, 0.13);
+      --navy-soft: rgba(26, 42, 68, 0.055);
+      --surface: rgba(248, 248, 245, 0.94);
 
-      --radius-small: 12px;
-      --radius-medium: 16px;
-      --radius-large: 24px;
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
 
       --safe-top: env(safe-area-inset-top);
       --safe-bottom: env(safe-area-inset-bottom);
@@ -49,20 +49,21 @@
 
     html {
       min-height: 100%;
-      background: var(--winter-white);
+      background: var(--winter);
     }
 
     body {
       min-height: 100%;
       margin: 0;
-      background: var(--winter-white);
-      color: var(--hogwarts-blue);
+      background: var(--winter);
+      color: var(--hogwarts);
       font-family:
         -apple-system,
         BlinkMacSystemFont,
         "SF Pro Display",
         "SF Pro Text",
         "Helvetica Neue",
+        "Noto Sans KR",
         Arial,
         sans-serif;
       overscroll-behavior-y: none;
@@ -77,6 +78,7 @@
 
     button {
       border: 0;
+      color: inherit;
       cursor: pointer;
     }
 
@@ -90,26 +92,26 @@
       max-width: 100%;
     }
 
-    .wwa-app {
+    .app {
       width: min(100%, 820px);
       min-height: 100dvh;
       margin: 0 auto;
       padding:
-        calc(16px + var(--safe-top))
+        calc(14px + var(--safe-top))
         20px
-        calc(110px + var(--safe-bottom));
+        calc(108px + var(--safe-bottom));
     }
 
-    .wwa-screen {
+    .screen {
       display: none;
-      animation: screenFade 180ms ease;
+      animation: screen-in 180ms ease;
     }
 
-    .wwa-screen.is-active {
+    .screen.is-active {
       display: block;
     }
 
-    @keyframes screenFade {
+    @keyframes screen-in {
       from {
         opacity: 0;
         transform: translateY(4px);
@@ -121,42 +123,62 @@
       }
     }
 
-    /* Header */
+    /* HEADER */
 
-    .wwa-header {
+    .app-header {
       display: flex;
+      min-height: 48px;
       align-items: center;
       justify-content: space-between;
-      min-height: 46px;
+      gap: 16px;
     }
 
-    .wwa-brand {
+    .brand {
       display: flex;
+      min-width: 0;
       align-items: center;
-      gap: 10px;
+      gap: 11px;
     }
 
-    .wwa-brand-mark {
+    .brand-mark {
       display: grid;
       place-items: center;
-      width: 34px;
-      height: 34px;
-      border: 1px solid var(--moon-silver);
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--moon);
       border-radius: 11px;
-      background: var(--winter-white);
-      color: var(--hogwarts-blue);
+      background: var(--winter);
+      color: var(--hogwarts);
       font-size: 10px;
       font-weight: 900;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
     }
 
-    .wwa-brand-name {
-      font-size: 16px;
-      font-weight: 760;
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-name {
+      display: block;
+      overflow: hidden;
+      font-size: 15px;
+      font-weight: 780;
       letter-spacing: -0.02em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .wwa-icon-button {
+    .brand-subtitle {
+      display: block;
+      margin-top: 2px;
+      color: var(--stone);
+      font-size: 10px;
+      font-weight: 650;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .icon-button {
       display: grid;
       place-items: center;
       width: 44px;
@@ -165,107 +187,115 @@
       border: 1px solid var(--line);
       border-radius: 50%;
       background: transparent;
-      color: var(--hogwarts-blue);
+      color: var(--hogwarts);
     }
 
-    .wwa-icon-button svg {
+    .icon-button svg {
       width: 20px;
       height: 20px;
     }
 
-    /* Page title */
+    /* PAGE HEADING */
 
-    .wwa-page-heading {
-      margin-top: 36px;
+    .page-heading {
+      margin-top: 38px;
     }
 
-    .wwa-page-kicker {
-      margin: 0 0 9px;
-      color: var(--castle-stone);
+    .page-kicker {
+      margin: 0 0 10px;
+      color: var(--stone);
       font-size: 11px;
-      font-weight: 760;
-      letter-spacing: 0.13em;
+      font-weight: 800;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
     }
 
-    .wwa-page-title {
+    .page-title {
       margin: 0;
-      color: var(--hogwarts-blue);
-      font-size: clamp(38px, 10vw, 58px);
-      font-weight: 760;
-      line-height: 0.98;
-      letter-spacing: -0.06em;
+      color: var(--hogwarts);
+      font-size: clamp(42px, 11vw, 62px);
+      font-weight: 770;
+      line-height: 0.95;
+      letter-spacing: -0.065em;
     }
 
-    /* World entrance */
+    .page-summary {
+      max-width: 360px;
+      margin: 18px 0 0;
+      color: var(--stone);
+      font-size: 13px;
+      line-height: 1.65;
+    }
 
-    .wwa-world-entrance {
+    /* CONTENTS INTRO */
+
+    .contents-intro {
       position: relative;
-      min-height: 245px;
+      min-height: 220px;
       margin-top: 30px;
       overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-large);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
       background:
         linear-gradient(
-          145deg,
-          rgba(127, 183, 230, 0.16),
-          rgba(248, 248, 245, 0.5) 58%
+          135deg,
+          rgba(127, 183, 230, 0.12),
+          transparent 56%
         );
     }
 
-    .wwa-blueprint {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      color: var(--hogwarts-blue);
-      opacity: 0.09;
-      pointer-events: none;
-    }
-
-    .wwa-world-copy {
+    .contents-intro-copy {
       position: relative;
       z-index: 1;
       display: flex;
-      min-height: 245px;
+      min-height: 220px;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 24px;
+      padding: 28px 0 26px;
     }
 
-    .wwa-world-label {
-      margin: 0 0 8px;
-      color: var(--castle-stone);
-      font-size: 11px;
-      font-weight: 760;
-      letter-spacing: 0.12em;
+    .contents-intro-label {
+      margin: 0 0 9px;
+      color: var(--stone);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.17em;
       text-transform: uppercase;
     }
 
-    .wwa-world-title {
-      max-width: 270px;
+    .contents-intro-title {
+      max-width: 310px;
       margin: 0;
-      font-size: 34px;
-      font-weight: 760;
-      line-height: 1;
+      font-size: 31px;
+      font-weight: 750;
+      line-height: 1.03;
       letter-spacing: -0.05em;
     }
 
-    .wwa-world-meta {
-      margin-top: 14px;
-      color: var(--castle-stone);
-      font-size: 13px;
-      line-height: 1.5;
+    .contents-intro-meta {
+      margin: 14px 0 0;
+      color: var(--stone);
+      font-size: 12px;
     }
 
-    /* Sections */
+    .blueprint-art {
+      position: absolute;
+      right: -60px;
+      bottom: -25px;
+      width: 330px;
+      height: 210px;
+      color: var(--hogwarts);
+      opacity: 0.07;
+      pointer-events: none;
+    }
 
-    .wwa-section {
+    /* SECTION */
+
+    .section {
       margin-top: 48px;
     }
 
-    .wwa-section-header {
+    .section-header {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
@@ -273,73 +303,227 @@
       margin-bottom: 16px;
     }
 
-    .wwa-section-title {
+    .section-title {
       margin: 0;
       font-size: 21px;
       font-weight: 740;
       letter-spacing: -0.035em;
     }
 
-    .wwa-section-link {
+    .section-meta,
+    .text-button {
       padding: 0;
       background: transparent;
-      color: var(--castle-stone);
-      font-size: 13px;
-      font-weight: 690;
+      color: var(--stone);
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    /* World navigation */
+    /* MOVIE CONTENTS */
 
-    .wwa-world-list {
+    .movie-list {
       border-top: 1px solid var(--line);
     }
 
-    .wwa-world-row {
+    .movie-entry {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 16px;
+      grid-template-columns: 42px minmax(0, 1fr) auto;
+      gap: 15px;
       align-items: center;
       width: 100%;
-      min-height: 84px;
-      padding: 17px 0;
+      min-height: 112px;
+      padding: 19px 0;
       border-bottom: 1px solid var(--line);
       background: transparent;
-      color: inherit;
       text-align: left;
     }
 
-    .wwa-world-row:active {
-      opacity: 0.6;
+    .movie-entry:active {
+      opacity: 0.58;
+      transform: scale(0.996);
     }
 
-    .wwa-world-row-name {
+    .movie-index {
+      align-self: start;
+      padding-top: 3px;
+      color: var(--patronus);
+      font-size: 13px;
+      font-weight: 860;
+      letter-spacing: 0.08em;
+    }
+
+    .movie-info {
+      min-width: 0;
+    }
+
+    .movie-title {
       display: block;
-      font-size: 19px;
-      font-weight: 710;
-      letter-spacing: -0.025em;
+      max-width: 290px;
+      color: var(--hogwarts);
+      font-size: 20px;
+      font-weight: 730;
+      line-height: 1.14;
+      letter-spacing: -0.035em;
     }
 
-    .wwa-world-row-meta {
+    .movie-meta {
       display: block;
-      margin-top: 6px;
-      color: var(--castle-stone);
-      font-size: 12px;
+      margin-top: 8px;
+      color: var(--stone);
+      font-size: 11px;
+      line-height: 1.4;
     }
 
-    .wwa-world-arrow {
-      color: var(--moon-silver);
-      font-size: 22px;
-      font-weight: 400;
+    .movie-progress {
+      display: flex;
+      min-width: 46px;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
     }
 
-    /* Record component B+ */
+    .movie-progress-value {
+      font-size: 13px;
+      font-weight: 800;
+    }
 
-    .wwa-record-list {
+    .movie-progress-line {
+      width: 42px;
+      height: 2px;
+      overflow: hidden;
+      background: var(--moon);
+    }
+
+    .movie-progress-line span {
+      display: block;
+      height: 100%;
+      background: var(--patronus);
+    }
+
+    /* CONTINUE */
+
+    .continue-panel {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 64px;
+      gap: 16px;
+      align-items: center;
+      min-height: 142px;
+      padding: 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--blue-soft);
+      text-align: left;
+    }
+
+    .continue-panel:active {
+      opacity: 0.68;
+      transform: scale(0.994);
+    }
+
+    .continue-label {
+      display: block;
+      color: var(--stone);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .continue-number {
+      display: block;
+      margin-top: 13px;
+      color: var(--stone);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .continue-name {
+      display: block;
+      margin-top: 5px;
+      color: var(--hogwarts);
+      font-size: 20px;
+      font-weight: 740;
+      line-height: 1.16;
+      letter-spacing: -0.035em;
+    }
+
+    .continue-status {
+      display: block;
+      margin-top: 10px;
+      color: var(--stone);
+      font-size: 11px;
+    }
+
+    .continue-side {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .continue-percent {
+      font-size: 17px;
+      font-weight: 820;
+    }
+
+    .continue-thumb {
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--winter);
+      color: var(--stone);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-align: center;
+    }
+
+    .continue-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* TOOLS */
+
+    .tools {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 130px;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .control {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      outline: none;
+      background: transparent;
+      color: var(--hogwarts);
+      font-size: 16px;
+    }
+
+    .control:focus {
+      border-color: var(--patronus);
+      box-shadow: 0 0 0 3px var(--blue-soft);
+    }
+
+    /* RECORD */
+
+    .record-list {
       border-top: 1px solid var(--line);
     }
 
-    .wwa-record {
-      position: relative;
+    .record {
       display: grid;
       grid-template-columns: minmax(0, 1fr) 52px;
       gap: 16px;
@@ -349,62 +533,61 @@
       padding: 18px 0;
       border-bottom: 1px solid var(--line);
       background: transparent;
-      color: inherit;
       text-align: left;
     }
 
-    .wwa-record:active {
+    .record:active {
       opacity: 0.58;
       transform: scale(0.995);
     }
 
-    .wwa-record-number {
-      margin: 0;
-      color: var(--castle-stone);
-      font-size: 12px;
-      font-weight: 780;
-      letter-spacing: 0.08em;
+    .record-number {
+      display: block;
+      color: var(--stone);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.09em;
     }
 
-    .wwa-record-name {
-      margin: 5px 0 0;
-      overflow-wrap: anywhere;
-      color: var(--hogwarts-blue);
+    .record-name {
+      display: block;
+      margin-top: 5px;
+      color: var(--hogwarts);
       font-size: 20px;
       font-weight: 740;
-      line-height: 1.15;
+      line-height: 1.16;
       letter-spacing: -0.035em;
     }
 
-    .wwa-record-status {
-      margin: 10px 0 0;
-      color: var(--hogwarts-blue);
-      font-size: 12px;
-      font-weight: 690;
+    .record-film {
+      display: block;
+      margin-top: 9px;
+      color: var(--hogwarts);
+      font-size: 11px;
+      font-weight: 700;
     }
 
-    .wwa-record-metadata {
-      margin: 5px 0 0;
-      color: var(--castle-stone);
-      font-size: 12px;
+    .record-meta {
+      display: block;
+      margin-top: 5px;
+      color: var(--stone);
+      font-size: 11px;
       line-height: 1.4;
     }
 
-    .wwa-record-side {
+    .record-side {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      justify-content: center;
       gap: 10px;
     }
 
-    .wwa-record-progress {
-      color: var(--hogwarts-blue);
+    .record-progress {
       font-size: 13px;
-      font-weight: 790;
+      font-weight: 800;
     }
 
-    .wwa-record-thumb {
+    .record-thumb {
       display: grid;
       place-items: center;
       width: 48px;
@@ -412,237 +595,110 @@
       overflow: hidden;
       border: 1px solid var(--line);
       border-radius: 10px;
-      background: var(--surface);
-      color: var(--castle-stone);
-      font-size: 9px;
+      background: var(--winter);
+      color: var(--stone);
+      font-size: 8px;
       font-weight: 800;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       text-align: center;
     }
 
-    .wwa-record-thumb img {
+    .record-thumb img {
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
 
-    /* Archive status */
+    /* SIMPLE ROWS */
 
-    .wwa-status-panel {
-      padding: 22px 0 0;
+    .simple-list {
       border-top: 1px solid var(--line);
     }
 
-    .wwa-status-total {
+    .simple-row {
       display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .wwa-status-total strong {
-      font-size: 38px;
-      font-weight: 760;
-      letter-spacing: -0.055em;
-    }
-
-    .wwa-status-total span {
-      color: var(--castle-stone);
-      font-size: 12px;
-      font-weight: 690;
-    }
-
-    .wwa-status-breakdown {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .wwa-status-item {
-      min-width: 0;
-    }
-
-    .wwa-status-item strong {
-      display: block;
-      font-size: 20px;
-      font-weight: 730;
-    }
-
-    .wwa-status-item span {
-      display: block;
-      margin-top: 5px;
-      color: var(--castle-stone);
-      font-size: 11px;
-    }
-
-    /* Search and filter */
-
-    .wwa-tools {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 130px;
-      gap: 10px;
-      margin-top: 28px;
-    }
-
-    .wwa-control {
-      width: 100%;
-      min-height: 48px;
-      padding: 0 14px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-medium);
-      outline: none;
-      background: transparent;
-      color: var(--hogwarts-blue);
-      font-size: 16px;
-    }
-
-    .wwa-control:focus {
-      border-color: var(--patronus-blue);
-      box-shadow: 0 0 0 3px var(--soft-blue);
-    }
-
-    /* Empty state */
-
-    .wwa-empty {
-      padding: 40px 0;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      color: var(--castle-stone);
-      text-align: center;
-    }
-
-    .wwa-empty strong {
-      display: block;
-      margin-bottom: 7px;
-      color: var(--hogwarts-blue);
-      font-size: 18px;
-    }
-
-    /* Assets */
-
-    .wwa-asset-list {
-      border-top: 1px solid var(--line);
-    }
-
-    .wwa-asset-row {
-      display: flex;
+      min-height: 74px;
       align-items: center;
       justify-content: space-between;
-      min-height: 74px;
+      gap: 16px;
       padding: 16px 0;
       border-bottom: 1px solid var(--line);
     }
 
-    .wwa-asset-row strong {
+    .simple-row strong {
       font-size: 17px;
       font-weight: 710;
     }
 
-    .wwa-asset-row span {
-      color: var(--castle-stone);
-      font-size: 12px;
+    .simple-row span {
+      color: var(--stone);
+      font-size: 11px;
     }
 
-    /* Pages */
+    /* EMPTY */
 
-    .wwa-page-list {
+    .empty {
+      padding: 42px 12px;
       border-top: 1px solid var(--line);
-    }
-
-    .wwa-page-row {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      gap: 14px;
-      align-items: center;
-      min-height: 84px;
-      padding: 16px 0;
       border-bottom: 1px solid var(--line);
+      color: var(--stone);
+      text-align: center;
     }
 
-    .wwa-page-number {
-      color: var(--castle-stone);
-      font-size: 12px;
-      font-weight: 770;
+    .empty strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--hogwarts);
+      font-size: 17px;
     }
 
-    .wwa-page-name {
-      font-size: 18px;
-      font-weight: 710;
-    }
+    /* BUTTONS */
 
-    .wwa-page-state {
-      color: var(--castle-stone);
-      font-size: 12px;
-    }
-
-    /* Buttons */
-
-    .wwa-primary-button,
-    .wwa-secondary-button,
-    .wwa-danger-button {
+    .primary-button,
+    .secondary-button,
+    .danger-button {
       min-height: 48px;
       padding: 0 17px;
-      border-radius: var(--radius-medium);
+      border-radius: var(--radius-md);
       font-weight: 760;
     }
 
-    .wwa-primary-button {
-      background: var(--hogwarts-blue);
-      color: var(--winter-white);
+    .primary-button {
+      background: var(--hogwarts);
+      color: var(--winter);
     }
 
-    .wwa-secondary-button {
+    .secondary-button {
       border: 1px solid var(--line);
       background: transparent;
-      color: var(--hogwarts-blue);
+      color: var(--hogwarts);
     }
 
-    .wwa-danger-button {
-      background: var(--hogwarts-blue);
-      color: var(--winter-white);
-      opacity: 0.76;
+    .danger-button {
+      background: rgba(26, 42, 68, 0.76);
+      color: var(--winter);
     }
 
-    .wwa-full-button {
+    .full-button {
       width: 100%;
     }
 
-    /* Settings */
+    /* SETTINGS */
 
-    .wwa-settings-group {
-      margin-top: 30px;
+    .settings-list {
+      margin-top: 34px;
       border-top: 1px solid var(--line);
     }
 
-    .wwa-settings-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 68px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .wwa-settings-row strong {
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    .wwa-settings-row span {
-      color: var(--castle-stone);
-      font-size: 12px;
-    }
-
-    .wwa-settings-actions {
+    .settings-actions {
       display: grid;
       gap: 10px;
-      margin-top: 28px;
+      margin-top: 30px;
     }
 
-    /* Bottom navigation */
+    /* NAVIGATION */
 
-    .wwa-navigation {
+    .navigation {
       position: fixed;
       right: 0;
       bottom: 0;
@@ -650,70 +706,71 @@
       z-index: 50;
       padding:
         8px
-        14px
+        12px
         calc(8px + var(--safe-bottom));
       border-top: 1px solid var(--line);
-      background: rgba(248, 248, 245, 0.94);
+      background: var(--surface);
       backdrop-filter: blur(18px);
     }
 
-    .wwa-navigation-inner {
+    .navigation-inner {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       width: min(100%, 820px);
       margin: 0 auto;
     }
 
-    .wwa-nav-button {
+    .nav-button {
       display: flex;
-      min-height: 55px;
+      min-height: 56px;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 4px;
       padding: 0;
       background: transparent;
-      color: var(--castle-stone);
-      font-size: 10px;
-      font-weight: 690;
+      color: var(--stone);
+      font-size: 9px;
+      font-weight: 700;
     }
 
-    .wwa-nav-button svg {
+    .nav-button svg {
       width: 21px;
       height: 21px;
     }
 
-    .wwa-nav-button.is-active {
-      color: var(--hogwarts-blue);
+    .nav-button.is-active {
+      color: var(--hogwarts);
     }
 
-    /* Dialog */
+    /* DIALOG */
 
-    .wwa-dialog {
+    dialog {
       width: min(760px, 100vw);
       max-width: 100vw;
-      height: min(96dvh, 950px);
+      height: min(96dvh, 960px);
       max-height: 96dvh;
       margin: auto;
       padding: 0;
       overflow: hidden;
       border: 0;
       border-radius: 26px 26px 0 0;
-      background: var(--winter-white);
-      color: var(--hogwarts-blue);
-      box-shadow: 0 28px 90px rgba(26, 42, 68, 0.25);
+      background: var(--winter);
+      color: var(--hogwarts);
+      box-shadow: 0 30px 90px rgba(26, 42, 68, 0.25);
     }
 
-    .wwa-dialog::backdrop {
-      background: rgba(26, 42, 68, 0.55);
+    dialog::backdrop {
+      background: rgba(26, 42, 68, 0.56);
       backdrop-filter: blur(5px);
     }
 
-    .wwa-dialog-header {
+    .dialog-header {
       display: flex;
+      min-height: 74px;
       align-items: center;
       justify-content: space-between;
-      min-height: 72px;
+      gap: 16px;
       padding:
         calc(12px + var(--safe-top))
         20px
@@ -721,14 +778,14 @@
       border-bottom: 1px solid var(--line);
     }
 
-    .wwa-dialog-header h2 {
+    .dialog-header h2 {
       margin: 0;
       font-size: 21px;
       letter-spacing: -0.035em;
     }
 
-    .wwa-dialog-body {
-      height: calc(96dvh - 72px);
+    .dialog-body {
+      height: calc(96dvh - 74px);
       overflow-y: auto;
       padding:
         24px
@@ -736,115 +793,110 @@
         calc(120px + var(--safe-bottom));
     }
 
-    .wwa-form-section + .wwa-form-section {
+    .form-section + .form-section {
       margin-top: 42px;
     }
 
-    .wwa-form-section h3 {
+    .form-section h3 {
       margin: 0 0 18px;
       font-size: 19px;
       letter-spacing: -0.03em;
     }
 
-    .wwa-form-grid {
+    .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 15px;
     }
 
-    .wwa-field {
+    .field {
       display: flex;
       min-width: 0;
       flex-direction: column;
       gap: 7px;
     }
 
-    .wwa-field.is-full {
+    .field.is-full {
       grid-column: 1 / -1;
     }
 
-    .wwa-field label {
-      color: var(--castle-stone);
-      font-size: 11px;
-      font-weight: 770;
-      letter-spacing: 0.07em;
+    .field label {
+      color: var(--stone);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    .wwa-field textarea {
+    .field textarea {
       min-height: 110px;
       padding-top: 13px;
       resize: vertical;
     }
 
-    .wwa-check-list {
+    .check-list,
+    .upload-list {
       border-top: 1px solid var(--line);
     }
 
-    .wwa-check-row {
+    .check-row {
       display: flex;
+      min-height: 54px;
       align-items: center;
       gap: 11px;
-      min-height: 54px;
       border-bottom: 1px solid var(--line);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 650;
     }
 
-    .wwa-check-row input {
+    .check-row input {
       width: 20px;
       height: 20px;
-      accent-color: var(--hogwarts-blue);
+      accent-color: var(--hogwarts);
     }
 
-    .wwa-upload-list {
-      border-top: 1px solid var(--line);
-    }
-
-    .wwa-upload-row {
+    .upload-row {
       padding: 16px 0;
       border-bottom: 1px solid var(--line);
     }
 
-    .wwa-upload-preview {
+    .upload-preview {
       display: none;
       width: 100%;
       max-height: 240px;
       margin-bottom: 12px;
-      border-radius: var(--radius-medium);
+      border-radius: var(--radius-md);
       object-fit: contain;
-      background: var(--surface);
+      background: var(--winter);
     }
 
-    .wwa-upload-row strong {
+    .upload-row strong {
       display: block;
       margin-bottom: 8px;
-      font-size: 14px;
+      font-size: 13px;
     }
 
-    .wwa-upload-row input {
+    .upload-row input {
       width: 100%;
-      color: var(--castle-stone);
-      font-size: 12px;
+      color: var(--stone);
+      font-size: 11px;
     }
 
-    .wwa-upload-remove {
+    .upload-remove {
       min-height: 38px;
       margin-top: 10px;
       padding: 0 12px;
       border: 1px solid var(--line);
-      border-radius: var(--radius-small);
+      border-radius: var(--radius-sm);
       background: transparent;
-      color: var(--hogwarts-blue);
-      font-size: 12px;
+      color: var(--hogwarts);
+      font-size: 11px;
       font-weight: 700;
     }
 
-    .wwa-dialog-actions {
+    .dialog-actions {
       position: sticky;
-      bottom: calc(
-        -120px - var(--safe-bottom)
-      );
+      bottom: calc(-120px - var(--safe-bottom));
       display: flex;
       justify-content: space-between;
       gap: 10px;
@@ -857,27 +909,27 @@
         20px
         calc(12px + var(--safe-bottom));
       border-top: 1px solid var(--line);
-      background: rgba(248, 248, 245, 0.95);
+      background: var(--surface);
       backdrop-filter: blur(18px);
     }
 
-    .wwa-dialog-actions-right {
+    .dialog-actions-right {
       display: flex;
       gap: 9px;
     }
 
-    /* Toast */
+    /* TOAST */
 
-    .wwa-toast {
+    .toast {
       position: fixed;
       left: 50%;
       bottom: calc(92px + var(--safe-bottom));
       z-index: 100;
       padding: 11px 15px;
       border-radius: 999px;
-      background: var(--hogwarts-blue);
-      color: var(--winter-white);
-      font-size: 12px;
+      background: var(--hogwarts);
+      color: var(--winter);
+      font-size: 11px;
       font-weight: 720;
       opacity: 0;
       pointer-events: none;
@@ -885,26 +937,22 @@
       transition: 180ms ease;
     }
 
-    .wwa-toast.is-visible {
+    .toast.is-visible {
       opacity: 1;
       transform: translate(-50%, 0);
     }
 
     @media (max-width: 600px) {
-      .wwa-tools,
-      .wwa-form-grid {
+      .tools,
+      .form-grid {
         grid-template-columns: 1fr;
       }
 
-      .wwa-field.is-full {
+      .field.is-full {
         grid-column: auto;
       }
 
-      .wwa-status-breakdown {
-        gap: 8px;
-      }
-
-      .wwa-dialog {
+      dialog {
         align-self: end;
         margin: auto 0 0;
       }
@@ -913,23 +961,33 @@
 </head>
 
 <body>
-  <main class="wwa-app">
 
-    <!-- HOME -->
+  <main class="app">
+
+    <!-- CONTENTS -->
 
     <section
-      id="screen-home"
-      class="wwa-screen is-active"
-      data-screen="home"
+      id="screen-contents"
+      class="screen is-active"
+      data-screen="contents"
     >
-      <header class="wwa-header">
-        <div class="wwa-brand">
-          <div class="wwa-brand-mark">WWA</div>
-          <span class="wwa-brand-name">WWA Manager</span>
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark">WWA</div>
+
+          <div class="brand-copy">
+            <span class="brand-name">
+              WWA Manager
+            </span>
+
+            <span class="brand-subtitle">
+              Wizarding World Archive
+            </span>
+          </div>
         </div>
 
         <button
-          class="wwa-icon-button"
+          class="icon-button"
           type="button"
           data-go-screen="records"
           aria-label="검색"
@@ -947,125 +1005,88 @@
         </button>
       </header>
 
-      <div class="wwa-page-heading">
-        <p class="wwa-page-kicker">
-          Wizarding World Archive
+      <div class="page-heading">
+        <p class="page-kicker">
+          Harry Potter Film Series
         </p>
 
-        <h1 class="wwa-page-title">
-          Wizarding<br>World
+        <h1 class="page-title">
+          Contents
         </h1>
+
+        <p class="page-summary">
+          영화의 흐름을 따라 Wizarding World를
+          LEGO와 함께 기록합니다.
+        </p>
       </div>
 
-      <section class="wwa-world-entrance">
+      <section class="contents-intro">
         <svg
-          class="wwa-blueprint"
-          viewBox="0 0 500 280"
+          class="blueprint-art"
+          viewBox="0 0 440 280"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
+          stroke-width="1.7"
         >
-          <path d="M24 235H476"></path>
-          <path d="M72 235V170L112 145L152 170V235"></path>
-          <path d="M98 145V92L112 66L126 92V145"></path>
-          <path d="M165 235V130L205 102L245 130V235"></path>
-          <path d="M194 103V50L205 26L216 50V103"></path>
-          <path d="M257 235V155L300 125L343 155V235"></path>
-          <path d="M286 125V78L300 54L314 78V125"></path>
-          <path d="M354 235V175L389 148L424 175V235"></path>
-          <path d="M378 148V102L389 80L400 102V148"></path>
-          <path d="M57 235L205 140L300 180L443 112"></path>
-          <path d="M90 198H130"></path>
-          <path d="M185 170H225"></path>
-          <path d="M279 190H321"></path>
-          <circle cx="112" cy="187" r="9"></circle>
-          <circle cx="205" cy="158" r="9"></circle>
-          <circle cx="300" cy="182" r="9"></circle>
-          <circle cx="389" cy="193" r="9"></circle>
+          <path d="M20 238H420"></path>
+          <path d="M58 238V182L93 154L128 182V238"></path>
+          <path d="M80 155V105L93 79L106 105V155"></path>
+          <path d="M142 238V140L183 110L224 140V238"></path>
+          <path d="M170 110V53L183 27L196 53V110"></path>
+          <path d="M238 238V167L278 138L318 167V238"></path>
+          <path d="M265 138V91L278 66L291 91V138"></path>
+          <path d="M329 238V185L362 159L395 185V238"></path>
+          <path d="M351 159V117L362 95L373 117V159"></path>
+          <path d="M42 238L183 151L278 191L408 122"></path>
+          <circle cx="93" cy="196" r="8"></circle>
+          <circle cx="183" cy="169" r="8"></circle>
+          <circle cx="278" cy="193" r="8"></circle>
+          <circle cx="362" cy="201" r="8"></circle>
         </svg>
 
-        <div class="wwa-world-copy">
-          <p class="wwa-world-label">
-            Archive Entrance
+        <div class="contents-intro-copy">
+          <p class="contents-intro-label">
+            Archive Structure
           </p>
 
-          <h2 class="wwa-world-title">
-            Curate the world through LEGO.
+          <h2 class="contents-intro-title">
+            Movie → Location → Record → Page
           </h2>
 
           <p
-            id="home-world-summary"
-            class="wwa-world-meta"
+            id="contents-summary"
+            class="contents-intro-meta"
           >
-            0 Records · 0 Published
+            8 Films · 0 Records · 0 Published
           </p>
         </div>
       </section>
 
-      <section class="wwa-section">
-        <div class="wwa-section-header">
-          <h2 class="wwa-section-title">
-            World Collections
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">
+            Film Series
           </h2>
+
+          <span class="section-meta">
+            01—08
+          </span>
         </div>
 
         <div
-          id="home-world-list"
-          class="wwa-world-list"
+          id="movie-list"
+          class="movie-list"
         ></div>
       </section>
 
-      <section class="wwa-section">
-        <div class="wwa-section-header">
-          <h2 class="wwa-section-title">
-            In Progress
-          </h2>
-
-          <button
-            type="button"
-            class="wwa-section-link"
-            data-go-screen="records"
-          >
-            All Records
-          </button>
-        </div>
-
-        <div
-          id="home-current-record"
-          class="wwa-record-list"
-        ></div>
-      </section>
-
-      <section class="wwa-section">
-        <div class="wwa-section-header">
-          <h2 class="wwa-section-title">
-            Archive Status
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">
+            Continue Curation
           </h2>
         </div>
 
-        <div class="wwa-status-panel">
-          <div class="wwa-status-total">
-            <strong id="home-total-records">0</strong>
-            <span>Records</span>
-          </div>
-
-          <div class="wwa-status-breakdown">
-            <div class="wwa-status-item">
-              <strong id="status-published">0</strong>
-              <span>Published</span>
-            </div>
-
-            <div class="wwa-status-item">
-              <strong id="status-building">0</strong>
-              <span>Building</span>
-            </div>
-
-            <div class="wwa-status-item">
-              <strong id="status-research">0</strong>
-              <span>Research</span>
-            </div>
-          </div>
-        </div>
+        <div id="continue-container"></div>
       </section>
     </section>
 
@@ -1073,18 +1094,27 @@
 
     <section
       id="screen-records"
-      class="wwa-screen"
+      class="screen"
       data-screen="records"
     >
-      <header class="wwa-header">
-        <div class="wwa-brand">
-          <div class="wwa-brand-mark">WWA</div>
-          <span class="wwa-brand-name">WWA Manager</span>
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark">WWA</div>
+
+          <div class="brand-copy">
+            <span class="brand-name">
+              WWA Manager
+            </span>
+
+            <span class="brand-subtitle">
+              Records
+            </span>
+          </div>
         </div>
 
         <button
           id="add-record-button"
-          class="wwa-icon-button"
+          class="icon-button"
           type="button"
           aria-label="레코드 추가"
         >
@@ -1101,27 +1131,33 @@
         </button>
       </header>
 
-      <div class="wwa-page-heading">
-        <p class="wwa-page-kicker">
+      <div class="page-heading">
+        <p
+          id="records-kicker"
+          class="page-kicker"
+        >
           My Collection
         </p>
 
-        <h1 class="wwa-page-title">
+        <h1
+          id="records-title"
+          class="page-title"
+        >
           Records
         </h1>
       </div>
 
-      <div class="wwa-tools">
+      <div class="tools">
         <input
           id="record-search"
-          class="wwa-control"
+          class="control"
           type="search"
           placeholder="세트번호 또는 세트명"
         >
 
         <select
           id="record-filter"
-          class="wwa-control"
+          class="control"
         >
           <option value="">All Status</option>
           <option value="planning">Planning</option>
@@ -1132,23 +1168,23 @@
         </select>
       </div>
 
-      <section class="wwa-section">
-        <div class="wwa-section-header">
-          <h2 class="wwa-section-title">
-            All Records
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">
+            Record List
           </h2>
 
           <span
             id="records-count"
-            class="wwa-section-link"
+            class="section-meta"
           >
-            0
+            0 Records
           </span>
         </div>
 
         <div
           id="records-list"
-          class="wwa-record-list"
+          class="record-list"
         ></div>
       </section>
     </section>
@@ -1157,30 +1193,39 @@
 
     <section
       id="screen-assets"
-      class="wwa-screen"
+      class="screen"
       data-screen="assets"
     >
-      <header class="wwa-header">
-        <div class="wwa-brand">
-          <div class="wwa-brand-mark">WWA</div>
-          <span class="wwa-brand-name">WWA Manager</span>
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark">WWA</div>
+
+          <div class="brand-copy">
+            <span class="brand-name">
+              WWA Manager
+            </span>
+
+            <span class="brand-subtitle">
+              Archive Material
+            </span>
+          </div>
         </div>
       </header>
 
-      <div class="wwa-page-heading">
-        <p class="wwa-page-kicker">
-          Archive Material
+      <div class="page-heading">
+        <p class="page-kicker">
+          Visual Archive
         </p>
 
-        <h1 class="wwa-page-title">
+        <h1 class="page-title">
           Assets
         </h1>
       </div>
 
-      <section class="wwa-section">
+      <section class="section">
         <div
-          id="asset-summary-list"
-          class="wwa-asset-list"
+          id="assets-list"
+          class="simple-list"
         ></div>
       </section>
     </section>
@@ -1189,30 +1234,39 @@
 
     <section
       id="screen-pages"
-      class="wwa-screen"
+      class="screen"
       data-screen="pages"
     >
-      <header class="wwa-header">
-        <div class="wwa-brand">
-          <div class="wwa-brand-mark">WWA</div>
-          <span class="wwa-brand-name">WWA Manager</span>
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark">WWA</div>
+
+          <div class="brand-copy">
+            <span class="brand-name">
+              WWA Manager
+            </span>
+
+            <span class="brand-subtitle">
+              Book Production
+            </span>
+          </div>
         </div>
       </header>
 
-      <div class="wwa-page-heading">
-        <p class="wwa-page-kicker">
-          WWA Book Production
+      <div class="page-heading">
+        <p class="page-kicker">
+          WWA Book
         </p>
 
-        <h1 class="wwa-page-title">
+        <h1 class="page-title">
           Pages
         </h1>
       </div>
 
-      <section class="wwa-section">
+      <section class="section">
         <div
           id="pages-list"
-          class="wwa-page-list"
+          class="simple-list"
         ></div>
       </section>
     </section>
@@ -1221,47 +1275,56 @@
 
     <section
       id="screen-settings"
-      class="wwa-screen"
+      class="screen"
       data-screen="settings"
     >
-      <header class="wwa-header">
-        <div class="wwa-brand">
-          <div class="wwa-brand-mark">WWA</div>
-          <span class="wwa-brand-name">WWA Manager</span>
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark">WWA</div>
+
+          <div class="brand-copy">
+            <span class="brand-name">
+              WWA Manager
+            </span>
+
+            <span class="brand-subtitle">
+              System
+            </span>
+          </div>
         </div>
       </header>
 
-      <div class="wwa-page-heading">
-        <p class="wwa-page-kicker">
-          System
+      <div class="page-heading">
+        <p class="page-kicker">
+          WWA Manager
         </p>
 
-        <h1 class="wwa-page-title">
+        <h1 class="page-title">
           Settings
         </h1>
       </div>
 
-      <div class="wwa-settings-group">
-        <div class="wwa-settings-row">
+      <div class="settings-list simple-list">
+        <div class="simple-row">
           <strong>Storage</strong>
-          <span>Local device</span>
+          <span>Local Device</span>
         </div>
 
-        <div class="wwa-settings-row">
+        <div class="simple-row">
           <strong>Version</strong>
-          <span>v0.4-dev</span>
+          <span>v0.4 Film Contents</span>
         </div>
 
-        <div class="wwa-settings-row">
+        <div class="simple-row">
           <strong>Platform</strong>
           <span>GitHub Pages</span>
         </div>
       </div>
 
-      <div class="wwa-settings-actions">
+      <div class="settings-actions">
         <button
           id="backup-button"
-          class="wwa-secondary-button wwa-full-button"
+          class="secondary-button full-button"
           type="button"
         >
           JSON Backup
@@ -1269,7 +1332,7 @@
 
         <label
           for="restore-input"
-          class="wwa-secondary-button wwa-full-button"
+          class="secondary-button full-button"
           style="
             display:flex;
             align-items:center;
@@ -1288,17 +1351,18 @@
         >
       </div>
     </section>
+
   </main>
 
-  <!-- BOTTOM NAVIGATION -->
+  <!-- NAVIGATION -->
 
-  <nav class="wwa-navigation">
-    <div class="wwa-navigation-inner">
+  <nav class="navigation">
+    <div class="navigation-inner">
 
       <button
-        class="wwa-nav-button is-active"
+        class="nav-button is-active"
         type="button"
-        data-nav-screen="home"
+        data-nav-screen="contents"
       >
         <svg
           viewBox="0 0 24 24"
@@ -1306,16 +1370,18 @@
           stroke="currentColor"
           stroke-width="1.7"
           stroke-linecap="round"
-          stroke-linejoin="round"
         >
-          <path d="M4 10.5L12 4L20 10.5V20H4Z"></path>
-          <path d="M9 20V14H15V20"></path>
+          <path d="M6 4H18"></path>
+          <path d="M6 9H18"></path>
+          <path d="M6 14H18"></path>
+          <path d="M6 19H15"></path>
         </svg>
-        <span>Home</span>
+
+        <span>Contents</span>
       </button>
 
       <button
-        class="wwa-nav-button"
+        class="nav-button"
         type="button"
         data-nav-screen="records"
       >
@@ -1331,11 +1397,12 @@
           <path d="M9 12H15"></path>
           <path d="M9 16H13"></path>
         </svg>
+
         <span>Records</span>
       </button>
 
       <button
-        class="wwa-nav-button"
+        class="nav-button"
         type="button"
         data-nav-screen="assets"
       >
@@ -1351,11 +1418,12 @@
           <circle cx="9" cy="10" r="1.5"></circle>
           <path d="M6 17L11 12L15 15L18 12"></path>
         </svg>
+
         <span>Assets</span>
       </button>
 
       <button
-        class="wwa-nav-button"
+        class="nav-button"
         type="button"
         data-nav-screen="pages"
       >
@@ -1369,11 +1437,12 @@
           <path d="M4 5.5C7 4 9.5 4.5 12 6V19C9.5 17.5 7 17 4 18.5Z"></path>
           <path d="M20 5.5C17 4 14.5 4.5 12 6V19C14.5 17.5 17 17 20 18.5Z"></path>
         </svg>
+
         <span>Pages</span>
       </button>
 
       <button
-        class="wwa-nav-button"
+        class="nav-button"
         type="button"
         data-nav-screen="settings"
       >
@@ -1386,28 +1455,33 @@
           stroke-linejoin="round"
         >
           <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19 12A7 7 0 0 0 18.8 10.3L21 8.7L19 5.3L16.5 6.4A7 7 0 0 0 14.7 5.3L14.4 2.5H9.6L9.3 5.3A7 7 0 0 0 7.5 6.4L5 5.3L3 8.7L5.2 10.3A7 7 0 0 0 5 12A7 7 0 0 0 5.2 13.7L3 15.3L5 18.7L7.5 17.6A7 7 0 0 0 9.3 18.7L9.6 21.5H14.4L14.7 18.7A7 7 0 0 0 16.5 17.6L19 18.7L21 15.3L18.8 13.7A7 7 0 0 0 19 12Z"></path>
+          <path d="M12 3V5"></path>
+          <path d="M12 19V21"></path>
+          <path d="M3 12H5"></path>
+          <path d="M19 12H21"></path>
+          <path d="M5.6 5.6L7 7"></path>
+          <path d="M17 17L18.4 18.4"></path>
+          <path d="M18.4 5.6L17 7"></path>
+          <path d="M7 17L5.6 18.4"></path>
         </svg>
+
         <span>Settings</span>
       </button>
 
     </div>
   </nav>
 
-  <!-- RECORD EDITOR -->
+  <!-- RECORD DIALOG -->
 
-  <dialog
-    id="record-dialog"
-    class="wwa-dialog"
-  >
-    <header class="wwa-dialog-header">
+  <dialog id="record-dialog">
+    <header class="dialog-header">
       <h2 id="dialog-title">
         New Record
       </h2>
 
       <button
         id="dialog-close-button"
-        class="wwa-icon-button"
+        class="icon-button"
         type="button"
         aria-label="닫기"
       >
@@ -1426,96 +1500,51 @@
 
     <form
       id="record-form"
-      class="wwa-dialog-body"
+      class="dialog-body"
     >
       <input
         id="record-id"
         type="hidden"
       >
 
-      <section class="wwa-form-section">
-        <h3>Overview</h3>
+      <section class="form-section">
+        <h3>Film & Record</h3>
 
-        <div class="wwa-form-grid">
+        <div class="form-grid">
 
-          <div class="wwa-field">
+          <div class="field is-full">
+            <label for="film-id">
+              Film
+            </label>
+
+            <select
+              id="film-id"
+              class="control"
+            ></select>
+          </div>
+
+          <div class="field">
             <label for="set-number">
               Set Number
             </label>
 
             <input
               id="set-number"
-              class="wwa-control"
+              class="control"
               required
               inputmode="numeric"
               placeholder="76417"
             >
           </div>
 
-          <div class="wwa-field">
-            <label for="world-name">
-              World Collection
-            </label>
-
-            <select
-              id="world-name"
-              class="wwa-control"
-            >
-              <option value="Hogwarts">
-                Hogwarts
-              </option>
-
-              <option value="Diagon Alley">
-                Diagon Alley
-              </option>
-
-              <option value="Gringotts">
-                Gringotts
-              </option>
-
-              <option value="Hogsmeade">
-                Hogsmeade
-              </option>
-
-              <option value="Ministry of Magic">
-                Ministry of Magic
-              </option>
-
-              <option value="Forbidden Forest">
-                Forbidden Forest
-              </option>
-
-              <option value="Hogwarts Express">
-                Hogwarts Express
-              </option>
-
-              <option value="Other">
-                Other
-              </option>
-            </select>
-          </div>
-
-          <div class="wwa-field is-full">
-            <label for="set-name">
-              Set Name
-            </label>
-
-            <input
-              id="set-name"
-              class="wwa-control"
-              required
-              placeholder="Gringotts Wizarding Bank"
-            >
-          </div>
-
-          <div class="wwa-field">
+          <div class="field">
             <label for="record-status">
               Status
             </label>
 
             <select
               id="record-status"
-              class="wwa-control"
+              class="control"
             >
               <option value="planning">
                 Planning
@@ -1539,54 +1568,79 @@
             </select>
           </div>
 
-          <div class="wwa-field">
+          <div class="field is-full">
+            <label for="set-name">
+              Set Name
+            </label>
+
+            <input
+              id="set-name"
+              class="control"
+              required
+              placeholder="Gringotts Wizarding Bank"
+            >
+          </div>
+
+          <div class="field is-full">
+            <label for="location-name">
+              Location / Scene
+            </label>
+
+            <input
+              id="location-name"
+              class="control"
+              placeholder="Gringotts · Dragon Escape"
+            >
+          </div>
+
+          <div class="field">
             <label for="release-date">
               Release Date
             </label>
 
             <input
               id="release-date"
-              class="wwa-control"
+              class="control"
               type="date"
             >
           </div>
 
-          <div class="wwa-field">
+          <div class="field">
             <label for="piece-count">
               Pieces
             </label>
 
             <input
               id="piece-count"
-              class="wwa-control"
+              class="control"
               type="number"
               inputmode="numeric"
               min="0"
             >
           </div>
 
-          <div class="wwa-field">
+          <div class="field">
             <label for="minifigure-count">
               Minifigures
             </label>
 
             <input
               id="minifigure-count"
-              class="wwa-control"
+              class="control"
               type="number"
               inputmode="numeric"
               min="0"
             >
           </div>
 
-          <div class="wwa-field is-full">
+          <div class="field">
             <label for="set-size">
               Size
             </label>
 
             <input
               id="set-size"
-              class="wwa-control"
+              class="control"
               placeholder="32 × 25 × 75 cm"
             >
           </div>
@@ -1594,115 +1648,115 @@
         </div>
       </section>
 
-      <section class="wwa-form-section">
+      <section class="form-section">
         <h3>Collection</h3>
 
-        <div class="wwa-form-grid">
+        <div class="form-grid">
 
-          <div class="wwa-field">
+          <div class="field">
             <label for="msrp">
               MSRP
             </label>
 
             <input
               id="msrp"
-              class="wwa-control"
+              class="control"
               type="number"
               inputmode="numeric"
               min="0"
             >
           </div>
 
-          <div class="wwa-field">
+          <div class="field">
             <label for="my-price">
               My Price
             </label>
 
             <input
               id="my-price"
-              class="wwa-control"
+              class="control"
               type="number"
               inputmode="numeric"
               min="0"
             >
           </div>
 
-          <div class="wwa-field">
+          <div class="field">
             <label for="purchase-date">
               Purchase Date
             </label>
 
             <input
               id="purchase-date"
-              class="wwa-control"
+              class="control"
               type="date"
             >
           </div>
 
-          <div class="wwa-field">
+          <div class="field">
             <label for="purchase-store">
               Purchase Store
             </label>
 
             <input
               id="purchase-store"
-              class="wwa-control"
+              class="control"
             >
           </div>
 
-          <div class="wwa-field is-full">
-            <label for="collection-notes">
+          <div class="field is-full">
+            <label for="record-notes">
               Notes
             </label>
 
             <textarea
-              id="collection-notes"
-              class="wwa-control"
+              id="record-notes"
+              class="control"
             ></textarea>
           </div>
 
         </div>
       </section>
 
-      <section class="wwa-form-section">
+      <section class="form-section">
         <h3>Production</h3>
 
         <div
           id="checklist-container"
-          class="wwa-check-list"
+          class="check-list"
         ></div>
       </section>
 
-      <section class="wwa-form-section">
+      <section class="form-section">
         <h3>Assets</h3>
 
         <div
           id="upload-container"
-          class="wwa-upload-list"
+          class="upload-list"
         ></div>
       </section>
 
-      <div class="wwa-dialog-actions">
+      <div class="dialog-actions">
         <button
           id="delete-record-button"
-          class="wwa-danger-button"
+          class="danger-button"
           type="button"
           hidden
         >
           Delete
         </button>
 
-        <div class="wwa-dialog-actions-right">
+        <div class="dialog-actions-right">
           <button
             id="dialog-cancel-button"
-            class="wwa-secondary-button"
+            class="secondary-button"
             type="button"
           >
             Cancel
           </button>
 
           <button
-            class="wwa-primary-button"
+            class="primary-button"
             type="submit"
           >
             Save
@@ -1714,30 +1768,88 @@
 
   <div
     id="toast"
-    class="wwa-toast"
+    class="toast"
   ></div>
 
   <script>
     "use strict";
 
-    const STORAGE_KEY = "wwa-manager-v04";
+    const STORAGE_KEY =
+      "wwa-manager-film-contents-v01";
 
     const LEGACY_KEYS = [
+      "wwa-manager-v04",
       "wwa-manager-v03",
       "wwa-manager-v02",
       "wwa-manager-v01",
       "wwa-manager-v1"
     ];
 
-    const WORLD_COLLECTIONS = [
-      "Hogwarts",
-      "Diagon Alley",
-      "Gringotts",
-      "Hogsmeade",
-      "Ministry of Magic",
-      "Forbidden Forest",
-      "Hogwarts Express",
-      "Other"
+    const FILMS = [
+      {
+        id: "film-01",
+        index: "01",
+        shortTitle: "Philosopher's Stone",
+        title:
+          "Harry Potter and the Philosopher's Stone",
+        year: "2001"
+      },
+      {
+        id: "film-02",
+        index: "02",
+        shortTitle: "Chamber of Secrets",
+        title:
+          "Harry Potter and the Chamber of Secrets",
+        year: "2002"
+      },
+      {
+        id: "film-03",
+        index: "03",
+        shortTitle: "Prisoner of Azkaban",
+        title:
+          "Harry Potter and the Prisoner of Azkaban",
+        year: "2004"
+      },
+      {
+        id: "film-04",
+        index: "04",
+        shortTitle: "Goblet of Fire",
+        title:
+          "Harry Potter and the Goblet of Fire",
+        year: "2005"
+      },
+      {
+        id: "film-05",
+        index: "05",
+        shortTitle: "Order of the Phoenix",
+        title:
+          "Harry Potter and the Order of the Phoenix",
+        year: "2007"
+      },
+      {
+        id: "film-06",
+        index: "06",
+        shortTitle: "Half-Blood Prince",
+        title:
+          "Harry Potter and the Half-Blood Prince",
+        year: "2009"
+      },
+      {
+        id: "film-07",
+        index: "07",
+        shortTitle: "Deathly Hallows Part 1",
+        title:
+          "Harry Potter and the Deathly Hallows – Part 1",
+        year: "2010"
+      },
+      {
+        id: "film-08",
+        index: "08",
+        shortTitle: "Deathly Hallows Part 2",
+        title:
+          "Harry Potter and the Deathly Hallows – Part 2",
+        year: "2011"
+      }
     ];
 
     const CHECKLIST = {
@@ -1770,14 +1882,28 @@
       published: "Published"
     };
 
-    const $ = (id) => {
-      return document.getElementById(id);
-    };
+    const $ = (id) =>
+      document.getElementById(id);
 
-    const dialog = $("record-dialog");
-    const recordForm = $("record-form");
+    const dialog =
+      $("record-dialog");
 
+    const recordForm =
+      $("record-form");
+
+    let activeFilmId = "";
     let records = loadRecords();
+
+    function createId() {
+      if (crypto.randomUUID) {
+        return crypto.randomUUID();
+      }
+
+      return (
+        Date.now().toString(36) +
+        Math.random().toString(36).slice(2)
+      );
+    }
 
     function loadRecords() {
       try {
@@ -1790,7 +1916,9 @@
           );
         }
 
-        for (const legacyKey of LEGACY_KEYS) {
+        for (
+          const legacyKey of LEGACY_KEYS
+        ) {
           const legacy =
             localStorage.getItem(legacyKey);
 
@@ -1798,9 +1926,10 @@
             continue;
           }
 
-          const migrated = normalizeRecords(
-            JSON.parse(legacy)
-          );
+          const migrated =
+            normalizeRecords(
+              JSON.parse(legacy)
+            );
 
           localStorage.setItem(
             STORAGE_KEY,
@@ -1820,9 +1949,11 @@
       const source =
         Array.isArray(data)
           ? data
-          : Array.isArray(data?.sets)
-            ? data.sets
-            : [];
+          : Array.isArray(data?.records)
+            ? data.records
+            : Array.isArray(data?.sets)
+              ? data.sets
+              : [];
 
       const checklistDefaults =
         Object.fromEntries(
@@ -1831,19 +1962,17 @@
           )
         );
 
+      const legacyStatusMap = {
+        collecting: "research",
+        designing: "building",
+        complete: "published"
+      };
+
       return source.map((record) => {
-        let status =
-          record.status || "planning";
-
-        const legacyStatusMap = {
-          collecting: "research",
-          designing: "building",
-          complete: "published"
-        };
-
-        status =
-          legacyStatusMap[status] ||
-          status;
+        const status =
+          legacyStatusMap[record.status] ||
+          record.status ||
+          "planning";
 
         return {
           ...record,
@@ -1852,10 +1981,15 @@
             record.id ||
             createId(),
 
-          world:
+          filmId:
+            record.filmId ||
+            inferFilmId(record) ||
+            "film-01",
+
+          location:
+            record.location ||
             record.world ||
-            inferWorld(record.setName) ||
-            "Other",
+            "",
 
           status,
 
@@ -1871,66 +2005,64 @@
       });
     }
 
-    function inferWorld(setName = "") {
-      const name =
-        String(setName).toLowerCase();
+    function inferFilmId(record) {
+      const text = [
+        record.setName,
+        record.notes,
+        record.world
+      ]
+        .join(" ")
+        .toLowerCase();
 
-      if (name.includes("gringotts")) {
-        return "Gringotts";
+      if (
+        text.includes("deathly hallows") &&
+        text.includes("part 2")
+      ) {
+        return "film-08";
       }
 
       if (
-        name.includes("diagon") ||
-        name.includes("ollivander")
+        text.includes("deathly hallows")
       ) {
-        return "Diagon Alley";
+        return "film-07";
       }
 
       if (
-        name.includes("express") ||
-        name.includes("station")
+        text.includes("half-blood")
       ) {
-        return "Hogwarts Express";
-      }
-
-      if (name.includes("hogsmeade")) {
-        return "Hogsmeade";
-      }
-
-      if (name.includes("ministry")) {
-        return "Ministry of Magic";
+        return "film-06";
       }
 
       if (
-        name.includes("forest") ||
-        name.includes("aragog")
+        text.includes("order of the phoenix")
       ) {
-        return "Forbidden Forest";
+        return "film-05";
       }
 
       if (
-        name.includes("hogwarts") ||
-        name.includes("great hall") ||
-        name.includes("castle")
+        text.includes("goblet of fire")
       ) {
-        return "Hogwarts";
+        return "film-04";
       }
 
-      return "Other";
+      if (
+        text.includes("prisoner of azkaban")
+      ) {
+        return "film-03";
+      }
+
+      if (
+        text.includes("chamber of secrets")
+      ) {
+        return "film-02";
+      }
+
+      return "film-01";
     }
 
-    function createId() {
-      if (crypto.randomUUID) {
-        return crypto.randomUUID();
-      }
-
-      return (
-        Date.now().toString(36) +
-        Math.random().toString(36).slice(2)
-      );
-    }
-
-    function saveRecords(message = "Saved") {
+    function saveRecords(
+      message = "Saved"
+    ) {
       try {
         localStorage.setItem(
           STORAGE_KEY,
@@ -1945,7 +2077,7 @@
         alert(
           "저장 공간이 부족합니다.\n" +
           "Settings에서 JSON 백업 후 " +
-          "사용하지 않는 사진을 삭제해 주세요."
+          "불필요한 사진을 삭제해 주세요."
         );
       }
     }
@@ -1963,22 +2095,32 @@
       );
     }
 
+    function getFilm(filmId) {
+      return (
+        FILMS.find(
+          (film) =>
+            film.id === filmId
+        ) ||
+        FILMS[0]
+      );
+    }
+
     function calculateProgress(record) {
       const values =
         Object.keys(CHECKLIST).map(
           (key) =>
-            Boolean(record.checklist?.[key])
+            Boolean(
+              record.checklist?.[key]
+            )
         );
-
-      if (!values.length) {
-        return 0;
-      }
 
       const completed =
         values.filter(Boolean).length;
 
       return Math.round(
-        completed / values.length * 100
+        completed /
+        values.length *
+        100
       );
     }
 
@@ -1993,25 +2135,23 @@
     }
 
     function getReleaseYear(record) {
-      if (!record.releaseDate) {
-        return "";
-      }
-
-      return record.releaseDate.slice(0, 4);
+      return record.releaseDate
+        ? record.releaseDate.slice(0, 4)
+        : "";
     }
 
     function formatMetadata(record) {
-      const values = [];
+      const items = [];
 
       const year =
         getReleaseYear(record);
 
       if (year) {
-        values.push(year);
+        items.push(year);
       }
 
       if (record.pieceCount) {
-        values.push(
+        items.push(
           `${Number(
             record.pieceCount
           ).toLocaleString()} pcs`
@@ -2022,24 +2162,31 @@
         record.minifigureCount !== "" &&
         record.minifigureCount != null
       ) {
-        values.push(
+        items.push(
           `${Number(
             record.minifigureCount || 0
           )} figs`
         );
       }
 
-      return values.join(" · ");
+      if (record.location) {
+        items.push(record.location);
+      }
+
+      return items.join(" · ");
     }
 
     function createRecordMarkup(record) {
-      const thumbnail =
-        getThumbnail(record);
+      const film =
+        getFilm(record.filmId);
 
       const progress =
         calculateProgress(record);
 
-      const thumbnailMarkup =
+      const thumbnail =
+        getThumbnail(record);
+
+      const thumbMarkup =
         thumbnail
           ? `
             <img
@@ -2051,165 +2198,284 @@
 
       return `
         <button
-          class="wwa-record"
+          class="record"
           type="button"
-          data-record-id="${escapeHtml(record.id)}"
+          data-record-id="${
+            escapeHtml(record.id)
+          }"
         >
           <span>
-            <span class="wwa-record-number">
-              ${escapeHtml(record.setNumber || "No number")}
+            <span class="record-number">
+              ${
+                escapeHtml(
+                  record.setNumber ||
+                  "No number"
+                )
+              }
             </span>
 
-            <span class="wwa-record-name">
-              ${escapeHtml(record.setName || "Untitled Record")}
+            <span class="record-name">
+              ${
+                escapeHtml(
+                  record.setName ||
+                  "Untitled Record"
+                )
+              }
             </span>
 
-            <span class="wwa-record-status">
-              ${escapeHtml(
-                STATUS_LABELS[record.status] ||
-                "Planning"
-              )}
+            <span class="record-film">
+              ${
+                escapeHtml(
+                  film.shortTitle
+                )
+              }
+              ·
+              ${
+                escapeHtml(
+                  STATUS_LABELS[
+                    record.status
+                  ] ||
+                  "Planning"
+                )
+              }
             </span>
 
-            <span class="wwa-record-metadata">
-              ${escapeHtml(
-                formatMetadata(record) ||
-                record.world ||
-                "Metadata not entered"
-              )}
+            <span class="record-meta">
+              ${
+                escapeHtml(
+                  formatMetadata(record) ||
+                  "Metadata not entered"
+                )
+              }
             </span>
           </span>
 
-          <span class="wwa-record-side">
-            <span class="wwa-record-progress">
+          <span class="record-side">
+            <span class="record-progress">
               ${progress}%
             </span>
 
-            <span class="wwa-record-thumb">
-              ${thumbnailMarkup}
+            <span class="record-thumb">
+              ${thumbMarkup}
             </span>
           </span>
         </button>
       `;
     }
 
-    function renderHome() {
+    function renderFilmSelect() {
+      $("film-id").innerHTML =
+        FILMS.map((film) => {
+          return `
+            <option value="${film.id}">
+              ${film.index} · ${film.shortTitle}
+            </option>
+          `;
+        }).join("");
+    }
+
+    function renderContents() {
       const publishedCount =
         records.filter(
           (record) =>
-            record.status === "published"
+            record.status ===
+            "published"
         ).length;
 
-      $("home-world-summary").textContent =
+      $("contents-summary").textContent =
+        `8 Films · ` +
         `${records.length} Records · ` +
         `${publishedCount} Published`;
 
-      $("home-total-records").textContent =
-        records.length;
-
-      $("status-published").textContent =
-        publishedCount;
-
-      $("status-building").textContent =
-        records.filter(
-          (record) =>
-            record.status === "building"
-        ).length;
-
-      $("status-research").textContent =
-        records.filter(
-          (record) =>
-            record.status === "research"
-        ).length;
-
-      $("home-world-list").innerHTML =
-        WORLD_COLLECTIONS
-          .filter((world) => {
-            return records.some(
+      $("movie-list").innerHTML =
+        FILMS.map((film) => {
+          const filmRecords =
+            records.filter(
               (record) =>
-                record.world === world
+                record.filmId ===
+                film.id
             );
-          })
-          .map((world) => {
-            const worldRecords =
-              records.filter(
-                (record) =>
-                  record.world === world
-              );
 
-            const published =
-              worldRecords.filter(
-                (record) =>
-                  record.status === "published"
-              ).length;
+          const averageProgress =
+            filmRecords.length
+              ? Math.round(
+                  filmRecords.reduce(
+                    (sum, record) =>
+                      sum +
+                      calculateProgress(record),
+                    0
+                  ) /
+                  filmRecords.length
+                )
+              : 0;
 
-            return `
-              <button
-                class="wwa-world-row"
-                type="button"
-                data-world-filter="${escapeHtml(world)}"
-              >
-                <span>
-                  <span class="wwa-world-row-name">
-                    ${escapeHtml(world)}
-                  </span>
+          const published =
+            filmRecords.filter(
+              (record) =>
+                record.status ===
+                "published"
+            ).length;
 
-                  <span class="wwa-world-row-meta">
-                    ${worldRecords.length} Records ·
-                    ${published} Published
-                  </span>
+          return `
+            <button
+              class="movie-entry"
+              type="button"
+              data-film-entry="${film.id}"
+            >
+              <span class="movie-index">
+                ${film.index}
+              </span>
+
+              <span class="movie-info">
+                <span class="movie-title">
+                  ${
+                    escapeHtml(
+                      film.shortTitle
+                    )
+                  }
                 </span>
 
-                <span class="wwa-world-arrow">
-                  ›
+                <span class="movie-meta">
+                  ${film.year}
+                  ·
+                  ${filmRecords.length} Records
+                  ·
+                  ${published} Published
                 </span>
-              </button>
-            `;
-          })
-          .join("");
+              </span>
 
-      if (
-        !$("home-world-list").innerHTML
-      ) {
-        $("home-world-list").innerHTML = `
-          <div class="wwa-empty">
-            <strong>
-              World Collection이 없습니다.
-            </strong>
-            첫 Record를 추가하면
-            이곳에 세계관별로 표시됩니다.
-          </div>
-        `;
-      }
+              <span class="movie-progress">
+                <span
+                  class="movie-progress-value"
+                >
+                  ${averageProgress}%
+                </span>
+
+                <span
+                  class="movie-progress-line"
+                >
+                  <span
+                    style="
+                      width:${averageProgress}%
+                    "
+                  ></span>
+                </span>
+              </span>
+            </button>
+          `;
+        }).join("");
 
       const current =
         [...records]
           .filter(
             (record) =>
-              record.status !== "published"
+              record.status !==
+              "published"
           )
-          .sort((a, b) => {
-            return String(
+          .sort((a, b) =>
+            String(
               b.updatedAt || ""
             ).localeCompare(
-              String(a.updatedAt || "")
-            );
-          })[0];
+              String(
+                a.updatedAt || ""
+              )
+            )
+          )[0];
 
-      $("home-current-record").innerHTML =
-        current
-          ? createRecordMarkup(current)
-          : `
-            <div class="wwa-empty">
-              <strong>
-                진행 중인 Record가 없습니다.
-              </strong>
-              Records에서 첫 Record를 추가하세요.
-            </div>
-          `;
+      if (!current) {
+        $("continue-container").innerHTML = `
+          <div class="empty">
+            <strong>
+              진행 중인 Record가 없습니다.
+            </strong>
+            Records에서 첫 Record를 추가하세요.
+          </div>
+        `;
+      } else {
+        const thumbnail =
+          getThumbnail(current);
 
+        const thumbMarkup =
+          thumbnail
+            ? `
+              <img
+                src="${thumbnail}"
+                alt=""
+              >
+            `
+            : "NO<br>ASSET";
+
+        const film =
+          getFilm(current.filmId);
+
+        $("continue-container").innerHTML = `
+          <button
+            class="continue-panel"
+            type="button"
+            data-record-id="${
+              escapeHtml(current.id)
+            }"
+          >
+            <span>
+              <span class="continue-label">
+                ${film.index}
+                ·
+                ${
+                  escapeHtml(
+                    film.shortTitle
+                  )
+                }
+              </span>
+
+              <span class="continue-number">
+                ${
+                  escapeHtml(
+                    current.setNumber ||
+                    "No number"
+                  )
+                }
+              </span>
+
+              <span class="continue-name">
+                ${
+                  escapeHtml(
+                    current.setName ||
+                    "Untitled Record"
+                  )
+                }
+              </span>
+
+              <span class="continue-status">
+                ${
+                  escapeHtml(
+                    STATUS_LABELS[
+                      current.status
+                    ] ||
+                    "Planning"
+                  )
+                }
+              </span>
+            </span>
+
+            <span class="continue-side">
+              <span class="continue-percent">
+                ${
+                  calculateProgress(
+                    current
+                  )
+                }%
+              </span>
+
+              <span class="continue-thumb">
+                ${thumbMarkup}
+              </span>
+            </span>
+          </button>
+        `;
+      }
+
+      attachFilmEvents();
       attachRecordEvents();
-      attachWorldEvents();
     }
 
     function renderRecords() {
@@ -2225,14 +2491,18 @@
       const filtered =
         [...records]
           .filter((record) => {
-            const text =
-              [
-                record.setNumber,
-                record.setName,
-                record.world
-              ]
-                .join(" ")
-                .toLowerCase();
+            const film =
+              getFilm(record.filmId);
+
+            const text = [
+              record.setNumber,
+              record.setName,
+              record.location,
+              film.shortTitle,
+              film.title
+            ]
+              .join(" ")
+              .toLowerCase();
 
             const matchesSearch =
               !search ||
@@ -2242,12 +2512,32 @@
               !status ||
               record.status === status;
 
+            const matchesFilm =
+              !activeFilmId ||
+              record.filmId ===
+                activeFilmId;
+
             return (
               matchesSearch &&
-              matchesStatus
+              matchesStatus &&
+              matchesFilm
             );
           })
           .sort((a, b) => {
+            const filmDifference =
+              FILMS.findIndex(
+                (film) =>
+                  film.id === a.filmId
+              ) -
+              FILMS.findIndex(
+                (film) =>
+                  film.id === b.filmId
+              );
+
+            if (filmDifference !== 0) {
+              return filmDifference;
+            }
+
             return String(
               a.setNumber || ""
             ).localeCompare(
@@ -2261,6 +2551,23 @@
             );
           });
 
+      if (activeFilmId) {
+        const film =
+          getFilm(activeFilmId);
+
+        $("records-kicker").textContent =
+          `${film.index} · ${film.year}`;
+
+        $("records-title").textContent =
+          film.shortTitle;
+      } else {
+        $("records-kicker").textContent =
+          "My Collection";
+
+        $("records-title").textContent =
+          "Records";
+      }
+
       $("records-count").textContent =
         `${filtered.length} Records`;
 
@@ -2270,7 +2577,7 @@
               .map(createRecordMarkup)
               .join("")
           : `
-            <div class="wwa-empty">
+            <div class="empty">
               <strong>
                 Record가 없습니다.
               </strong>
@@ -2283,7 +2590,7 @@
     }
 
     function renderAssets() {
-      const assetCounts =
+      const counts =
         Object.fromEntries(
           Object.keys(ASSET_TYPES).map(
             (key) => [key, 0]
@@ -2294,93 +2601,135 @@
         Object.keys(ASSET_TYPES)
           .forEach((key) => {
             if (record.assets?.[key]) {
-              assetCounts[key] += 1;
+              counts[key] += 1;
             }
           });
       });
 
-      $("asset-summary-list").innerHTML =
+      $("assets-list").innerHTML =
         Object.entries(ASSET_TYPES)
-          .map(([key, label]) => {
-            return `
-              <div class="wwa-asset-row">
-                <strong>
-                  ${escapeHtml(label)}
-                </strong>
+          .map(([key, label]) => `
+            <div class="simple-row">
+              <strong>
+                ${escapeHtml(label)}
+              </strong>
 
-                <span>
-                  ${assetCounts[key]} Assets
-                </span>
-              </div>
-            `;
-          })
+              <span>
+                ${counts[key]} Assets
+              </span>
+            </div>
+          `)
           .join("");
     }
 
     function renderPages() {
-      const pageRecords =
-        [...records]
-          .sort((a, b) => {
-            return String(
-              a.setNumber || ""
-            ).localeCompare(
-              String(
-                b.setNumber || ""
-              ),
-              undefined,
-              {
-                numeric: true
-              }
+      const sorted =
+        [...records].sort((a, b) => {
+          const filmDifference =
+            FILMS.findIndex(
+              (film) =>
+                film.id === a.filmId
+            ) -
+            FILMS.findIndex(
+              (film) =>
+                film.id === b.filmId
             );
-          });
+
+          if (filmDifference !== 0) {
+            return filmDifference;
+          }
+
+          return String(
+            a.setNumber || ""
+          ).localeCompare(
+            String(
+              b.setNumber || ""
+            ),
+            undefined,
+            {
+              numeric: true
+            }
+          );
+        });
 
       $("pages-list").innerHTML =
-        pageRecords.length
-          ? pageRecords
-              .map((record, index) => {
+        sorted.length
+          ? sorted.map(
+              (record, index) => {
+                const film =
+                  getFilm(record.filmId);
+
                 return `
-                  <div class="wwa-page-row">
-                    <span class="wwa-page-number">
-                      ${String(index + 1)
-                        .padStart(2, "0")}
-                    </span>
+                  <div class="simple-row">
+                    <strong>
+                      ${
+                        String(index + 1)
+                          .padStart(2, "0")
+                      }
+                      ·
+                      ${
+                        escapeHtml(
+                          record.setName ||
+                          record.setNumber ||
+                          "Untitled Page"
+                        )
+                      }
+                    </strong>
 
-                    <span class="wwa-page-name">
-                      ${escapeHtml(
-                        record.setName ||
-                        record.setNumber ||
-                        "Untitled Page"
-                      )}
-                    </span>
-
-                    <span class="wwa-page-state">
-                      ${escapeHtml(
-                        STATUS_LABELS[
-                          record.status
-                        ] ||
-                        "Planning"
-                      )}
+                    <span>
+                      ${film.index}
+                      ·
+                      ${
+                        escapeHtml(
+                          STATUS_LABELS[
+                            record.status
+                          ] ||
+                          "Planning"
+                        )
+                      }
                     </span>
                   </div>
                 `;
-              })
-              .join("")
+              }
+            ).join("")
           : `
-            <div class="wwa-empty">
+            <div class="empty">
               <strong>
                 제작할 Page가 없습니다.
               </strong>
               Record를 추가하면
-              Pages 목록에 연결됩니다.
+              Pages에 연결됩니다.
             </div>
           `;
     }
 
     function renderAll() {
-      renderHome();
+      renderContents();
       renderRecords();
       renderAssets();
       renderPages();
+    }
+
+    function attachFilmEvents() {
+      document
+        .querySelectorAll(
+          "[data-film-entry]"
+        )
+        .forEach((button) => {
+          button.onclick = () => {
+            activeFilmId =
+              button.dataset.filmEntry;
+
+            $("record-search").value =
+              "";
+
+            $("record-filter").value =
+              "";
+
+            showScreen("records");
+            renderRecords();
+          };
+        });
     }
 
     function attachRecordEvents() {
@@ -2397,31 +2746,13 @@
         });
     }
 
-    function attachWorldEvents() {
-      document
-        .querySelectorAll(
-          "[data-world-filter]"
-        )
-        .forEach((button) => {
-          button.onclick = () => {
-            showScreen("records");
-
-            $("record-search").value =
-              button.dataset.worldFilter;
-
-            $("record-filter").value =
-              "";
-
-            renderRecords();
-          };
-        });
-    }
-
     function showScreen(name) {
+      if (name !== "records") {
+        activeFilmId = "";
+      }
+
       document
-        .querySelectorAll(
-          ".wwa-screen"
-        )
+        .querySelectorAll(".screen")
         .forEach((screen) => {
           screen.classList.toggle(
             "is-active",
@@ -2436,7 +2767,8 @@
         .forEach((button) => {
           button.classList.toggle(
             "is-active",
-            button.dataset.navScreen === name
+            button.dataset.navScreen ===
+              name
           );
         });
 
@@ -2444,6 +2776,10 @@
         top: 0,
         behavior: "instant"
       });
+
+      if (name === "records") {
+        renderRecords();
+      }
     }
 
     function renderChecklist(record) {
@@ -2456,14 +2792,16 @@
                 : "";
 
             return `
-              <label class="wwa-check-row">
+              <label class="check-row">
                 <input
                   type="checkbox"
                   data-checklist-key="${key}"
                   ${checked}
                 >
 
-                <span>${escapeHtml(label)}</span>
+                <span>
+                  ${escapeHtml(label)}
+                </span>
               </label>
             `;
           })
@@ -2478,10 +2816,10 @@
               record?.assets?.[key] || "";
 
             return `
-              <div class="wwa-upload-row">
+              <div class="upload-row">
                 <img
                   id="asset-preview-${key}"
-                  class="wwa-upload-preview"
+                  class="upload-preview"
                   src="${source}"
                   alt=""
                   style="${
@@ -2503,7 +2841,7 @@
 
                 <button
                   type="button"
-                  class="wwa-upload-remove"
+                  class="upload-remove"
                   data-remove-asset="${key}"
                   ${
                     source
@@ -2541,7 +2879,11 @@
         });
     }
 
-    function setValue(id, record, key = id) {
+    function setValue(
+      id,
+      record,
+      key = id
+    ) {
       $(id).value =
         record?.[key] ?? "";
     }
@@ -2549,7 +2891,8 @@
     function openRecordEditor(id = "") {
       const record =
         records.find(
-          (item) => item.id === id
+          (item) =>
+            item.id === id
         );
 
       $("dialog-title").textContent =
@@ -2559,6 +2902,12 @@
 
       $("record-id").value =
         record?.id || "";
+
+      setValue(
+        "film-id",
+        record,
+        "filmId"
+      );
 
       setValue(
         "set-number",
@@ -2573,9 +2922,9 @@
       );
 
       setValue(
-        "world-name",
+        "location-name",
         record,
-        "world"
+        "location"
       );
 
       setValue(
@@ -2633,14 +2982,14 @@
       );
 
       setValue(
-        "collection-notes",
+        "record-notes",
         record,
         "notes"
       );
 
       if (!record) {
-        $("world-name").value =
-          "Hogwarts";
+        $("film-id").value =
+          activeFilmId || "film-01";
 
         $("record-status").value =
           "planning";
@@ -2674,9 +3023,8 @@
             const reader =
               new FileReader();
 
-            reader.onload = () => {
+            reader.onload = () =>
               resolve(reader.result);
-            };
 
             reader.onerror = reject;
 
@@ -2690,11 +3038,11 @@
             const element =
               new Image();
 
-            element.onload = () => {
+            element.onload = () =>
               resolve(element);
-            };
 
             element.onerror = reject;
+
             element.src = dataUrl;
           }
         );
@@ -2859,6 +3207,9 @@
             id ||
             createId(),
 
+          filmId:
+            $("film-id").value,
+
           setNumber:
             $("set-number")
               .value
@@ -2869,8 +3220,10 @@
               .value
               .trim(),
 
-          world:
-            $("world-name").value,
+          location:
+            $("location-name")
+              .value
+              .trim(),
 
           status:
             $("record-status").value,
@@ -2904,7 +3257,7 @@
               .trim(),
 
           notes:
-            $("collection-notes")
+            $("record-notes")
               .value
               .trim(),
 
@@ -2981,7 +3334,8 @@
         () => {
           const backup = {
             app: "WWA Manager",
-            version: "0.4-dev",
+            version:
+              "0.4-film-contents",
             exportedAt:
               new Date().toISOString(),
             records
@@ -3008,9 +3362,7 @@
             );
 
           link.href =
-            URL.createObjectURL(
-              blob
-            );
+            URL.createObjectURL(blob);
 
           link.download =
             `WWA_Manager_${
@@ -3114,9 +3466,18 @@
         button.addEventListener(
           "click",
           () => {
-            showScreen(
-              button.dataset.navScreen
-            );
+            const screen =
+              button.dataset.navScreen;
+
+            if (screen === "records") {
+              activeFilmId = "";
+              $("record-search").value =
+                "";
+              $("record-filter").value =
+                "";
+            }
+
+            showScreen(screen);
           }
         );
       });
@@ -3129,6 +3490,12 @@
         button.addEventListener(
           "click",
           () => {
+            activeFilmId = "";
+            $("record-search").value =
+              "";
+            $("record-filter").value =
+              "";
+
             showScreen(
               button.dataset.goScreen
             );
@@ -3183,7 +3550,9 @@
       }
     );
 
+    renderFilmSelect();
     renderAll();
   </script>
+
 </body>
 </html>
