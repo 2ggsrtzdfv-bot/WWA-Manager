@@ -24,7 +24,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Gloock&family=Source+Sans+3:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link
+    href="https://cdn.jsdelivr.net/npm/@fontsource/bluu-next@5.3.0/latin-700.css"
     rel="stylesheet"
   >
 
@@ -40,6 +45,18 @@
       --blue-soft: rgba(127, 183, 230, 0.13);
       --navy-soft: rgba(26, 42, 68, 0.055);
       --surface: rgba(248, 248, 245, 0.94);
+
+      --font-display: "Bluu Next", Georgia, serif;
+      --font-body:
+        "Source Sans 3",
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Helvetica Neue",
+        "Noto Sans KR",
+        Arial,
+        sans-serif;
 
       --radius-sm: 12px;
       --radius-md: 16px;
@@ -64,15 +81,7 @@
       margin: 0;
       background: var(--winter);
       color: var(--hogwarts);
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Display",
-        "SF Pro Text",
-        "Helvetica Neue",
-        "Noto Sans KR",
-        Arial,
-        sans-serif;
+      font-family: var(--font-body);
       overscroll-behavior-y: none;
     }
 
@@ -132,7 +141,7 @@
       display: block;
     }
 
-    /* CONTENTS · v0.5.1 */
+    /* CONTENTS · v0.5.2 */
 
     #screen-contents {
       min-height: calc(100dvh - 74px - var(--safe-bottom));
@@ -187,7 +196,7 @@
       padding: 13px 24px 15px;
       border-bottom: 1px solid var(--line);
       background: var(--winter);
-      font-family: "Source Sans 3", sans-serif;
+      font-family: var(--font-body);
     }
 
     .chapter-year,
@@ -230,7 +239,7 @@
       margin: 34px 24px 0;
       padding-bottom: 18px;
       border-bottom: 1px solid var(--line);
-      font-family: "Source Sans 3", sans-serif;
+      font-family: var(--font-body);
     }
 
     .chapter-note {
@@ -241,7 +250,7 @@
 
     .chapter-code {
       color: var(--hogwarts);
-      font-family: "Gloock", Georgia, serif;
+      font-family: var(--font-display);
       font-size: 18px;
       letter-spacing: 0.04em;
     }
@@ -348,10 +357,11 @@
     .page-title {
       margin: 0;
       color: var(--hogwarts);
+      font-family: var(--font-display);
       font-size: clamp(42px, 11vw, 62px);
-      font-weight: 770;
-      line-height: 0.95;
-      letter-spacing: -0.065em;
+      font-weight: 700;
+      line-height: 0.97;
+      letter-spacing: -0.035em;
     }
 
     .page-summary {
@@ -665,7 +675,7 @@
       padding-top: 2px;
       border-top: 2px solid transparent;
       color: var(--stone);
-      font-family: "Source Sans 3", sans-serif;
+      font-family: var(--font-body);
       font-size: 9px;
       font-weight: 500;
       letter-spacing: 0.08em;
@@ -1146,7 +1156,7 @@
 
         <div class="simple-row">
           <strong>Version</strong>
-          <span>v0.5.1 Contents</span>
+          <span>v0.5.2 Typography</span>
         </div>
 
         <div class="simple-row">
@@ -3067,7 +3077,7 @@
           const backup = {
             app: "WWA Manager",
             version:
-              "0.5.1-contents",
+              "0.5.2-typography",
             exportedAt:
               new Date().toISOString(),
             records
