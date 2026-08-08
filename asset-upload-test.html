@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F7F9FC">
+  <meta name="color-scheme" content="light">
+  <title>WWA Asset Upload Test</title>
+  <style>
+    :root {
+      --hogwarts-blue: #1A2A44;
+      --patronus-blue: #7FB7E6;
+      --moon-silver: #C7CCD6;
+      --castle-stone: #6F7682;
+      --winter-white: #F7F9FC;
+      --success: #2F765F;
+      --danger: #A14444;
+      --line: rgba(111, 118, 130, 0.22);
+      --shadow: 0 18px 48px rgba(26, 42, 68, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--winter-white);
+      color: var(--hogwarts-blue);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      min-height: 100%;
+      margin: 0;
+      background: var(--winter-white);
+      color: var(--hogwarts-blue);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Apple SD Gothic Neo", "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .app {
+      width: min(100%, 430px);
+      min-height: 100dvh;
+      margin: 0 auto;
+      background: var(--winter-white);
+    }
+
+    .safe-top {
+      height: env(safe-area-inset-top, 0px);
+      background: var(--winter-white);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 58px;
+      padding: 8px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(247, 249, 252, 0.94);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .brand strong {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+
+    .brand span,
+    .build-label {
+      color: var(--castle-stone);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .main {
+      padding: 26px 18px calc(32px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--castle-stone);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    p {
+      margin-top: 0;
+    }
+
+    h1,
+    h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+    }
+
+    h1 {
+      max-width: 320px;
+      margin-bottom: 12px;
+      font-size: clamp(30px, 9vw, 38px);
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .intro {
+      max-width: 350px;
+      margin-bottom: 24px;
+      color: var(--castle-stone);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .upload-card {
+      padding: 18px;
+      border: 1px solid var(--moon-silver);
+      border-radius: 22px;
+      background: var(--winter-white);
+      box-shadow: var(--shadow);
+    }
+
+    .native-picker {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 164px;
+      overflow: hidden;
+      border: 1px dashed var(--patronus-blue);
+      border-radius: 17px;
+      background: linear-gradient(145deg, rgba(127, 183, 230, 0.11), rgba(247, 249, 252, 0.92));
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .native-picker input {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .picker-copy {
+      display: grid;
+      justify-items: center;
+      gap: 7px;
+      padding: 24px;
+      pointer-events: none;
+    }
+
+    .plus {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 3px;
+      border-radius: 50%;
+      background: var(--hogwarts-blue);
+      color: var(--winter-white);
+      font-size: 25px;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .picker-copy strong {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .picker-copy small {
+      color: var(--castle-stone);
+      font-size: 12px;
+    }
+
+    .privacy {
+      margin: 14px 2px 0;
+      color: var(--castle-stone);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .diagnostics {
+      margin-top: 26px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .diagnostics h2 {
+      margin-bottom: 14px;
+      font-size: 21px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--winter-white);
+    }
+
+    .step-index {
+      display: grid;
+      place-items: center;
+      width: 25px;
+      height: 25px;
+      border: 1px solid var(--moon-silver);
+      border-radius: 50%;
+      color: var(--castle-stone);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .step-name {
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .step-state {
+      color: var(--castle-stone);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .step[data-state="active"] .step-index {
+      border-color: var(--patronus-blue);
+      background: rgba(127, 183, 230, 0.2);
+      color: var(--hogwarts-blue);
+    }
+
+    .step[data-state="active"] .step-state {
+      color: var(--hogwarts-blue);
+    }
+
+    .step[data-state="done"] .step-index {
+      border-color: var(--success);
+      background: var(--success);
+      color: #fff;
+    }
+
+    .step[data-state="done"] .step-state {
+      color: var(--success);
+    }
+
+    .step[data-state="error"] {
+      border-color: rgba(161, 68, 68, 0.36);
+    }
+
+    .step[data-state="error"] .step-index,
+    .step[data-state="error"] .step-state {
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .detail-header {
+      display: grid;
+      grid-template-columns: 44px 1fr 44px;
+      align-items: center;
+      min-height: 58px;
+      padding: 7px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .icon-button {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--hogwarts-blue);
+      cursor: pointer;
+    }
+
+    .icon-button:active {
+      background: rgba(127, 183, 230, 0.14);
+    }
+
+    .detail-heading {
+      text-align: center;
+    }
+
+    .detail-heading strong {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    .detail-heading span {
+      display: block;
+      margin-top: 2px;
+      color: var(--castle-stone);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .detail-main {
+      padding: 18px 16px calc(34px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .preview-shell {
+      position: relative;
+      width: 100%;
+      min-height: 260px;
+      overflow: hidden;
+      border: 1px solid var(--moon-silver);
+      border-radius: 20px;
+      background:
+        linear-gradient(45deg, rgba(199, 204, 214, 0.22) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(199, 204, 214, 0.22) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(199, 204, 214, 0.22) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(199, 204, 214, 0.22) 75%),
+        var(--winter-white);
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+      background-size: 16px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .preview-button {
+      display: block;
+      width: 100%;
+      min-height: 260px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: zoom-in;
+    }
+
+    .preview-image {
+      display: block;
+      width: 100%;
+      max-height: 68dvh;
+      min-height: 260px;
+      object-fit: contain;
+      background: var(--winter-white);
+    }
+
+    .preview-loading {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 30px;
+      background: var(--winter-white);
+      color: var(--castle-stone);
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .preview-hint {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      padding: 7px 10px;
+      border: 1px solid rgba(247, 249, 252, 0.42);
+      border-radius: 999px;
+      background: rgba(26, 42, 68, 0.88);
+      color: var(--winter-white);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .identity {
+      padding: 22px 2px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .identity h1 {
+      max-width: none;
+      margin-bottom: 8px;
+      overflow-wrap: anywhere;
+      font-size: 27px;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+    }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 5px 10px;
+      border: 1px solid var(--moon-silver);
+      border-radius: 999px;
+      color: var(--castle-stone);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .pill.primary {
+      border-color: rgba(127, 183, 230, 0.65);
+      background: rgba(127, 183, 230, 0.12);
+      color: var(--hogwarts-blue);
+    }
+
+    .metadata {
+      margin: 0;
+      padding: 8px 0 0;
+    }
+
+    .metadata-row {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 14px;
+      padding: 13px 2px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .metadata dt {
+      color: var(--castle-stone);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .metadata dd {
+      margin: 0;
+      overflow-wrap: anywhere;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.45;
+      text-align: right;
+    }
+
+    .detail-diagnostics {
+      margin-top: 22px;
+      padding: 16px;
+      border: 1px solid var(--moon-silver);
+      border-radius: 16px;
+      background: var(--winter-white);
+    }
+
+    .detail-diagnostics h2 {
+      margin-bottom: 11px;
+      font-size: 18px;
+    }
+
+    .diagnostic-message {
+      margin: 10px 0 0;
+      color: var(--castle-stone);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .error-message {
+      color: var(--danger);
+    }
+
+    .replace-picker {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 48px;
+      margin-top: 18px;
+      overflow: hidden;
+      border: 1px solid var(--hogwarts-blue);
+      border-radius: 14px;
+      background: var(--hogwarts-blue);
+      color: var(--winter-white);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .replace-picker input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .viewer {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      background: var(--winter-white);
+    }
+
+    .viewer-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: calc(56px + env(safe-area-inset-top, 0px));
+      padding: env(safe-area-inset-top, 0px) 12px 0;
+      border-bottom: 1px solid var(--line);
+      background: var(--winter-white);
+    }
+
+    .viewer-bar strong {
+      max-width: 56%;
+      overflow: hidden;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 15px;
+      font-weight: 500;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .viewer-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .viewer-action {
+      min-height: 38px;
+      padding: 0 11px;
+      border: 1px solid var(--moon-silver);
+      border-radius: 999px;
+      background: var(--winter-white);
+      color: var(--hogwarts-blue);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .viewer-stage {
+      overflow: auto;
+      background: var(--winter-white);
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .viewer-image {
+      display: block;
+      width: 100%;
+      min-height: 100%;
+      object-fit: contain;
+      background: var(--winter-white);
+      transform-origin: top left;
+    }
+
+    .viewer[data-actual="true"] .viewer-image {
+      width: auto;
+      min-width: 100%;
+      max-width: none;
+      min-height: 0;
+      object-fit: initial;
+    }
+
+    @media (min-width: 431px) {
+      body {
+        padding: 24px 0;
+      }
+
+      .app {
+        min-height: calc(100dvh - 48px);
+        overflow: hidden;
+        border: 1px solid var(--moon-silver);
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .view-enter {
+        animation: view-in 220ms ease-out both;
+      }
+
+      @keyframes view-in {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section id="uploadView" aria-labelledby="uploadTitle">
+      <div class="safe-top"></div>
+      <header class="header">
+        <div class="brand"><strong>WWA</strong><span>Manager</span></div>
+        <span class="build-label">iPhone 15 Pro Test</span>
+      </header>
+
+      <main class="main">
+        <p class="eyebrow">Assets · Local Preview Test</p>
+        <h1 id="uploadTitle">Add one archive image.</h1>
+        <p class="intro">아이폰 사진 보관함에서 이미지 한 장을 선택하면, 실제 Asset Detail 화면까지 즉시 연결됩니다.</p>
+
+        <section class="upload-card" aria-label="사진 선택">
+          <label class="native-picker">
+            <input id="assetPicker" type="file" accept="image/*,.heic,.heif" aria-label="Add Asset 사진 선택">
+            <span class="picker-copy">
+              <span class="plus" aria-hidden="true">+</span>
+              <strong>Add Asset</strong>
+              <small>Photo Library · Files</small>
+            </span>
+          </label>
+          <p class="privacy">선택한 사진은 이 기기 안에서만 미리보기로 열립니다. 테스트 페이지는 파일을 서버에 저장하거나 전송하지 않습니다.</p>
+        </section>
+
+        <section class="diagnostics" aria-labelledby="diagnosticsTitle">
+          <p class="eyebrow">Live diagnostics</p>
+          <h2 id="diagnosticsTitle">실행 단계</h2>
+          <ol class="steps" id="uploadSteps">
+            <li class="step" data-step="selected" data-state="active">
+              <span class="step-index">1</span><span class="step-name">사진 선택 이벤트</span><span class="step-state">Waiting</span>
+            </li>
+            <li class="step" data-step="file" data-state="idle">
+              <span class="step-index">2</span><span class="step-name">파일 정보 읽기</span><span class="step-state">Pending</span>
+            </li>
+            <li class="step" data-step="preview" data-state="idle">
+              <span class="step-index">3</span><span class="step-name">이미지 미리보기</span><span class="step-state">Pending</span>
+            </li>
+            <li class="step" data-step="detail" data-state="idle">
+              <span class="step-index">4</span><span class="step-name">Detail 화면 표시</span><span class="step-state">Pending</span>
+            </li>
+          </ol>
+        </section>
+      </main>
+    </section>
+
+    <section id="detailView" aria-labelledby="assetTitle" hidden>
+      <div class="safe-top"></div>
+      <header class="detail-header">
+        <button class="icon-button" id="backButton" type="button" aria-label="테스트 화면으로 돌아가기">←</button>
+        <div class="detail-heading"><strong>Asset Detail</strong><span>Local test record</span></div>
+        <span aria-hidden="true"></span>
+      </header>
+
+      <main class="detail-main">
+        <div class="preview-shell">
+          <button class="preview-button" id="previewButton" type="button" aria-label="선택 이미지 전체 화면으로 보기" disabled>
+            <img class="preview-image" id="assetImage" alt="선택한 Asset 미리보기" hidden>
+          </button>
+          <div class="preview-loading" id="previewLoading" role="status" aria-live="polite">선택한 사진을 확인하고 있습니다…</div>
+          <span class="preview-hint" id="previewHint" hidden>Tap for detail</span>
+        </div>
+
+        <section class="identity">
+          <p class="eyebrow">NEW-ASSET · Unclassified</p>
+          <h1 id="assetTitle">Preparing asset…</h1>
+          <div class="status-row">
+            <span class="pill primary" id="previewStatus">Preparing Preview</span>
+            <span class="pill">Source Needed</span>
+            <span class="pill">Candidate</span>
+          </div>
+        </section>
+
+        <dl class="metadata">
+          <div class="metadata-row"><dt>File name</dt><dd id="fileName">—</dd></div>
+          <div class="metadata-row"><dt>File type</dt><dd id="fileType">—</dd></div>
+          <div class="metadata-row"><dt>File size</dt><dd id="fileSize">—</dd></div>
+          <div class="metadata-row"><dt>Dimensions</dt><dd id="dimensions">Reading…</dd></div>
+          <div class="metadata-row"><dt>Source</dt><dd>Local iPhone Photo Library</dd></div>
+        </dl>
+
+        <section class="detail-diagnostics" aria-labelledby="detailDiagnosticsTitle">
+          <p class="eyebrow">Upload path</p>
+          <h2 id="detailDiagnosticsTitle">실행 결과</h2>
+          <ol class="steps" id="detailSteps" aria-live="polite"></ol>
+          <p class="diagnostic-message" id="diagnosticMessage">Detail 화면을 먼저 열고 이미지 미리보기를 준비합니다.</p>
+        </section>
+
+        <label class="replace-picker">
+          다른 사진으로 다시 테스트
+          <input id="replacePicker" type="file" accept="image/*,.heic,.heif" aria-label="다른 Asset 사진 선택">
+        </label>
+      </main>
+    </section>
+  </div>
+
+  <section class="viewer" id="viewer" aria-label="전체 화면 이미지 뷰어" hidden data-actual="false">
+    <div class="viewer-bar">
+      <button class="icon-button" id="closeViewer" type="button" aria-label="전체 화면 닫기">×</button>
+      <strong id="viewerTitle">Asset detail</strong>
+      <div class="viewer-actions">
+        <button class="viewer-action" id="actualSizeButton" type="button">1:1</button>
+      </div>
+    </div>
+    <div class="viewer-stage" id="viewerStage">
+      <img class="viewer-image" id="viewerImage" alt="선택한 Asset 전체 화면 미리보기">
+    </div>
+  </section>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const uploadView = document.getElementById('uploadView');
+      const detailView = document.getElementById('detailView');
+      const assetPicker = document.getElementById('assetPicker');
+      const replacePicker = document.getElementById('replacePicker');
+      const backButton = document.getElementById('backButton');
+      const assetImage = document.getElementById('assetImage');
+      const previewButton = document.getElementById('previewButton');
+      const previewLoading = document.getElementById('previewLoading');
+      const previewHint = document.getElementById('previewHint');
+      const previewStatus = document.getElementById('previewStatus');
+      const assetTitle = document.getElementById('assetTitle');
+      const fileName = document.getElementById('fileName');
+      const fileType = document.getElementById('fileType');
+      const fileSize = document.getElementById('fileSize');
+      const dimensions = document.getElementById('dimensions');
+      const detailSteps = document.getElementById('detailSteps');
+      const diagnosticMessage = document.getElementById('diagnosticMessage');
+      const viewer = document.getElementById('viewer');
+      const viewerImage = document.getElementById('viewerImage');
+      const viewerTitle = document.getElementById('viewerTitle');
+      const viewerStage = document.getElementById('viewerStage');
+      const closeViewer = document.getElementById('closeViewer');
+      const actualSizeButton = document.getElementById('actualSizeButton');
+
+      let currentObjectUrl = '';
+      let currentSource = '';
+      let currentFile = null;
+      let fallbackAttempted = false;
+      let loadTimer = 0;
+      const states = {
+        selected: ['active', 'Waiting'],
+        file: ['idle', 'Pending'],
+        preview: ['idle', 'Pending'],
+        detail: ['idle', 'Pending']
+      };
+
+      function updateStep(name, state, label) {
+        states[name] = [state, label];
+        document.querySelectorAll(`[data-step="${name}"]`).forEach((row) => {
+          row.dataset.state = state;
+          const stateNode = row.querySelector('.step-state');
+          if (stateNode) stateNode.textContent = label;
+        });
+        renderDetailSteps();
+      }
+
+      function renderDetailSteps() {
+        const labels = {
+          selected: '사진 선택 이벤트',
+          file: '파일 정보 읽기',
+          preview: '이미지 미리보기',
+          detail: 'Detail 화면 표시'
+        };
+        detailSteps.innerHTML = Object.entries(labels).map(([key, label], index) => {
+          const [state, stateLabel] = states[key];
+          return `<li class="step" data-step="${key}" data-state="${state}"><span class="step-index">${index + 1}</span><span class="step-name">${label}</span><span class="step-state">${stateLabel}</span></li>`;
+        }).join('');
+      }
+
+      function resetSteps() {
+        updateStep('selected', 'active', 'Waiting');
+        updateStep('file', 'idle', 'Pending');
+        updateStep('preview', 'idle', 'Pending');
+        updateStep('detail', 'idle', 'Pending');
+      }
+
+      function formatBytes(bytes) {
+        if (!Number.isFinite(bytes) || bytes < 1) return 'Unknown';
+        const units = ['B', 'KB', 'MB', 'GB'];
+        const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+        const value = bytes / Math.pow(1024, index);
+        return `${value >= 10 || index === 0 ? value.toFixed(0) : value.toFixed(1)} ${units[index]}`;
+      }
+
+      function fileExtension(name) {
+        const match = String(name || '').toLowerCase().match(/\.([a-z0-9]+)$/);
+        return match ? match[1] : '';
+      }
+
+      function displayType(file) {
+        if (file.type) return file.type;
+        const extension = fileExtension(file.name);
+        const inferred = {
+          heic: 'image/heic',
+          heif: 'image/heif',
+          jpg: 'image/jpeg',
+          jpeg: 'image/jpeg',
+          png: 'image/png',
+          webp: 'image/webp',
+          gif: 'image/gif'
+        };
+        return inferred[extension] || 'Unknown image type';
+      }
+
+      function isLikelyImage(file) {
+        return Boolean(file && (file.type.startsWith('image/') || ['heic', 'heif', 'jpg', 'jpeg', 'png', 'webp', 'gif'].includes(fileExtension(file.name))));
+      }
+
+      function showDetail(file) {
+        uploadView.hidden = true;
+        detailView.hidden = false;
+        detailView.classList.remove('view-enter');
+        void detailView.offsetWidth;
+        detailView.classList.add('view-enter');
+        window.scrollTo(0, 0);
+
+        assetTitle.textContent = file.name || 'Untitled local asset';
+        fileName.textContent = file.name || 'Not provided by iOS';
+        fileType.textContent = displayType(file);
+        fileSize.textContent = formatBytes(file.size);
+        dimensions.textContent = 'Reading…';
+        previewStatus.textContent = 'Preparing Preview';
+        previewLoading.hidden = false;
+        previewLoading.textContent = '선택한 사진을 확인하고 있습니다…';
+        previewLoading.classList.remove('error-message');
+        previewHint.hidden = true;
+        previewButton.disabled = true;
+        assetImage.hidden = true;
+        assetImage.removeAttribute('src');
+        diagnosticMessage.textContent = 'Detail 화면을 먼저 열었습니다. 이미지 미리보기를 준비하고 있습니다.';
+        diagnosticMessage.classList.remove('error-message');
+        updateStep('detail', 'done', 'Visible');
+      }
+
+      function releaseObjectUrl() {
+        if (currentObjectUrl) {
+          URL.revokeObjectURL(currentObjectUrl);
+          currentObjectUrl = '';
+        }
+      }
+
+      function applyImageSource(source, sourceKind) {
+        currentSource = source;
+        assetImage.onload = () => imageLoaded(sourceKind);
+        assetImage.onerror = () => imageFailed(sourceKind);
+        assetImage.src = source;
+        window.clearTimeout(loadTimer);
+        loadTimer = window.setTimeout(() => imageFailed(`${sourceKind} timeout`), 15000);
+      }
+
+      function imageLoaded(sourceKind) {
+        window.clearTimeout(loadTimer);
+        const width = assetImage.naturalWidth;
+        const height = assetImage.naturalHeight;
+        dimensions.textContent = width && height ? `${width} × ${height} px` : 'Loaded · dimensions unavailable';
+        assetImage.hidden = false;
+        previewLoading.hidden = true;
+        previewHint.hidden = false;
+        previewButton.disabled = false;
+        previewStatus.textContent = 'Preview Ready';
+        updateStep('preview', 'done', 'Ready');
+        diagnosticMessage.textContent = `성공: ${sourceKind} 방식으로 이미지와 Detail이 연결됐습니다.`;
+        diagnosticMessage.classList.remove('error-message');
+      }
+
+      function imageFailed(sourceKind) {
+        window.clearTimeout(loadTimer);
+        if (!fallbackAttempted && currentFile) {
+          fallbackAttempted = true;
+          diagnosticMessage.textContent = `${sourceKind} 미리보기를 열지 못해 Data URL 방식으로 한 번 더 확인합니다.`;
+          readAsDataUrl(currentFile);
+          return;
+        }
+
+        previewStatus.textContent = 'Preview Failed';
+        previewLoading.hidden = false;
+        previewLoading.textContent = '사진 파일은 선택됐지만 Safari가 이 이미지 형식을 표시하지 못했습니다. 아래 실행 결과를 확인해 주세요.';
+        previewLoading.classList.add('error-message');
+        dimensions.textContent = 'Decode failed';
+        updateStep('preview', 'error', 'Failed');
+        diagnosticMessage.textContent = `실패 지점: 이미지 디코딩 (${sourceKind}). 파일 선택과 Detail 화면 전환은 정상입니다.`;
+        diagnosticMessage.classList.add('error-message');
+      }
+
+      function readAsDataUrl(file) {
+        const reader = new FileReader();
+        reader.onload = () => applyImageSource(String(reader.result || ''), 'Data URL fallback');
+        reader.onerror = () => imageFailed('FileReader');
+        try {
+          reader.readAsDataURL(file);
+        } catch (error) {
+          imageFailed(error && error.name ? error.name : 'FileReader exception');
+        }
+      }
+
+      function preparePreview(file) {
+        fallbackAttempted = false;
+        releaseObjectUrl();
+        updateStep('preview', 'active', 'Loading');
+
+        try {
+          currentObjectUrl = URL.createObjectURL(file);
+          applyImageSource(currentObjectUrl, 'Local object URL');
+        } catch (error) {
+          fallbackAttempted = true;
+          diagnosticMessage.textContent = '로컬 미리보기 주소를 만들 수 없어 Data URL 방식으로 전환했습니다.';
+          readAsDataUrl(file);
+        }
+      }
+
+      function handleSelection(event) {
+        const input = event.currentTarget;
+        const file = input.files && input.files[0];
+        if (!file || file === currentFile) return;
+
+        currentFile = file;
+        updateStep('selected', 'done', 'Detected');
+        updateStep('file', 'active', 'Reading');
+        showDetail(file);
+
+        if (!isLikelyImage(file)) {
+          updateStep('file', 'error', 'Rejected');
+          previewStatus.textContent = 'Unsupported File';
+          previewLoading.textContent = '이미지 파일을 선택해 주세요.';
+          previewLoading.classList.add('error-message');
+          diagnosticMessage.textContent = '선택된 파일을 이미지 형식으로 확인할 수 없습니다.';
+          diagnosticMessage.classList.add('error-message');
+          window.setTimeout(() => {
+            input.value = '';
+          }, 0);
+          return;
+        }
+
+        updateStep('file', 'done', 'Ready');
+        preparePreview(file);
+
+        window.setTimeout(() => {
+          input.value = '';
+        }, 0);
+      }
+
+      function bindPicker(input) {
+        input.addEventListener('input', handleSelection, false);
+        input.addEventListener('change', handleSelection, false);
+      }
+
+      function returnToUpload() {
+        closeFullViewer();
+        detailView.hidden = true;
+        uploadView.hidden = false;
+        uploadView.classList.remove('view-enter');
+        void uploadView.offsetWidth;
+        uploadView.classList.add('view-enter');
+        window.scrollTo(0, 0);
+      }
+
+      function openFullViewer() {
+        if (!currentSource || previewButton.disabled) return;
+        viewerImage.src = currentSource;
+        viewerTitle.textContent = assetTitle.textContent;
+        viewer.dataset.actual = 'false';
+        actualSizeButton.textContent = '1:1';
+        viewer.hidden = false;
+        document.body.style.overflow = 'hidden';
+        viewerStage.scrollTo(0, 0);
+      }
+
+      function closeFullViewer() {
+        viewer.hidden = true;
+        document.body.style.overflow = '';
+        viewer.dataset.actual = 'false';
+      }
+
+      function toggleActualSize() {
+        const actual = viewer.dataset.actual !== 'true';
+        viewer.dataset.actual = String(actual);
+        actualSizeButton.textContent = actual ? 'Fit' : '1:1';
+        viewerStage.scrollTo(0, 0);
+      }
+
+      bindPicker(assetPicker);
+      bindPicker(replacePicker);
+      backButton.addEventListener('click', returnToUpload);
+      previewButton.addEventListener('click', openFullViewer);
+      closeViewer.addEventListener('click', closeFullViewer);
+      actualSizeButton.addEventListener('click', toggleActualSize);
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !viewer.hidden) closeFullViewer();
+      });
+
+      window.addEventListener('pagehide', releaseObjectUrl, { once: true });
+      resetSteps();
+      renderDetailSteps();
+    })();
+  </script>
+</body>
+</html>
