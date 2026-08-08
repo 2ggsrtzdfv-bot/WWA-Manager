@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#F7F9FC">
   <meta name="color-scheme" content="light">
-  <title>WWA Asset Upload Test</title>
+  <title>WWA Detail Cut Example</title>
   <style>
     :root {
       --hogwarts-blue: #1A2A44;
@@ -208,6 +208,41 @@
       color: var(--castle-stone);
       font-size: 11px;
       line-height: 1.55;
+    }
+
+    .example-outline {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      margin-top: 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--line);
+    }
+
+    .outline-item {
+      min-height: 72px;
+      padding: 13px;
+      background: var(--winter-white);
+    }
+
+    .outline-item strong,
+    .outline-item span {
+      display: block;
+    }
+
+    .outline-item strong {
+      margin-bottom: 5px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .outline-item span {
+      color: var(--castle-stone);
+      font-size: 10px;
+      line-height: 1.4;
     }
 
     .diagnostics {
@@ -428,33 +463,93 @@
     }
 
     .status-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 18px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 28px;
-      padding: 5px 10px;
-      border: 1px solid var(--moon-silver);
-      border-radius: 999px;
+    .status-block {
+      min-width: 0;
+      padding: 13px 12px 12px 0;
+    }
+
+    .status-block + .status-block {
+      padding-right: 0;
+      padding-left: 13px;
+      border-left: 1px solid var(--line);
+    }
+
+    .status-block small,
+    .status-block strong {
+      display: block;
+    }
+
+    .status-block small {
+      margin-bottom: 6px;
       color: var(--castle-stone);
-      font-size: 10px;
+      font-size: 8px;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    .pill.primary {
-      border-color: rgba(127, 183, 230, 0.65);
-      background: rgba(127, 183, 230, 0.12);
+    .status-block strong {
+      position: relative;
+      padding-left: 13px;
       color: var(--hogwarts-blue);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .status-block strong::before {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--castle-stone);
+      border-radius: 50%;
+      content: "";
+      transform: translateY(-50%);
+    }
+
+    .status-block.production strong::before {
+      border-color: var(--patronus-blue);
+      background: var(--patronus-blue);
+    }
+
+    .example-note {
+      margin: 16px 0 0;
+      padding: 12px 13px;
+      border-left: 2px solid var(--patronus-blue);
+      background: rgba(127, 183, 230, 0.09);
+      color: var(--castle-stone);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .detail-section {
+      padding: 22px 2px 0;
+    }
+
+    .detail-section + .detail-section {
+      margin-top: 2px;
+    }
+
+    .section-heading {
+      margin: 0;
+      color: var(--hogwarts-blue);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      font-weight: 500;
     }
 
     .metadata {
-      margin: 0;
+      margin: 10px 0 0;
       padding: 8px 0 0;
+      border-top: 1px solid var(--line);
     }
 
     .metadata-row {
@@ -482,12 +577,49 @@
       text-align: right;
     }
 
+    .metadata-row.is-unset dd {
+      color: var(--castle-stone);
+      font-weight: 500;
+    }
+
+    .field-origin {
+      display: inline-block;
+      margin-top: 4px;
+      color: var(--castle-stone);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .notes-copy {
+      margin: 12px 0 0;
+      padding: 14px 0 2px;
+      border-top: 1px solid var(--line);
+      color: var(--castle-stone);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
     .detail-diagnostics {
       margin-top: 22px;
       padding: 16px;
       border: 1px solid var(--moon-silver);
       border-radius: 16px;
       background: var(--winter-white);
+    }
+
+    .detail-diagnostics summary {
+      cursor: pointer;
+      color: var(--castle-stone);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      list-style-position: inside;
+    }
+
+    .detail-diagnostics[open] summary {
+      margin-bottom: 14px;
     }
 
     .detail-diagnostics h2 {
@@ -638,9 +770,9 @@
       </header>
 
       <main class="main">
-        <p class="eyebrow">Assets · Local Preview Test</p>
-        <h1 id="uploadTitle">Add one archive image.</h1>
-        <p class="intro">아이폰 사진 보관함에서 이미지 한 장을 선택하면, 실제 Asset Detail 화면까지 즉시 연결됩니다.</p>
+        <p class="eyebrow">Assets · Detail Cut Example</p>
+        <h1 id="uploadTitle">Add one detail cut.</h1>
+        <p class="intro">아이폰 사진 보관함에서 디테일 컷 한 장을 선택하면, 실제 Assets에서 사용할 정보 구조의 예시가 열립니다.</p>
 
         <section class="upload-card" aria-label="사진 선택">
           <label class="native-picker">
@@ -651,27 +783,15 @@
               <small>Photo Library · Files</small>
             </span>
           </label>
-          <p class="privacy">선택한 사진은 이 기기 안에서만 미리보기로 열립니다. 테스트 페이지는 파일을 서버에 저장하거나 전송하지 않습니다.</p>
+          <p class="privacy">선택한 사진은 이 기기 안에서만 미리보기로 열립니다. 이 예시 화면은 파일을 서버에 저장하거나 전송하지 않습니다.</p>
         </section>
 
-        <section class="diagnostics" aria-labelledby="diagnosticsTitle">
-          <p class="eyebrow">Live diagnostics</p>
-          <h2 id="diagnosticsTitle">실행 단계</h2>
-          <ol class="steps" id="uploadSteps">
-            <li class="step" data-step="selected" data-state="active">
-              <span class="step-index">1</span><span class="step-name">사진 선택 이벤트</span><span class="step-state">Waiting</span>
-            </li>
-            <li class="step" data-step="file" data-state="idle">
-              <span class="step-index">2</span><span class="step-name">파일 정보 읽기</span><span class="step-state">Pending</span>
-            </li>
-            <li class="step" data-step="preview" data-state="idle">
-              <span class="step-index">3</span><span class="step-name">이미지 미리보기</span><span class="step-state">Pending</span>
-            </li>
-            <li class="step" data-step="detail" data-state="idle">
-              <span class="step-index">4</span><span class="step-name">Detail 화면 표시</span><span class="step-state">Pending</span>
-            </li>
-          </ol>
-        </section>
+        <div class="example-outline" aria-label="Detail 정보 구성">
+          <div class="outline-item"><strong>Context</strong><span>자료 유형과 연결 기록</span></div>
+          <div class="outline-item"><strong>Source</strong><span>출처와 검증 상태</span></div>
+          <div class="outline-item"><strong>File</strong><span>파일명·형식·해상도</span></div>
+          <div class="outline-item"><strong>Production</strong><span>페이지와 배치 위치</span></div>
+        </div>
       </main>
     </section>
 
@@ -679,7 +799,7 @@
       <div class="safe-top"></div>
       <header class="detail-header">
         <button class="icon-button" id="backButton" type="button" aria-label="테스트 화면으로 돌아가기">←</button>
-        <div class="detail-heading"><strong>Asset Detail</strong><span>Local test record</span></div>
+        <div class="detail-heading"><strong>Asset Detail</strong><span>Detail cut example</span></div>
         <span aria-hidden="true"></span>
       </header>
 
@@ -693,29 +813,63 @@
         </div>
 
         <section class="identity">
-          <p class="eyebrow">NEW-ASSET · Unclassified</p>
+          <p class="eyebrow">NEW-ASSET · DETAIL CUT</p>
           <h1 id="assetTitle">Preparing asset…</h1>
           <div class="status-row">
-            <span class="pill primary" id="previewStatus">Preparing Preview</span>
-            <span class="pill">Source Needed</span>
-            <span class="pill">Candidate</span>
+            <span class="status-block"><small>Source Status</small><strong>Source Needed</strong></span>
+            <span class="status-block production"><small>Production</small><strong>Candidate</strong></span>
           </div>
+          <p class="example-note">이 화면은 새 디테일 컷의 표시 예시입니다. 파일 정보는 자동으로 채워지고, 세트·페이지·출처 정보는 확인 후 기록합니다.</p>
+          <span id="previewStatus" hidden>Preparing Preview</span>
         </section>
 
-        <dl class="metadata">
-          <div class="metadata-row"><dt>File name</dt><dd id="fileName">—</dd></div>
-          <div class="metadata-row"><dt>File type</dt><dd id="fileType">—</dd></div>
-          <div class="metadata-row"><dt>File size</dt><dd id="fileSize">—</dd></div>
-          <div class="metadata-row"><dt>Dimensions</dt><dd id="dimensions">Reading…</dd></div>
-          <div class="metadata-row"><dt>Source</dt><dd>Local iPhone Photo Library</dd></div>
-        </dl>
+        <section class="detail-section" aria-labelledby="contextHeading">
+          <h2 class="section-heading" id="contextHeading">Context</h2>
+          <dl class="metadata">
+            <div class="metadata-row"><dt>Material Type</dt><dd>Detail Cut <span class="field-origin">Example</span></dd></div>
+            <div class="metadata-row is-unset"><dt>Related Set</dt><dd>Not yet recorded</dd></div>
+            <div class="metadata-row"><dt>Archive State</dt><dd>New upload preview</dd></div>
+          </dl>
+        </section>
 
-        <section class="detail-diagnostics" aria-labelledby="detailDiagnosticsTitle">
-          <p class="eyebrow">Upload path</p>
-          <h2 id="detailDiagnosticsTitle">실행 결과</h2>
+        <section class="detail-section" aria-labelledby="sourceHeading">
+          <h2 class="section-heading" id="sourceHeading">Source</h2>
+          <dl class="metadata">
+            <div class="metadata-row is-unset"><dt>Source</dt><dd>Not yet recorded</dd></div>
+            <div class="metadata-row is-unset"><dt>Source Link</dt><dd>Not yet recorded</dd></div>
+            <div class="metadata-row is-unset"><dt>Checked On</dt><dd>Not yet reviewed</dd></div>
+          </dl>
+        </section>
+
+        <section class="detail-section" aria-labelledby="fileHeading">
+          <h2 class="section-heading" id="fileHeading">File</h2>
+          <dl class="metadata">
+            <div class="metadata-row"><dt>Original File</dt><dd id="fileName">—</dd></div>
+            <div class="metadata-row"><dt>Format</dt><dd id="fileType">—</dd></div>
+            <div class="metadata-row"><dt>Dimensions</dt><dd id="dimensions">Reading…</dd></div>
+            <div class="metadata-row"><dt>File Size</dt><dd id="fileSize">—</dd></div>
+            <div class="metadata-row"><dt>Import Source</dt><dd>iPhone Photo Library</dd></div>
+          </dl>
+        </section>
+
+        <section class="detail-section" aria-labelledby="productionHeading">
+          <h2 class="section-heading" id="productionHeading">Production</h2>
+          <dl class="metadata">
+            <div class="metadata-row is-unset"><dt>Linked Page</dt><dd>Not linked</dd></div>
+            <div class="metadata-row"><dt>Placement</dt><dd>Right Page · Detail Image <span class="field-origin">Example</span></dd></div>
+          </dl>
+        </section>
+
+        <section class="detail-section" aria-labelledby="notesHeading">
+          <h2 class="section-heading" id="notesHeading">Notes</h2>
+          <p class="notes-copy">새 디테일 컷이 들어오면 원본 파일 정보는 그대로 보존합니다. Asset ID, 최종 제목, 관련 세트, 출처, 연결 페이지와 배치 위치는 검토 후 확정합니다.</p>
+        </section>
+
+        <details class="detail-diagnostics">
+          <summary>Technical check · 업로드 실행 결과</summary>
           <ol class="steps" id="detailSteps" aria-live="polite"></ol>
           <p class="diagnostic-message" id="diagnosticMessage">Detail 화면을 먼저 열고 이미지 미리보기를 준비합니다.</p>
-        </section>
+        </details>
 
         <label class="replace-picker">
           다른 사진으로 다시 테스트
@@ -822,18 +976,15 @@
       }
 
       function displayType(file) {
-        if (file.type) return file.type;
         const extension = fileExtension(file.name);
-        const inferred = {
-          heic: 'image/heic',
-          heif: 'image/heif',
-          jpg: 'image/jpeg',
-          jpeg: 'image/jpeg',
-          png: 'image/png',
-          webp: 'image/webp',
-          gif: 'image/gif'
-        };
-        return inferred[extension] || 'Unknown image type';
+        if (extension) return extension.toUpperCase();
+        if (file.type && file.type.includes('/')) return file.type.split('/').pop().toUpperCase();
+        return 'Unknown image type';
+      }
+
+      function temporaryTitle(name) {
+        const raw = String(name || '').replace(/\.[^.]+$/, '').trim();
+        return raw || 'Untitled detail cut';
       }
 
       function isLikelyImage(file) {
@@ -848,7 +999,7 @@
         detailView.classList.add('view-enter');
         window.scrollTo(0, 0);
 
-        assetTitle.textContent = file.name || 'Untitled local asset';
+        assetTitle.textContent = temporaryTitle(file.name);
         fileName.textContent = file.name || 'Not provided by iOS';
         fileType.textContent = displayType(file);
         fileSize.textContent = formatBytes(file.size);
