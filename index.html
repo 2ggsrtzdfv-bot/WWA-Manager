@@ -1391,6 +1391,156 @@
       content: none !important;
       background: none !important;
     }
+
+    /* v0.2 navigation study — the approved Home remains unchanged above it. */
+    #wwa-home-complete-castle .wwa-shell {
+      padding-bottom: calc(34px + env(safe-area-inset-bottom));
+    }
+
+    #wwa-home-complete-castle .wwa-bottom-nav {
+      position: fixed;
+      z-index: 50;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: min(100%, 430px);
+      min-height: calc(34px + env(safe-area-inset-bottom));
+      margin: 0 auto;
+      padding: 0 10px env(safe-area-inset-bottom);
+      border-top: 1px solid rgba(199, 204, 214, 0.28);
+      background: linear-gradient(180deg, rgba(26, 42, 68, 0.82), rgba(5, 14, 21, 0.96));
+      -webkit-backdrop-filter: blur(22px) saturate(105%);
+      backdrop-filter: blur(22px) saturate(105%);
+    }
+
+    #wwa-home-complete-castle .wwa-bottom-nav::before {
+      position: absolute;
+      right: 0;
+      bottom: 100%;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(180deg, rgba(5, 14, 21, 0), rgba(5, 14, 21, 0.1));
+      content: "";
+      pointer-events: none;
+    }
+
+    #wwa-home-complete-castle .wwa-bottom-nav-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      height: 34px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    #wwa-home-complete-castle .wwa-bottom-nav-item {
+      position: relative;
+      min-width: 0;
+    }
+
+    #wwa-home-complete-castle .wwa-bottom-nav-item + .wwa-bottom-nav-item::before {
+      position: absolute;
+      top: 9px;
+      bottom: 8px;
+      left: 0;
+      width: 1px;
+      background: rgba(199, 204, 214, 0.12);
+      content: "";
+      pointer-events: none;
+    }
+
+    #wwa-home-complete-castle .wwa-bottom-nav-button {
+      position: relative;
+      appearance: none;
+      display: flex;
+      width: 100%;
+      min-height: 34px;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 2px 0;
+      border: 0;
+      background: transparent;
+      color: rgba(199, 204, 214, 0.72);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #wwa-home-complete-castle .wwa-bottom-nav-button[aria-current="page"] {
+      color: var(--wwa-winter);
+    }
+
+    /* Keep a 44px tap target while the visible bar remains 34px high. */
+    #wwa-home-complete-castle .wwa-bottom-nav-button::before {
+      position: absolute;
+      inset: -5px 0;
+      content: "";
+    }
+
+    #wwa-home-complete-castle .wwa-bottom-nav-button[aria-current="page"]::after {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 22px;
+      height: 1px;
+      background: var(--wwa-patronus);
+      content: "";
+      transform: translateX(-50%);
+    }
+
+    #wwa-home-complete-castle .wwa-nav-label {
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    #wwa-home-complete-castle .wwa-bottom-nav-button:focus-visible {
+      outline: 2px solid var(--wwa-patronus);
+      outline-offset: -3px;
+    }
+
+    #wwa-home-complete-castle .wwa-bottom-nav-button:active {
+      background: rgba(127, 183, 230, 0.08);
+    }
+
+    #wwa-home-complete-castle .wwa-nav-notice {
+      position: fixed;
+      z-index: 60;
+      right: 20px;
+      bottom: calc(46px + env(safe-area-inset-bottom));
+      left: 20px;
+      width: min(calc(100% - 40px), 390px);
+      margin: 0 auto;
+      padding: 12px 14px;
+      border: 1px solid rgba(199, 204, 214, 0.32);
+      border-radius: 4px;
+      background: rgba(5, 14, 21, 0.92);
+      color: var(--wwa-winter);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.4;
+      letter-spacing: 0.1em;
+      text-align: center;
+      text-transform: uppercase;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    #wwa-home-complete-castle .wwa-nav-notice.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 359px) {
+      #wwa-home-complete-castle .wwa-nav-label {
+        font-size: 11px;
+      }
+    }
   </style>
 
   <div class="wwa-shell">
@@ -1476,6 +1626,16 @@
     </section>
   </div>
 
+  <nav class="wwa-bottom-nav" aria-label="Primary archive navigation">
+    <ul class="wwa-bottom-nav-list">
+      <li class="wwa-bottom-nav-item"><button class="wwa-bottom-nav-button" type="button" data-tab="Home" aria-current="page"><span class="wwa-nav-label">Home</span></button></li>
+      <li class="wwa-bottom-nav-item"><button class="wwa-bottom-nav-button" type="button" data-tab="Assets"><span class="wwa-nav-label">Assets</span></button></li>
+      <li class="wwa-bottom-nav-item"><button class="wwa-bottom-nav-button" type="button" data-tab="Collection"><span class="wwa-nav-label">Collection</span></button></li>
+      <li class="wwa-bottom-nav-item"><button class="wwa-bottom-nav-button" type="button" data-tab="Pages"><span class="wwa-nav-label">Pages</span></button></li>
+    </ul>
+  </nav>
+  <p class="wwa-nav-notice" role="status" aria-live="polite"></p>
+
   <script>
     (() => {
       const root = document.getElementById("wwa-home-complete-castle");
@@ -1485,6 +1645,9 @@
       const detailMeta = root.querySelector(".wwa-detail-meta");
       const detailTitle = root.querySelector(".wwa-detail-title");
       const back = root.querySelector(".wwa-back");
+      const navNotice = root.querySelector(".wwa-nav-notice");
+      const navButtons = root.querySelectorAll(".wwa-bottom-nav-button");
+      let noticeTimer;
       const movies = [
         { code: "F01", year: "2001", title: "Philosopher\u2019s Stone", alt: "Official landscape key art for Harry Potter and the Philosopher's Stone" },
         { code: "F02", year: "2002", title: "Chamber of Secrets", alt: "Official landscape key art for Harry Potter and the Chamber of Secrets" },
@@ -1513,6 +1676,26 @@
         detail.classList.remove("is-visible");
         home.classList.remove("is-hidden");
         root.querySelector(".wwa-movie-card").focus();
+      });
+
+      navButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const tab = button.dataset.tab;
+
+          if (tab === "Home") {
+            detail.classList.remove("is-visible");
+            home.classList.remove("is-hidden");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+          }
+
+          window.clearTimeout(noticeTimer);
+          navNotice.textContent = tab + " · Coming in the next WWA phase";
+          navNotice.classList.add("is-visible");
+          noticeTimer = window.setTimeout(() => {
+            navNotice.classList.remove("is-visible");
+          }, 1800);
+        });
       });
     })();
   </script>
