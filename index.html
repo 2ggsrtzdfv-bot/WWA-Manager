@@ -2554,6 +2554,544 @@
 
   <script>
     (() => {
+      "use strict";
+
+      const WWA_DATABASE_NAME =
+        "WWA_Manager";
+
+      const WWA_SCHEMA_VERSION = 1;
+
+      const WWA_OBJECT_STORES = {
+        archiveRoots: {
+          keyPath: "archiveId",
+          indexes: ["activeGenerationId"]
+        },
+        settings: {
+          keyPath: "key",
+          indexes: []
+        },
+        drafts: {
+          keyPath: "draftId",
+          indexes: ["entityType", "updatedAt"]
+        },
+        films: {
+          keyPath: ["generationId", "syncId"],
+          indexes: ["stableId"]
+        },
+        locations: {
+          keyPath: ["generationId", "syncId"],
+          indexes: ["stableId", "parentId"]
+        },
+        subjects: {
+          keyPath: ["generationId", "syncId"],
+          indexes: ["stableId", "type"]
+        },
+        legoRecords: {
+          keyPath: ["generationId", "syncId"],
+          indexes: ["stableId", "setNumber"]
+        },
+        assets: {
+          keyPath: ["generationId", "syncId"],
+          indexes: [
+            "stableId",
+            "type",
+            "sourceStatus",
+            "productionStatus",
+            "updatedAt"
+          ]
+        },
+        assetVersions: {
+          keyPath: ["generationId", "versionId"],
+          indexes: [
+            "assetSyncId",
+            "createdAt",
+            "parentVersionId"
+          ]
+        },
+        files: {
+          keyPath: ["generationId", "fileId"],
+          indexes: ["sha256", "role", "createdAt"]
+        },
+        assetLinks: {
+          keyPath: ["generationId", "linkId"],
+          indexes: [
+            "assetSyncId",
+            "targetSyncId",
+            "relationType"
+          ]
+        },
+        storyConnections: {
+          keyPath: ["generationId", "syncId"],
+          indexes: [
+            "stableId",
+            "status",
+            "legoRecordSyncId"
+          ]
+        },
+        evidenceLinks: {
+          keyPath: ["generationId", "linkId"],
+          indexes: [
+            "connectionSyncId",
+            "assetSyncId"
+          ]
+        },
+        pages: {
+          keyPath: ["generationId", "syncId"],
+          indexes: ["stableId", "updatedAt"]
+        },
+        pagePlacements: {
+          keyPath: ["generationId", "placementId"],
+          indexes: ["pageSyncId", "assetSyncId"]
+        },
+        idReservations: {
+          keyPath: "reservationId",
+          indexes: ["entityType", "deviceId", "nextValue"]
+        },
+        outbox: {
+          keyPath: "operationId",
+          indexes: [
+            "state",
+            "nextAttemptAt",
+            "entityType",
+            "entitySyncId"
+          ]
+        },
+        syncState: {
+          keyPath: "key",
+          indexes: []
+        },
+        conflicts: {
+          keyPath: "conflictId",
+          indexes: [
+            "status",
+            "entityType",
+            "entitySyncId",
+            "createdAt"
+          ]
+        },
+        migrationLog: {
+          keyPath: "migrationId",
+          indexes: ["state", "completedAt"]
+        }
+      };
+
+      function createWwaIdentityId() {
+        if (
+          typeof crypto !== "undefined" &&
+          typeof crypto.randomUUID === "function"
+        ) {
+          return crypto.randomUUID();
+        }
+
+        return (
+          Date.now().toString(36) +
+          Math.random().toString(36).slice(2)
+        );
+      }
+
+      function createWwaSchema(database) {
+        Object.entries(
+          WWA_OBJECT_STORES
+        ).forEach(
+          ([storeName, definition]) => {
+            if (
+              database.objectStoreNames
+                .contains(storeName)
+            ) {
+              return;
+            }
+
+            const store =
+              database.createObjectStore(
+                storeName,
+                {
+                  keyPath:
+                    definition.keyPath
+                }
+              );
+
+            definition.indexes.forEach(
+              (indexName) => {
+                store.createIndex(
+                  indexName,
+                  indexName,
+                  { unique: false }
+                );
+              }
+            );
+          }
+        );
+      }
+
+      function validateWwaSchema(database) {
+        const expectedStores =
+          Object.keys(
+            WWA_OBJECT_STORES
+          );
+
+        const currentStores =
+          Array.from(
+            database.objectStoreNames
+          );
+
+        const missingStores =
+          expectedStores.filter(
+            (storeName) =>
+              !database.objectStoreNames
+                .contains(storeName)
+          );
+
+        const unexpectedStores =
+          currentStores.filter(
+            (storeName) =>
+              !WWA_OBJECT_STORES[
+                storeName
+              ]
+          );
+
+        if (
+          missingStores.length ||
+          unexpectedStores.length
+        ) {
+          throw new Error(
+            "IndexedDB store schema mismatch."
+          );
+        }
+
+        const transaction =
+          database.transaction(
+            expectedStores,
+            "readonly"
+          );
+
+        Object.entries(
+          WWA_OBJECT_STORES
+        ).forEach(
+          ([storeName, definition]) => {
+            const store =
+              transaction.objectStore(
+                storeName
+              );
+
+            if (
+              JSON.stringify(store.keyPath) !==
+              JSON.stringify(
+                definition.keyPath
+              )
+            ) {
+              throw new Error(
+                "IndexedDB key schema mismatch: " +
+                storeName
+              );
+            }
+
+            definition.indexes.forEach(
+              (indexName) => {
+                if (
+                  !store.indexNames
+                    .contains(indexName)
+                ) {
+                  throw new Error(
+                    "IndexedDB index missing: " +
+                    storeName + "." +
+                    indexName
+                  );
+                }
+
+                const index =
+                  store.index(indexName);
+
+                if (
+                  index.keyPath !==
+                    indexName ||
+                  index.unique
+                ) {
+                  throw new Error(
+                    "IndexedDB index schema mismatch: " +
+                    storeName + "." +
+                    indexName
+                  );
+                }
+              }
+            );
+          }
+        );
+      }
+
+      function openWwaDatabase() {
+        return new Promise(
+          (resolve, reject) => {
+            let isSettled = false;
+
+            const fail = (error) => {
+              if (isSettled) {
+                return;
+              }
+
+              isSettled = true;
+              reject(error);
+            };
+
+            if (!("indexedDB" in window)) {
+              fail(
+                new Error(
+                  "IndexedDB is not available."
+                )
+              );
+              return;
+            }
+
+            const request =
+              indexedDB.open(
+                WWA_DATABASE_NAME,
+                WWA_SCHEMA_VERSION
+              );
+
+            request.onupgradeneeded =
+              () => {
+                createWwaSchema(
+                  request.result
+                );
+              };
+
+            request.onerror = () => {
+              fail(
+                request.error ||
+                new Error(
+                  "IndexedDB could not be opened."
+                )
+              );
+            };
+
+            request.onblocked = () => {
+              fail(
+                new Error(
+                  "IndexedDB upgrade is blocked."
+                )
+              );
+            };
+
+            request.onsuccess = () => {
+              const database =
+                request.result;
+
+              if (isSettled) {
+                database.close();
+                return;
+              }
+
+              try {
+                validateWwaSchema(database);
+              } catch (error) {
+                database.close();
+                fail(error);
+                return;
+              }
+
+              database.onversionchange =
+                () => database.close();
+
+              isSettled = true;
+              resolve(database);
+            };
+          }
+        );
+      }
+
+      function initializeWwaIdentity(
+        database
+      ) {
+        return new Promise(
+          (resolve, reject) => {
+            const transaction =
+              database.transaction(
+                ["settings", "archiveRoots"],
+                "readwrite"
+              );
+
+            const settings =
+              transaction.objectStore(
+                "settings"
+              );
+
+            const archiveRoots =
+              transaction.objectStore(
+                "archiveRoots"
+              );
+
+            const identityRecords = {};
+            let pendingReads = 2;
+            let identity = null;
+            let initializationError = null;
+
+            const finishSettingsRead =
+              () => {
+                pendingReads -= 1;
+
+                if (pendingReads !== 0) {
+                  return;
+                }
+
+                const now =
+                  new Date().toISOString();
+
+                const existingDeviceId =
+                  identityRecords.deviceId
+                    ?.value;
+
+                const existingArchiveId =
+                  identityRecords
+                    .activeArchiveId
+                    ?.value;
+
+                const deviceId =
+                  typeof existingDeviceId ===
+                    "string" &&
+                  existingDeviceId
+                    ? existingDeviceId
+                    : createWwaIdentityId();
+
+                const archiveId =
+                  typeof existingArchiveId ===
+                    "string" &&
+                  existingArchiveId
+                    ? existingArchiveId
+                    : createWwaIdentityId();
+
+                const rootRequest =
+                  archiveRoots.get(
+                    archiveId
+                  );
+
+                rootRequest.onsuccess =
+                  () => {
+                    const existingRoot =
+                      rootRequest.result;
+
+                    if (
+                      existingRoot &&
+                      existingRoot
+                        .schemaVersion !==
+                        WWA_SCHEMA_VERSION
+                    ) {
+                      initializationError =
+                        new Error(
+                          "Unsupported WWA archive schema."
+                        );
+                      transaction.abort();
+                      return;
+                    }
+
+                    const generationId =
+                      existingRoot
+                        ?.activeGenerationId ||
+                      createWwaIdentityId();
+
+                    if (!existingDeviceId) {
+                      settings.put({
+                        key: "deviceId",
+                        value: deviceId,
+                        createdAt: now,
+                        updatedAt: now
+                      });
+                    }
+
+                    if (!existingArchiveId) {
+                      settings.put({
+                        key: "activeArchiveId",
+                        value: archiveId,
+                        createdAt: now,
+                        updatedAt: now
+                      });
+                    }
+
+                    if (
+                      !existingRoot ||
+                      !existingRoot
+                        .activeGenerationId
+                    ) {
+                      archiveRoots.put({
+                        ...(existingRoot || {}),
+                        archiveId,
+                        activeGenerationId:
+                          generationId,
+                        schemaVersion:
+                          WWA_SCHEMA_VERSION,
+                        createdAt:
+                          existingRoot
+                            ?.createdAt || now,
+                        updatedAt: now
+                      });
+                    }
+
+                    identity = {
+                      archiveId,
+                      generationId,
+                      deviceId
+                    };
+                  };
+              };
+
+            [
+              "deviceId",
+              "activeArchiveId"
+            ].forEach((key) => {
+              const request =
+                settings.get(key);
+
+              request.onsuccess = () => {
+                identityRecords[key] =
+                  request.result;
+
+                finishSettingsRead();
+              };
+            });
+
+            transaction.oncomplete = () => {
+              if (!identity) {
+                reject(
+                  new Error(
+                    "WWA identity was not initialized."
+                  )
+                );
+                return;
+              }
+
+              resolve(identity);
+            };
+
+            transaction.onabort = () => {
+              reject(
+                initializationError ||
+                transaction.error ||
+                new Error(
+                  "WWA identity transaction failed."
+                )
+              );
+            };
+          }
+        );
+      }
+
+      async function initializeWwaStorage() {
+        const database =
+          await openWwaDatabase();
+
+        try {
+          const identity =
+            await initializeWwaIdentity(
+              database
+            );
+
+          return {
+            database,
+            ...identity
+          };
+        } catch (error) {
+          database.close();
+          throw error;
+        }
+      }
       const root = document.getElementById("wwa-home-complete-castle");
       const home = root.querySelector(".wwa-home");
       const assets = root.querySelector(".wwa-assets");
@@ -3105,6 +3643,21 @@
         button.addEventListener("click", () => {
           showNotice(button.dataset.action === "edit" ? "Edit Asset follows after Detail is approved" : "Replace Image follows after Detail is approved");
         });
+      });
+
+      const wwaStorageReady = initializeWwaStorage();
+
+      window.WWAStorage = Object.freeze({
+        databaseName: WWA_DATABASE_NAME,
+        schemaVersion: WWA_SCHEMA_VERSION,
+        ready: wwaStorageReady
+      });
+
+      wwaStorageReady.catch((error) => {
+        console.error(
+          "WWA IndexedDB initialization failed.",
+          error
+        );
       });
 
       renderAssets();
