@@ -4,6 +4,35 @@
 
 ## [Unreleased]
 
+### Edit Asset Mobile Validation Passed — 2026-08-10
+
+- iPhone 기준 `393px`과 최대 검증 폭 `430px`에서 실제 저장 Asset의 `Edit Metadata → Replace Image → Version History` 흐름을 DOM·IndexedDB 통합 환경으로 재현.
+- 두 폭 모두 Edit 화면의 입력값 `16px`, 버튼·입력 터치 영역 최소 `44px`, 편집 중 하단 내비게이션 숨김, Editor·Action 영역 가로 넘침 없음 확인.
+- 읽기 전용 `AST` ID 유지, Metadata 저장 후 Detail 복귀, Image 교체 후 `Current / Preserved` 두 Version 표시와 `Source Status = Review` 전환 확인.
+- 인라인 Script 구문, 고유 DOM ID, iPhone viewport meta, `430px` Shell 상한과 편집 화면 폭 계산을 함께 검증.
+- 로컬 파일은 Cloud Browser 보안 정책상 직접 열 수 없어 공개 Pages 실제 브라우저 검증은 GitHub 반영 후 배포본에서 수행.
+
+### Edit Metadata, Replace Image, and Version History Implemented — 2026-08-10
+
+- 영구 Asset의 `Asset ID`와 현재 이미지 Version을 유지한 채 Title·Type·Source·검증 상태·Production 상태·Notes·Archive Relations를 편집하는 집중형 `Edit Asset Metadata` 화면을 기존 Add Asset 화면 체계 안에 연결.
+- Metadata 저장 시 실제로 변경된 필드의 `fieldClocks`만 갱신하고, Asset과 Outbox를 같은 IndexedDB transaction에 저장하며 이미지가 바뀌지 않으면 새 Asset Version을 만들지 않도록 구현.
+- 관계 추가는 결정적 Link ID로 저장하고 관계 제거는 원본 Record를 지우지 않는 Tombstone으로 보존하며, Asset·관계·Outbox 변경을 하나의 transaction에서 처리.
+- `Archived` 전환 전 확인창을 표시하고 Original·Version History가 유지됨을 안내하며, Draft는 기존 Original과 입력값을 유지한 채 다시 저장하거나 번호 예약 후 영구 Asset으로 전환할 수 있도록 편집 흐름을 연결.
+- `Replace Image`에서 교체 전 확인창을 표시하고 `In Use` Asset이면 현재 WWA Page 사용 상태를 함께 안내하도록 구현.
+- 교체 Image의 새 Original·최대 1600px Preview·새 `assetVersions` Record·Asset 현재 Version 포인터·Outbox를 하나의 transaction에 저장하고, 이전 Version과 파일·Stable ID·Archive Relations는 유지하도록 구현.
+- Image 교체 직후 `Source Status = Review`, `Checked On = null`을 적용하고 동일한 현재 원본을 다시 선택하면 저장하지 않도록 제한.
+- Asset Detail에 `Version History`를 추가해 `Version 1 / Version 2`, `Current / Preserved`, 생성 이유, 원본 파일명, 크기, 용량, 생성 시각을 표시.
+- IndexedDB·DOM 통합 검증에서 변경 필드 시계, 관계 Tombstone·추가, Metadata 편집 시 Version 불변, Replace 시 부모 Version 연결, Stable ID·관계 유지, 검증 상태 초기화, Discard Changes, 교체 취소, Version History 표시를 확인.
+- Version 생성 충돌을 강제로 발생시켜 교체 중 생성된 File·Version·Outbox와 현재 Version 포인터가 함께 롤백되는지 확인.
+- 기존 Home 8개 영화·기본 Asset 9개·승인된 6개 필터 버튼·하단 내비게이션·고유 DOM ID·`localStorage` 비접촉을 확인.
+- 이번 체크포인트는 로컬 구현과 검증만 포함하며 GitHub 반영과 GitHub Pages 배포는 포함하지 않음.
+
+### WWA Filter Deployment Verified — 2026-08-10
+
+- 원격 `main`의 `f1e4c9c`가 승인된 `index.html`, `CHANGELOG.md` 두 파일만 변경한 커밋인지 재확인.
+- 공개 GitHub Pages가 `200 OK`로 응답하고 배포 HTML의 SHA-256 `e67de52d73d38530262992fb24e3976b7c83536fe9cc264a44b16456dd681114`가 해당 승인본과 일치하는지 확인.
+- 배포 HTML에서 `WWA` 필터와 Add Asset Draft 복원 표식을 확인했으며 이 배포 확인 자체에는 코드 변경이나 재배포가 없음.
+
 ### WWA Filter Restored and Discard Changes Reverified — 2026-08-10
 
 - 승인된 Asset Type 필터 `Film / LEGO / Blueprint / My Photo / WWA` 중 배포본에서 누락된 `WWA` 버튼을 Assets Library에 복구.
@@ -161,12 +190,10 @@
 
 ### Next
 
-1. Add Asset 저장·복원 흐름의 iPhone 검증과 승인된 체크포인트 배포
-2. Edit Metadata·Replace Image·Version History 구현
-3. 기존 `localStorage` 읽기 전용 이전과 전체 ZIP 백업·복원 구현
-4. CloudKit 자동 동기화·충돌 보존 구현
-5. HEIC/JPEG, 오프라인, 충돌, 393px·430px·iPad 검증
-6. LEGO Record·Story Connections 통합
+1. 기존 `localStorage` 읽기 전용 이전과 전체 ZIP 백업·복원 구현
+2. CloudKit 자동 동기화·충돌 보존 구현
+3. HEIC/JPEG, 오프라인, 충돌, iPad·PC 검증
+4. LEGO Record·Story Connections 통합
 
 ## [Repository Checkpoint] — 2026-08-09
 

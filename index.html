@@ -2267,6 +2267,71 @@
       line-height: 1.6;
     }
 
+    #wwa-home-complete-castle .wwa-asset-version-list {
+      display: grid;
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-version-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px 14px;
+      padding: 11px 0;
+      border-top: 1px solid rgba(111, 118, 130, 0.18);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-version-item:last-child {
+      border-bottom: 1px solid rgba(111, 118, 130, 0.18);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-version-name,
+    #wwa-home-complete-castle .wwa-asset-version-state,
+    #wwa-home-complete-castle .wwa-asset-version-meta,
+    #wwa-home-complete-castle .wwa-asset-version-empty,
+    #wwa-home-complete-castle .wwa-asset-detail-action-status {
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-version-name {
+      color: var(--wwa-blue);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-version-state {
+      align-self: start;
+      color: var(--wwa-stone);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-version-state.is-current {
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-version-meta {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: var(--wwa-stone);
+      font-size: 9px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-version-empty {
+      margin: 0;
+      color: var(--wwa-stone);
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
     #wwa-home-complete-castle .wwa-asset-detail-actions {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2293,6 +2358,26 @@
       border-color: var(--wwa-blue);
       background: var(--wwa-blue);
       color: var(--wwa-winter);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-action:disabled {
+      cursor: not-allowed;
+      opacity: 0.42;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-back:disabled {
+      cursor: wait;
+      opacity: 0.5;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-action-status {
+      min-height: 18px;
+      margin: 10px 0 0;
+      color: var(--wwa-stone);
+      font-size: 10px;
+      font-weight: 650;
+      line-height: 1.45;
+      text-align: center;
     }
 
     #wwa-home-complete-castle .wwa-asset-detail-back:focus-visible,
@@ -2853,6 +2938,11 @@
         <dl class="wwa-asset-detail-list wwa-asset-detail-production-list"></dl>
       </section>
 
+      <section class="wwa-asset-detail-section" aria-labelledby="wwa-asset-versions-heading">
+        <h3 class="wwa-asset-detail-section-title" id="wwa-asset-versions-heading">Version History</h3>
+        <ol class="wwa-asset-version-list" aria-live="polite"></ol>
+      </section>
+
       <section class="wwa-asset-detail-section" aria-labelledby="wwa-asset-notes-heading">
         <h3 class="wwa-asset-detail-section-title" id="wwa-asset-notes-heading">Notes</h3>
         <p class="wwa-asset-detail-notes"></p>
@@ -2862,6 +2952,8 @@
         <button class="wwa-asset-action is-primary" type="button" data-action="edit">Edit Asset</button>
         <button class="wwa-asset-action" type="button" data-action="replace">Replace Image</button>
       </div>
+      <input class="wwa-asset-replace-input" type="file" accept="image/*,.heic,.heif" hidden aria-label="Choose a replacement image">
+      <p class="wwa-asset-detail-action-status" role="status" aria-live="polite"></p>
     </section>
 
     <section class="wwa-asset-editor" aria-labelledby="wwa-asset-editor-heading" tabindex="-1">
@@ -3856,6 +3948,131 @@
         };
       }
 
+      function normalizeWwaAssetMetadataInput(input) {
+        if (!input || typeof input !== "object") {
+          throw createWwaAssetValidationError(
+            "Asset 입력 내용을 확인해 주세요.",
+            "asset"
+          );
+        }
+
+        const title = getWwaTrimmedString(input.title);
+        if (!title) {
+          throw createWwaAssetValidationError(
+            "Asset Title을 입력해 주세요.",
+            "title"
+          );
+        }
+
+        const type = getWwaTrimmedString(input.type);
+        if (!WWA_ASSET_TYPES.has(type)) {
+          throw createWwaAssetValidationError(
+            "승인된 Asset Type을 선택해 주세요.",
+            "type"
+          );
+        }
+
+        const source = getWwaTrimmedString(input.source);
+        if (!source) {
+          throw createWwaAssetValidationError(
+            "Source를 입력해 주세요.",
+            "source"
+          );
+        }
+
+        const sourceLink = getWwaTrimmedString(input.sourceLink);
+        if (WWA_OFFICIAL_ASSET_TYPES.has(type) && !sourceLink) {
+          throw createWwaAssetValidationError(
+            "공식 자료는 Source Link가 필요합니다.",
+            "sourceLink"
+          );
+        }
+        if (sourceLink && !isWwaHttpUrl(sourceLink)) {
+          throw createWwaAssetValidationError(
+            "Source Link의 주소를 확인해 주세요.",
+            "sourceLink"
+          );
+        }
+
+        const sourceStatus = getWwaTrimmedString(
+          input.sourceStatus
+        ) || "Source Needed";
+        if (!WWA_ASSET_SOURCE_STATUSES.has(sourceStatus)) {
+          throw createWwaAssetValidationError(
+            "Asset Source 상태를 확인해 주세요.",
+            "sourceStatus"
+          );
+        }
+
+        const productionStatus = getWwaTrimmedString(
+          input.productionStatus
+        ) || "Candidate";
+        if (!WWA_ASSET_PRODUCTION_STATUSES.has(productionStatus)) {
+          throw createWwaAssetValidationError(
+            "Asset Production 상태를 확인해 주세요.",
+            "productionStatus"
+          );
+        }
+
+        const checkedOn = getWwaTrimmedString(input.checkedOn) || null;
+        if (sourceStatus === "Verified" && !checkedOn) {
+          throw createWwaAssetValidationError(
+            "Verified로 저장하려면 Checked On이 필요합니다.",
+            "checkedOn"
+          );
+        }
+
+        return {
+          title,
+          type,
+          source,
+          sourceLink,
+          sourceStatus,
+          productionStatus,
+          notes: getWwaTrimmedString(input.notes),
+          checkedOn,
+          links: normalizeWwaAssetLinks(input.links)
+        };
+      }
+
+      function normalizeWwaReplacementInput(input) {
+        if (!input || typeof input !== "object") {
+          throw createWwaAssetValidationError(
+            "교체할 Image를 선택해 주세요.",
+            "image"
+          );
+        }
+
+        const image = input.image;
+        const isBlobLike = image &&
+          typeof image.arrayBuffer === "function" &&
+          Number.isFinite(image.size);
+        if (!isBlobLike || image.size < 1) {
+          throw createWwaAssetValidationError(
+            "교체할 Image를 선택해 주세요.",
+            "image"
+          );
+        }
+
+        const originalFilename = getWwaTrimmedString(
+          input.originalFilename || image.name
+        ) || "replacement-image";
+        const mimeType = getWwaAssetMimeType(image, originalFilename);
+        if (!mimeType) {
+          throw createWwaAssetValidationError(
+            "지원되는 이미지 파일을 선택해 주세요.",
+            "image"
+          );
+        }
+
+        return {
+          image,
+          originalFilename,
+          mimeType,
+          extension: getWwaAssetExtension(originalFilename, mimeType)
+        };
+      }
+
       function getWwaCryptoProvider() {
         const provider = typeof globalThis !== "undefined"
           ? globalThis.crypto
@@ -4570,6 +4787,593 @@
         );
       }
 
+      function updateWwaAssetFieldClocks(
+        currentClocks,
+        changedFields,
+        now,
+        deviceId
+      ) {
+        const nextClocks = {
+          ...(currentClocks && typeof currentClocks === "object"
+            ? currentClocks
+            : {})
+        };
+        changedFields.forEach((field) => {
+          nextClocks[field] = { updatedAt: now, deviceId };
+        });
+        return nextClocks;
+      }
+
+      async function editWwaAssetMetadata(
+        storage,
+        assetSyncId,
+        input
+      ) {
+        const syncId = getWwaTrimmedString(assetSyncId);
+        if (!syncId) {
+          throw createWwaAssetValidationError(
+            "편집할 Asset을 확인해 주세요.",
+            "asset"
+          );
+        }
+        const normalizedInput = normalizeWwaAssetMetadataInput(input);
+        const generationId = storage.generationId;
+        const transaction = storage.database.transaction([
+          "archiveRoots",
+          "assets",
+          "assetLinks",
+          "outbox"
+        ], "readwrite");
+        const completion = waitForWwaTransaction(transaction);
+
+        try {
+          const archiveRootRequest = transaction
+            .objectStore("archiveRoots")
+            .get(storage.archiveId);
+          const assetRequest = transaction
+            .objectStore("assets")
+            .get([generationId, syncId]);
+          const linksRequest = transaction
+            .objectStore("assetLinks")
+            .index("assetSyncId")
+            .getAll(syncId);
+          const [archiveRoot, asset, allLinks] = await Promise.all([
+            requestWwaResult(archiveRootRequest),
+            requestWwaResult(assetRequest),
+            requestWwaResult(linksRequest)
+          ]);
+
+          if (
+            !archiveRoot ||
+            archiveRoot.activeGenerationId !== generationId
+          ) {
+            throw new Error("Active WWA generation changed during edit.");
+          }
+          if (
+            !isWwaActiveGenerationRecord(
+              asset,
+              storage.archiveId,
+              generationId
+            )
+          ) {
+            throw new Error("Stored Asset could not be found.");
+          }
+          if (
+            normalizedInput.productionStatus === "In Use" &&
+            asset.productionStatus !== "In Use"
+          ) {
+            throw createWwaAssetValidationError(
+              "In Use는 실제 WWA Page 배치 이후에만 사용할 수 있습니다.",
+              "productionStatus"
+            );
+          }
+
+          const editableFields = [
+            "title",
+            "type",
+            "source",
+            "sourceLink",
+            "sourceStatus",
+            "productionStatus",
+            "notes",
+            "checkedOn"
+          ];
+          const changedFields = editableFields.filter((field) => {
+            const currentValue = asset[field] === undefined
+              ? null
+              : asset[field];
+            const nextValue = normalizedInput[field] === undefined
+              ? null
+              : normalizedInput[field];
+            return currentValue !== nextValue;
+          });
+          const now = new Date().toISOString();
+          const outboxOperations = [];
+          let assetOperation = null;
+
+          if (changedFields.length) {
+            const updatedAsset = {
+              ...asset,
+              ...Object.fromEntries(
+                editableFields.map((field) => [
+                  field,
+                  normalizedInput[field]
+                ])
+              ),
+              updatedAt: now,
+              fieldClocks: updateWwaAssetFieldClocks(
+                asset.fieldClocks,
+                changedFields,
+                now,
+                storage.deviceId
+              )
+            };
+            transaction.objectStore("assets").put(updatedAsset);
+            assetOperation = createWwaOutboxOperation(
+              {
+                archiveId: storage.archiveId,
+                generationId,
+                deviceId: storage.deviceId
+              },
+              "Asset",
+              syncId,
+              "assets",
+              [],
+              now
+            );
+            outboxOperations.push(assetOperation);
+          }
+
+          const activeLinks = allLinks.filter((link) =>
+            isWwaActiveGenerationRecord(
+              link,
+              storage.archiveId,
+              generationId
+            ) && link.assetSyncId === syncId
+          );
+          const allLinksById = new Map(
+            allLinks
+              .filter((link) =>
+                link && link.generationId === generationId
+              )
+              .map((link) => [link.linkId, link])
+          );
+          const desiredLinksById = new Map(
+            normalizedInput.links.map((link) => {
+              const linkId = syncId + "::" +
+                link.relationType + "::" + link.targetSyncId;
+              return [linkId, { ...link, linkId }];
+            })
+          );
+          const currentActiveIds = new Set(
+            activeLinks.map((link) => link.linkId)
+          );
+          const assetLinks = transaction.objectStore("assetLinks");
+          const linkOperationDependencies = assetOperation
+            ? [assetOperation.operationId]
+            : [];
+          const changedLinkIds = [];
+
+          desiredLinksById.forEach((link, linkId) => {
+            if (currentActiveIds.has(linkId)) return;
+            const existing = allLinksById.get(linkId);
+            assetLinks.put({
+              ...(existing || {}),
+              archiveId: storage.archiveId,
+              generationId,
+              syncId: linkId,
+              linkId,
+              assetSyncId: syncId,
+              targetSyncId: link.targetSyncId,
+              relationType: link.relationType,
+              createdAt: existing?.createdAt || now,
+              updatedAt: now,
+              deletedAt: null,
+              cloudChangeTag: existing?.cloudChangeTag || null
+            });
+            changedLinkIds.push(linkId);
+          });
+
+          activeLinks.forEach((link) => {
+            if (desiredLinksById.has(link.linkId)) return;
+            assetLinks.put({
+              ...link,
+              updatedAt: now,
+              deletedAt: now
+            });
+            changedLinkIds.push(link.linkId);
+          });
+
+          changedLinkIds.forEach((linkId) => {
+            outboxOperations.push(createWwaOutboxOperation(
+              {
+                archiveId: storage.archiveId,
+                generationId,
+                deviceId: storage.deviceId
+              },
+              "AssetLink",
+              linkId,
+              "assetLinks",
+              linkOperationDependencies,
+              now
+            ));
+          });
+
+          const outbox = transaction.objectStore("outbox");
+          outboxOperations.forEach((operation) => outbox.add(operation));
+          await completion;
+
+          return {
+            status: changedFields.length || changedLinkIds.length
+              ? "saved"
+              : "unchanged",
+            stableId: asset.stableId,
+            syncId,
+            changedFields,
+            changedLinkIds,
+            outboxOperationIds: outboxOperations.map(
+              (operation) => operation.operationId
+            )
+          };
+        } catch (error) {
+          try {
+            transaction.abort();
+          } catch (abortError) {
+            // The transaction may already have completed or aborted.
+          }
+          try {
+            await completion;
+          } catch (transactionError) {
+            // Preserve the original validation or request error.
+          }
+          throw error;
+        }
+      }
+
+      async function replaceWwaAssetImage(
+        storage,
+        assetSyncId,
+        input,
+        previewFactory = createWwaAssetPreview
+      ) {
+        const syncId = getWwaTrimmedString(assetSyncId);
+        if (!syncId) {
+          throw createWwaAssetValidationError(
+            "교체할 Asset을 확인해 주세요.",
+            "asset"
+          );
+        }
+        const normalizedInput = normalizeWwaReplacementInput(input);
+        const preparedFiles = await prepareWwaAssetFiles(
+          normalizedInput,
+          previewFactory
+        );
+        const generationId = storage.generationId;
+        const transaction = storage.database.transaction([
+          "archiveRoots",
+          "files",
+          "assetVersions",
+          "assets",
+          "outbox"
+        ], "readwrite");
+        const completion = waitForWwaTransaction(transaction);
+
+        try {
+          const archiveRootRequest = transaction
+            .objectStore("archiveRoots")
+            .get(storage.archiveId);
+          const assetRequest = transaction
+            .objectStore("assets")
+            .get([generationId, syncId]);
+          const versionsRequest = transaction
+            .objectStore("assetVersions")
+            .index("assetSyncId")
+            .getAll(syncId);
+          const filesRequest = transaction
+            .objectStore("files")
+            .getAll();
+          const [archiveRoot, asset, allVersions, allFiles] =
+            await Promise.all([
+              requestWwaResult(archiveRootRequest),
+              requestWwaResult(assetRequest),
+              requestWwaResult(versionsRequest),
+              requestWwaResult(filesRequest)
+            ]);
+
+          if (
+            !archiveRoot ||
+            archiveRoot.activeGenerationId !== generationId
+          ) {
+            throw new Error("Active WWA generation changed during replacement.");
+          }
+          if (
+            !isWwaActiveGenerationRecord(
+              asset,
+              storage.archiveId,
+              generationId
+            )
+          ) {
+            throw new Error("Stored Asset could not be found.");
+          }
+
+          const currentVersion = allVersions.find((version) =>
+            isWwaActiveGenerationRecord(
+              version,
+              storage.archiveId,
+              generationId
+            ) && version.versionId === asset.currentVersionId
+          );
+          if (!currentVersion) {
+            throw new Error("Current Asset Version could not be found.");
+          }
+
+          const filesById = new Map(
+            allFiles
+              .filter((file) =>
+                isWwaActiveGenerationRecord(
+                  file,
+                  storage.archiveId,
+                  generationId
+                )
+              )
+              .map((file) => [file.fileId, file])
+          );
+          const currentOriginal = filesById.get(
+            currentVersion.originalFileId
+          );
+          if (
+            currentOriginal &&
+            currentOriginal.sha256 === preparedFiles.original.sha256
+          ) {
+            throw createWwaAssetValidationError(
+              "선택한 Image가 현재 원본과 같습니다.",
+              "image"
+            );
+          }
+
+          const now = new Date().toISOString();
+          const identity = {
+            archiveId: storage.archiveId,
+            generationId,
+            deviceId: storage.deviceId
+          };
+          const originalFileId = "file-original-" +
+            preparedFiles.original.sha256;
+          const previewFileId = "file-preview-" +
+            preparedFiles.preview.sha256;
+          const files = transaction.objectStore("files");
+          const outboxOperations = [];
+
+          if (!filesById.has(originalFileId)) {
+            files.add(createWwaFileRecord(
+              identity,
+              originalFileId,
+              "original",
+              preparedFiles.original,
+              now
+            ));
+            outboxOperations.push(createWwaOutboxOperation(
+              identity,
+              "File",
+              originalFileId,
+              "files",
+              [],
+              now
+            ));
+          }
+          if (!filesById.has(previewFileId)) {
+            files.add(createWwaFileRecord(
+              identity,
+              previewFileId,
+              "preview",
+              preparedFiles.preview,
+              now
+            ));
+            outboxOperations.push(createWwaOutboxOperation(
+              identity,
+              "File",
+              previewFileId,
+              "files",
+              [],
+              now
+            ));
+          }
+
+          const versionId = createWwaIdentityId();
+          transaction.objectStore("assetVersions").add({
+            archiveId: storage.archiveId,
+            generationId,
+            syncId: versionId,
+            versionId,
+            assetSyncId: syncId,
+            parentVersionId: currentVersion.versionId,
+            originalFileId,
+            previewFileId,
+            reason: "replace",
+            createdAt: now,
+            updatedAt: now,
+            createdByDeviceId: storage.deviceId,
+            deletedAt: null,
+            cloudChangeTag: null
+          });
+          const fileOperationIds = outboxOperations
+            .filter((operation) => operation.entityType === "File")
+            .map((operation) => operation.operationId);
+          const versionOperation = createWwaOutboxOperation(
+            identity,
+            "AssetVersion",
+            versionId,
+            "assetVersions",
+            fileOperationIds,
+            now
+          );
+          outboxOperations.push(versionOperation);
+
+          transaction.objectStore("assets").put({
+            ...asset,
+            currentVersionId: versionId,
+            sourceStatus: "Review",
+            checkedOn: null,
+            updatedAt: now,
+            fieldClocks: updateWwaAssetFieldClocks(
+              asset.fieldClocks,
+              ["currentVersionId", "sourceStatus", "checkedOn"],
+              now,
+              storage.deviceId
+            )
+          });
+          const assetOperation = createWwaOutboxOperation(
+            identity,
+            "Asset",
+            syncId,
+            "assets",
+            [versionOperation.operationId],
+            now
+          );
+          outboxOperations.push(assetOperation);
+
+          const outbox = transaction.objectStore("outbox");
+          outboxOperations.forEach((operation) => outbox.add(operation));
+          await completion;
+
+          return {
+            status: "saved",
+            stableId: asset.stableId,
+            syncId,
+            versionId,
+            parentVersionId: currentVersion.versionId,
+            originalFileId,
+            previewFileId,
+            sourceStatus: "Review",
+            checkedOn: null,
+            outboxOperationIds: outboxOperations.map(
+              (operation) => operation.operationId
+            )
+          };
+        } catch (error) {
+          try {
+            transaction.abort();
+          } catch (abortError) {
+            // The transaction may already have completed or aborted.
+          }
+          try {
+            await completion;
+          } catch (transactionError) {
+            // Preserve the original validation or request error.
+          }
+          throw error;
+        }
+      }
+
+      async function loadWwaAssetVersionHistory(
+        storage,
+        assetSyncId
+      ) {
+        const syncId = getWwaTrimmedString(assetSyncId);
+        if (!syncId) return { currentVersionId: null, versions: [] };
+        const generationId = storage.generationId;
+        const transaction = storage.database.transaction([
+          "archiveRoots",
+          "assets",
+          "assetVersions",
+          "files"
+        ], "readonly");
+        const completion = waitForWwaTransaction(transaction);
+
+        try {
+          const [archiveRoot, asset, allVersions, allFiles] =
+            await Promise.all([
+              requestWwaResult(
+                transaction.objectStore("archiveRoots")
+                  .get(storage.archiveId)
+              ),
+              requestWwaResult(
+                transaction.objectStore("assets")
+                  .get([generationId, syncId])
+              ),
+              requestWwaResult(
+                transaction.objectStore("assetVersions")
+                  .index("assetSyncId")
+                  .getAll(syncId)
+              ),
+              requestWwaResult(
+                transaction.objectStore("files").getAll()
+              )
+            ]);
+          await completion;
+
+          if (
+            !archiveRoot ||
+            archiveRoot.activeGenerationId !== generationId ||
+            !isWwaActiveGenerationRecord(
+              asset,
+              storage.archiveId,
+              generationId
+            )
+          ) {
+            throw new Error("Stored Asset could not be found.");
+          }
+
+          const filesById = new Map(
+            allFiles
+              .filter((file) =>
+                isWwaActiveGenerationRecord(
+                  file,
+                  storage.archiveId,
+                  generationId
+                )
+              )
+              .map((file) => [file.fileId, file])
+          );
+          const versions = allVersions
+            .filter((version) =>
+              isWwaActiveGenerationRecord(
+                version,
+                storage.archiveId,
+                generationId
+              ) && version.assetSyncId === syncId
+            )
+            .sort((left, right) =>
+              String(left.createdAt || "").localeCompare(
+                String(right.createdAt || "")
+              ) || String(left.versionId).localeCompare(
+                String(right.versionId)
+              )
+            )
+            .map((version, index) => ({
+              ...version,
+              number: index + 1,
+              isCurrent: version.versionId === asset.currentVersionId,
+              originalFile: filesById.get(version.originalFileId) || null,
+              previewFile: filesById.get(version.previewFileId) || null
+            }));
+
+          if (
+            !versions.length ||
+            !versions.some((version) => version.isCurrent) ||
+            versions.some((version) =>
+              !version.originalFile || !version.previewFile
+            )
+          ) {
+            throw new Error("Asset Version History is incomplete.");
+          }
+
+          return {
+            stableId: asset.stableId,
+            syncId,
+            currentVersionId: asset.currentVersionId,
+            versions
+          };
+        } catch (error) {
+          try {
+            await completion;
+          } catch (transactionError) {
+            // Preserve the first read or validation error.
+          }
+          throw error;
+        }
+      }
+
       function isWwaActiveGenerationRecord(
         record,
         archiveId,
@@ -4806,6 +5610,9 @@
       const assetEditorFilename = root.querySelector(".wwa-asset-editor-filename");
       const assetEditorFilesize = root.querySelector(".wwa-asset-editor-filesize");
       const assetEditorForm = root.querySelector(".wwa-asset-editor-form");
+      const assetEditorPosition = root.querySelector(".wwa-asset-editor-position");
+      const assetEditorHeading = root.querySelector(".wwa-asset-editor-heading");
+      const assetEditorIntro = root.querySelector(".wwa-asset-editor-intro");
       const assetEditorStatus = root.querySelector(".wwa-asset-editor-status");
       const assetEditorCancel = root.querySelector('[data-editor-action="cancel"]');
       const assetEditorSubmit = assetEditorForm.querySelector('[type="submit"]');
@@ -4826,7 +5633,12 @@
       const assetDetailSourceList = root.querySelector(".wwa-asset-detail-source-list");
       const assetDetailFileList = root.querySelector(".wwa-asset-detail-file-list");
       const assetDetailProductionList = root.querySelector(".wwa-asset-detail-production-list");
+      const assetVersionList = root.querySelector(".wwa-asset-version-list");
       const assetDetailNotes = root.querySelector(".wwa-asset-detail-notes");
+      const assetDetailEditButton = root.querySelector('[data-action="edit"]');
+      const assetDetailReplaceButton = root.querySelector('[data-action="replace"]');
+      const assetDetailReplaceInput = root.querySelector(".wwa-asset-replace-input");
+      const assetDetailActionStatus = root.querySelector(".wwa-asset-detail-action-status");
       const themeColor = document.querySelector('meta[name="theme-color"]');
       const colorScheme = document.querySelector('meta[name="color-scheme"]');
       const detail = root.querySelector(".wwa-detail");
@@ -4850,8 +5662,10 @@
       let activeEditorAsset = null;
       let activeEditorFile = null;
       let activeEditorTrigger = null;
+      let activeEditorMode = "add";
       let assetEditorDirty = false;
       let assetEditorSaving = false;
+      let assetDetailReplacing = false;
       let restoredAssetObjectUrls = new Set();
       const movies = [
         { code: "F01", year: "2001", title: "Philosopher\u2019s Stone", alt: "Official landscape key art for Harry Potter and the Philosopher's Stone" },
@@ -5013,7 +5827,11 @@
         assetEditorSubmit.disabled = isSaving;
         assetEditorCancel.disabled = isSaving;
         assetEditorBack.disabled = isSaving;
-        assetEditorSubmit.textContent = isSaving ? "Saving…" : "Save Asset";
+        assetEditorSubmit.textContent = isSaving
+          ? "Saving…"
+          : activeEditorMode === "edit"
+          ? "Save Changes"
+          : "Save Asset";
       };
 
       const getAssetFilterFromType = (type) => {
@@ -5095,6 +5913,7 @@
       const getWwaRestoredRelationLabels = (links) =>
         links.map((link) => ({
           relationType: link.relationType,
+          targetSyncId: link.targetSyncId,
           label: getWwaRelationLabel(
             link.target,
             link.relationType
@@ -5131,6 +5950,7 @@
           id: stableId,
           stableId,
           syncId,
+          currentVersionId: entry.version.versionId,
           storageKey: "asset:" + syncId,
           title,
           type,
@@ -5156,6 +5976,8 @@
           notes: getWwaTrimmedString(asset.notes) || "No archive note recorded.",
           image,
           originalImage,
+          originalBlob: originalFile.blob,
+          previewBlob: previewFile.blob,
           previewUrl: image,
           previewState: "ready",
           alt: "Asset preview: " + title,
@@ -5219,6 +6041,8 @@
           notes: getWwaTrimmedString(metadata.notes) || "No archive note recorded.",
           image,
           originalImage,
+          originalBlob: originalFile.blob,
+          previewBlob: previewFile.blob,
           previewUrl: image,
           previewState: "ready",
           alt: "Draft Asset preview: " + title,
@@ -5314,7 +6138,7 @@
         select.disabled = false;
       };
 
-      const loadWwaAssetRelationOptions = async () => {
+      const loadWwaAssetRelationOptions = async (selectedLinks = []) => {
         const relationNote = root.querySelector(".wwa-asset-relations-note");
         relationNote.textContent = "Archive Records를 불러오는 중입니다.";
         assetEditorRelationSelects.forEach((select) => {
@@ -5341,6 +6165,16 @@
 
           assetEditorRelationSelects.forEach((select, index) => {
             populateWwaRelationSelect(select, activeRecords[index]);
+            const selectedIds = new Set(
+              selectedLinks
+                .filter((link) =>
+                  link.relationType === select.dataset.relationType
+                )
+                .map((link) => link.targetSyncId)
+            );
+            Array.from(select.options).forEach((option) => {
+              option.selected = selectedIds.has(option.value);
+            });
           });
           const availableCount = activeRecords.reduce((total, records) => total + records.length, 0);
           relationNote.textContent = availableCount
@@ -5368,17 +6202,65 @@
         assetEditorFilesize.textContent = asset.fileSize;
       };
 
-      const openAssetEditor = (asset, file, trigger) => {
+      const configureWwaProductionOptions = (asset, mode) => {
+        const select = assetEditorForm.elements.namedItem("productionStatus");
+        const values = mode === "edit" && asset && asset.isStoredAsset
+          ? ["Candidate", "Selected", ...(asset.production === "In Use" ? ["In Use"] : []), "Archived"]
+          : ["Candidate", "Selected"];
+        select.replaceChildren();
+        values.forEach((value) => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = value;
+          select.append(option);
+        });
+        select.value = values.includes(asset && asset.production)
+          ? asset.production
+          : "Candidate";
+      };
+
+      const openAssetEditor = (asset, file, trigger, mode = "add") => {
         activeEditorAsset = asset;
-        activeEditorFile = file;
+        activeEditorMode = mode;
+        activeEditorFile = file || (
+          mode === "edit" && asset.isDraft
+            ? asset.originalBlob
+            : null
+        );
         activeEditorTrigger = trigger;
-        assetEditorDirty = true;
+        assetEditorDirty = mode === "add";
         setAssetEditorSaving(false);
         clearAssetEditorErrors();
         assetEditorForm.reset();
-        assetEditorForm.elements.namedItem("assetId").value = "Assigned after save";
+        configureWwaProductionOptions(asset, mode);
+        assetEditorPosition.textContent = mode === "edit" ? "Edit Asset" : "Add Asset";
+        assetEditorHeading.textContent = mode === "edit"
+          ? "Edit Asset Metadata"
+          : "New Asset Record";
+        assetEditorIntro.textContent = mode === "edit"
+          ? "Asset ID와 현재 Version은 유지하고 검증·출처·관계 정보만 수정합니다."
+          : "원본 이미지와 출처를 하나의 검증 가능한 Archive Record로 저장합니다.";
+        assetEditorForm.elements.namedItem("assetId").value = mode === "edit"
+          ? (asset.stableId || "ID Reservation Needed")
+          : "Assigned after save";
         assetEditorForm.elements.namedItem("title").value = asset.title;
-        setAssetEditorStatus("필수 정보와 출처를 확인한 뒤 저장해 주세요.");
+        if (mode === "edit") {
+          assetEditorForm.elements.namedItem("type").value = asset.type;
+          assetEditorForm.elements.namedItem("source").value = asset.source === "Not yet recorded"
+            ? ""
+            : asset.source;
+          assetEditorForm.elements.namedItem("sourceLink").value = asset.sourceLink || "";
+          assetEditorForm.elements.namedItem("sourceStatus").value = asset.status;
+          assetEditorForm.elements.namedItem("checkedOn").value = /^\d{4}-\d{2}-\d{2}$/.test(asset.checkedOn || "")
+            ? asset.checkedOn
+            : "";
+          assetEditorForm.elements.namedItem("notes").value = asset.notes === "No archive note recorded."
+            ? ""
+            : asset.notes;
+        }
+        setAssetEditorStatus(mode === "edit"
+          ? "변경한 필드만 새 수정 시각으로 기록됩니다."
+          : "필수 정보와 출처를 확인한 뒤 저장해 주세요.");
         updateAssetEditorPreview(asset);
         assets.classList.remove("is-visible");
         assetDetail.classList.remove("is-visible");
@@ -5391,7 +6273,9 @@
           assetEditor.focus({ preventScroll: true });
           assetEditorForm.elements.namedItem("title").focus({ preventScroll: true });
         }, 0);
-        loadWwaAssetRelationOptions();
+        loadWwaAssetRelationOptions(
+          mode === "edit" ? (asset.relationLabels || []) : []
+        );
       };
 
       const removeUnsavedEditorAsset = () => {
@@ -5408,15 +6292,25 @@
       };
 
       const closeAssetEditor = ({ preserveAsset = false } = {}) => {
-        if (!preserveAsset) removeUnsavedEditorAsset();
+        const editorAsset = activeEditorAsset;
+        const returnToDetail = activeEditorMode === "edit" && editorAsset;
+        if (!preserveAsset && activeEditorMode === "add") {
+          removeUnsavedEditorAsset();
+        }
         assetEditor.classList.remove("is-visible");
-        assets.classList.add("is-visible");
         root.classList.remove("is-asset-editor-view");
         activeEditorAsset = null;
         activeEditorFile = null;
+        activeEditorMode = "add";
         assetEditorDirty = false;
         setAssetEditorSaving(false);
         renderAssets();
+        if (returnToDetail) {
+          openAssetDetail(editorAsset, lastAssetTrigger);
+          activeEditorTrigger = null;
+          return;
+        }
+        assets.classList.add("is-visible");
         window.scrollTo({ top: 0, behavior: "auto" });
         window.setTimeout(() => {
           if (activeEditorTrigger && document.body.contains(activeEditorTrigger)) {
@@ -5466,7 +6360,12 @@
           if (!firstInvalidField) firstInvalidField = field;
         };
 
-        if (!activeEditorFile) addError("image", "Image를 선택해 주세요.");
+        if (
+          !activeEditorFile &&
+          !(activeEditorMode === "edit" && activeEditorAsset?.isStoredAsset)
+        ) {
+          addError("image", "Image를 선택해 주세요.");
+        }
         if (!title) addError("title", "Asset Title을 입력해 주세요.");
         if (!WWA_ASSET_TYPES.has(type)) addError("type", "승인된 Asset Type을 선택해 주세요.");
         if (!source) addError("source", "Source를 입력해 주세요.");
@@ -5489,7 +6388,9 @@
 
         return {
           image: activeEditorFile,
-          originalFilename: activeEditorFile.name,
+          originalFilename: activeEditorFile
+            ? (activeEditorFile.name || activeEditorAsset.originalFile)
+            : activeEditorAsset.originalFile,
           title,
           type,
           source,
@@ -5498,7 +6399,8 @@
           productionStatus: assetEditorForm.elements.namedItem("productionStatus").value,
           checkedOn: checkedOn || null,
           notes: assetEditorForm.elements.namedItem("notes").value.trim(),
-          links: collectWwaAssetEditorLinks()
+          links: collectWwaAssetEditorLinks(),
+          draftId: activeEditorAsset?.draftId || null
         };
       };
 
@@ -5532,9 +6434,38 @@
           : "draft:" + result.draftId;
         asset.isStoredAsset = result.status === "saved";
         asset.isDraft = result.status === "draft";
+        asset.originalBlob = input.image;
+        asset.currentVersionId = result.versionId || asset.currentVersionId || null;
         asset.relationLabels = assetEditorRelationSelects.flatMap((select) =>
           Array.from(select.selectedOptions || []).map((option) => ({
             relationType: select.dataset.relationType,
+            targetSyncId: option.value,
+            label: option.textContent
+          }))
+        );
+        asset.relationSummary = getWwaRelationSummary(
+          asset.relationLabels
+        );
+      };
+
+      const applyEditedAssetToSession = (input) => {
+        const asset = activeEditorAsset;
+        asset.title = input.title;
+        asset.type = input.type;
+        asset.context = input.type + " · Local archive";
+        asset.filter = getAssetFilterFromType(input.type);
+        asset.status = input.sourceStatus;
+        asset.production = input.productionStatus;
+        asset.kind = getAssetKindFromType(input.type);
+        asset.source = input.source;
+        asset.sourceLink = input.sourceLink;
+        asset.checkedOn = input.checkedOn || "Not yet reviewed";
+        asset.placement = input.productionStatus;
+        asset.notes = input.notes || "No archive note recorded.";
+        asset.relationLabels = assetEditorRelationSelects.flatMap((select) =>
+          Array.from(select.selectedOptions || []).map((option) => ({
+            relationType: select.dataset.relationType,
+            targetSyncId: option.value,
             label: option.textContent
           }))
         );
@@ -5549,14 +6480,40 @@
         const input = validateWwaAssetEditor();
         if (!input) return;
 
+        const isStoredEdit = activeEditorMode === "edit" &&
+          activeEditorAsset?.isStoredAsset;
+        if (
+          isStoredEdit &&
+          activeEditorAsset.production !== "Archived" &&
+          input.productionStatus === "Archived" &&
+          !window.confirm("이 Asset을 Archive 상태로 전환할까요? 원본과 Version History는 유지됩니다.")
+        ) {
+          return;
+        }
+
         setAssetEditorSaving(true);
-        setAssetEditorStatus("원본과 Preview를 로컬 Archive에 저장하는 중입니다.");
+        setAssetEditorStatus(isStoredEdit
+          ? "변경된 Metadata와 관계를 로컬 Archive에 저장하는 중입니다."
+          : "원본과 Preview를 로컬 Archive에 저장하는 중입니다.");
         try {
-          const result = await window.WWAStorage.addAsset(input);
-          applySavedAssetToSession(result, input);
+          const result = isStoredEdit
+            ? await window.WWAStorage.editAsset(
+                activeEditorAsset.syncId,
+                input
+              )
+            : await window.WWAStorage.addAsset(input);
+          if (isStoredEdit) {
+            applyEditedAssetToSession(input);
+          } else {
+            applySavedAssetToSession(result, input);
+          }
           assetEditorDirty = false;
           closeAssetEditor({ preserveAsset: true });
-          showNotice(result.status === "saved"
+          showNotice(isStoredEdit
+            ? result.status === "unchanged"
+              ? "No metadata changes"
+              : "Saved · " + result.stableId
+            : result.status === "saved"
             ? "Saved · " + result.stableId
             : "Draft · ID Reservation Needed");
         } catch (error) {
@@ -5577,6 +6534,93 @@
           }
           setAssetEditorSaving(false);
         }
+      };
+
+      const formatWwaVersionDate = (value) => {
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "Date unavailable";
+        return date.toISOString().slice(0, 16).replace("T", " · ") + " UTC";
+      };
+
+      const getWwaVersionReasonLabel = (reason) => {
+        if (reason === "initial") return "Initial image";
+        if (reason === "replace") return "Image replacement";
+        if (reason === "conflict") return "Conflict preserved";
+        if (reason === "legacy-import") return "Legacy import";
+        return "Archived version";
+      };
+
+      const renderWwaVersionHistory = async (asset) => {
+        assetVersionList.replaceChildren();
+        const empty = document.createElement("li");
+        empty.className = "wwa-asset-version-empty";
+
+        if (asset.isDraft) {
+          empty.textContent = "Draft를 영구 저장하면 Version History가 시작됩니다.";
+          assetVersionList.append(empty);
+          return;
+        }
+        if (!asset.isStoredAsset) {
+          empty.textContent = "Embedded archive source · Version History not migrated";
+          assetVersionList.append(empty);
+          return;
+        }
+
+        empty.textContent = "Loading Version History…";
+        assetVersionList.append(empty);
+        assetVersionList.setAttribute("aria-busy", "true");
+        try {
+          const history = await window.WWAStorage.loadAssetVersions(
+            asset.syncId
+          );
+          if (activeAsset !== asset) return;
+          assetVersionList.replaceChildren();
+          history.versions.slice().reverse().forEach((version) => {
+            const item = document.createElement("li");
+            item.className = "wwa-asset-version-item";
+
+            const name = document.createElement("strong");
+            name.className = "wwa-asset-version-name";
+            name.textContent = "Version " + version.number;
+
+            const state = document.createElement("span");
+            state.className = "wwa-asset-version-state";
+            state.textContent = version.isCurrent ? "Current" : "Preserved";
+            state.classList.toggle("is-current", version.isCurrent);
+
+            const file = version.originalFile;
+            const meta = document.createElement("p");
+            meta.className = "wwa-asset-version-meta";
+            meta.textContent = [
+              getWwaVersionReasonLabel(version.reason),
+              file.originalFilename || "Original filename unavailable",
+              getWwaStoredDimensions(file),
+              formatBytes(Number(file.byteSize)),
+              formatWwaVersionDate(version.createdAt)
+            ].join(" · ");
+            item.append(name, state, meta);
+            assetVersionList.append(item);
+          });
+        } catch (error) {
+          if (activeAsset !== asset) return;
+          assetVersionList.replaceChildren();
+          empty.textContent = "Version History를 불러오지 못했습니다. 기존 원본은 변경되지 않았습니다.";
+          assetVersionList.append(empty);
+        } finally {
+          if (activeAsset === asset) {
+            assetVersionList.removeAttribute("aria-busy");
+          }
+        }
+      };
+
+      const setAssetDetailReplacing = (isReplacing, message = "") => {
+        assetDetailReplacing = isReplacing;
+        assetDetailBack.disabled = isReplacing;
+        assetDetailEditButton.disabled = isReplacing || !(
+          activeAsset?.isStoredAsset || activeAsset?.isDraft
+        );
+        assetDetailReplaceButton.disabled = isReplacing || !activeAsset?.isStoredAsset;
+        assetDetailActionStatus.textContent = message;
       };
 
       const openAssetDetail = (asset, trigger) => {
@@ -5655,6 +6699,8 @@
           { label: "Placement", value: asset.placement }
         ]);
         assetDetailNotes.textContent = asset.notes;
+        setAssetDetailReplacing(false, "");
+        renderWwaVersionHistory(asset);
 
         assets.classList.remove("is-visible");
         assetDetail.classList.add("is-visible");
@@ -5665,6 +6711,8 @@
       };
 
       const closeAssetDetail = () => {
+        if (assetDetailReplacing) return;
+        activeAsset = null;
         assetDetail.classList.remove("is-visible");
         assets.classList.add("is-visible");
         window.scrollTo({ top: 0, behavior: "auto" });
@@ -5982,10 +7030,97 @@
         }, 0);
       };
 
+      const openWwaMetadataEditor = () => {
+        if (!activeAsset || assetDetailReplacing) return;
+        if (!(activeAsset.isStoredAsset || activeAsset.isDraft)) {
+          showNotice("Embedded source · edit after migration");
+          return;
+        }
+        openAssetEditor(
+          activeAsset,
+          null,
+          assetDetailEditButton,
+          "edit"
+        );
+      };
+
+      const requestWwaReplacementSelection = () => {
+        if (!activeAsset || assetDetailReplacing) return;
+        if (!activeAsset.isStoredAsset) {
+          showNotice(activeAsset.isDraft
+            ? "Save the Draft before replacing its image"
+            : "Embedded source · replace after migration");
+          return;
+        }
+        assetDetailReplaceInput.value = "";
+        assetDetailReplaceInput.click();
+      };
+
+      const handleWwaReplacementSelection = async (event) => {
+        const input = event.currentTarget;
+        const file = input.files && input.files[0];
+        input.value = "";
+        if (!file || !activeAsset || assetDetailReplacing) return;
+        if (!isSupportedImageSelection(file)) {
+          setAssetDetailReplacing(false, "지원되는 이미지 파일을 선택해 주세요.");
+          return;
+        }
+
+        const asset = activeAsset;
+        const inUseNote = asset.production === "In Use"
+          ? "현재 WWA Page에서 사용 중입니다" +
+            (asset.page && asset.page !== "Not linked"
+              ? " (" + asset.page + ")"
+              : "") + ". "
+          : "";
+        const confirmed = window.confirm(
+          inUseNote +
+          "선택한 이미지 (" + file.name + ")로 교체할까요? 이전 원본은 Version History에 보존되고 Source Status는 Review로 변경됩니다."
+        );
+        if (!confirmed) return;
+
+        setAssetDetailReplacing(
+          true,
+          "새 Original과 Preview를 검증한 뒤 Version으로 보존하는 중입니다."
+        );
+        let result;
+        try {
+          result = await window.WWAStorage.replaceAssetImage(
+            asset.syncId,
+            { image: file, originalFilename: file.name }
+          );
+        } catch (error) {
+          const message = getWwaTrimmedString(error && error.message) ||
+            "Image를 교체하지 못했습니다. 기존 원본은 그대로 유지됩니다.";
+          setAssetDetailReplacing(false, message);
+          return;
+        }
+
+        try {
+          await restoreWwaAssetsFromStorage();
+          const updatedAsset = assetRecords.find((record) =>
+            record.isStoredAsset && record.syncId === result.syncId
+          );
+          if (!updatedAsset) {
+            throw new Error("Updated Asset could not be restored.");
+          }
+          openAssetDetail(updatedAsset, null);
+          showNotice("Image replaced · Version preserved");
+        } catch (error) {
+          setAssetDetailReplacing(
+            false,
+            "Image 교체는 저장됐지만 새 Preview를 불러오지 못했습니다. 새로고침 후 다시 확인해 주세요."
+          );
+        }
+      };
+
       addAssetInput.addEventListener("input", handleAssetSelection, false);
       addAssetInput.addEventListener("change", handleAssetSelection);
 
       assetDetailBack.addEventListener("click", closeAssetDetail);
+      assetDetailEditButton.addEventListener("click", openWwaMetadataEditor);
+      assetDetailReplaceButton.addEventListener("click", requestWwaReplacementSelection);
+      assetDetailReplaceInput.addEventListener("change", handleWwaReplacementSelection);
       assetEditorBack.addEventListener("click", requestDiscardAssetEditor);
       assetEditorCancel.addEventListener("click", requestDiscardAssetEditor);
       assetEditorForm.addEventListener("submit", saveWwaAssetEditor);
@@ -6012,12 +7147,6 @@
         }
       });
 
-      root.querySelectorAll(".wwa-asset-action").forEach((button) => {
-        button.addEventListener("click", () => {
-          showNotice(button.dataset.action === "edit" ? "Edit Asset follows after Detail is approved" : "Replace Image follows after Detail is approved");
-        });
-      });
-
       const wwaStorageReady = initializeWwaStorage();
 
       window.WWAStorage = Object.freeze({
@@ -6028,6 +7157,23 @@
           await wwaStorageReady,
           input
         ),
+        editAsset: async (assetSyncId, input) =>
+          editWwaAssetMetadata(
+            await wwaStorageReady,
+            assetSyncId,
+            input
+          ),
+        replaceAssetImage: async (assetSyncId, input) =>
+          replaceWwaAssetImage(
+            await wwaStorageReady,
+            assetSyncId,
+            input
+          ),
+        loadAssetVersions: async (assetSyncId) =>
+          loadWwaAssetVersionHistory(
+            await wwaStorageReady,
+            assetSyncId
+          ),
         loadAssets: async () => loadWwaStoredAssets(
           await wwaStorageReady
         ),
