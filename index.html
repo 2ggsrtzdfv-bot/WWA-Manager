@@ -2301,6 +2301,335 @@
       outline-offset: 3px;
     }
 
+    /* Add Asset Editor — a focused archival intake surface. */
+    #wwa-home-complete-castle.is-asset-editor-view .wwa-bottom-nav {
+      display: none;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor {
+      display: none;
+      min-height: 100vh;
+      margin: 0 -16px;
+      padding: 20px 20px calc(32px + env(safe-area-inset-bottom));
+      background: #F7F9FC;
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor.is-visible {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor:focus {
+      outline: none;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-topbar {
+      display: flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-back {
+      appearance: none;
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      gap: 7px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--wwa-blue);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-back svg {
+      width: 15px;
+      height: 15px;
+      stroke-width: 1.45;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-position {
+      color: var(--wwa-stone);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 8px;
+      font-weight: 650;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-preview {
+      position: relative;
+      display: block;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border: 1px solid rgba(111, 118, 130, 0.24);
+      border-radius: 3px;
+      background: #F7F9FC;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-preview::before {
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(247, 249, 252, 0.94);
+      color: var(--wwa-blue);
+      content: attr(data-state-label);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      line-height: 1.5;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-preview[data-state="loading"]::before,
+    #wwa-home-complete-castle .wwa-asset-editor-preview[data-state="error"]::before {
+      display: flex;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-preview[data-state="error"]::before {
+      color: var(--wwa-stone);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-file {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 8px 0 0;
+      color: var(--wwa-stone);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-file span:first-child {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-form {
+      margin-top: 21px;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-heading {
+      margin: 0;
+      color: var(--wwa-blue);
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: clamp(28px, 7.6vw, 34px);
+      font-weight: 500;
+      line-height: 1.04;
+      letter-spacing: -0.028em;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-intro {
+      margin: 9px 0 0;
+      color: var(--wwa-stone);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-status {
+      min-height: 19px;
+      margin: 13px 0 0;
+      color: var(--wwa-stone);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 10px;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-status.is-error {
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-section {
+      margin: 0;
+      padding: 21px 0 5px;
+      border: 0;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-section + .wwa-asset-editor-section {
+      margin-top: 17px;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-legend {
+      width: 100%;
+      margin: 0 0 15px;
+      padding: 0;
+      color: var(--wwa-stone);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 17px;
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field-label {
+      color: var(--wwa-blue);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: 0.035em;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field-label small {
+      margin-left: 5px;
+      color: var(--wwa-stone);
+      font-size: 9px;
+      font-weight: 560;
+      letter-spacing: 0;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field input,
+    #wwa-home-complete-castle .wwa-asset-field select,
+    #wwa-home-complete-castle .wwa-asset-field textarea {
+      appearance: none;
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 12px;
+      border: 1px solid rgba(111, 118, 130, 0.32);
+      border-radius: 3px;
+      background: #F7F9FC;
+      color: var(--wwa-blue);
+      font: 400 16px/1.35 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      outline: none;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field select {
+      padding-right: 34px;
+      background-image: linear-gradient(45deg, transparent 50%, var(--wwa-stone) 50%), linear-gradient(135deg, var(--wwa-stone) 50%, transparent 50%);
+      background-position: calc(100% - 17px) 20px, calc(100% - 12px) 20px;
+      background-repeat: no-repeat;
+      background-size: 5px 5px, 5px 5px;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field select[multiple] {
+      min-height: 104px;
+      padding-right: 12px;
+      background-image: none;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field input[readonly],
+    #wwa-home-complete-castle .wwa-asset-field select:disabled {
+      background: rgba(199, 204, 214, 0.15);
+      color: var(--wwa-stone);
+      opacity: 1;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field input:focus,
+    #wwa-home-complete-castle .wwa-asset-field select:focus,
+    #wwa-home-complete-castle .wwa-asset-field textarea:focus {
+      border-color: var(--wwa-patronus);
+      box-shadow: 0 0 0 2px rgba(127, 183, 230, 0.16);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field [aria-invalid="true"] {
+      border-color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field-help,
+    #wwa-home-complete-castle .wwa-asset-field-error,
+    #wwa-home-complete-castle .wwa-asset-relations-note {
+      margin: 0;
+      color: var(--wwa-stone);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field-error {
+      display: none;
+      color: var(--wwa-blue);
+      font-weight: 650;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-field-error.is-visible {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-relations-note {
+      margin: -3px 0 17px;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 9px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-button {
+      appearance: none;
+      min-height: 48px;
+      padding: 0 12px;
+      border: 1px solid rgba(26, 42, 68, 0.3);
+      border-radius: 3px;
+      background: transparent;
+      color: var(--wwa-blue);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-button.is-primary {
+      border-color: var(--wwa-blue);
+      background: var(--wwa-blue);
+      color: var(--wwa-winter);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-button:disabled,
+    #wwa-home-complete-castle .wwa-asset-editor-back:disabled {
+      cursor: wait;
+      opacity: 0.58;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-editor-back:focus-visible,
+    #wwa-home-complete-castle .wwa-asset-editor-button:focus-visible {
+      outline: 2px solid var(--wwa-patronus);
+      outline-offset: 3px;
+    }
+
     #wwa-home-complete-castle .wwa-assets-empty {
       display: none;
       padding: 46px 16px;
@@ -2335,6 +2664,11 @@
       }
 
       #wwa-home-complete-castle .wwa-asset-detail {
+        margin-inline: -12px;
+        padding-inline: 16px;
+      }
+
+      #wwa-home-complete-castle .wwa-asset-editor {
         margin-inline: -12px;
         padding-inline: 16px;
       }
@@ -2527,6 +2861,143 @@
         <button class="wwa-asset-action is-primary" type="button" data-action="edit">Edit Asset</button>
         <button class="wwa-asset-action" type="button" data-action="replace">Replace Image</button>
       </div>
+    </section>
+
+    <section class="wwa-asset-editor" aria-labelledby="wwa-asset-editor-heading" tabindex="-1">
+      <div class="wwa-asset-editor-topbar">
+        <button class="wwa-asset-editor-back" type="button" aria-label="Discard this Add Asset form and return to Assets">
+          <i data-lucide="arrow-left" aria-hidden="true"></i><span>Assets</span>
+        </button>
+        <span class="wwa-asset-editor-position">Add Asset</span>
+      </div>
+
+      <div class="wwa-asset-editor-preview" data-state="loading" data-state-label="Preparing image preview…" data-field-control="image">
+        <img class="wwa-asset-editor-image" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="Selected image for the new Asset">
+      </div>
+      <p class="wwa-asset-editor-file">
+        <span class="wwa-asset-editor-filename">No image selected</span>
+        <span class="wwa-asset-editor-filesize">—</span>
+      </p>
+      <p class="wwa-asset-field-error" data-error-for="image" role="alert"></p>
+
+      <form class="wwa-asset-editor-form" novalidate>
+        <h2 class="wwa-asset-editor-heading" id="wwa-asset-editor-heading">New Asset Record</h2>
+        <p class="wwa-asset-editor-intro">원본 이미지와 출처를 하나의 검증 가능한 Archive Record로 저장합니다.</p>
+        <p class="wwa-asset-editor-status" role="status" aria-live="polite"></p>
+
+        <fieldset class="wwa-asset-editor-section">
+          <legend class="wwa-asset-editor-legend">Archive Identity</legend>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Asset ID</span>
+            <input name="assetId" type="text" value="Assigned after save" readonly aria-readonly="true">
+            <span class="wwa-asset-field-help">예약 번호가 없으면 ID를 만들지 않고 Draft로 보존합니다.</span>
+          </label>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Asset Title <small>Required</small></span>
+            <input name="title" type="text" maxlength="180" autocomplete="off" aria-describedby="wwa-asset-title-error">
+            <span class="wwa-asset-field-error" id="wwa-asset-title-error" data-error-for="title" role="alert"></span>
+          </label>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Asset Type <small>Required</small></span>
+            <select name="type" aria-describedby="wwa-asset-type-error">
+              <option value="">Select Asset Type</option>
+              <option value="Official Film Still">Official Film Still</option>
+              <option value="LEGO Official Product Image">LEGO Official Product Image</option>
+              <option value="LEGO Official Box Image">LEGO Official Box Image</option>
+              <option value="Official Blueprint">Official Blueprint</option>
+              <option value="My Photography">My Photography</option>
+              <option value="WWA Original">WWA Original</option>
+            </select>
+            <span class="wwa-asset-field-error" id="wwa-asset-type-error" data-error-for="type" role="alert"></span>
+          </label>
+        </fieldset>
+
+        <fieldset class="wwa-asset-editor-section">
+          <legend class="wwa-asset-editor-legend">Source and Verification</legend>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Source <small>Required</small></span>
+            <input name="source" type="text" maxlength="220" autocomplete="off" placeholder="예: LEGO.com 또는 My Photography" aria-describedby="wwa-asset-source-error">
+            <span class="wwa-asset-field-error" id="wwa-asset-source-error" data-error-for="source" role="alert"></span>
+          </label>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Source Link <small>Official material required</small></span>
+            <input name="sourceLink" type="url" inputmode="url" autocomplete="url" placeholder="https://" aria-describedby="wwa-asset-source-link-help wwa-asset-source-link-error">
+            <span class="wwa-asset-field-help" id="wwa-asset-source-link-help">공식 Film·LEGO·Blueprint 자료는 원문 링크가 필요합니다.</span>
+            <span class="wwa-asset-field-error" id="wwa-asset-source-link-error" data-error-for="sourceLink" role="alert"></span>
+          </label>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Source Status</span>
+            <select name="sourceStatus">
+              <option value="Source Needed" selected>Source Needed</option>
+              <option value="Review">Review</option>
+              <option value="Verified">Verified</option>
+            </select>
+            <span class="wwa-asset-field-error" data-error-for="sourceStatus" role="alert"></span>
+          </label>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Checked On <small>Verified required</small></span>
+            <input name="checkedOn" type="date" aria-describedby="wwa-asset-checked-on-error">
+            <span class="wwa-asset-field-help">Verified 상태로 저장할 때만 필수입니다.</span>
+            <span class="wwa-asset-field-error" id="wwa-asset-checked-on-error" data-error-for="checkedOn" role="alert"></span>
+          </label>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Production Status</span>
+            <select name="productionStatus">
+              <option value="Candidate" selected>Candidate</option>
+              <option value="Selected">Selected</option>
+            </select>
+            <span class="wwa-asset-field-help">In Use는 실제 WWA Page 배치 이후에만 사용합니다.</span>
+            <span class="wwa-asset-field-error" data-error-for="productionStatus" role="alert"></span>
+          </label>
+        </fieldset>
+
+        <fieldset class="wwa-asset-editor-section">
+          <legend class="wwa-asset-editor-legend">Archive Relations <small>Optional</small></legend>
+          <p class="wwa-asset-relations-note">이미지가 직접 보여주는 Record만 선택합니다. 실제 Archive Record가 있을 때 선택 항목이 활성화됩니다.</p>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Related LEGO Record <small>Optional</small></span>
+            <select name="relatedLegoRecord" multiple data-relation-type="relatedLegoRecord" aria-label="Related LEGO Records"></select>
+          </label>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Film <small>Optional · Direct Link</small></span>
+            <select name="directFilm" multiple data-relation-type="directFilm" aria-label="Direct Film links"></select>
+          </label>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Location <small>Optional · Direct Link</small></span>
+            <select name="directLocation" multiple data-relation-type="directLocation" aria-label="Direct Location links"></select>
+          </label>
+
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Subject <small>Optional · Direct Link</small></span>
+            <select name="directSubject" multiple data-relation-type="directSubject" aria-label="Direct Subject links"></select>
+          </label>
+          <p class="wwa-asset-field-error" data-error-for="links" role="alert"></p>
+        </fieldset>
+
+        <fieldset class="wwa-asset-editor-section">
+          <legend class="wwa-asset-editor-legend">Archive Note</legend>
+          <label class="wwa-asset-field">
+            <span class="wwa-asset-field-label">Notes <small>Optional</small></span>
+            <textarea name="notes" maxlength="2000" placeholder="보존·검증·사용 판단에 필요한 내용만 기록합니다."></textarea>
+          </label>
+        </fieldset>
+
+        <div class="wwa-asset-editor-actions">
+          <button class="wwa-asset-editor-button" type="button" data-editor-action="cancel">Cancel</button>
+          <button class="wwa-asset-editor-button is-primary" type="submit">Save Asset</button>
+        </div>
+      </form>
     </section>
 
     <section class="wwa-detail" aria-live="polite" aria-label="Selected movie detail">
@@ -3092,10 +3563,1254 @@
           throw error;
         }
       }
+
+      const WWA_ASSET_TYPES = new Set([
+        "Official Film Still",
+        "LEGO Official Product Image",
+        "LEGO Official Box Image",
+        "Official Blueprint",
+        "My Photography",
+        "WWA Original"
+      ]);
+
+      const WWA_OFFICIAL_ASSET_TYPES = new Set([
+        "Official Film Still",
+        "LEGO Official Product Image",
+        "LEGO Official Box Image",
+        "Official Blueprint"
+      ]);
+
+      const WWA_ASSET_SOURCE_STATUSES = new Set([
+        "Source Needed",
+        "Review",
+        "Verified"
+      ]);
+
+      const WWA_ASSET_PRODUCTION_STATUSES = new Set([
+        "Candidate",
+        "Selected",
+        "In Use",
+        "Archived"
+      ]);
+
+      const WWA_ASSET_LINK_TYPES = new Set([
+        "relatedLegoRecord",
+        "directFilm",
+        "directLocation",
+        "directSubject"
+      ]);
+
+      const WWA_STORAGE_IMAGE_MIME_BY_EXTENSION = {
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg",
+        png: "image/png",
+        webp: "image/webp",
+        heic: "image/heic",
+        heif: "image/heif",
+        gif: "image/gif",
+        avif: "image/avif"
+      };
+
+      const WWA_STORAGE_EXTENSION_BY_IMAGE_MIME = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp",
+        "image/heic": "heic",
+        "image/heif": "heif",
+        "image/gif": "gif",
+        "image/avif": "avif"
+      };
+
+      function createWwaAssetValidationError(
+        message,
+        field
+      ) {
+        const error = new Error(message);
+        error.name = "WWAAssetValidationError";
+        error.code = "asset-validation-failed";
+        error.field = field;
+        return error;
+      }
+
+      function getWwaTrimmedString(value) {
+        return typeof value === "string"
+          ? value.trim()
+          : "";
+      }
+
+      function getWwaFilenameExtension(filename) {
+        const match = getWwaTrimmedString(filename)
+          .toLowerCase()
+          .match(/\.([a-z0-9]+)$/);
+        return match ? match[1] : "";
+      }
+
+      function getWwaAssetMimeType(blob, filename) {
+        const reportedType = getWwaTrimmedString(
+          blob && blob.type
+        ).toLowerCase();
+
+        if (reportedType.startsWith("image/")) {
+          return reportedType;
+        }
+
+        return WWA_STORAGE_IMAGE_MIME_BY_EXTENSION[
+          getWwaFilenameExtension(filename)
+        ] || "";
+      }
+
+      function getWwaAssetExtension(filename, mimeType) {
+        return getWwaFilenameExtension(filename) ||
+          WWA_STORAGE_EXTENSION_BY_IMAGE_MIME[mimeType] ||
+          "bin";
+      }
+
+      function isWwaHttpUrl(value) {
+        try {
+          const url = new URL(value);
+          return url.protocol === "https:" ||
+            url.protocol === "http:";
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function normalizeWwaAssetLinks(links) {
+        if (links === undefined || links === null) {
+          return [];
+        }
+
+        if (!Array.isArray(links)) {
+          throw createWwaAssetValidationError(
+            "Archive Relations 형식을 확인해 주세요.",
+            "links"
+          );
+        }
+
+        const uniqueLinks = new Map();
+
+        links.forEach((link) => {
+          const relationType = getWwaTrimmedString(
+            link && link.relationType
+          );
+          const targetSyncId = getWwaTrimmedString(
+            link && link.targetSyncId
+          );
+
+          if (!WWA_ASSET_LINK_TYPES.has(relationType)) {
+            throw createWwaAssetValidationError(
+              "승인된 Archive Relation만 저장할 수 있습니다.",
+              "links"
+            );
+          }
+
+          if (!targetSyncId) {
+            throw createWwaAssetValidationError(
+              "연결할 Archive Record를 선택해 주세요.",
+              "links"
+            );
+          }
+
+          const key = relationType + "::" + targetSyncId;
+          uniqueLinks.set(key, {
+            relationType,
+            targetSyncId
+          });
+        });
+
+        return Array.from(uniqueLinks.values());
+      }
+
+      function normalizeWwaAddAssetInput(input) {
+        if (!input || typeof input !== "object") {
+          throw createWwaAssetValidationError(
+            "Asset 입력 내용을 확인해 주세요.",
+            "asset"
+          );
+        }
+
+        const image = input.image;
+        const isBlobLike = image &&
+          typeof image.arrayBuffer === "function" &&
+          Number.isFinite(image.size);
+
+        if (!isBlobLike || image.size < 1) {
+          throw createWwaAssetValidationError(
+            "Image를 선택해 주세요.",
+            "image"
+          );
+        }
+
+        const originalFilename = getWwaTrimmedString(
+          input.originalFilename || image.name
+        ) || "untitled-image";
+        const mimeType = getWwaAssetMimeType(
+          image,
+          originalFilename
+        );
+
+        if (!mimeType) {
+          throw createWwaAssetValidationError(
+            "지원되는 이미지 파일을 선택해 주세요.",
+            "image"
+          );
+        }
+
+        const title = getWwaTrimmedString(input.title);
+        if (!title) {
+          throw createWwaAssetValidationError(
+            "Asset Title을 입력해 주세요.",
+            "title"
+          );
+        }
+
+        const type = getWwaTrimmedString(input.type);
+        if (!WWA_ASSET_TYPES.has(type)) {
+          throw createWwaAssetValidationError(
+            "승인된 Asset Type을 선택해 주세요.",
+            "type"
+          );
+        }
+
+        const source = getWwaTrimmedString(input.source);
+        if (!source) {
+          throw createWwaAssetValidationError(
+            "Source를 입력해 주세요.",
+            "source"
+          );
+        }
+
+        const sourceLink = getWwaTrimmedString(
+          input.sourceLink
+        );
+        if (
+          WWA_OFFICIAL_ASSET_TYPES.has(type) &&
+          !sourceLink
+        ) {
+          throw createWwaAssetValidationError(
+            "공식 자료는 Source Link가 필요합니다.",
+            "sourceLink"
+          );
+        }
+
+        if (sourceLink && !isWwaHttpUrl(sourceLink)) {
+          throw createWwaAssetValidationError(
+            "Source Link의 주소를 확인해 주세요.",
+            "sourceLink"
+          );
+        }
+
+        const sourceStatus = getWwaTrimmedString(
+          input.sourceStatus
+        ) || "Source Needed";
+        if (!WWA_ASSET_SOURCE_STATUSES.has(sourceStatus)) {
+          throw createWwaAssetValidationError(
+            "Asset Source 상태를 확인해 주세요.",
+            "sourceStatus"
+          );
+        }
+
+        const productionStatus = getWwaTrimmedString(
+          input.productionStatus
+        ) || "Candidate";
+        if (
+          !WWA_ASSET_PRODUCTION_STATUSES.has(
+            productionStatus
+          )
+        ) {
+          throw createWwaAssetValidationError(
+            "Asset Production 상태를 확인해 주세요.",
+            "productionStatus"
+          );
+        }
+
+        const checkedOn = getWwaTrimmedString(
+          input.checkedOn
+        ) || null;
+        if (sourceStatus === "Verified" && !checkedOn) {
+          throw createWwaAssetValidationError(
+            "Verified로 저장하려면 Checked On이 필요합니다.",
+            "checkedOn"
+          );
+        }
+
+        return {
+          image,
+          originalFilename,
+          mimeType,
+          extension: getWwaAssetExtension(
+            originalFilename,
+            mimeType
+          ),
+          title,
+          type,
+          source,
+          sourceLink,
+          sourceStatus,
+          productionStatus,
+          notes: getWwaTrimmedString(input.notes),
+          checkedOn,
+          links: normalizeWwaAssetLinks(input.links),
+          draftId: getWwaTrimmedString(input.draftId) || null
+        };
+      }
+
+      function getWwaCryptoProvider() {
+        const provider = typeof globalThis !== "undefined"
+          ? globalThis.crypto
+          : null;
+
+        if (
+          !provider ||
+          !provider.subtle ||
+          typeof provider.subtle.digest !== "function"
+        ) {
+          throw new Error(
+            "SHA-256 is not available in this browser."
+          );
+        }
+
+        return provider;
+      }
+
+      async function getWwaBlobSha256(blob) {
+        const bytes = await blob.arrayBuffer();
+        const digest = await getWwaCryptoProvider()
+          .subtle.digest("SHA-256", bytes);
+
+        return Array.from(new Uint8Array(digest))
+          .map((value) => value.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      async function loadWwaPreviewSource(blob) {
+        if (typeof createImageBitmap === "function") {
+          try {
+            const bitmap = await createImageBitmap(blob);
+            return {
+              source: bitmap,
+              width: bitmap.width,
+              height: bitmap.height,
+              cleanup: () => {
+                if (typeof bitmap.close === "function") {
+                  bitmap.close();
+                }
+              }
+            };
+          } catch (error) {
+            // WebKit may decode a Photos image through Image even when
+            // createImageBitmap cannot decode the same original bytes.
+          }
+        }
+
+        return new Promise((resolve, reject) => {
+          if (
+            typeof Image !== "function" ||
+            typeof URL === "undefined" ||
+            typeof URL.createObjectURL !== "function"
+          ) {
+            reject(new Error("Image preview is not available."));
+            return;
+          }
+
+          const objectUrl = URL.createObjectURL(blob);
+          const image = new Image();
+          image.onload = () => resolve({
+            source: image,
+            width: image.naturalWidth,
+            height: image.naturalHeight,
+            cleanup: () => URL.revokeObjectURL(objectUrl)
+          });
+          image.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            reject(new Error("Image preview could not be decoded."));
+          };
+          image.src = objectUrl;
+        });
+      }
+
+      function exportWwaCanvasBlob(canvas, mimeType, quality) {
+        if (typeof canvas.convertToBlob === "function") {
+          return canvas.convertToBlob({
+            type: mimeType,
+            quality
+          });
+        }
+
+        return new Promise((resolve, reject) => {
+          if (typeof canvas.toBlob !== "function") {
+            reject(new Error("Image preview export is not available."));
+            return;
+          }
+
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              reject(new Error("Image preview could not be exported."));
+              return;
+            }
+            resolve(blob);
+          }, mimeType, quality);
+        });
+      }
+
+      async function createWwaAssetPreview(blob, mimeType) {
+        const decoded = await loadWwaPreviewSource(blob);
+
+        try {
+          if (
+            !decoded.width ||
+            !decoded.height ||
+            !Number.isFinite(decoded.width) ||
+            !Number.isFinite(decoded.height)
+          ) {
+            throw new Error("Image dimensions could not be read.");
+          }
+
+          const maximumEdge = 1600;
+          const scale = Math.min(
+            1,
+            maximumEdge / Math.max(decoded.width, decoded.height)
+          );
+          const width = Math.max(1, Math.round(decoded.width * scale));
+          const height = Math.max(1, Math.round(decoded.height * scale));
+          const preserveTransparency = mimeType === "image/png" ||
+            mimeType === "image/webp" ||
+            mimeType === "image/gif";
+          const previewMimeType = preserveTransparency
+            ? "image/png"
+            : "image/jpeg";
+          let canvas;
+
+          if (
+            typeof document !== "undefined" &&
+            typeof document.createElement === "function"
+          ) {
+            canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+          } else if (typeof OffscreenCanvas === "function") {
+            canvas = new OffscreenCanvas(width, height);
+          } else {
+            throw new Error("Image preview canvas is not available.");
+          }
+
+          const context = canvas.getContext("2d", {
+            alpha: preserveTransparency
+          });
+          if (!context) {
+            throw new Error("Image preview canvas could not be opened.");
+          }
+
+          if (!preserveTransparency) {
+            context.fillStyle = "#FFFFFF";
+            context.fillRect(0, 0, width, height);
+          }
+          context.drawImage(decoded.source, 0, 0, width, height);
+
+          const previewBlob = await exportWwaCanvasBlob(
+            canvas,
+            previewMimeType,
+            0.86
+          );
+
+          return {
+            blob: previewBlob,
+            width,
+            height,
+            originalWidth: decoded.width,
+            originalHeight: decoded.height,
+            mimeType: previewMimeType,
+            extension: previewMimeType === "image/png" ? "png" : "jpg"
+          };
+        } finally {
+          decoded.cleanup();
+        }
+      }
+
+      async function prepareWwaAssetFiles(
+        normalizedInput,
+        previewFactory
+      ) {
+        const originalSha256 = await getWwaBlobSha256(
+          normalizedInput.image
+        );
+        const preview = await previewFactory(
+          normalizedInput.image,
+          normalizedInput.mimeType
+        );
+
+        if (
+          !preview ||
+          !preview.blob ||
+          typeof preview.blob.arrayBuffer !== "function" ||
+          preview.blob.size < 1
+        ) {
+          throw new Error("Image preview could not be prepared.");
+        }
+
+        const dimensions = [
+          preview.originalWidth,
+          preview.originalHeight,
+          preview.width,
+          preview.height
+        ];
+        if (
+          dimensions.some(
+            (value) => !Number.isFinite(value) || value < 1
+          )
+        ) {
+          throw new Error("Image preview dimensions are invalid.");
+        }
+
+        const previewMimeType = getWwaTrimmedString(
+          preview.mimeType || preview.blob.type
+        ).toLowerCase();
+        if (!previewMimeType.startsWith("image/")) {
+          throw new Error("Image preview format is invalid.");
+        }
+
+        const previewExtension = getWwaTrimmedString(
+          preview.extension
+        ).toLowerCase() ||
+          WWA_STORAGE_EXTENSION_BY_IMAGE_MIME[previewMimeType] ||
+          "jpg";
+        const previewSha256 = await getWwaBlobSha256(
+          preview.blob
+        );
+
+        return {
+          original: {
+            blob: normalizedInput.image,
+            sha256: originalSha256,
+            mimeType: normalizedInput.mimeType,
+            extension: normalizedInput.extension,
+            originalFilename: normalizedInput.originalFilename,
+            byteSize: normalizedInput.image.size,
+            width: preview.originalWidth,
+            height: preview.originalHeight
+          },
+          preview: {
+            blob: preview.blob,
+            sha256: previewSha256,
+            mimeType: previewMimeType,
+            extension: previewExtension,
+            originalFilename: normalizedInput.originalFilename.replace(
+              /\.[^.]+$/,
+              ""
+            ) + "-preview." + previewExtension,
+            byteSize: preview.blob.size,
+            width: preview.width,
+            height: preview.height
+          }
+        };
+      }
+
+      function requestWwaResult(request) {
+        return new Promise((resolve, reject) => {
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(
+            request.error || new Error("IndexedDB request failed.")
+          );
+        });
+      }
+
+      function waitForWwaTransaction(transaction) {
+        return new Promise((resolve, reject) => {
+          transaction.oncomplete = () => resolve();
+          transaction.onabort = () => reject(
+            transaction.error ||
+            new Error("IndexedDB transaction was aborted.")
+          );
+          transaction.onerror = () => {
+            // The abort event is the single rejection path.
+          };
+        });
+      }
+
+      function chooseWwaAssetReservation(
+        reservations,
+        identity
+      ) {
+        return reservations
+          .filter((reservation) => {
+            const nextValue = Number(reservation.nextValue);
+            const endValue = Number(reservation.endValue);
+            return reservation &&
+              reservation.entityType === "Asset" &&
+              reservation.deviceId === identity.deviceId &&
+              (!reservation.archiveId ||
+                reservation.archiveId === identity.archiveId) &&
+              reservation.state !== "closed" &&
+              Number.isSafeInteger(nextValue) &&
+              Number.isSafeInteger(endValue) &&
+              nextValue > 0 &&
+              nextValue <= endValue;
+          })
+          .sort((left, right) =>
+            Number(left.nextValue) - Number(right.nextValue)
+          )[0] || null;
+      }
+
+      function formatWwaAssetStableId(value) {
+        return "AST-" + String(value).padStart(6, "0");
+      }
+
+      function createWwaAssetFieldClocks(
+        normalizedInput,
+        now,
+        deviceId
+      ) {
+        const clock = { updatedAt: now, deviceId };
+        const fields = [
+          "title",
+          "type",
+          "source",
+          "sourceLink",
+          "sourceStatus",
+          "productionStatus",
+          "notes",
+          "checkedOn",
+          "currentVersionId"
+        ];
+
+        return fields.reduce((clocks, field) => {
+          clocks[field] = { ...clock };
+          return clocks;
+        }, {});
+      }
+
+      function createWwaFileRecord(
+        identity,
+        fileId,
+        role,
+        preparedFile,
+        now
+      ) {
+        return {
+          archiveId: identity.archiveId,
+          generationId: identity.generationId,
+          syncId: fileId,
+          fileId,
+          role,
+          blob: preparedFile.blob,
+          sha256: preparedFile.sha256,
+          mimeType: preparedFile.mimeType,
+          extension: preparedFile.extension,
+          originalFilename: preparedFile.originalFilename,
+          byteSize: preparedFile.byteSize,
+          width: preparedFile.width,
+          height: preparedFile.height,
+          createdAt: now,
+          updatedAt: now,
+          deletedAt: null,
+          cloudChangeTag: null
+        };
+      }
+
+      function createWwaOutboxOperation(
+        identity,
+        entityType,
+        entitySyncId,
+        storeName,
+        dependencies,
+        now
+      ) {
+        return {
+          operationId: createWwaIdentityId(),
+          archiveId: identity.archiveId,
+          generationId: identity.generationId,
+          operation: "upsert",
+          entityType,
+          entitySyncId,
+          storeName,
+          dependencyIds: dependencies,
+          state: "pending",
+          attemptCount: 0,
+          nextAttemptAt: now,
+          lastError: null,
+          createdAt: now,
+          updatedAt: now
+        };
+      }
+
+      function createWwaAssetDraftRecord(
+        identity,
+        normalizedInput,
+        preparedFiles,
+        existingDraft,
+        now
+      ) {
+        const draftId = normalizedInput.draftId ||
+          createWwaIdentityId();
+
+        return {
+          draftId,
+          entityType: "Asset",
+          archiveId: identity.archiveId,
+          generationId: identity.generationId,
+          state: "Awaiting ID Reservation",
+          stableId: null,
+          metadata: {
+            title: normalizedInput.title,
+            type: normalizedInput.type,
+            source: normalizedInput.source,
+            sourceLink: normalizedInput.sourceLink,
+            sourceStatus: normalizedInput.sourceStatus,
+            productionStatus: normalizedInput.productionStatus,
+            notes: normalizedInput.notes,
+            checkedOn: normalizedInput.checkedOn
+          },
+          links: normalizedInput.links,
+          original: preparedFiles.original,
+          preview: preparedFiles.preview,
+          createdAt: existingDraft?.createdAt || now,
+          updatedAt: now
+        };
+      }
+
+      async function saveWwaAddAssetTransaction(
+        storage,
+        normalizedInput,
+        preparedFiles
+      ) {
+        const database = storage.database;
+        const baseIdentity = {
+          archiveId: storage.archiveId,
+          generationId: storage.generationId,
+          deviceId: storage.deviceId
+        };
+        const transaction = database.transaction([
+          "archiveRoots",
+          "drafts",
+          "idReservations",
+          "files",
+          "assetVersions",
+          "assets",
+          "assetLinks",
+          "outbox"
+        ], "readwrite");
+        const completion = waitForWwaTransaction(transaction);
+
+        try {
+          const archiveRootRequest = transaction
+            .objectStore("archiveRoots")
+            .get(baseIdentity.archiveId);
+          const reservationsRequest = transaction
+            .objectStore("idReservations")
+            .index("entityType")
+            .getAll("Asset");
+          const [archiveRoot, reservations] = await Promise.all([
+            requestWwaResult(archiveRootRequest),
+            requestWwaResult(reservationsRequest)
+          ]);
+
+          if (!archiveRoot || !archiveRoot.activeGenerationId) {
+            throw new Error("Active WWA generation is missing.");
+          }
+
+          const identity = {
+            ...baseIdentity,
+            generationId: archiveRoot.activeGenerationId
+          };
+          const reservation = chooseWwaAssetReservation(
+            reservations,
+            identity
+          );
+          const now = new Date().toISOString();
+
+          if (!reservation) {
+            const draftId = normalizedInput.draftId ||
+              createWwaIdentityId();
+            const drafts = transaction.objectStore("drafts");
+            const existingDraft = await requestWwaResult(
+              drafts.get(draftId)
+            );
+            const draft = createWwaAssetDraftRecord(
+              identity,
+              { ...normalizedInput, draftId },
+              preparedFiles,
+              existingDraft,
+              now
+            );
+            drafts.put(draft);
+            await completion;
+            return {
+              status: "draft",
+              reason: "id-reservation-required",
+              draftId: draft.draftId,
+              stableId: null
+            };
+          }
+
+          const stableNumber = Number(reservation.nextValue);
+          const stableId = formatWwaAssetStableId(stableNumber);
+          const assetSyncId = createWwaIdentityId();
+          const versionId = createWwaIdentityId();
+          const originalFileId = "file-original-" +
+            preparedFiles.original.sha256;
+          const previewFileId = "file-preview-" +
+            preparedFiles.preview.sha256;
+          const files = transaction.objectStore("files");
+          const assets = transaction.objectStore("assets");
+          const stableIdRequest = assets
+            .index("stableId")
+            .get(stableId);
+          const originalFileRequest = files.get([
+            identity.generationId,
+            originalFileId
+          ]);
+          const previewFileRequest = files.get([
+            identity.generationId,
+            previewFileId
+          ]);
+          const [existingAsset, existingOriginal, existingPreview] =
+            await Promise.all([
+              requestWwaResult(stableIdRequest),
+              requestWwaResult(originalFileRequest),
+              requestWwaResult(previewFileRequest)
+            ]);
+
+          if (existingAsset) {
+            throw new Error(
+              "Stable Asset ID is already in use: " + stableId
+            );
+          }
+
+          const outboxOperations = [];
+
+          if (!existingOriginal) {
+            files.add(createWwaFileRecord(
+              identity,
+              originalFileId,
+              "original",
+              preparedFiles.original,
+              now
+            ));
+            outboxOperations.push(createWwaOutboxOperation(
+              identity,
+              "File",
+              originalFileId,
+              "files",
+              [],
+              now
+            ));
+          }
+
+          if (!existingPreview) {
+            files.add(createWwaFileRecord(
+              identity,
+              previewFileId,
+              "preview",
+              preparedFiles.preview,
+              now
+            ));
+            outboxOperations.push(createWwaOutboxOperation(
+              identity,
+              "File",
+              previewFileId,
+              "files",
+              [],
+              now
+            ));
+          }
+
+          const version = {
+            archiveId: identity.archiveId,
+            generationId: identity.generationId,
+            syncId: versionId,
+            versionId,
+            assetSyncId,
+            parentVersionId: null,
+            originalFileId,
+            previewFileId,
+            reason: "initial",
+            createdAt: now,
+            updatedAt: now,
+            createdByDeviceId: identity.deviceId,
+            deletedAt: null,
+            cloudChangeTag: null
+          };
+          transaction.objectStore("assetVersions").add(version);
+
+          const fileOperationIds = outboxOperations
+            .filter((operation) => operation.entityType === "File")
+            .map((operation) => operation.operationId);
+          const versionOperation = createWwaOutboxOperation(
+            identity,
+            "AssetVersion",
+            versionId,
+            "assetVersions",
+            fileOperationIds,
+            now
+          );
+          outboxOperations.push(versionOperation);
+
+          const asset = {
+            archiveId: identity.archiveId,
+            generationId: identity.generationId,
+            syncId: assetSyncId,
+            stableId,
+            title: normalizedInput.title,
+            type: normalizedInput.type,
+            source: normalizedInput.source,
+            sourceLink: normalizedInput.sourceLink,
+            sourceStatus: normalizedInput.sourceStatus,
+            productionStatus: normalizedInput.productionStatus,
+            currentVersionId: versionId,
+            notes: normalizedInput.notes,
+            checkedOn: normalizedInput.checkedOn,
+            createdAt: now,
+            updatedAt: now,
+            deletedAt: null,
+            fieldClocks: createWwaAssetFieldClocks(
+              normalizedInput,
+              now,
+              identity.deviceId
+            ),
+            cloudChangeTag: null
+          };
+          assets.add(asset);
+
+          const assetOperation = createWwaOutboxOperation(
+            identity,
+            "Asset",
+            assetSyncId,
+            "assets",
+            [versionOperation.operationId],
+            now
+          );
+          outboxOperations.push(assetOperation);
+
+          const assetLinks = transaction.objectStore("assetLinks");
+          const linkIds = [];
+          normalizedInput.links.forEach((link) => {
+            const linkId = assetSyncId + "::" +
+              link.relationType + "::" + link.targetSyncId;
+            linkIds.push(linkId);
+            assetLinks.add({
+              archiveId: identity.archiveId,
+              generationId: identity.generationId,
+              syncId: linkId,
+              linkId,
+              assetSyncId,
+              targetSyncId: link.targetSyncId,
+              relationType: link.relationType,
+              createdAt: now,
+              updatedAt: now,
+              deletedAt: null,
+              cloudChangeTag: null
+            });
+            outboxOperations.push(createWwaOutboxOperation(
+              identity,
+              "AssetLink",
+              linkId,
+              "assetLinks",
+              [assetOperation.operationId],
+              now
+            ));
+          });
+
+          transaction.objectStore("idReservations").put({
+            ...reservation,
+            nextValue: stableNumber + 1,
+            updatedAt: now
+          });
+
+          if (normalizedInput.draftId) {
+            transaction.objectStore("drafts")
+              .delete(normalizedInput.draftId);
+          }
+
+          const outbox = transaction.objectStore("outbox");
+          outboxOperations.forEach((operation) => outbox.add(operation));
+
+          await completion;
+          return {
+            status: "saved",
+            stableId,
+            syncId: assetSyncId,
+            versionId,
+            originalFileId,
+            previewFileId,
+            linkIds,
+            outboxOperationIds: outboxOperations.map(
+              (operation) => operation.operationId
+            )
+          };
+        } catch (error) {
+          try {
+            transaction.abort();
+          } catch (abortError) {
+            // The transaction may already have aborted itself.
+          }
+          try {
+            await completion;
+          } catch (transactionError) {
+            // Preserve the original validation or request error.
+          }
+          throw error;
+        }
+      }
+
+      async function addWwaAsset(
+        storage,
+        input,
+        previewFactory = createWwaAssetPreview
+      ) {
+        const normalizedInput = normalizeWwaAddAssetInput(input);
+        const preparedFiles = await prepareWwaAssetFiles(
+          normalizedInput,
+          previewFactory
+        );
+        return saveWwaAddAssetTransaction(
+          storage,
+          normalizedInput,
+          preparedFiles
+        );
+      }
+
+      function isWwaActiveGenerationRecord(
+        record,
+        archiveId,
+        generationId
+      ) {
+        return Boolean(
+          record &&
+          record.archiveId === archiveId &&
+          record.generationId === generationId &&
+          !record.deletedAt
+        );
+      }
+
+      function chooseWwaUniqueAssets(records) {
+        const seenStableIds = new Set();
+        const seenSyncIds = new Set();
+
+        return records
+          .slice()
+          .sort((left, right) =>
+            String(right.updatedAt || "").localeCompare(
+              String(left.updatedAt || "")
+            )
+          )
+          .filter((asset) => {
+            const stableId = getWwaTrimmedString(asset.stableId);
+            const syncId = getWwaTrimmedString(asset.syncId);
+
+            if (
+              !stableId ||
+              !syncId ||
+              seenStableIds.has(stableId) ||
+              seenSyncIds.has(syncId)
+            ) {
+              return false;
+            }
+
+            seenStableIds.add(stableId);
+            seenSyncIds.add(syncId);
+            return true;
+          });
+      }
+
+      async function loadWwaStoredAssets(storage) {
+        const storeNames = [
+          "archiveRoots",
+          "drafts",
+          "films",
+          "locations",
+          "subjects",
+          "legoRecords",
+          "assets",
+          "assetVersions",
+          "files",
+          "assetLinks"
+        ];
+        const transaction = storage.database.transaction(
+          storeNames,
+          "readonly"
+        );
+        const completion = waitForWwaTransaction(transaction);
+
+        try {
+          const archiveRootRequest = transaction
+            .objectStore("archiveRoots")
+            .get(storage.archiveId);
+          const collectionRequests = storeNames
+            .filter((storeName) => storeName !== "archiveRoots")
+            .map((storeName) => requestWwaResult(
+              transaction.objectStore(storeName).getAll()
+            ));
+          const [archiveRoot, ...collections] = await Promise.all([
+            requestWwaResult(archiveRootRequest),
+            ...collectionRequests
+          ]);
+          await completion;
+
+          if (!archiveRoot || !archiveRoot.activeGenerationId) {
+            throw new Error("Active WWA generation is missing.");
+          }
+
+          const generationId = archiveRoot.activeGenerationId;
+          const [
+            allDrafts,
+            allFilms,
+            allLocations,
+            allSubjects,
+            allLegoRecords,
+            allAssets,
+            allVersions,
+            allFiles,
+            allLinks
+          ] = collections;
+          const isActive = (record) => isWwaActiveGenerationRecord(
+            record,
+            storage.archiveId,
+            generationId
+          );
+          const assets = chooseWwaUniqueAssets(
+            allAssets.filter(isActive)
+          );
+          const versionsById = new Map(
+            allVersions.filter(isActive).map((version) => [
+              version.versionId,
+              version
+            ])
+          );
+          const filesById = new Map(
+            allFiles.filter(isActive).map((file) => [
+              file.fileId,
+              file
+            ])
+          );
+          const linksByAsset = new Map();
+
+          allLinks.filter(isActive).forEach((link) => {
+            if (!linksByAsset.has(link.assetSyncId)) {
+              linksByAsset.set(link.assetSyncId, []);
+            }
+            linksByAsset.get(link.assetSyncId).push(link);
+          });
+
+          const targetStores = {
+            relatedLegoRecord: allLegoRecords,
+            directFilm: allFilms,
+            directLocation: allLocations,
+            directSubject: allSubjects
+          };
+          const targetsByRelationType = Object.fromEntries(
+            Object.entries(targetStores).map(([relationType, records]) => [
+              relationType,
+              new Map(records.filter(isActive).map((record) => [
+                record.syncId,
+                record
+              ]))
+            ])
+          );
+
+          const restoredAssets = assets.map((asset) => {
+            const version = versionsById.get(asset.currentVersionId);
+            if (!version || version.assetSyncId !== asset.syncId) {
+              throw new Error(
+                "Stored Asset version is missing: " + asset.stableId
+              );
+            }
+
+            const previewFile = filesById.get(version.previewFileId);
+            const originalFile = filesById.get(version.originalFileId);
+            if (
+              !previewFile ||
+              !originalFile ||
+              !previewFile.blob ||
+              !originalFile.blob
+            ) {
+              throw new Error(
+                "Stored Asset file is missing: " + asset.stableId
+              );
+            }
+
+            const links = (linksByAsset.get(asset.syncId) || [])
+              .map((link) => {
+                const target = targetsByRelationType[
+                  link.relationType
+                ]?.get(link.targetSyncId);
+                return target ? { ...link, target } : null;
+              })
+              .filter(Boolean);
+
+            return {
+              asset,
+              version,
+              originalFile,
+              previewFile,
+              links
+            };
+          });
+
+          const seenDraftIds = new Set();
+          const drafts = allDrafts
+            .filter((draft) =>
+              isActive(draft) &&
+              draft.entityType === "Asset" &&
+              draft.state === "Awaiting ID Reservation"
+            )
+            .sort((left, right) =>
+              String(right.updatedAt || "").localeCompare(
+                String(left.updatedAt || "")
+              )
+            )
+            .filter((draft) => {
+              const draftId = getWwaTrimmedString(draft.draftId);
+              if (!draftId || seenDraftIds.has(draftId)) {
+                return false;
+              }
+              seenDraftIds.add(draftId);
+              return true;
+            });
+
+          const restoredDrafts = drafts.map((draft) => ({
+            draft,
+            links: Array.isArray(draft.links)
+              ? draft.links.map((link) => {
+                  const target = targetsByRelationType[
+                    link.relationType
+                  ]?.get(link.targetSyncId);
+                  return target ? { ...link, target } : null;
+                }).filter(Boolean)
+              : []
+          }));
+
+          return {
+            generationId,
+            assets: restoredAssets,
+            drafts: restoredDrafts
+          };
+        } catch (error) {
+          try {
+            await completion;
+          } catch (transactionError) {
+            // Preserve the first read or validation error.
+          }
+          throw error;
+        }
+      }
+
       const root = document.getElementById("wwa-home-complete-castle");
       const home = root.querySelector(".wwa-home");
       const assets = root.querySelector(".wwa-assets");
       const assetDetail = root.querySelector(".wwa-asset-detail");
+      const assetEditor = root.querySelector(".wwa-asset-editor");
+      const assetEditorBack = root.querySelector(".wwa-asset-editor-back");
+      const assetEditorPreview = root.querySelector(".wwa-asset-editor-preview");
+      const assetEditorImage = root.querySelector(".wwa-asset-editor-image");
+      const assetEditorFilename = root.querySelector(".wwa-asset-editor-filename");
+      const assetEditorFilesize = root.querySelector(".wwa-asset-editor-filesize");
+      const assetEditorForm = root.querySelector(".wwa-asset-editor-form");
+      const assetEditorStatus = root.querySelector(".wwa-asset-editor-status");
+      const assetEditorCancel = root.querySelector('[data-editor-action="cancel"]');
+      const assetEditorSubmit = assetEditorForm.querySelector('[type="submit"]');
+      const assetEditorRelationSelects = Array.from(
+        assetEditorForm.querySelectorAll("[data-relation-type]")
+      );
       const assetDetailBack = root.querySelector(".wwa-asset-detail-back");
       const assetDetailPreview = root.querySelector(".wwa-asset-detail-preview");
       const assetDetailImage = root.querySelector(".wwa-asset-detail-image");
@@ -3131,6 +4846,12 @@
       let activeAssetFilter = "All";
       let lastAssetTrigger = null;
       let activeAsset = null;
+      let activeEditorAsset = null;
+      let activeEditorFile = null;
+      let activeEditorTrigger = null;
+      let assetEditorDirty = false;
+      let assetEditorSaving = false;
+      let restoredAssetObjectUrls = new Set();
       const movies = [
         { code: "F01", year: "2001", title: "Philosopher\u2019s Stone", alt: "Official landscape key art for Harry Potter and the Philosopher's Stone" },
         { code: "F02", year: "2002", title: "Chamber of Secrets", alt: "Official landscape key art for Harry Potter and the Chamber of Secrets" },
@@ -3199,6 +4920,8 @@
         alt: "User-created Wizarding World Archive mark"
       });
 
+      const builtInAssetRecords = assetRecords.slice();
+
       const showNotice = (message) => {
         window.clearTimeout(noticeTimer);
         navNotice.textContent = message;
@@ -3252,6 +4975,609 @@
         });
       };
 
+      const clearAssetEditorErrors = () => {
+        assetEditor.querySelectorAll("[data-error-for]").forEach((error) => {
+          error.textContent = "";
+          error.classList.remove("is-visible");
+        });
+        assetEditorForm.querySelectorAll("[aria-invalid]").forEach((field) => {
+          field.removeAttribute("aria-invalid");
+        });
+        root.querySelectorAll('[data-field-control="image"]').forEach((field) => {
+          field.removeAttribute("aria-invalid");
+        });
+      };
+
+      const setAssetEditorError = (fieldName, message) => {
+        const error = root.querySelector('[data-error-for="' + fieldName + '"]');
+        const field = assetEditorForm.elements.namedItem(fieldName) ||
+          root.querySelector('[data-field-control="' + fieldName + '"]');
+        if (error) {
+          error.textContent = message;
+          error.classList.add("is-visible");
+        }
+        if (field && typeof field.setAttribute === "function") {
+          field.setAttribute("aria-invalid", "true");
+        }
+      };
+
+      const setAssetEditorStatus = (message, isError = false) => {
+        assetEditorStatus.textContent = message;
+        assetEditorStatus.classList.toggle("is-error", isError);
+      };
+
+      const setAssetEditorSaving = (isSaving) => {
+        assetEditorSaving = isSaving;
+        assetEditorForm.setAttribute("aria-busy", isSaving ? "true" : "false");
+        assetEditorSubmit.disabled = isSaving;
+        assetEditorCancel.disabled = isSaving;
+        assetEditorBack.disabled = isSaving;
+        assetEditorSubmit.textContent = isSaving ? "Saving…" : "Save Asset";
+      };
+
+      const getAssetFilterFromType = (type) => {
+        if (type === "Official Film Still") return "Film";
+        if (type === "LEGO Official Product Image" || type === "LEGO Official Box Image") return "LEGO";
+        if (type === "Official Blueprint") return "Blueprint";
+        if (type === "My Photography") return "My Photo";
+        if (type === "WWA Original") return "WWA";
+        return "All";
+      };
+
+      const getAssetKindFromType = (type) => {
+        const filter = getAssetFilterFromType(type);
+        return filter === "My Photo" ? "Upload" : filter;
+      };
+
+      const getWwaRelationLabel = (record, relationType) => {
+        const stableId = getWwaTrimmedString(record.stableId);
+        if (relationType === "relatedLegoRecord") {
+          return [
+            getWwaTrimmedString(record.setNumber) || stableId,
+            getWwaTrimmedString(record.setName || record.title || record.name)
+          ].filter(Boolean).join(" · ") || "LEGO Record";
+        }
+        if (relationType === "directFilm") {
+          return [
+            getWwaTrimmedString(record.code || record.filmCode) || stableId,
+            getWwaTrimmedString(record.title || record.name)
+          ].filter(Boolean).join(" · ") || "Film";
+        }
+        if (relationType === "directLocation") {
+          const path = Array.isArray(record.path)
+            ? record.path.map(getWwaTrimmedString).filter(Boolean).join(" › ")
+            : getWwaTrimmedString(record.fullPath || record.path || record.name || record.title);
+          return path || stableId || "Location";
+        }
+        return [
+          getWwaTrimmedString(record.name || record.title) || stableId,
+          getWwaTrimmedString(record.type)
+        ].filter(Boolean).join(" · ") || "Subject";
+      };
+
+      const getWwaStoredFileFormat = (file) => {
+        const extension = getWwaTrimmedString(file.extension);
+        if (extension) return extension.toUpperCase();
+        const mimeType = getWwaTrimmedString(file.mimeType);
+        return mimeType.includes("/")
+          ? mimeType.split("/").pop().toUpperCase()
+          : "Image";
+      };
+
+      const getWwaStoredDimensions = (file) => {
+        const width = Number(file.width);
+        const height = Number(file.height);
+        return Number.isFinite(width) &&
+          Number.isFinite(height) &&
+          width > 0 &&
+          height > 0
+          ? width + " × " + height + " px"
+          : "Unknown";
+      };
+
+      const createWwaStoredPreviewUrl = (blob, urlSet) => {
+        if (
+          !blob ||
+          typeof blob.arrayBuffer !== "function" ||
+          !Number.isFinite(blob.size) ||
+          blob.size < 1 ||
+          typeof URL.createObjectURL !== "function"
+        ) {
+          throw new Error("Stored Asset preview is unavailable.");
+        }
+
+        const objectUrl = URL.createObjectURL(blob);
+        urlSet.add(objectUrl);
+        return objectUrl;
+      };
+
+      const getWwaRestoredRelationLabels = (links) =>
+        links.map((link) => ({
+          relationType: link.relationType,
+          label: getWwaRelationLabel(
+            link.target,
+            link.relationType
+          )
+        }));
+
+      const getWwaRelationSummary = (relationLabels) =>
+        relationLabels.length
+          ? relationLabels.map((link) => link.label).join(" · ")
+          : "Not linked";
+
+      const createWwaRestoredAssetRecord = (entry, urlSet) => {
+        const { asset, originalFile, previewFile, links } = entry;
+        const title = getWwaTrimmedString(asset.title);
+        const stableId = getWwaTrimmedString(asset.stableId);
+        const syncId = getWwaTrimmedString(asset.syncId);
+        const type = getWwaTrimmedString(asset.type);
+
+        if (!title || !stableId || !syncId || !WWA_ASSET_TYPES.has(type)) {
+          throw new Error("Stored Asset metadata is incomplete.");
+        }
+
+        const relationLabels = getWwaRestoredRelationLabels(links);
+        const image = createWwaStoredPreviewUrl(
+          previewFile.blob,
+          urlSet
+        );
+        const originalImage = createWwaStoredPreviewUrl(
+          originalFile.blob,
+          urlSet
+        );
+
+        return {
+          id: stableId,
+          stableId,
+          syncId,
+          storageKey: "asset:" + syncId,
+          title,
+          type,
+          context: type + " · Local archive",
+          filter: getAssetFilterFromType(type),
+          status: getWwaTrimmedString(asset.sourceStatus) || "Source Needed",
+          production: getWwaTrimmedString(asset.productionStatus) || "Candidate",
+          kind: getAssetKindFromType(type),
+          source: getWwaTrimmedString(asset.source) || "Not yet recorded",
+          sourceLink: getWwaTrimmedString(asset.sourceLink),
+          checkedOn: getWwaTrimmedString(asset.checkedOn) || "Not yet reviewed",
+          setNumber: "",
+          filmCode: "—",
+          filmTitle: "—",
+          releaseYear: "—",
+          originalFile: getWwaTrimmedString(originalFile.originalFilename) || "Original filename unavailable",
+          format: getWwaStoredFileFormat(originalFile),
+          dimensions: getWwaStoredDimensions(originalFile),
+          fileSize: formatBytes(Number(originalFile.byteSize)),
+          importSource: "IndexedDB · Original preserved",
+          page: "Not linked",
+          placement: getWwaTrimmedString(asset.productionStatus) || "Candidate",
+          notes: getWwaTrimmedString(asset.notes) || "No archive note recorded.",
+          image,
+          originalImage,
+          previewUrl: image,
+          previewState: "ready",
+          alt: "Asset preview: " + title,
+          relationLabels,
+          relationSummary: getWwaRelationSummary(relationLabels),
+          isStoredAsset: true,
+          isDraft: false
+        };
+      };
+
+      const createWwaRestoredDraftRecord = (entry, urlSet) => {
+        const { draft, links } = entry;
+        const metadata = draft.metadata || {};
+        const originalFile = draft.original || {};
+        const previewFile = draft.preview || {};
+        const draftId = getWwaTrimmedString(draft.draftId);
+        const title = getWwaTrimmedString(metadata.title);
+        const type = getWwaTrimmedString(metadata.type);
+
+        if (!draftId || !title || !WWA_ASSET_TYPES.has(type)) {
+          throw new Error("Stored Asset Draft metadata is incomplete.");
+        }
+
+        const relationLabels = getWwaRestoredRelationLabels(links);
+        const image = createWwaStoredPreviewUrl(
+          previewFile.blob,
+          urlSet
+        );
+        const originalImage = createWwaStoredPreviewUrl(
+          originalFile.blob,
+          urlSet
+        );
+
+        return {
+          id: "DRAFT",
+          stableId: null,
+          syncId: null,
+          draftId,
+          storageKey: "draft:" + draftId,
+          title,
+          type,
+          context: "Draft · ID Reservation Needed",
+          filter: getAssetFilterFromType(type),
+          status: getWwaTrimmedString(metadata.sourceStatus) || "Source Needed",
+          production: getWwaTrimmedString(metadata.productionStatus) || "Candidate",
+          kind: getAssetKindFromType(type),
+          source: getWwaTrimmedString(metadata.source) || "Not yet recorded",
+          sourceLink: getWwaTrimmedString(metadata.sourceLink),
+          checkedOn: getWwaTrimmedString(metadata.checkedOn) || "Not yet reviewed",
+          setNumber: "",
+          filmCode: "—",
+          filmTitle: "—",
+          releaseYear: "—",
+          originalFile: getWwaTrimmedString(originalFile.originalFilename) || "Original filename unavailable",
+          format: getWwaStoredFileFormat(originalFile),
+          dimensions: getWwaStoredDimensions(originalFile),
+          fileSize: formatBytes(Number(originalFile.byteSize)),
+          importSource: "IndexedDB Draft · Original preserved",
+          page: "Not linked",
+          placement: getWwaTrimmedString(metadata.productionStatus) || "Candidate",
+          notes: getWwaTrimmedString(metadata.notes) || "No archive note recorded.",
+          image,
+          originalImage,
+          previewUrl: image,
+          previewState: "ready",
+          alt: "Draft Asset preview: " + title,
+          relationLabels,
+          relationSummary: getWwaRelationSummary(relationLabels),
+          isStoredAsset: false,
+          isDraft: true,
+          isNewUpload: false
+        };
+      };
+
+      const revokeWwaObjectUrls = (urls) => {
+        if (typeof URL.revokeObjectURL !== "function") return;
+        urls.forEach((url) => URL.revokeObjectURL(url));
+        urls.clear();
+      };
+
+      const restoreWwaAssetsFromStorage = async () => {
+        const nextObjectUrls = new Set();
+
+        try {
+          const storage = await wwaStorageReady;
+          const stored = await loadWwaStoredAssets(storage);
+          const restoredRecords = [
+            ...stored.assets.map((entry) =>
+              createWwaRestoredAssetRecord(entry, nextObjectUrls)
+            ),
+            ...stored.drafts.map((entry) =>
+              createWwaRestoredDraftRecord(entry, nextObjectUrls)
+            )
+          ];
+
+          const previousRecords = assetRecords.slice();
+          const previousObjectUrls = restoredAssetObjectUrls;
+          assetRecords.splice(
+            0,
+            assetRecords.length,
+            ...restoredRecords,
+            ...builtInAssetRecords
+          );
+
+          try {
+            renderAssets();
+          } catch (renderError) {
+            assetRecords.splice(
+              0,
+              assetRecords.length,
+              ...previousRecords
+            );
+            renderAssets();
+            throw renderError;
+          }
+
+          restoredAssetObjectUrls = nextObjectUrls;
+          revokeWwaObjectUrls(previousObjectUrls);
+
+          return {
+            generationId: stored.generationId,
+            assetCount: stored.assets.length,
+            draftCount: stored.drafts.length
+          };
+        } catch (error) {
+          revokeWwaObjectUrls(nextObjectUrls);
+          console.error("WWA Asset restore failed.", error);
+          throw error;
+        }
+      };
+
+      const populateWwaRelationSelect = (select, records) => {
+        const relationType = select.dataset.relationType;
+        select.replaceChildren();
+        if (!records.length) {
+          const option = document.createElement("option");
+          option.disabled = true;
+          option.textContent = "No Archive Records available";
+          select.append(option);
+          select.disabled = true;
+          return;
+        }
+
+        records
+          .map((record) => ({
+            record,
+            label: getWwaRelationLabel(record, relationType)
+          }))
+          .sort((left, right) => left.label.localeCompare(right.label))
+          .forEach(({ record, label }) => {
+            const option = document.createElement("option");
+            option.value = record.syncId;
+            option.textContent = label;
+            select.append(option);
+          });
+        select.disabled = false;
+      };
+
+      const loadWwaAssetRelationOptions = async () => {
+        const relationNote = root.querySelector(".wwa-asset-relations-note");
+        relationNote.textContent = "Archive Records를 불러오는 중입니다.";
+        assetEditorRelationSelects.forEach((select) => {
+          select.replaceChildren();
+          select.disabled = true;
+        });
+
+        try {
+          const storage = await wwaStorageReady;
+          const storeNames = ["legoRecords", "films", "locations", "subjects"];
+          const transaction = storage.database.transaction(storeNames, "readonly");
+          const completion = waitForWwaTransaction(transaction);
+          const recordGroups = await Promise.all(storeNames.map((storeName) =>
+            requestWwaResult(transaction.objectStore(storeName).getAll())
+          ));
+          await completion;
+
+          const activeRecords = recordGroups.map((records) => records.filter((record) =>
+            record &&
+            record.generationId === storage.generationId &&
+            !record.deletedAt &&
+            getWwaTrimmedString(record.syncId)
+          ));
+
+          assetEditorRelationSelects.forEach((select, index) => {
+            populateWwaRelationSelect(select, activeRecords[index]);
+          });
+          const availableCount = activeRecords.reduce((total, records) => total + records.length, 0);
+          relationNote.textContent = availableCount
+            ? "이미지가 직접 보여주는 Record만 선택합니다. 여러 항목을 선택할 수 있습니다."
+            : "연결할 Archive Record가 아직 없습니다. 관계 없이 저장할 수 있습니다.";
+        } catch (error) {
+          assetEditorRelationSelects.forEach((select) => {
+            populateWwaRelationSelect(select, []);
+          });
+          relationNote.textContent = "Archive Record 목록을 불러오지 못했습니다. 관계 없이 저장할 수 있습니다.";
+        }
+      };
+
+      const updateAssetEditorPreview = (asset) => {
+        if (activeEditorAsset !== asset) return;
+        assetEditorPreview.dataset.state = asset.previewState || "ready";
+        assetEditorPreview.dataset.stateLabel = asset.previewState === "loading"
+          ? "Preparing image preview…"
+          : asset.previewState === "error"
+          ? "Preview could not be prepared"
+          : "";
+        assetEditorImage.src = asset.image;
+        assetEditorImage.alt = asset.alt;
+        assetEditorFilename.textContent = asset.originalFile;
+        assetEditorFilesize.textContent = asset.fileSize;
+      };
+
+      const openAssetEditor = (asset, file, trigger) => {
+        activeEditorAsset = asset;
+        activeEditorFile = file;
+        activeEditorTrigger = trigger;
+        assetEditorDirty = true;
+        setAssetEditorSaving(false);
+        clearAssetEditorErrors();
+        assetEditorForm.reset();
+        assetEditorForm.elements.namedItem("assetId").value = "Assigned after save";
+        assetEditorForm.elements.namedItem("title").value = asset.title;
+        setAssetEditorStatus("필수 정보와 출처를 확인한 뒤 저장해 주세요.");
+        updateAssetEditorPreview(asset);
+        assets.classList.remove("is-visible");
+        assetDetail.classList.remove("is-visible");
+        assetEditor.classList.add("is-visible");
+        root.classList.add("is-asset-editor-view");
+        setAssetsSurface(true);
+        setActiveTab("Assets");
+        window.scrollTo({ top: 0, behavior: "auto" });
+        window.setTimeout(() => {
+          assetEditor.focus({ preventScroll: true });
+          assetEditorForm.elements.namedItem("title").focus({ preventScroll: true });
+        }, 0);
+        loadWwaAssetRelationOptions();
+      };
+
+      const removeUnsavedEditorAsset = () => {
+        if (!activeEditorAsset || !activeEditorAsset.isNewUpload) return;
+        const index = assetRecords.indexOf(activeEditorAsset);
+        if (index >= 0) assetRecords.splice(index, 1);
+        if (
+          activeEditorAsset.previewUrl &&
+          activeEditorAsset.previewUrl.startsWith("blob:") &&
+          typeof URL.revokeObjectURL === "function"
+        ) {
+          URL.revokeObjectURL(activeEditorAsset.previewUrl);
+        }
+      };
+
+      const closeAssetEditor = ({ preserveAsset = false } = {}) => {
+        if (!preserveAsset) removeUnsavedEditorAsset();
+        assetEditor.classList.remove("is-visible");
+        assets.classList.add("is-visible");
+        root.classList.remove("is-asset-editor-view");
+        activeEditorAsset = null;
+        activeEditorFile = null;
+        assetEditorDirty = false;
+        setAssetEditorSaving(false);
+        renderAssets();
+        window.scrollTo({ top: 0, behavior: "auto" });
+        window.setTimeout(() => {
+          if (activeEditorTrigger && document.body.contains(activeEditorTrigger)) {
+            activeEditorTrigger.focus({ preventScroll: true });
+          } else {
+            assets.focus({ preventScroll: true });
+          }
+          activeEditorTrigger = null;
+        }, 0);
+      };
+
+      const requestDiscardAssetEditor = () => {
+        if (assetEditorSaving) return;
+        if (assetEditorDirty && !window.confirm("저장하지 않은 변경사항을 버릴까요?")) return;
+        uploadSequence += 1;
+        closeAssetEditor();
+      };
+
+      const collectWwaAssetEditorLinks = () => assetEditorRelationSelects.flatMap((select) =>
+        Array.from(select.selectedOptions || []).map((option) => ({
+          relationType: select.dataset.relationType,
+          targetSyncId: option.value
+        }))
+      );
+
+      const isWwaEditorHttpUrl = (value) => {
+        try {
+          const url = new URL(value);
+          return url.protocol === "https:" || url.protocol === "http:";
+        } catch (error) {
+          return false;
+        }
+      };
+
+      const validateWwaAssetEditor = () => {
+        clearAssetEditorErrors();
+        const title = assetEditorForm.elements.namedItem("title").value.trim();
+        const type = assetEditorForm.elements.namedItem("type").value;
+        const source = assetEditorForm.elements.namedItem("source").value.trim();
+        const sourceLink = assetEditorForm.elements.namedItem("sourceLink").value.trim();
+        const sourceStatus = assetEditorForm.elements.namedItem("sourceStatus").value;
+        const checkedOn = assetEditorForm.elements.namedItem("checkedOn").value;
+        let firstInvalidField = null;
+
+        const addError = (field, message) => {
+          setAssetEditorError(field, message);
+          if (!firstInvalidField) firstInvalidField = field;
+        };
+
+        if (!activeEditorFile) addError("image", "Image를 선택해 주세요.");
+        if (!title) addError("title", "Asset Title을 입력해 주세요.");
+        if (!WWA_ASSET_TYPES.has(type)) addError("type", "승인된 Asset Type을 선택해 주세요.");
+        if (!source) addError("source", "Source를 입력해 주세요.");
+        if (WWA_OFFICIAL_ASSET_TYPES.has(type) && !sourceLink) {
+          addError("sourceLink", "공식 자료는 Source Link가 필요합니다.");
+        } else if (sourceLink && !isWwaEditorHttpUrl(sourceLink)) {
+          addError("sourceLink", "Source Link의 주소를 확인해 주세요.");
+        }
+        if (sourceStatus === "Verified" && !checkedOn) {
+          addError("checkedOn", "Verified로 저장하려면 Checked On이 필요합니다.");
+        }
+
+        if (firstInvalidField) {
+          const field = assetEditorForm.elements.namedItem(firstInvalidField) ||
+            root.querySelector('[data-field-control="' + firstInvalidField + '"]');
+          if (field && typeof field.focus === "function") field.focus({ preventScroll: true });
+          setAssetEditorStatus("입력 내용을 확인해 주세요.", true);
+          return null;
+        }
+
+        return {
+          image: activeEditorFile,
+          originalFilename: activeEditorFile.name,
+          title,
+          type,
+          source,
+          sourceLink,
+          sourceStatus,
+          productionStatus: assetEditorForm.elements.namedItem("productionStatus").value,
+          checkedOn: checkedOn || null,
+          notes: assetEditorForm.elements.namedItem("notes").value.trim(),
+          links: collectWwaAssetEditorLinks()
+        };
+      };
+
+      const applySavedAssetToSession = (result, input) => {
+        const asset = activeEditorAsset;
+        const statusLabel = result.status === "saved"
+          ? result.stableId
+          : "DRAFT";
+        asset.id = statusLabel;
+        asset.stableId = result.stableId || null;
+        asset.syncId = result.syncId || null;
+        asset.title = input.title;
+        asset.type = input.type;
+        asset.context = result.status === "saved"
+          ? input.type + " · Local archive"
+          : "Draft · ID Reservation Needed";
+        asset.filter = getAssetFilterFromType(input.type);
+        asset.status = input.sourceStatus;
+        asset.production = input.productionStatus;
+        asset.kind = getAssetKindFromType(input.type);
+        asset.source = input.source;
+        asset.sourceLink = input.sourceLink;
+        asset.checkedOn = input.checkedOn || "Not yet reviewed";
+        asset.page = "Not linked";
+        asset.placement = input.productionStatus;
+        asset.notes = input.notes || "No archive note recorded.";
+        asset.isNewUpload = false;
+        asset.draftId = result.draftId || null;
+        asset.storageKey = result.status === "saved"
+          ? "asset:" + result.syncId
+          : "draft:" + result.draftId;
+        asset.isStoredAsset = result.status === "saved";
+        asset.isDraft = result.status === "draft";
+        asset.relationLabels = assetEditorRelationSelects.flatMap((select) =>
+          Array.from(select.selectedOptions || []).map((option) => ({
+            relationType: select.dataset.relationType,
+            label: option.textContent
+          }))
+        );
+        asset.relationSummary = getWwaRelationSummary(
+          asset.relationLabels
+        );
+      };
+
+      const saveWwaAssetEditor = async (event) => {
+        event.preventDefault();
+        if (assetEditorSaving) return;
+        const input = validateWwaAssetEditor();
+        if (!input) return;
+
+        setAssetEditorSaving(true);
+        setAssetEditorStatus("원본과 Preview를 로컬 Archive에 저장하는 중입니다.");
+        try {
+          const result = await window.WWAStorage.addAsset(input);
+          applySavedAssetToSession(result, input);
+          assetEditorDirty = false;
+          closeAssetEditor({ preserveAsset: true });
+          showNotice(result.status === "saved"
+            ? "Saved · " + result.stableId
+            : "Draft · ID Reservation Needed");
+        } catch (error) {
+          const field = getWwaTrimmedString(error && error.field);
+          const message = getWwaTrimmedString(error && error.message) ||
+            "Asset을 저장하지 못했습니다. 다시 시도해 주세요.";
+          if (field) setAssetEditorError(field, message);
+          setAssetEditorStatus(
+            field ? message : "Asset을 저장하지 못했습니다. 원본과 입력값은 화면에 그대로 남아 있습니다.",
+            true
+          );
+          if (field) {
+            const invalidField = assetEditorForm.elements.namedItem(field) ||
+              root.querySelector('[data-field-control="' + field + '"]');
+            if (invalidField && typeof invalidField.focus === "function") {
+              invalidField.focus({ preventScroll: true });
+            }
+          }
+          setAssetEditorSaving(false);
+        }
+      };
+
       const openAssetDetail = (asset, trigger) => {
         lastAssetTrigger = trigger;
         activeAsset = asset;
@@ -3262,7 +5588,7 @@
           : asset.previewState === "error"
           ? "Preview could not be prepared"
           : "";
-        assetDetailImage.src = asset.image;
+        assetDetailImage.src = asset.originalImage || asset.image;
         assetDetailImage.alt = asset.alt;
         assetDetailPreviewLabel.textContent = asset.production;
         assetDetailId.textContent = asset.id + " \u00B7 " + asset.type;
@@ -3273,7 +5599,25 @@
         assetDetailSourceStatus.classList.toggle("is-source-needed", asset.status === "Source Needed");
         assetDetailProductionStatus.textContent = asset.production;
 
-        const contextRows = asset.kind === "Film"
+        const contextRows = asset.isStoredAsset || asset.isDraft
+          ? [
+              {
+                label: "Asset ID",
+                value: asset.isDraft
+                  ? "ID Reservation Needed"
+                  : asset.stableId
+              },
+              { label: "Material Type", value: asset.type },
+              {
+                label: "Archive State",
+                value: asset.isDraft ? "Draft" : "Local archive"
+              },
+              {
+                label: "Archive Relations",
+                value: asset.relationSummary || "Not linked"
+              }
+            ]
+          : asset.kind === "Film"
           ? [
               { label: "Film Code", value: asset.filmCode },
               { label: "Film", value: asset.filmTitle },
@@ -3443,22 +5787,24 @@
       };
 
       const updateActiveUploadDetail = (asset) => {
-        if (activeAsset !== asset) return;
-        assetDetailPreview.dataset.state = asset.previewState;
-        assetDetailPreview.dataset.stateLabel = asset.previewState === "loading"
-          ? "Preparing iPhone photo preview…"
-          : asset.previewState === "error"
-          ? "Preview could not be prepared"
-          : "";
-        assetDetailImage.src = asset.image;
-        renderDetailRows(assetDetailFileList, [
-          { label: "Original File", value: asset.originalFile },
-          { label: "Format", value: asset.format },
-          { label: "Dimensions", value: asset.dimensions },
-          { label: "File Size", value: asset.fileSize },
-          { label: "Import Source", value: asset.importSource }
-        ]);
-        assetDetailNotes.textContent = asset.notes;
+        if (activeAsset === asset) {
+          assetDetailPreview.dataset.state = asset.previewState;
+          assetDetailPreview.dataset.stateLabel = asset.previewState === "loading"
+            ? "Preparing iPhone photo preview…"
+            : asset.previewState === "error"
+            ? "Preview could not be prepared"
+            : "";
+          assetDetailImage.src = asset.image;
+          renderDetailRows(assetDetailFileList, [
+            { label: "Original File", value: asset.originalFile },
+            { label: "Format", value: asset.format },
+            { label: "Dimensions", value: asset.dimensions },
+            { label: "File Size", value: asset.fileSize },
+            { label: "Import Source", value: asset.importSource }
+          ]);
+          assetDetailNotes.textContent = asset.notes;
+        }
+        updateAssetEditorPreview(asset);
       };
 
       const createUploadAsset = (file) => {
@@ -3490,7 +5836,8 @@
           image: emptyAssetPreview,
           previewUrl: "",
           previewState: "loading",
-          alt: "Newly added asset preview: " + file.name
+          alt: "Newly added asset preview: " + file.name,
+          isNewUpload: true
         };
 
         const previousIndex = assetRecords.findIndex((asset) => asset.id === "NEW-ASSET");
@@ -3509,14 +5856,14 @@
         renderAssets();
 
         const newCard = assetGrid.querySelector(".wwa-asset-card");
-        showNotice("Photo selected · preparing detail");
+        showNotice("Photo selected · preparing Add Asset");
         /*
-         * Open the record synchronously, before WebKit is asked to decode the
+         * Open the editor synchronously, before WebKit is asked to decode the
          * selected photo. iPhone file/Quick Look surfaces can reject a local
-         * preview URL; that must never prevent the Detail screen itself from
+         * preview URL; that must never prevent the Add Asset screen itself from
          * appearing.
          */
-        openAssetDetail(newAsset, newCard);
+        openAssetEditor(newAsset, file, newCard);
         return newAsset;
       };
 
@@ -3638,6 +5985,31 @@
       addAssetInput.addEventListener("change", handleAssetSelection);
 
       assetDetailBack.addEventListener("click", closeAssetDetail);
+      assetEditorBack.addEventListener("click", requestDiscardAssetEditor);
+      assetEditorCancel.addEventListener("click", requestDiscardAssetEditor);
+      assetEditorForm.addEventListener("submit", saveWwaAssetEditor);
+      assetEditorForm.addEventListener("input", (event) => {
+        if (!assetEditor.classList.contains("is-visible")) return;
+        assetEditorDirty = true;
+        const fieldName = event.target && event.target.name;
+        if (!fieldName) return;
+        const error = root.querySelector('[data-error-for="' + fieldName + '"]');
+        if (error) {
+          error.textContent = "";
+          error.classList.remove("is-visible");
+        }
+        event.target.removeAttribute("aria-invalid");
+      });
+      window.addEventListener("beforeunload", (event) => {
+        if (!assetEditorDirty || !assetEditor.classList.contains("is-visible")) return;
+        event.preventDefault();
+        event.returnValue = "";
+      });
+      window.addEventListener("pagehide", (event) => {
+        if (!event.persisted) {
+          revokeWwaObjectUrls(restoredAssetObjectUrls);
+        }
+      });
 
       root.querySelectorAll(".wwa-asset-action").forEach((button) => {
         button.addEventListener("click", () => {
@@ -3650,7 +6022,15 @@
       window.WWAStorage = Object.freeze({
         databaseName: WWA_DATABASE_NAME,
         schemaVersion: WWA_SCHEMA_VERSION,
-        ready: wwaStorageReady
+        ready: wwaStorageReady,
+        addAsset: async (input) => addWwaAsset(
+          await wwaStorageReady,
+          input
+        ),
+        loadAssets: async () => loadWwaStoredAssets(
+          await wwaStorageReady
+        ),
+        restoreAssets: restoreWwaAssetsFromStorage
       });
 
       wwaStorageReady.catch((error) => {
@@ -3661,6 +6041,9 @@
       });
 
       renderAssets();
+      restoreWwaAssetsFromStorage().catch(() => {
+        // The existing Library remains visible when restoration fails.
+      });
 
       root.querySelectorAll(".wwa-movie-card").forEach((card) => {
         card.addEventListener("click", () => {

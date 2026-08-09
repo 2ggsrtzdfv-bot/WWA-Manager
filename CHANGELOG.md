@@ -4,6 +4,50 @@
 
 ## [Unreleased]
 
+### Add Asset Safe Integration Verified — 2026-08-10
+
+- 원격 최신 `main` 커밋 `74f46ef`을 다시 확인하고, Add Asset Transaction·UI·IndexedDB 복원 구현이 해당 배포 기준에서 직접 이어지는지 대조.
+- 원격 대비 변경 파일을 `index.html`, `CHANGELOG.md` 두 개로 한정하고 `WWA_PROTOCOL.md`, `DESIGN_GUIDE.md`, `STORAGE_SYNC_DESIGN.md`는 변경하지 않음.
+- 기존 Home·Assets Library·Asset Detail·Movie Detail·하단 내비게이션 DOM이 원격 배포본과 동일하게 보존되는지 확인.
+- 실제 `index.html`을 JSDOM·IndexedDB 표준 모의 환경에서 실행해 20개 Store, 세 식별자 재사용, Draft 복원, `AST-000001`·`AST-000002` 발급, Original 중복 방지, 관계·Outbox 저장을 검증.
+- Stable ID 충돌을 강제로 발생시켜 파일·Version·Asset·관계·Outbox·예약 번호가 함께 롤백되는지 확인.
+- 손상된 Asset Record 복원 실패 시 기존 Library가 교체되지 않고 유지되며, Blob URL 해제와 `localStorage` 비접촉이 유지되는지 확인.
+- 이번 체크포인트는 원격 최신본 대조·로컬 안전 통합·검증만 포함하며 GitHub Push와 GitHub Pages 배포는 포함하지 않음.
+
+### IndexedDB Asset Restore Implemented — 2026-08-10
+
+- 앱 시작 시 `archiveRoots.activeGenerationId`를 다시 확인하고 해당 Generation의 영구 Asset·현재 Version·Original·Preview·Asset Link와 ID 예약 대기 Draft만 읽도록 구현.
+- 영구 Asset은 저장된 Preview Blob으로 Assets Library 이미지를 복원하고, Asset Detail은 별도 Original Blob과 저장된 Source·Checked On·Original 파일명·형식·크기·해상도·Notes·Archive Relations를 표시하도록 연결.
+- ID 예약이 없는 Draft는 `Draft · ID Reservation Needed`로 구분하고 Draft의 Preview·Original 정보·메타데이터·관계를 새로고침 후 복원하도록 구현.
+- 영구 Asset은 Stable ID와 Sync ID를 함께 기준으로 중복 표시를 방지하고, Draft는 Draft ID 기준으로 한 번만 표시하도록 구현.
+- 복원용 Blob URL을 반복 복원 뒤 교체하고 실제 페이지 종료 시 해제하되, 브라우저 뒤로가기 캐시가 유지되는 경우에는 즉시 해제하지 않도록 관리.
+- 현재 Version·Original·Preview 등 필수 저장 Record가 불완전하면 복원 결과로 기존 Library를 교체하지 않고 기존 화면을 유지하도록 구현.
+- 새로고침 상당의 IndexedDB DOM 통합 검증에서 기본 9개 자료 보존, 영구 Asset·Draft 복원, Stable ID·Sync ID 중복 제거, Detail Original·메타데이터·관계 표시, 세 식별자 유지, 반복 복원 Blob URL 해제, 실패 시 기존 목록 유지, `localStorage` 비접촉을 확인.
+- 이번 체크포인트는 로컬 복원 구현과 해당 범위 검증만 포함하며 GitHub 반영과 배포는 포함하지 않음.
+
+### Add Asset UI Connected — 2026-08-10
+
+- 이미지 선택 직후 Archive Surface의 집중형 `Add Asset` 입력 화면을 열고, 편집 중 하단 내비게이션을 숨기도록 구현.
+- `Image`, `Asset Title`, 승인된 6개 `Asset Type`, `Source`를 필수 입력으로 구성하고 공식 자료의 `Source Link`, `Verified` 상태의 `Checked On` 조건을 필드 아래 한글 오류로 표시하도록 구현.
+- `Source Needed`와 `Candidate`를 기본 상태로 적용하고, 새 Asset에서 `In Use`를 직접 선택하지 못하도록 제한.
+- `Related LEGO Record`, `Film`, `Location`, `Subject`는 IndexedDB의 실제 활성 Record를 읽어 선택하도록 연결하고, Record가 없으면 관계 입력만 비활성화한 채 관계 없이 저장할 수 있도록 구현.
+- 저장 중 Back·Cancel·Save를 잠가 중복 실행을 방지하고, 통합 transaction 완료 뒤에만 `Saved · AST-000001` 또는 `Draft · ID Reservation Needed`를 표시하도록 연결.
+- 저장 성공 결과는 현재 세션의 Assets Library에 반영하되, 새로고침 후 IndexedDB 복원은 다음 체크포인트로 분리.
+- 저장하지 않고 나갈 때만 `Discard Changes` 확인을 표시하고, 취소하면 이미지와 입력값을 그대로 유지하도록 구현.
+- DOM 통합 검증에서 Draft 저장, 영구 ID 1회 소비, Original·Preview·Version·관계·Outbox 생성, 공식 자료·Verified 필드 검증, 중복 제출 방지, Discard Changes, 승인된 6개 Asset Type, 고유 DOM ID와 `localStorage` 비접촉을 확인.
+- 이번 체크포인트는 로컬 UI 연결과 해당 범위 검증만 포함하며 새로고침 복원, GitHub 반영과 배포는 포함하지 않음.
+
+### Add Asset Transaction Implemented — 2026-08-10
+
+- 필수값과 승인된 6개 Asset Type을 검증하고, 공식 자료의 `Source Link` 및 `Verified` 상태의 `Checked On` 필수 조건을 적용.
+- Original 바이트를 변환하지 않고 SHA-256·파일 메타데이터를 계산하며, 최대 1600px 표시용 Preview를 별도 생성하도록 구현.
+- 유효한 기기별 Asset 번호 예약이 있을 때만 `AST-000001` 형식의 Stable ID를 소비하도록 구현.
+- 번호 예약이 없으면 Stable ID를 임의 발급하지 않고 Original·Preview·metadata·relations를 `drafts` 한 건으로 보존하도록 구현.
+- `files`, `assetVersions`, `assets`, `assetLinks`, `outbox`, 번호 소비를 하나의 IndexedDB transaction으로 묶고 완료 뒤에만 `saved` 결과를 반환하도록 구현.
+- 같은 SHA-256·역할의 파일은 활성 generation에서 재사용하고, 관계 중복은 결정적 Link ID로 방지하도록 구현.
+- Preview 실패와 transaction 중간 실패 시 파일·Version·Asset·관계·Outbox·번호 소비가 남지 않는 롤백 검증 완료.
+- 이번 체크포인트는 저장 API만 구현했으며 Add Asset UI 연결, 새로고침 후 Library 복원, GitHub 반영과 배포는 포함하지 않음.
+
 ### IndexedDB Foundation Deployed — 2026-08-09
 
 - 원격 `main`의 승인된 Home·Assets·이미지 업로드 흐름을 유지한 상태로 `WWA_Manager` schema version `1` 기반을 배포.
@@ -110,7 +154,7 @@
 
 ### Next
 
-1. Add Asset Original·Preview·Asset Version·metadata 통합 transaction과 새로고침 후 Assets Library 복원 구현
+1. Add Asset 저장·복원 흐름의 iPhone 검증과 승인된 체크포인트 배포
 2. Edit Metadata·Replace Image·Version History 구현
 3. 기존 `localStorage` 읽기 전용 이전과 전체 ZIP 백업·복원 구현
 4. CloudKit 자동 동기화·충돌 보존 구현
