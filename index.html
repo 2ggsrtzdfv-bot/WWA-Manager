@@ -23,7 +23,7 @@
       --wwa-patronus: #7FB7E6;
       --wwa-silver: #C7CCD6;
       --wwa-stone: #6F7682;
-      --wwa-winter: #F8F8F5;
+      --wwa-winter: #F7F9FC; /* LOCKED: approved WWA Winter White. */
       color: var(--wwa-blue);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -31,6 +31,11 @@
       -webkit-text-size-adjust: 100%;
       text-rendering: optimizeLegibility;
       width: 100%;
+    }
+
+    html.wwa-assets-mode,
+    body.wwa-assets-mode {
+      background: #F7F9FC !important;
     }
 
     #wwa-home-complete-castle * {
@@ -177,9 +182,9 @@
       gap: 12px;
       min-height: 84px;
       padding: 16px 18px 18px;
-      border-top: 1px solid rgba(248, 248, 245, 0.68);
+      border-top: 1px solid rgba(247, 249, 252, 0.68);
       background:
-        linear-gradient(135deg, rgba(248, 248, 245, 0.98) 0%, rgba(199, 204, 214, 0.94) 100%);
+        linear-gradient(135deg, rgba(247, 249, 252, 0.98) 0%, rgba(199, 204, 214, 0.94) 100%);
     }
 
     #wwa-home-complete-castle .wwa-card-meta {
@@ -208,7 +213,7 @@
       place-items: center;
       border: 1px solid rgba(26, 42, 68, 0.18);
       border-radius: 50%;
-      background: rgba(248, 248, 245, 0.54);
+      background: rgba(247, 249, 252, 0.54);
       color: var(--wwa-blue);
       flex: 0 0 auto;
     }
@@ -463,7 +468,7 @@
       height: 25%;
       opacity: 0.48;
       background:
-        radial-gradient(ellipse at 34% 55%, rgba(248, 248, 245, 0.2), transparent 39%),
+        radial-gradient(ellipse at 34% 55%, rgba(247, 249, 252, 0.2), transparent 39%),
         radial-gradient(ellipse at 78% 48%, rgba(127, 183, 230, 0.14), transparent 40%);
       transform: rotate(1.5deg);
     }
@@ -556,7 +561,7 @@
       content: "";
       pointer-events: none;
       background:
-        radial-gradient(ellipse at 34% 2%, rgba(248, 248, 245, 0.11), transparent 18%),
+        radial-gradient(ellipse at 34% 2%, rgba(247, 249, 252, 0.11), transparent 18%),
         radial-gradient(ellipse at 78% 4%, rgba(127, 183, 230, 0.11), transparent 20%),
         radial-gradient(ellipse at 14% 31%, rgba(199, 204, 214, 0.045), transparent 16%),
         radial-gradient(ellipse at 88% 57%, rgba(127, 183, 230, 0.045), transparent 18%);
@@ -594,7 +599,7 @@
       height: 31%;
       opacity: 0.58;
       background:
-        radial-gradient(ellipse at 27% 58%, rgba(248, 248, 245, 0.2), transparent 38%),
+        radial-gradient(ellipse at 27% 58%, rgba(247, 249, 252, 0.2), transparent 38%),
         radial-gradient(ellipse at 76% 49%, rgba(127, 183, 230, 0.16), transparent 41%);
     }
 
@@ -750,7 +755,7 @@
     #wwa-home-complete-castle .wwa-card-copy {
       border-top-color: rgba(127, 183, 230, 0.42);
       background:
-        linear-gradient(142deg, rgba(199, 204, 214, 0.99) 0%, rgba(248, 248, 245, 0.97) 58%, rgba(127, 183, 230, 0.38) 132%);
+        linear-gradient(142deg, rgba(199, 204, 214, 0.99) 0%, rgba(247, 249, 252, 0.97) 58%, rgba(127, 183, 230, 0.38) 132%);
     }
 
     #wwa-home-complete-castle .wwa-card-meta {
@@ -767,7 +772,7 @@
 
     #wwa-home-complete-castle .wwa-card-arrow {
       border-color: rgba(26, 42, 68, 0.18);
-      background: rgba(248, 248, 245, 0.68);
+      background: rgba(247, 249, 252, 0.68);
     }
 
     #wwa-home-complete-castle .wwa-title-rule,
@@ -917,7 +922,7 @@
     }
 
     #wwa-home-complete-castle .wwa-archive-index span:first-child {
-      color: rgba(248, 248, 245, 0.9);
+      color: rgba(247, 249, 252, 0.9);
     }
 
     #wwa-home-complete-castle .wwa-section-rule {
@@ -1535,10 +1540,816 @@
       opacity: 1;
       transform: translateY(0);
     }
+    /* v0.2 Assets main — a quiet preservation room for verified source material. */
+    #wwa-home-complete-castle.is-assets-view .wwa-shell {
+      background: var(--wwa-winter) !important;
+    }
+
+    #wwa-home-complete-castle .wwa-assets {
+      display: none;
+      min-height: 100vh;
+      margin: 0 -16px;
+      padding: 26px 20px calc(58px + env(safe-area-inset-bottom));
+      background: #F7F9FC;
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-assets.is-visible {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-assets:focus {
+      outline: none;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 16px;
+      padding-bottom: 21px;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.24);
+    }
+
+    #wwa-home-complete-castle .wwa-assets-kicker,
+    #wwa-home-complete-castle .wwa-assets-intro,
+    #wwa-home-complete-castle .wwa-stat-label,
+    #wwa-home-complete-castle .wwa-asset-id,
+    #wwa-home-complete-castle .wwa-asset-type,
+    #wwa-home-complete-castle .wwa-asset-status,
+    #wwa-home-complete-castle .wwa-assets-count,
+    #wwa-home-complete-castle .wwa-assets-empty {
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-kicker {
+      margin: 0 0 6px;
+      color: var(--wwa-stone);
+      font-size: 9px;
+      font-weight: 650;
+      line-height: 1.2;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-title {
+      margin: 0;
+      color: var(--wwa-blue);
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: 38px;
+      font-weight: 500;
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-intro {
+      margin: 12px 0 0;
+      max-width: 270px;
+      color: var(--wwa-stone);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    #wwa-home-complete-castle .wwa-add-asset {
+      appearance: none;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid rgba(26, 42, 68, 0.34);
+      border-radius: 3px;
+      background: transparent;
+      color: var(--wwa-blue);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 10px;
+      font-weight: 650;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-add-asset-input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      opacity: 0;
+      cursor: pointer;
+      font-size: 100px;
+      touch-action: manipulation;
+    }
+
+    #wwa-home-complete-castle .wwa-add-asset:active {
+      background: rgba(127, 183, 230, 0.12);
+    }
+
+    #wwa-home-complete-castle .wwa-assets-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin: 22px 0 20px;
+      padding: 14px 0;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+      border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-stat {
+      min-width: 0;
+      padding: 0 9px;
+    }
+
+    #wwa-home-complete-castle .wwa-stat:first-child {
+      padding-left: 0;
+    }
+
+    #wwa-home-complete-castle .wwa-stat + .wwa-stat {
+      border-left: 1px solid rgba(111, 118, 130, 0.16);
+    }
+
+    #wwa-home-complete-castle .wwa-stat-value {
+      display: block;
+      color: var(--wwa-blue);
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    #wwa-home-complete-castle .wwa-stat-label {
+      display: block;
+      margin-top: 5px;
+      overflow: hidden;
+      color: var(--wwa-stone);
+      font-size: 8px;
+      font-weight: 650;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-search {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-search span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-search input {
+      appearance: none;
+      width: 100%;
+      height: 44px;
+      padding: 0 13px;
+      border: 1px solid rgba(111, 118, 130, 0.28);
+      border-radius: 3px;
+      background: #F7F9FC;
+      color: var(--wwa-blue);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 12px;
+      outline: none;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-search input::placeholder {
+      color: rgba(111, 118, 130, 0.76);
+    }
+
+    #wwa-home-complete-castle .wwa-assets-search input:focus {
+      border-color: var(--wwa-patronus);
+      box-shadow: 0 0 0 2px rgba(127, 183, 230, 0.16);
+    }
+
+    #wwa-home-complete-castle .wwa-assets-guide {
+      display: grid;
+      gap: 3px;
+      margin: 0 0 13px;
+      color: rgba(111, 118, 130, 0.9);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 9px;
+      line-height: 1.45;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-guide p {
+      margin: 0;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-guide span {
+      display: inline-block;
+      min-width: 57px;
+      color: var(--wwa-blue);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-filters {
+      display: flex;
+      gap: 19px;
+      margin: 0 -20px 19px;
+      padding: 0 20px;
+      overflow-x: auto;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.18);
+      scrollbar-width: none;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    #wwa-home-complete-castle .wwa-filter-button {
+      position: relative;
+      appearance: none;
+      min-height: 38px;
+      padding: 0 0 9px;
+      flex: 0 0 auto;
+      border: 0;
+      background: transparent;
+      color: rgba(111, 118, 130, 0.82);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 10px;
+      font-weight: 650;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-filter-button[aria-pressed="true"] {
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-filter-button[aria-pressed="true"]::after {
+      position: absolute;
+      right: 0;
+      bottom: -1px;
+      left: 0;
+      height: 1px;
+      background: var(--wwa-patronus);
+      content: "";
+    }
+
+    #wwa-home-complete-castle .wwa-assets-count {
+      margin: 0 0 10px;
+      color: var(--wwa-stone);
+      font-size: 9px;
+      font-weight: 650;
+      line-height: 1.3;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px 12px;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-card {
+      appearance: none;
+      display: block;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--wwa-blue);
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-image-frame {
+      position: relative;
+      display: block;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border: 1px solid rgba(111, 118, 130, 0.26);
+      border-radius: 3px;
+      background: #F7F9FC;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-card[data-kind="WWA"] .wwa-asset-image-frame {
+      background: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-card[data-kind="WWA"] .wwa-asset-image {
+      padding: 12px;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-production {
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      padding: 4px 5px 3px;
+      border: 1px solid rgba(247, 249, 252, 0.24);
+      border-radius: 2px;
+      background: rgba(26, 42, 68, 0.9);
+      color: var(--wwa-winter);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 7px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-copy {
+      display: block;
+      padding-top: 9px;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-id {
+      display: block;
+      overflow: hidden;
+      color: var(--wwa-stone);
+      font-size: 8px;
+      font-weight: 650;
+      line-height: 1.3;
+      letter-spacing: 0.08em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-name {
+      display: -webkit-box;
+      min-height: 33px;
+      margin: 4px 0 5px;
+      overflow: hidden;
+      color: var(--wwa-blue);
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.18;
+      letter-spacing: -0.012em;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-context {
+      display: block;
+      margin: 0 0 7px;
+      overflow: hidden;
+      color: rgba(111, 118, 130, 0.92);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 8px;
+      font-weight: 560;
+      line-height: 1.35;
+      letter-spacing: 0.025em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-type,
+    #wwa-home-complete-castle .wwa-asset-status {
+      overflow: hidden;
+      font-size: 7px;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: 0.055em;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-type {
+      color: var(--wwa-stone);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-status::before {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--wwa-patronus);
+      content: "";
+      flex: 0 0 auto;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-status.is-review::before {
+      background: var(--wwa-stone);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-status.is-source-needed::before {
+      background: transparent;
+      border: 1px solid var(--wwa-stone);
+    }
+
+    /* Asset Detail — one archival record, expanded from the selected card. */
+    #wwa-home-complete-castle .wwa-asset-detail {
+      display: none;
+      min-height: 100vh;
+      margin: 0 -16px;
+      padding: 20px 20px calc(62px + env(safe-area-inset-bottom));
+      background: #F7F9FC;
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail.is-visible {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail:focus {
+      outline: none;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-topbar {
+      display: flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-back {
+      appearance: none;
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      gap: 7px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--wwa-blue);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-back svg {
+      width: 15px;
+      height: 15px;
+      stroke-width: 1.45;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-position {
+      color: var(--wwa-stone);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 8px;
+      font-weight: 650;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-preview {
+      position: relative;
+      display: block;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border: 1px solid rgba(111, 118, 130, 0.24);
+      border-radius: 3px;
+      background: #F7F9FC;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-preview[data-kind="WWA"] {
+      background: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-preview::before {
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(247, 249, 252, 0.94);
+      color: var(--wwa-blue);
+      content: attr(data-state-label);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      line-height: 1.5;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-preview[data-state="loading"]::before,
+    #wwa-home-complete-castle .wwa-asset-detail-preview[data-state="error"]::before {
+      display: flex;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-preview[data-state="error"]::before {
+      color: var(--wwa-stone);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-preview[data-kind="WWA"] .wwa-asset-detail-image {
+      padding: 24px;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-preview-label {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      padding: 5px 6px 4px;
+      border: 1px solid rgba(247, 249, 252, 0.24);
+      border-radius: 2px;
+      background: rgba(26, 42, 68, 0.9);
+      color: var(--wwa-winter);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-identity {
+      padding: 18px 0 17px;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-id,
+    #wwa-home-complete-castle .wwa-asset-detail-context,
+    #wwa-home-complete-castle .wwa-asset-detail-section-title,
+    #wwa-home-complete-castle .wwa-asset-detail-status-label,
+    #wwa-home-complete-castle .wwa-asset-detail-status-note,
+    #wwa-home-complete-castle .wwa-asset-detail-list dt,
+    #wwa-home-complete-castle .wwa-asset-detail-list dd,
+    #wwa-home-complete-castle .wwa-asset-detail-notes,
+    #wwa-home-complete-castle .wwa-asset-action {
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-id {
+      margin: 0 0 6px;
+      color: var(--wwa-stone);
+      font-size: 8px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-title {
+      margin: 0;
+      color: var(--wwa-blue);
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: clamp(27px, 7.4vw, 34px);
+      font-weight: 500;
+      line-height: 1.04;
+      letter-spacing: -0.028em;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-context {
+      margin: 9px 0 0;
+      color: var(--wwa-stone);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-statuses {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin: 18px 0 4px;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+      border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-status-block {
+      min-width: 0;
+      padding: 13px 12px 12px 0;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-status-block + .wwa-asset-detail-status-block {
+      padding-right: 0;
+      padding-left: 13px;
+      border-left: 1px solid rgba(111, 118, 130, 0.18);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-status-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--wwa-stone);
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-status-value {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--wwa-blue);
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-status-value::before {
+      width: 6px;
+      height: 6px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--wwa-patronus);
+      content: "";
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-status-value.is-review::before {
+      background: var(--wwa-stone);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-status-value.is-source-needed::before {
+      border: 1px solid var(--wwa-stone);
+      background: transparent;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-status-note {
+      display: block;
+      margin-top: 4px;
+      color: rgba(111, 118, 130, 0.9);
+      font-size: 8px;
+      line-height: 1.35;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-section {
+      padding: 17px 0 16px;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.18);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-section-title {
+      margin: 0 0 11px;
+      color: var(--wwa-stone);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-list {
+      display: grid;
+      gap: 0;
+      margin: 0;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-row {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1fr);
+      gap: 12px;
+      padding: 5px 0;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-list dt,
+    #wwa-home-complete-castle .wwa-asset-detail-list dd {
+      margin: 0;
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-list dt {
+      color: var(--wwa-stone);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-list dd {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      color: var(--wwa-blue);
+      font-weight: 560;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-link {
+      color: var(--wwa-blue);
+      text-decoration-color: rgba(127, 183, 230, 0.8);
+      text-underline-offset: 3px;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-notes {
+      margin: 0;
+      color: var(--wwa-blue);
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      padding-top: 19px;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-action {
+      appearance: none;
+      min-height: 44px;
+      padding: 0 10px;
+      border: 1px solid rgba(26, 42, 68, 0.3);
+      border-radius: 3px;
+      background: transparent;
+      color: var(--wwa-blue);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-asset-action.is-primary {
+      border-color: var(--wwa-blue);
+      background: var(--wwa-blue);
+      color: var(--wwa-winter);
+    }
+
+    #wwa-home-complete-castle .wwa-asset-detail-back:focus-visible,
+    #wwa-home-complete-castle .wwa-asset-action:focus-visible {
+      outline: 2px solid var(--wwa-patronus);
+      outline-offset: 3px;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-empty {
+      display: none;
+      padding: 46px 16px;
+      border-top: 1px solid rgba(111, 118, 130, 0.18);
+      border-bottom: 1px solid rgba(111, 118, 130, 0.18);
+      color: var(--wwa-stone);
+      font-size: 11px;
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    #wwa-home-complete-castle .wwa-assets-empty.is-visible {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-add-asset:focus-visible,
+    #wwa-home-complete-castle .wwa-add-asset:focus-within,
+    #wwa-home-complete-castle .wwa-filter-button:focus-visible,
+    #wwa-home-complete-castle .wwa-asset-card:focus-visible {
+      outline: 2px solid var(--wwa-patronus);
+      outline-offset: 3px;
+    }
 
     @media (max-width: 359px) {
       #wwa-home-complete-castle .wwa-nav-label {
         font-size: 11px;
+      }
+
+      #wwa-home-complete-castle .wwa-assets {
+        margin-inline: -12px;
+        padding-inline: 16px;
+      }
+
+      #wwa-home-complete-castle .wwa-asset-detail {
+        margin-inline: -12px;
+        padding-inline: 16px;
+      }
+
+      #wwa-home-complete-castle .wwa-assets-filters {
+        margin-inline: -16px;
+        padding-inline: 16px;
+      }
+
+      #wwa-home-complete-castle .wwa-assets-title {
+        font-size: 34px;
+      }
+
+      #wwa-home-complete-castle .wwa-add-asset {
+        padding-inline: 10px;
       }
     }
   </style>
@@ -1613,6 +2424,111 @@
       </div>
     </section>
 
+    <section class="wwa-assets" aria-label="Visual Assets archive" tabindex="-1">
+      <header class="wwa-assets-header">
+        <div>
+          <p class="wwa-assets-kicker">Visual Archive</p>
+          <h1 class="wwa-assets-title">Assets</h1>
+          <p class="wwa-assets-intro">Official source material for the WWA Book.</p>
+        </div>
+        <label class="wwa-add-asset">
+          <span>+ Add Asset</span>
+          <input class="wwa-add-asset-input" id="wwa-add-asset-input" name="wwa-asset-image" type="file" accept="image/*,.heic,.heif" aria-label="Choose an image to add as an Asset">
+        </label>
+      </header>
+
+      <div class="wwa-assets-stats" aria-label="Asset archive status">
+        <div class="wwa-stat"><span class="wwa-stat-value">09</span><span class="wwa-stat-label">Total</span></div>
+        <div class="wwa-stat"><span class="wwa-stat-value">01</span><span class="wwa-stat-label">Verified</span></div>
+        <div class="wwa-stat"><span class="wwa-stat-value">08</span><span class="wwa-stat-label">Review</span></div>
+        <div class="wwa-stat"><span class="wwa-stat-value">09</span><span class="wwa-stat-label">In Use</span></div>
+      </div>
+
+      <label class="wwa-assets-search">
+        <span>Search assets</span>
+        <input type="search" placeholder="Search asset ID, film code, set number or source" autocomplete="off" aria-describedby="wwa-assets-search-guide">
+      </label>
+
+      <aside class="wwa-assets-guide" id="wwa-assets-search-guide" aria-label="Asset search guide">
+        <p><span>Search by</span> Set number · Film code · Asset ID · Title · Source</p>
+      </aside>
+
+      <div class="wwa-assets-filters" role="group" aria-label="Filter assets by type">
+        <button class="wwa-filter-button" type="button" data-filter="All" aria-pressed="true">All</button>
+        <button class="wwa-filter-button" type="button" data-filter="Film" aria-pressed="false">Film</button>
+        <button class="wwa-filter-button" type="button" data-filter="LEGO" aria-pressed="false">LEGO</button>
+        <button class="wwa-filter-button" type="button" data-filter="Blueprint" aria-pressed="false">Blueprint</button>
+        <button class="wwa-filter-button" type="button" data-filter="My Photo" aria-pressed="false">My Photo</button>
+      </div>
+
+      <p class="wwa-assets-count" aria-live="polite">09 archived materials</p>
+      <div class="wwa-assets-grid"></div>
+      <p class="wwa-assets-empty">No materials match this archive view.</p>
+    </section>
+
+    <section class="wwa-asset-detail" aria-live="polite" aria-label="Selected asset detail" tabindex="-1">
+      <div class="wwa-asset-detail-topbar">
+        <button class="wwa-asset-detail-back" type="button" aria-label="Back to Assets">
+          <i data-lucide="arrow-left" aria-hidden="true"></i><span>Assets</span>
+        </button>
+        <span class="wwa-asset-detail-position">Asset Record</span>
+      </div>
+
+      <div class="wwa-asset-detail-preview" data-kind="Film" data-state="ready" data-state-label="">
+        <img class="wwa-asset-detail-image" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" width="1400" height="788" alt="">
+        <span class="wwa-asset-detail-preview-label">In Use</span>
+      </div>
+
+      <header class="wwa-asset-detail-identity">
+        <p class="wwa-asset-detail-id"></p>
+        <h2 class="wwa-asset-detail-title"></h2>
+        <p class="wwa-asset-detail-context"></p>
+      </header>
+
+      <div class="wwa-asset-detail-statuses" aria-label="Asset statuses">
+        <div class="wwa-asset-detail-status-block">
+          <span class="wwa-asset-detail-status-label">Source Status</span>
+          <strong class="wwa-asset-detail-status-value wwa-asset-detail-source-status"></strong>
+          <span class="wwa-asset-detail-status-note">Origin and usage check</span>
+        </div>
+        <div class="wwa-asset-detail-status-block">
+          <span class="wwa-asset-detail-status-label">Production Status</span>
+          <strong class="wwa-asset-detail-status-value wwa-asset-detail-production-status"></strong>
+          <span class="wwa-asset-detail-status-note">WWA Book placement</span>
+        </div>
+      </div>
+
+      <section class="wwa-asset-detail-section" aria-labelledby="wwa-asset-context-heading">
+        <h3 class="wwa-asset-detail-section-title" id="wwa-asset-context-heading">Context</h3>
+        <dl class="wwa-asset-detail-list wwa-asset-detail-context-list"></dl>
+      </section>
+
+      <section class="wwa-asset-detail-section" aria-labelledby="wwa-asset-source-heading">
+        <h3 class="wwa-asset-detail-section-title" id="wwa-asset-source-heading">Source</h3>
+        <dl class="wwa-asset-detail-list wwa-asset-detail-source-list"></dl>
+      </section>
+
+      <section class="wwa-asset-detail-section" aria-labelledby="wwa-asset-file-heading">
+        <h3 class="wwa-asset-detail-section-title" id="wwa-asset-file-heading">File</h3>
+        <dl class="wwa-asset-detail-list wwa-asset-detail-file-list"></dl>
+      </section>
+
+      <section class="wwa-asset-detail-section" aria-labelledby="wwa-asset-production-heading">
+        <h3 class="wwa-asset-detail-section-title" id="wwa-asset-production-heading">Production</h3>
+        <dl class="wwa-asset-detail-list wwa-asset-detail-production-list"></dl>
+      </section>
+
+      <section class="wwa-asset-detail-section" aria-labelledby="wwa-asset-notes-heading">
+        <h3 class="wwa-asset-detail-section-title" id="wwa-asset-notes-heading">Notes</h3>
+        <p class="wwa-asset-detail-notes"></p>
+      </section>
+
+      <div class="wwa-asset-detail-actions">
+        <button class="wwa-asset-action is-primary" type="button" data-action="edit">Edit Asset</button>
+        <button class="wwa-asset-action" type="button" data-action="replace">Replace Image</button>
+      </div>
+    </section>
+
     <section class="wwa-detail" aria-live="polite" aria-label="Selected movie detail">
       <button class="wwa-back" type="button"><i data-lucide="arrow-left" aria-hidden="true"></i><span>Film Catalogue</span></button>
       <div class="wwa-detail-frame">
@@ -1640,6 +2556,25 @@
     (() => {
       const root = document.getElementById("wwa-home-complete-castle");
       const home = root.querySelector(".wwa-home");
+      const assets = root.querySelector(".wwa-assets");
+      const assetDetail = root.querySelector(".wwa-asset-detail");
+      const assetDetailBack = root.querySelector(".wwa-asset-detail-back");
+      const assetDetailPreview = root.querySelector(".wwa-asset-detail-preview");
+      const assetDetailImage = root.querySelector(".wwa-asset-detail-image");
+      const emptyAssetPreview = assetDetailImage.src;
+      const assetDetailPreviewLabel = root.querySelector(".wwa-asset-detail-preview-label");
+      const assetDetailId = root.querySelector(".wwa-asset-detail-id");
+      const assetDetailTitle = root.querySelector(".wwa-asset-detail-title");
+      const assetDetailContext = root.querySelector(".wwa-asset-detail-context");
+      const assetDetailSourceStatus = root.querySelector(".wwa-asset-detail-source-status");
+      const assetDetailProductionStatus = root.querySelector(".wwa-asset-detail-production-status");
+      const assetDetailContextList = root.querySelector(".wwa-asset-detail-context-list");
+      const assetDetailSourceList = root.querySelector(".wwa-asset-detail-source-list");
+      const assetDetailFileList = root.querySelector(".wwa-asset-detail-file-list");
+      const assetDetailProductionList = root.querySelector(".wwa-asset-detail-production-list");
+      const assetDetailNotes = root.querySelector(".wwa-asset-detail-notes");
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+      const colorScheme = document.querySelector('meta[name="color-scheme"]');
       const detail = root.querySelector(".wwa-detail");
       const detailPoster = root.querySelector(".wwa-detail-poster");
       const detailMeta = root.querySelector(".wwa-detail-meta");
@@ -1647,7 +2582,17 @@
       const back = root.querySelector(".wwa-back");
       const navNotice = root.querySelector(".wwa-nav-notice");
       const navButtons = root.querySelectorAll(".wwa-bottom-nav-button");
+      const assetGrid = root.querySelector(".wwa-assets-grid");
+      const assetSearch = root.querySelector(".wwa-assets-search input");
+      const assetCount = root.querySelector(".wwa-assets-count");
+      const assetEmpty = root.querySelector(".wwa-assets-empty");
+      const addAssetInput = root.querySelector(".wwa-add-asset-input");
+      const assetStatValues = root.querySelectorAll(".wwa-stat-value");
+      const filterButtons = root.querySelectorAll(".wwa-filter-button");
       let noticeTimer;
+      let activeAssetFilter = "All";
+      let lastAssetTrigger = null;
+      let activeAsset = null;
       const movies = [
         { code: "F01", year: "2001", title: "Philosopher\u2019s Stone", alt: "Official landscape key art for Harry Potter and the Philosopher's Stone" },
         { code: "F02", year: "2002", title: "Chamber of Secrets", alt: "Official landscape key art for Harry Potter and the Chamber of Secrets" },
@@ -1658,6 +2603,511 @@
         { code: "F07", year: "2010", title: "Deathly Hallows \u2014 Part 1", alt: "Official landscape key art for Harry Potter and the Deathly Hallows Part 1" },
         { code: "F08", year: "2011", title: "Deathly Hallows \u2014 Part 2", alt: "Official landscape key art for Harry Potter and the Deathly Hallows Part 2" }
       ];
+
+      const filmImages = Array.from(root.querySelectorAll(".wwa-movie-card .wwa-poster"));
+      const assetRecords = movies.map((movie, index) => ({
+        id: "A-" + movie.code + "-KA-001",
+        title: movie.title + " Key Art",
+        type: "Film Key Art",
+        context: movie.code + " \u00B7 " + movie.year,
+        filter: "Film",
+        status: "Review",
+        production: "In Use",
+        kind: "Film",
+        source: "Official film source",
+        sourceLink: "",
+        checkedOn: "Pending verification",
+        setNumber: "",
+        filmCode: movie.code,
+        filmTitle: movie.title,
+        releaseYear: movie.year,
+        originalFile: "Original source filename retained",
+        format: "WEBP",
+        dimensions: "1400 \u00D7 788 px",
+        fileSize: "Embedded archive source",
+        importSource: "WWA Film Catalogue",
+        page: movie.code + " \u00B7 Chapter opener",
+        placement: "Opening key art",
+        notes: "Preserve the complete landscape composition. Any crop decision is recorded at WWA Page level, not on the source Asset.",
+        image: filmImages[index].src,
+        alt: movie.alt
+      }));
+
+      assetRecords.push({
+        id: "A-WWA-BR-001",
+        title: "WWA Archive Mark",
+        type: "WWA Original",
+        context: "WWA \u00B7 Brand Archive",
+        filter: "WWA",
+        status: "Verified",
+        production: "In Use",
+        kind: "WWA",
+        source: "WWA Original",
+        sourceLink: "",
+        checkedOn: "Original authoring source",
+        setNumber: "",
+        filmCode: "\u2014",
+        filmTitle: "Wizarding World Archive",
+        releaseYear: "\u2014",
+        originalFile: "Original source filename retained",
+        format: "PNG",
+        dimensions: "268 \u00D7 268 px",
+        fileSize: "Embedded archive source",
+        importSource: "WWA Original",
+        page: "Global WWA identity",
+        placement: "Archive mark",
+        notes: "User-created original mark. Preserve the original proportions and do not regenerate or reinterpret it.",
+        image: root.querySelector(".wwa-logo").src,
+        alt: "User-created Wizarding World Archive mark"
+      });
+
+      const showNotice = (message) => {
+        window.clearTimeout(noticeTimer);
+        navNotice.textContent = message;
+        navNotice.classList.add("is-visible");
+        noticeTimer = window.setTimeout(() => {
+          navNotice.classList.remove("is-visible");
+        }, 1800);
+      };
+
+      const setActiveTab = (tab) => {
+        navButtons.forEach((button) => {
+          if (button.dataset.tab === tab) {
+            button.setAttribute("aria-current", "page");
+          } else {
+            button.removeAttribute("aria-current");
+          }
+        });
+      };
+
+      const setAssetsSurface = (isAssetsSurface) => {
+        document.documentElement.classList.toggle("wwa-assets-mode", isAssetsSurface);
+        document.body.classList.toggle("wwa-assets-mode", isAssetsSurface);
+        if (themeColor) themeColor.content = isAssetsSurface ? "#F7F9FC" : "#050E15";
+        if (colorScheme) colorScheme.content = isAssetsSurface ? "light" : "dark";
+      };
+
+      const renderDetailRows = (container, rows) => {
+        container.replaceChildren();
+        rows.forEach(({ label, value, href }) => {
+          const row = document.createElement("div");
+          row.className = "wwa-asset-detail-row";
+
+          const term = document.createElement("dt");
+          term.textContent = label;
+
+          const description = document.createElement("dd");
+          if (href) {
+            const link = document.createElement("a");
+            link.className = "wwa-asset-detail-link";
+            link.href = href;
+            link.target = "_blank";
+            link.rel = "noreferrer";
+            link.textContent = value;
+            description.append(link);
+          } else {
+            description.textContent = value;
+          }
+
+          row.append(term, description);
+          container.append(row);
+        });
+      };
+
+      const openAssetDetail = (asset, trigger) => {
+        lastAssetTrigger = trigger;
+        activeAsset = asset;
+        assetDetailPreview.dataset.kind = asset.kind;
+        assetDetailPreview.dataset.state = asset.previewState || "ready";
+        assetDetailPreview.dataset.stateLabel = asset.previewState === "loading"
+          ? "Preparing iPhone photo preview…"
+          : asset.previewState === "error"
+          ? "Preview could not be prepared"
+          : "";
+        assetDetailImage.src = asset.image;
+        assetDetailImage.alt = asset.alt;
+        assetDetailPreviewLabel.textContent = asset.production;
+        assetDetailId.textContent = asset.id + " \u00B7 " + asset.type;
+        assetDetailTitle.textContent = asset.title;
+        assetDetailContext.textContent = asset.context;
+        assetDetailSourceStatus.textContent = asset.status;
+        assetDetailSourceStatus.classList.toggle("is-review", asset.status === "Review");
+        assetDetailSourceStatus.classList.toggle("is-source-needed", asset.status === "Source Needed");
+        assetDetailProductionStatus.textContent = asset.production;
+
+        const contextRows = asset.kind === "Film"
+          ? [
+              { label: "Film Code", value: asset.filmCode },
+              { label: "Film", value: asset.filmTitle },
+              { label: "Release Year", value: asset.releaseYear },
+              { label: "Material Type", value: asset.type }
+            ]
+          : asset.kind === "WWA"
+          ? [
+              { label: "Archive", value: "Wizarding World Archive" },
+              { label: "Collection", value: "WWA Brand Archive" },
+              { label: "Material Type", value: asset.type }
+            ]
+          : [
+              { label: "Material Type", value: asset.type },
+              { label: "Context", value: "Not yet recorded" },
+              { label: "Archive State", value: "New upload preview" }
+            ];
+
+        renderDetailRows(assetDetailContextList, contextRows);
+        renderDetailRows(assetDetailSourceList, [
+          { label: "Source", value: asset.source },
+          { label: "Source Link", value: asset.sourceLink ? "Open original source" : "Not yet recorded", href: asset.sourceLink },
+          { label: "Checked On", value: asset.checkedOn }
+        ]);
+        renderDetailRows(assetDetailFileList, [
+          { label: "Original File", value: asset.originalFile },
+          { label: "Format", value: asset.format },
+          { label: "Dimensions", value: asset.dimensions },
+          { label: "File Size", value: asset.fileSize },
+          { label: "Import Source", value: asset.importSource }
+        ]);
+        renderDetailRows(assetDetailProductionList, [
+          { label: "Linked Page", value: asset.page },
+          { label: "Placement", value: asset.placement }
+        ]);
+        assetDetailNotes.textContent = asset.notes;
+
+        assets.classList.remove("is-visible");
+        assetDetail.classList.add("is-visible");
+        setAssetsSurface(true);
+        setActiveTab("Assets");
+        window.scrollTo({ top: 0, behavior: "auto" });
+        window.setTimeout(() => assetDetail.focus({ preventScroll: true }), 0);
+      };
+
+      const closeAssetDetail = () => {
+        assetDetail.classList.remove("is-visible");
+        assets.classList.add("is-visible");
+        window.scrollTo({ top: 0, behavior: "auto" });
+        window.setTimeout(() => {
+          if (lastAssetTrigger && document.body.contains(lastAssetTrigger)) {
+            lastAssetTrigger.focus({ preventScroll: true });
+          } else {
+            assets.focus({ preventScroll: true });
+          }
+        }, 0);
+      };
+
+      const renderAssets = () => {
+        const query = assetSearch.value.trim().toLowerCase();
+        const visibleRecords = assetRecords.filter((asset) => {
+          const matchesFilter = activeAssetFilter === "All" || asset.filter === activeAssetFilter;
+          const searchable = [asset.id, asset.title, asset.type, asset.status, asset.production, asset.source, asset.setNumber].join(" ").toLowerCase();
+          return matchesFilter && searchable.includes(query);
+        });
+
+        assetGrid.replaceChildren();
+
+        visibleRecords.forEach((asset) => {
+          const card = document.createElement("button");
+          card.type = "button";
+          card.className = "wwa-asset-card";
+          card.dataset.kind = asset.kind;
+          card.setAttribute("aria-label", "Open " + asset.id + " " + asset.title);
+
+          const frame = document.createElement("span");
+          frame.className = "wwa-asset-image-frame";
+
+          const image = document.createElement("img");
+          image.className = "wwa-asset-image";
+          image.src = asset.image;
+          image.alt = asset.alt;
+          image.loading = "lazy";
+
+          const production = document.createElement("span");
+          production.className = "wwa-asset-production";
+          production.textContent = asset.production;
+
+          const copy = document.createElement("span");
+          copy.className = "wwa-asset-copy";
+          copy.innerHTML = '<span class="wwa-asset-id"></span><span class="wwa-asset-name"></span><span class="wwa-asset-context"></span><span class="wwa-asset-meta"><span class="wwa-asset-type"></span><span class="wwa-asset-status"></span></span>';
+          copy.querySelector(".wwa-asset-id").textContent = asset.id;
+          copy.querySelector(".wwa-asset-name").textContent = asset.title;
+          copy.querySelector(".wwa-asset-context").textContent = asset.context;
+          copy.querySelector(".wwa-asset-type").textContent = asset.type;
+          const status = copy.querySelector(".wwa-asset-status");
+          status.textContent = asset.status;
+          status.classList.toggle("is-review", asset.status === "Review");
+          status.classList.toggle("is-source-needed", asset.status === "Source Needed");
+
+          frame.append(image, production);
+          card.append(frame, copy);
+          card.addEventListener("click", () => openAssetDetail(asset, card));
+          assetGrid.append(card);
+        });
+
+        const count = String(visibleRecords.length).padStart(2, "0");
+        assetCount.textContent = count + (visibleRecords.length === 1 ? " archived material" : " archived materials");
+        assetEmpty.classList.toggle("is-visible", visibleRecords.length === 0);
+
+        assetStatValues[0].textContent = String(assetRecords.length).padStart(2, "0");
+        assetStatValues[1].textContent = String(assetRecords.filter((asset) => asset.status === "Verified").length).padStart(2, "0");
+        assetStatValues[2].textContent = String(assetRecords.filter((asset) => asset.status === "Review").length).padStart(2, "0");
+        assetStatValues[3].textContent = String(assetRecords.filter((asset) => asset.production === "In Use").length).padStart(2, "0");
+      };
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          activeAssetFilter = button.dataset.filter;
+          filterButtons.forEach((item) => item.setAttribute("aria-pressed", item === button ? "true" : "false"));
+          renderAssets();
+        });
+      });
+
+      assetSearch.addEventListener("input", renderAssets);
+
+      const imageMimeByExtension = {
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg",
+        png: "image/png",
+        webp: "image/webp",
+        heic: "image/heic",
+        heif: "image/heif",
+        gif: "image/gif",
+        avif: "image/avif"
+      };
+
+      const getImageExtension = (file) => {
+        const match = String(file.name || "").toLowerCase().match(/\.([a-z0-9]+)$/);
+        return match ? match[1] : "";
+      };
+
+      const getImageMime = (file) => {
+        const extension = getImageExtension(file);
+        const reportedType = String(file.type || "").toLowerCase();
+        if (reportedType.startsWith("image/")) return reportedType;
+        return imageMimeByExtension[extension] || "image/jpeg";
+      };
+
+      const isSupportedImageSelection = (file) => {
+        const extension = getImageExtension(file);
+        const reportedType = String(file.type || "").toLowerCase();
+        return reportedType.startsWith("image/") || Boolean(imageMimeByExtension[extension]);
+      };
+
+      const formatBytes = (bytes) => {
+        if (!Number.isFinite(bytes) || bytes < 1) return "Unknown";
+        const units = ["B", "KB", "MB", "GB"];
+        const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+        const value = bytes / Math.pow(1024, index);
+        return (value >= 10 || index === 0 ? value.toFixed(0) : value.toFixed(1)) + " " + units[index];
+      };
+
+      const temporaryTitle = (name) => {
+        const raw = String(name || "").replace(/\.[^.]+$/, "").trim();
+        return raw || "Untitled detail cut";
+      };
+
+      const updateActiveUploadDetail = (asset) => {
+        if (activeAsset !== asset) return;
+        assetDetailPreview.dataset.state = asset.previewState;
+        assetDetailPreview.dataset.stateLabel = asset.previewState === "loading"
+          ? "Preparing iPhone photo preview…"
+          : asset.previewState === "error"
+          ? "Preview could not be prepared"
+          : "";
+        assetDetailImage.src = asset.image;
+        renderDetailRows(assetDetailFileList, [
+          { label: "Original File", value: asset.originalFile },
+          { label: "Format", value: asset.format },
+          { label: "Dimensions", value: asset.dimensions },
+          { label: "File Size", value: asset.fileSize },
+          { label: "Import Source", value: asset.importSource }
+        ]);
+        assetDetailNotes.textContent = asset.notes;
+      };
+
+      const createUploadAsset = (file) => {
+        const extension = (getImageExtension(file) || getImageMime(file).split("/").pop() || "Image").toUpperCase();
+        const newAsset = {
+          id: "NEW-ASSET",
+          title: temporaryTitle(file.name),
+          type: "Unclassified",
+          context: "New upload · Metadata not set",
+          filter: "My Photo",
+          status: "Source Needed",
+          production: "Candidate",
+          kind: "Upload",
+          source: "Not yet recorded",
+          sourceLink: "",
+          checkedOn: "Not yet reviewed",
+          setNumber: "",
+          filmCode: "—",
+          filmTitle: "—",
+          releaseYear: "—",
+          originalFile: file.name,
+          format: extension,
+          dimensions: "Reading image size…",
+          fileSize: formatBytes(file.size),
+          importSource: "iPhone Photo Library",
+          page: "Not linked",
+          placement: "Candidate pool",
+          notes: "The selected iPhone photo is being prepared for visual review. Title, Asset ID, material type, context and source rules remain undecided.",
+          image: emptyAssetPreview,
+          previewUrl: "",
+          previewState: "loading",
+          alt: "Newly added asset preview: " + file.name
+        };
+
+        const previousIndex = assetRecords.findIndex((asset) => asset.id === "NEW-ASSET");
+        if (previousIndex >= 0) {
+          const previousAsset = assetRecords[previousIndex];
+          if (previousAsset.previewUrl && previousAsset.previewUrl.startsWith("blob:") && typeof URL.revokeObjectURL === "function") {
+            URL.revokeObjectURL(previousAsset.previewUrl);
+          }
+          assetRecords.splice(previousIndex, 1);
+        }
+        assetRecords.unshift(newAsset);
+
+        activeAssetFilter = "All";
+        assetSearch.value = "";
+        filterButtons.forEach((item) => item.setAttribute("aria-pressed", item.dataset.filter === "All" ? "true" : "false"));
+        renderAssets();
+
+        const newCard = assetGrid.querySelector(".wwa-asset-card");
+        showNotice("Photo selected · preparing detail");
+        /*
+         * Open the record synchronously, before WebKit is asked to decode the
+         * selected photo. iPhone file/Quick Look surfaces can reject a local
+         * preview URL; that must never prevent the Detail screen itself from
+         * appearing.
+         */
+        openAssetDetail(newAsset, newCard);
+        return newAsset;
+      };
+
+      let uploadSequence = 0;
+      let lastSelectedFile = null;
+
+      const handleAssetSelection = (event) => {
+        const input = event.currentTarget;
+        const file = input.files && input.files[0];
+        if (!file || file === lastSelectedFile) return;
+        lastSelectedFile = file;
+
+        if (!isSupportedImageSelection(file)) {
+          showNotice("Choose an image file to preview");
+          window.setTimeout(() => {
+            input.value = "";
+            lastSelectedFile = null;
+          }, 0);
+          return;
+        }
+
+        const currentUpload = ++uploadSequence;
+        const newAsset = createUploadAsset(file);
+        const previewImage = new Image();
+        let settled = false;
+        let fallbackAttempted = false;
+        let previewTimeout;
+        let previewUrl = "";
+
+        const settlePreview = (state, width = 0, height = 0) => {
+          if (settled || currentUpload !== uploadSequence) return;
+          settled = true;
+          window.clearTimeout(previewTimeout);
+          newAsset.previewState = state;
+
+          if (state === "ready") {
+            newAsset.dimensions = width && height ? width + " × " + height + " px" : "Image ready";
+            newAsset.notes = "The selected iPhone photo is ready for visual review. Title, Asset ID, material type, context and source rules remain undecided.";
+            showNotice("Asset ready to review");
+          } else {
+            newAsset.dimensions = "Preview unavailable";
+            newAsset.notes = "The file was received, but this preview surface could not decode the selected image. Choose the same photo again from Photos or use a JPEG/PNG copy.";
+            showNotice("Photo received · preview unavailable");
+          }
+
+          updateActiveUploadDetail(newAsset);
+          renderAssets();
+        };
+
+        const tryDataUrlFallback = () => {
+          window.clearTimeout(previewTimeout);
+          if (currentUpload !== uploadSequence) return;
+          if (fallbackAttempted) return;
+          fallbackAttempted = true;
+          if (typeof FileReader !== "function" || file.size > 25 * 1024 * 1024) {
+            settlePreview("error");
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onerror = () => settlePreview("error");
+          reader.onabort = () => settlePreview("error");
+          reader.onload = () => {
+            if (settled || currentUpload !== uploadSequence) return;
+            const rawData = typeof reader.result === "string" ? reader.result : "";
+            const commaIndex = rawData.indexOf(",");
+            if (commaIndex < 0) {
+              settlePreview("error");
+              return;
+            }
+
+            const normalizedData = rawData.replace(/^data:[^;,]*/, "data:" + getImageMime(file));
+            const fallbackImage = new Image();
+            fallbackImage.onload = () => {
+              if (settled || currentUpload !== uploadSequence) return;
+              if (previewUrl && typeof URL.revokeObjectURL === "function") {
+                URL.revokeObjectURL(previewUrl);
+              }
+              newAsset.previewUrl = "";
+              newAsset.image = normalizedData;
+              settlePreview("ready", fallbackImage.naturalWidth, fallbackImage.naturalHeight);
+            };
+            fallbackImage.onerror = () => settlePreview("error");
+            previewTimeout = window.setTimeout(() => settlePreview("error"), 20000);
+            fallbackImage.src = normalizedData;
+          };
+          reader.readAsDataURL(file);
+        };
+
+        const prepareLocalPreview = () => {
+          if (currentUpload !== uploadSequence) return;
+          if (typeof URL.createObjectURL !== "function") {
+            tryDataUrlFallback();
+            return;
+          }
+
+          try {
+            previewUrl = URL.createObjectURL(file);
+            newAsset.previewUrl = previewUrl;
+            newAsset.image = previewUrl;
+            updateActiveUploadDetail(newAsset);
+            previewTimeout = window.setTimeout(tryDataUrlFallback, 15000);
+            previewImage.src = previewUrl;
+          } catch (error) {
+            tryDataUrlFallback();
+          }
+        };
+
+        previewImage.onload = () => settlePreview("ready", previewImage.naturalWidth, previewImage.naturalHeight);
+        previewImage.onerror = tryDataUrlFallback;
+        window.setTimeout(prepareLocalPreview, 0);
+        window.setTimeout(() => {
+          input.value = "";
+          lastSelectedFile = null;
+        }, 0);
+      };
+
+      addAssetInput.addEventListener("input", handleAssetSelection, false);
+      addAssetInput.addEventListener("change", handleAssetSelection);
+
+      assetDetailBack.addEventListener("click", closeAssetDetail);
+
+      root.querySelectorAll(".wwa-asset-action").forEach((button) => {
+        button.addEventListener("click", () => {
+          showNotice(button.dataset.action === "edit" ? "Edit Asset follows after Detail is approved" : "Replace Image follows after Detail is approved");
+        });
+      });
+
+      renderAssets();
 
       root.querySelectorAll(".wwa-movie-card").forEach((card) => {
         card.addEventListener("click", () => {
@@ -1684,17 +3134,30 @@
 
           if (tab === "Home") {
             detail.classList.remove("is-visible");
+            assetDetail.classList.remove("is-visible");
+            assets.classList.remove("is-visible");
             home.classList.remove("is-hidden");
+            root.classList.remove("is-assets-view");
+            setAssetsSurface(false);
+            setActiveTab("Home");
             window.scrollTo({ top: 0, behavior: "smooth" });
             return;
           }
 
-          window.clearTimeout(noticeTimer);
-          navNotice.textContent = tab + " · Coming in the next WWA phase";
-          navNotice.classList.add("is-visible");
-          noticeTimer = window.setTimeout(() => {
-            navNotice.classList.remove("is-visible");
-          }, 1800);
+          if (tab === "Assets") {
+            detail.classList.remove("is-visible");
+            assetDetail.classList.remove("is-visible");
+            home.classList.add("is-hidden");
+            assets.classList.add("is-visible");
+            root.classList.add("is-assets-view");
+            setAssetsSurface(true);
+            setActiveTab("Assets");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            window.setTimeout(() => assets.focus({ preventScroll: true }), 250);
+            return;
+          }
+
+          showNotice(tab + " · Coming in the next WWA phase");
         });
       });
     })();
