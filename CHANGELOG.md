@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+### WWA Filter Restored and Discard Changes Reverified — 2026-08-10
+
+- 승인된 Asset Type 필터 `Film / LEGO / Blueprint / My Photo / WWA` 중 배포본에서 누락된 `WWA` 버튼을 Assets Library에 복구.
+- 기존 `WWA Original → WWA` 분류·렌더링 로직은 변경하지 않고, 누락된 필터 진입점만 추가.
+- Add Asset 편집 화면의 Back·Cancel에서 `Discard Changes` 확인 취소 시 입력과 미리보기를 유지하고, 확인 시 미저장 Asset을 제거한 뒤 Library로 복귀하는 흐름을 재검증.
+- 이번 체크포인트는 로컬 수정·검증만 포함하며 GitHub 반영과 GitHub Pages 배포는 포함하지 않음.
+
 ### Add Asset Safe Integration Verified — 2026-08-10
 
 - 원격 최신 `main` 커밋 `74f46ef`을 다시 확인하고, Add Asset Transaction·UI·IndexedDB 복원 구현이 해당 배포 기준에서 직접 이어지는지 대조.
