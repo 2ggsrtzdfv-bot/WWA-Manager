@@ -4,6 +4,68 @@
 
 ## [Unreleased]
 
+### Local Archive + Full ZIP Backup Adopted as Official Storage — 2026-08-11
+
+- Apple Developer 유료 가입과 CloudKit 자동 동기화를 사용하지 않기로 한 최신 승인을 반영하고, 공식 저장 방식을 `Local-First + Full ZIP Backup`으로 변경.
+- `Archive Data`에서 Cloud Sync·Apple 로그인·Queue·Conflict 안내를 숨기고, 이 기기의 IndexedDB 저장과 Verified ZIP 별도 보관을 설명하는 `Local Archive` 섹션으로 교체.
+- 앱 시작 시 CloudKit 초기화와 외부 Script 로드를 실행하지 않으며, 저장 뒤 자동 동기화 예약도 비활성화.
+- `settings`, `idReservations`, `assets`를 하나의 IndexedDB readwrite transaction으로 확인해 로컬 `AST` 번호 25개 블록을 예약하고, 남은 번호가 10개 이하일 때 다음 블록을 미리 확보하도록 구현.
+- 현재 Asset Stable ID, 기존 예약 상한, ZIP 복원 high-water보다 큰 번호만 발급해 새 설치·기존 Archive·복원 뒤에도 번호를 재사용하지 않도록 유지.
+- 기존 CloudKit 구현 코드와 호환 Store는 데이터 손실·schema 변경을 피하기 위해 비활성 상태로 보존하며 사용자 기능이나 공식 운영 방식으로 사용하지 않음.
+- DOM·IndexedDB 통합 검증에서 새 Archive의 `AST-000001`부터 `AST-000015`까지 즉시 영구 저장, 남은 10개 시점의 `26–50` 블록 선예약, Verified ZIP 전체 복원 뒤 `AST-000051` 발급, `localStorage` 쓰기 0건을 확인.
+- 정적 UI 회귀 검증에서 Home 영화 8개·Asset 필터 6개·하단 내비게이션 4개·고유 DOM ID를 유지하고 CloudKit 설정·외부 Script 주입 0건과 Cloud Sync 섹션 비노출을 확인.
+- GitHub 반영과 GitHub Pages 배포는 포함하지 않음.
+
+### Local Format, Offline, Restore, and Responsive Contract Validation Passed — 2026-08-10
+
+- iPhone 기준 `393px / 430px`, iPad 기준 `768px`, PC 보조 기준 `1280px` 검증 매트릭스에서 `width=device-width`, `viewport-fit=cover`, 최대 `430px` 작업 Shell, 편집 입력값 `16px`, 최소 터치 영역 `44px`, Asset Editor·Archive Data의 하단 내비게이션 숨김 계약을 재확인.
+- DOM·IndexedDB 통합 환경에서 JPEG 선택 직후 Add Asset Editor가 열리고 Preview가 준비되는지, 필수 Metadata 저장 후 `AST-000001`이 발급되는지, Archive Data 진입 시 Restore가 ZIP 검증 전까지 비활성화되는지 확인.
+- JPEG 원본과 HEIC 형식 원본을 각각 저장해 Original의 MIME·확장자·바이트를 유지하고 HEIC 표시용 Preview는 JPEG로 분리되는지 확인. HEIC 디코딩은 WebKit 호환 디코더 경계를 재현한 검증이며 실제 iPhone Photos HEIC 선택·Canvas 변환은 실기기 검증 대상으로 유지.
+- 모의 CloudKit Development 환경에서 `AST-000001`부터 `AST-000003`까지 중복 없이 발급하고 File → Version → Asset 순서 Push를 확인한 뒤, 네트워크 차단 상태에서도 세 번째 Asset이 IndexedDB와 Outbox에 남고 기존 Archive 열람이 유지되는지 확인.
+- 오프라인 상태에서 생성한 전체 ZIP의 CRC32·SHA-256·Record·파일 참조 검증, 손상 ZIP 무변경 거부, 새 generation 전체 복원, 이전 generation rollback, 재복원·확정과 HEIC Original 형식 유지를 확인.
+- 검증 전체에서 `localStorage.setItem / removeItem / clear` 호출 0건을 확인했으며 기존 승인 아키텍처·화면 코드는 수정하지 않음.
+- Cloud Browser가 로컬 검증 페이지에 연결되지 않아 실제 브라우저 렌더 캡처는 수행하지 못함. 실제 iPhone·iPad·PC, iPhone Photos HEIC/JPEG, 서로 다른 Apple 계정 간 충돌과 CloudKit CKAsset 왕복은 container identifier·Web API token·실기기가 준비된 뒤 별도 검증해야 함.
+- 이번 체크포인트는 로컬 검증 기록만 포함하며 GitHub 반영, GitHub Pages 배포, CloudKit Production schema 변경은 포함하지 않음.
+
+### CloudKit Auto Sync and Conflict Preservation Implemented — 2026-08-10
+
+- `window.WWACloudKitConfig`의 CloudKit container identifier·Web API token·Development/Production 환경값을 명시적 연결 경계로 추가하고, 값이 없거나 Apple 계정에서 로그아웃된 경우 IndexedDB를 그대로 사용하는 `Local Only` 모드로 유지.
+- CloudKit private database의 `WWAArchive` custom zone, `WWAArchiveRoot / WWAEntity / WWAFile / WWAIDCounter / WWAIDReservation` Record 계약과 File의 `CKAsset` 전송·다운로드를 구현.
+- 앱 시작·네트워크 복귀·로컬 저장·수동 실행을 동기화 진입점으로 연결하고, lease로 중복 실행을 막은 뒤 `pull → validate/apply → dependency-ordered outbox push → root` 순서와 sync token·`recordChangeTag`·지수 백오프 재시도를 적용.
+- 서버의 entity별 high-water counter에서 기기별 25개 Stable ID 번호 블록을 원자적으로 예약하고, 남은 번호가 10개 이하일 때 다음 블록을 미리 확보하며 `Awaiting ID Reservation` Draft를 예약 후 자동 승격하도록 구현.
+- Asset의 서로 다른 필드 동시 변경은 field clock 기준으로 병합하고, 같은 필드 동시 변경은 양쪽 값을 Conflict에 보존해 `Keep This Device / Use Cloud Value` 선택 전까지 push를 차단하도록 구현.
+- 이미지 동시 교체는 양쪽 File·Version을 모두 유지하고 사용자가 현재 Version을 선택하게 하며, 선택 뒤에도 `Source Status = Review`, `Checked On = null` 규칙을 적용.
+- Apple 계정 불일치, 지원하지 않는 schema, Stable ID와 Sync ID 불일치, generation 충돌, immutable Record 변경과 CloudKit 물리 삭제를 자동 덮어쓰기·삭제하지 않고 중대한 수동 검토 Conflict로 보존.
+- `Archive Data`에 Local/Cloud 모드·Queue·Last Sync·Conflict 수, Apple 로그인/로그아웃, `Sync Now`, 충돌 비교·해결 UI를 추가하되 기존 하단 내비게이션 구조는 변경하지 않음.
+- 모의 CloudKit·IndexedDB 통합 검증에서 인증, 1–25 및 26–50 예약, dependency push, Draft 자동 승격, 다른 필드 병합, 같은 필드 충돌, 양쪽 이미지 Version 보존, 일시적 네트워크 실패 재시도, root 무변경 재전송 방지, 계류 Queue·Conflict 0건을 확인하고, 별도 CloudKit JS 호출 계약 검증에서 private database·custom zone·배열형 `saveRecords`·root 1회 저장을 확인.
+- 별도 Local Only 회귀 검증에서 CloudKit Script 미주입, Draft 보존, 기존 Home 영화 8개·필터 6개·하단 내비게이션 4개와 `localStorage` 쓰기 0건을 확인.
+- 실제 Apple CloudKit Development container의 로그인·schema·CKAsset 왕복은 container identifier와 Web API token이 제공되지 않아 아직 실행하지 않았으며, 이번 체크포인트는 로컬 구현·검증만 포함하고 GitHub 반영과 GitHub Pages 배포는 포함하지 않음.
+
+### Full ZIP Backup and Staged Restore Implemented — 2026-08-10
+
+- Assets의 집중형 `Archive Data` 화면에 `Full ZIP Backup`과 `Full Restore` 진입점을 추가하고, 작업 중 하단 내비게이션을 숨긴 채 검증 상태·복원 범위를 먼저 보여주도록 연결.
+- 활성 generation의 Asset·모든 Version·Original·Preview·Draft·관계·Tombstone·Outbox·Conflict·Migration Audit를 `manifest.json / archive.json / checksums.json / originals / previews`로 구성한 표준 저장형 ZIP으로 생성.
+- 백업 파일명을 `WWA_Backup_YYYY-MM-DD_HHmm.zip`으로 고정하고, 생성 직후 ZIP 구조·CRC32·SHA-256·schema·Record 및 파일 수·Stable ID·관계와 파일 참조를 다시 검증한 경우에만 다운로드하도록 구현.
+- 예약된 25개 번호 블록의 미사용 범위까지 Stable ID high-water에 포함해 백업·복원·rollback 이후에도 발급된 번호가 재사용되지 않도록 보존.
+- 손상·누락·중복 경로·지원하지 않는 Store·세대 불일치·참조 단절 백업을 기존 IndexedDB 변경 전에 거부하고, 검증 완료 전 Restore 버튼을 활성화하지 않도록 적용.
+- 검증된 전체 Archive를 새 generation에 하나의 IndexedDB transaction으로 적재한 뒤에만 `activeGenerationId`를 전환하고, 이전 generation은 즉시 삭제하지 않은 채 화면 복원 실패 시 되돌릴 수 있도록 구현.
+- CloudKit 동기화 진행 상태는 staging 적용 전과 적용 transaction 안에서 다시 확인해 Restore를 차단하고, 복원된 전역 key Record는 기존 generation과 충돌하지 않도록 새 ID와 원본 감사 ID를 함께 보존.
+- DOM·IndexedDB 통합 검증에서 자체 검증 ZIP 생성, 손상 ZIP 무변경 거부, 동기화 중 차단, 새 generation 전체 교체, 이전 generation 보존·rollback, Stable ID high-water `25`, reservation 종료, legacy migration 멱등성, 기존 Home 8개 영화·필터 6개·하단 내비게이션 4개와 `localStorage` 비접촉을 확인.
+- 이번 체크포인트는 로컬 구현·검증만 포함하며 GitHub 반영과 GitHub Pages 배포는 포함하지 않음.
+
+### Legacy localStorage Read-Only Migration Implemented — 2026-08-10
+
+- 앱 시작 시 현재 키 `wwa-manager-film-contents-v01`과 이전 `v04 / v03 / v02 / v01 / v1` 키를 승인된 우선순위로 읽되 `localStorage`에는 쓰기·수정·삭제하지 않는 read-only migration을 연결.
+- 선택한 원본 JSON 바이트의 SHA-256을 `migrationLog`에 기록하고 같은 source checksum은 Preview 재생성이나 Record 중복 없이 `already-migrated`로 종료하는 멱등성 적용.
+- legacy LEGO Record를 세트번호 기준으로 한 원본 Record로 묶고, 기존 활성 LEGO Record와 겹치면 사용자 Record를 덮어쓰지 않은 채 기존 Sync ID를 관계 대상으로 유지하고 migration conflict audit에 기록.
+- `legoOfficial / boxArt / blueprint / movieStill / myPhoto` Data URL을 승인된 Asset Type으로 매핑하고, 원본 Blob·Preview·Asset Version·Asset·Related LEGO Record Link·Outbox를 번호 예약이 있을 때 하나의 transaction에서 분리 저장.
+- legacy Data URL은 `reason = legacy-import`, 품질 경고, source checksum을 유지하며 Draft가 번호 예약을 기다리거나 사용자가 유형을 검토한 뒤 영구 저장돼도 해당 감사정보가 보존되도록 적용.
+- 번호 예약이 없으면 승인된 유형 이미지는 `Awaiting ID Reservation` Draft로 보존하고, 유형을 단정할 수 없는 `minifigures`와 미지정 이미지는 자동 분류 없이 `Migration Review · Type Needed` Draft로 Assets의 `All`에서 확인·편집 가능하도록 연결.
+- Migration Review 편집은 승인된 6개 Asset Type 중 하나와 출처를 사용자가 직접 선택해야 저장되며, 기존 Add/Edit 필드 검증과 16px 입력·집중 편집 화면·하단 내비게이션 숨김 규칙을 재사용.
+- Stable ID·File·Version·Link 충돌을 migration 전체 실패로 처리하고, 강제 충돌 검증에서 새 LEGO Record·Asset·Version·File·Link·Outbox·번호 소비·migration log가 모두 롤백되는지 확인.
+- DOM·IndexedDB 통합 검증에서 현재 키 우선 선택, 구형 키 fallback, Draft/영구 분기, `AST-000001` 소비, File 재사용, `legacy-import` 유지, checksum 재실행, 기존 Home 8개 영화·기본 Asset 9개·필터 6개·하단 내비게이션 4개 보존을 확인.
+- `localStorage.setItem / removeItem / clear` 호출 0건과 원본 JSON 완전 보존을 확인했으며, 이번 체크포인트는 로컬 구현·검증만 포함하고 전체 ZIP 백업·복원, GitHub 반영, 배포는 포함하지 않음.
+
 ### Edit Asset Mobile Validation Passed — 2026-08-10
 
 - iPhone 기준 `393px`과 최대 검증 폭 `430px`에서 실제 저장 Asset의 `Edit Metadata → Replace Image → Version History` 흐름을 DOM·IndexedDB 통합 환경으로 재현.
@@ -190,10 +252,9 @@
 
 ### Next
 
-1. 기존 `localStorage` 읽기 전용 이전과 전체 ZIP 백업·복원 구현
-2. CloudKit 자동 동기화·충돌 보존 구현
-3. HEIC/JPEG, 오프라인, 충돌, iPad·PC 검증
-4. LEGO Record·Story Connections 통합
+1. 승인된 로컬 체크포인트의 GitHub 반영과 GitHub Pages 배포 검증
+2. iPhone 393/430px, iPad·PC, HEIC/JPEG, 오프라인 저장, Verified ZIP 백업·복원 실기기 검증
+3. LEGO Record·Story Connections 통합
 
 ## [Repository Checkpoint] — 2026-08-09
 

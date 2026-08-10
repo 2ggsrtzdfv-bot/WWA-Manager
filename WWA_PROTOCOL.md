@@ -1,9 +1,9 @@
 # WWA Manager Protocol
 
-Last updated: 2026-08-09
+Last updated: 2026-08-11
 Status: Approved baseline
 
-이 문서는 WWA Manager의 제품 목적, 승인된 아키텍처, 데이터 원칙, 개발 절차를 고정하는 최상위 기준이다. 기능이나 화면을 설계·구현할 때 이 문서와 `DESIGN_GUIDE.md`, `CHANGELOG.md`를 먼저 확인한다. 저장·동기화 구현은 승인된 `STORAGE_SYNC_DESIGN.md`의 데이터 계약도 함께 따른다.
+이 문서는 WWA Manager의 제품 목적, 승인된 아키텍처, 데이터 원칙, 개발 절차를 고정하는 최상위 기준이다. 기능이나 화면을 설계·구현할 때 이 문서와 `DESIGN_GUIDE.md`, `CHANGELOG.md`를 먼저 확인한다. 저장·백업 구현은 승인된 `STORAGE_SYNC_DESIGN.md`의 데이터 계약도 함께 따른다.
 
 ## 1. Product Identity
 
@@ -34,11 +34,11 @@ Status: Approved baseline
 - 배포: GitHub Pages
 - 앱 소스: `index.html` 단일 파일
 - 플랫폼 우선순위: iPhone 우선, iPad 지원, PC 보조
-- 데이터 구조: `Local-First + CloudKit Auto Sync + Full ZIP Backup`
+- 데이터 구조: `Local-First + Full ZIP Backup`
 - 기술 스택과 배포 방식을 임의로 변경하지 않는다.
-- CloudKit은 승인된 동기화 계층이며 GitHub Pages와 `index.html` 단일 파일 구조를 대체하지 않는다.
-- CloudKit 외의 별도 백엔드, 프레임워크, 빌드 시스템, 다중 페이지 구조는 명시적 승인 없이 추가하지 않는다.
-- 네이티브 앱 전환은 현재 범위가 아니다. 필요성이 확정되면 같은 CloudKit 데이터를 사용하는 추가 클라이언트로 별도 검토한다.
+- Apple Developer 유료 가입과 CloudKit 자동 동기화는 사용하지 않는다.
+- 별도 백엔드, 프레임워크, 빌드 시스템, 다중 페이지 구조는 명시적 승인 없이 추가하지 않는다.
+- 네이티브 앱 전환은 현재 범위가 아니다.
 
 ## 4. Archive Flow
 
@@ -74,8 +74,8 @@ WWA의 제작 흐름은 다음 순서를 따른다.
 1. Add/Edit Asset IndexedDB 로컬 저장 구현
 2. Edit Metadata·Replace Image·Version History 구현
 3. 기존 `localStorage` 읽기 전용 이전과 전체 ZIP 백업·복원 구현
-4. CloudKit 자동 동기화·충돌 보존 구현
-5. iPhone 저장·동기화·복원 검증
+4. Local Archive + Full ZIP Backup 공식 저장 방식 전환
+5. iPhone 로컬 저장·백업·복원 검증
 6. LEGO Record·Story Connections 통합
 
 ## 6. LEGO Record Rules
@@ -235,29 +235,25 @@ Asset 저장 원칙:
 
 `In Use`는 실제 WWA Page에 배치된 뒤에만 사용한다. `Archived`는 삭제나 검증 실패를 뜻하지 않는다.
 
-### Asset Storage, Sync, and Backup
+### Asset Storage and Backup
 
-WWA의 저장 방식은 `Local-First + CloudKit Auto Sync + Full ZIP Backup`으로 고정한다.
+WWA의 저장 방식은 `Local-First + Full ZIP Backup`으로 고정한다.
 
 세부 데이터 계약은 승인된 `STORAGE_SYNC_DESIGN.md`로 고정하며, 다음 핵심 결정을 임의로 변경하지 않는다.
 
 - 사용자용 Stable ID와 내부 Sync ID를 분리한다.
 - Asset 이미지와 Version 파일을 별도 Record로 저장한다.
-- Stable ID는 기기별 25개 번호 블록 예약 방식으로 발급한다.
-- CloudKit은 private database의 `WWAArchive` custom zone과 공통 `WWAEntity` envelope를 사용한다.
+- Stable ID는 IndexedDB의 high-water를 기준으로 25개 번호 블록을 원자적으로 예약하며, 발급된 번호를 재사용하지 않는다.
 - ZIP 복원은 새 generation에 검증·적재한 뒤 활성 generation을 전환하는 전체 교체 방식만 사용한다.
 
 - 주 저장소는 각 기기 브라우저의 `IndexedDB`다.
-- 저장 작업은 네트워크 상태와 관계없이 먼저 IndexedDB에 완료한다.
+- 저장 작업은 네트워크 연결 없이 IndexedDB에 완료한다.
 - Asset 메타데이터, 원본 이미지, 표시용 Preview, 모든 `Version History`를 로컬 데이터에 포함한다.
-- CloudKit은 iPhone·iPad·PC 사이의 승인된 자동 동기화 계층이다.
-- 오프라인 변경은 로컬 대기 상태로 보존하고, WWA Manager 실행 중 또는 다음 실행 시 CloudKit과 동기화한다.
-- 웹앱이 닫힌 상태의 지속적인 백그라운드 동기화는 보장 대상으로 두지 않는다.
-- 동기화 충돌은 한쪽 변경을 조용히 덮어쓰지 않는다. 이미지 충돌은 양쪽 버전을 보존하고 검토 대상으로 표시한다.
-- 전체 ZIP 백업은 CloudKit과 독립된 장기 보존 수단으로 유지한다.
+- 자동 계정 동기화와 기기 간 자동 병합은 제공하지 않는다.
+- 전체 ZIP 백업을 장기 보존과 기기 이동의 공식 수단으로 유지한다.
 - ZIP에는 Archive 데이터, Asset 원본, Preview, 모든 이미지 버전과 백업 식별 정보를 포함한다.
 - 복원은 파일 검증이 완료되기 전 기존 로컬 데이터를 변경하지 않는다.
-- CloudKit 장애나 로그인 해제는 로컬 저장을 막지 않아야 한다.
+- ZIP은 아이폰 파일 앱, iCloud Drive 또는 사용자가 선택한 별도 위치에 보관할 수 있다. iCloud Drive는 파일 보관 위치이며 앱 자동 동기화 계층이 아니다.
 - `localStorage`는 영구 Asset 원본 저장소로 사용하지 않는다.
 
 ## 9. Stable IDs

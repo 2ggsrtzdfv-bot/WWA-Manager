@@ -1,18 +1,18 @@
-# WWA Storage and Sync Design
+# WWA Storage and Backup Design
 
-Last updated: 2026-08-09
-Status: Approved — Locked for Implementation
+Last updated: 2026-08-11
+Status: Approved — Local Archive Operating Contract
 
-이 문서는 승인된 `Local-First + CloudKit Auto Sync + Full ZIP Backup` 아키텍처의 공식 구현 계약이다. 구현은 이 문서의 데이터 계약과 Implementation Order를 따르며, CloudKit Production schema와 배포본은 Development 검증과 체크포인트 승인 전 변경하지 않는다.
+이 문서는 승인된 `Local-First + Full ZIP Backup` 아키텍처의 공식 구현 계약이다. Apple Developer 유료 가입과 CloudKit 자동 동기화는 사용하지 않는다. 기존 CloudKit 구현 계약과 호환 Store는 데이터 구조 보존을 위해 이 문서에 남기지만 실행하거나 사용자 화면에 노출하지 않는다. 이 운영 경계가 아래의 과거 CloudKit 세부 계약보다 우선한다.
 
 ## 1. Design Goals
 
-- 모든 저장은 네트워크보다 IndexedDB에서 먼저 완료한다.
+- 모든 저장은 네트워크 연결 없이 IndexedDB에서 완료한다.
 - Asset 원본, Preview, Version History를 서로 분리해 보존한다.
 - `AST-000001` 형식의 ID는 발급 후 변경하거나 재사용하지 않는다.
-- iPhone, iPad, PC의 동시 수정이 한쪽 데이터를 조용히 덮어쓰지 않게 한다.
-- CloudKit 장애, 로그아웃, 오프라인 상태에서도 로컬 열람과 기존 데이터 편집이 가능해야 한다.
-- 전체 ZIP은 CloudKit과 독립적으로 열 수 있는 장기 보존본이어야 한다.
+- Local Archive의 단일 활성 generation과 모든 Version History를 보존한다.
+- 오프라인 상태에서도 로컬 열람과 기존 데이터 편집이 가능해야 한다.
+- 전체 ZIP은 앱 계정이나 서버에 의존하지 않는 장기 보존본이어야 한다.
 - 현재 `localStorage` 데이터는 이전과 백업 검증이 끝날 때까지 삭제하지 않는다.
 - GitHub Pages와 단일 `index.html` 구조를 유지한다.
 
@@ -23,7 +23,7 @@ Status: Approved — Locked for Implementation
 | 식별자 | 예시 | 용도 |
 |---|---|---|
 | Stable ID | `AST-000001` | 사용자에게 표시되는 영구 Archive ID |
-| Sync ID | UUID | IndexedDB 기본키·CloudKit `recordName`·동기화 충돌 판정 |
+| Sync ID | UUID | IndexedDB 기본키·Record 관계·Version 추적 |
 
 - Stable ID는 발급 후 수정하거나 재사용하지 않는다.
 - Sync ID도 생성 후 변경하지 않는다.
@@ -33,21 +33,21 @@ Status: Approved — Locked for Implementation
 
 ### Sequential Stable ID Allocation
 
-여러 기기가 오프라인에서 같은 `AST` 번호를 발급하지 않도록 CloudKit의 `WWAIDCounter`에서 작은 번호 블록을 예약한다.
+Local Archive는 IndexedDB의 high-water와 기존 Asset·예약 범위를 함께 확인해 작은 번호 블록을 예약한다.
 
-- 기기당 기본 예약 블록: 25개
+- 기본 예약 블록: 25개
 - 남은 번호가 10개 이하가 되면 앱 사용 중 다음 블록을 자동 예약한다.
-- 번호 블록 예약은 CloudKit `recordChangeTag`를 사용한 충돌 감지 업데이트로 처리한다.
+- 번호 블록 예약은 `settings`, `idReservations`, `assets`를 포함한 단일 IndexedDB readwrite transaction으로 처리한다.
+- ZIP 복원에서 가져온 최대 발급 번호와 이전 예약 상한보다 큰 번호만 새로 예약한다.
 - 예약 블록 안에서는 오프라인에서도 즉시 Stable ID를 발급할 수 있다.
-- 예약 번호가 모두 소진되고 CloudKit에 연결할 수 없으면 중복 ID를 만들지 않는다. 입력 내용은 로컬 Draft로 보존하고 번호 예약 후 첫 영구 저장을 완료한다.
-- 사용되지 않은 예약 번호는 다른 기기에 재배정하지 않는다. 번호의 연속성보다 중복·재사용 방지를 우선한다.
+- 사용되지 않은 예약 번호는 다시 낮추거나 재배정하지 않는다. 번호의 연속성보다 중복·재사용 방지를 우선한다.
 
 ## 3. IndexedDB Database
 
 - Database name: `WWA_Manager`
 - Initial schema version: `1`
-- 모든 동기화 대상 Record에는 `archiveId`, `generationId`, `syncId`, `createdAt`, `updatedAt`, `deletedAt`을 공통으로 둔다.
-- `deletedAt`은 동기화용 Tombstone이다. `Archived` 상태와 동일하지 않다.
+- 모든 영구 Archive Record에는 `archiveId`, `generationId`, `syncId`, `createdAt`, `updatedAt`, `deletedAt`을 공통으로 둔다.
+- `deletedAt`은 관계·Record의 논리 삭제를 보존하는 Tombstone이다. `Archived` 상태와 동일하지 않다.
 - 모든 날짜는 UTC ISO 8601 문자열로 저장한다.
 - Blob 해시에는 SHA-256을 사용한다.
 
@@ -71,9 +71,9 @@ Status: Approved — Locked for Implementation
 | `pages` | `[generationId, syncId]` | 향후 WWA Page Record | `stableId`, `updatedAt` |
 | `pagePlacements` | `[generationId, placementId]` | 페이지별 Asset 배치·크롭 관계 | `pageSyncId`, `assetSyncId` |
 | `idReservations` | `reservationId` | 기기에 예약된 Stable ID 범위 | `entityType`, `deviceId`, `nextValue` |
-| `outbox` | `operationId` | CloudKit에 아직 반영되지 않은 로컬 변경 | `state`, `nextAttemptAt`, `entityType`, `entitySyncId` |
-| `syncState` | `key` | CloudKit 사용자·zone change token·마지막 동기화 | 없음 |
-| `conflicts` | `conflictId` | 양쪽 버전과 해결 상태 | `status`, `entityType`, `entitySyncId`, `createdAt` |
+| `outbox` | `operationId` | 비활성 CloudKit 구현의 호환 변경 기록 | `state`, `nextAttemptAt`, `entityType`, `entitySyncId` |
+| `syncState` | `key` | 비활성 CloudKit 구현의 호환 상태 | 없음 |
+| `conflicts` | `conflictId` | 비활성 CloudKit 구현의 호환 충돌 기록 | `status`, `entityType`, `entitySyncId`, `createdAt` |
 | `migrationLog` | `migrationId` | 이전 실행·검증·완료 기록 | `state`, `completedAt` |
 
 ## 4. Asset Records
@@ -163,7 +163,7 @@ cloudChangeTag
 3. 예약 블록에서 Stable ID와 새 Sync ID를 발급한다.
 4. 하나의 IndexedDB transaction에서 `files`, `assetVersions`, `assets`, `assetLinks`, `outbox`를 함께 저장한다.
 5. transaction 완료 뒤에만 `Saved`로 표시하고 화면을 닫는다.
-6. CloudKit 업로드는 로컬 저장 성공 후 비동기로 시작한다.
+6. 저장 뒤 CloudKit 또는 다른 외부 전송을 자동 실행하지 않는다.
 
 ### Edit Metadata
 
@@ -187,7 +187,9 @@ cloudChangeTag
 - Asset, 파일, Version, 관계에 Tombstone을 만들지 않는다.
 - 복원은 이전 Production Status를 직접 추정하지 않고 사용자가 새 상태를 선택하게 한다.
 
-## 6. CloudKit Contract
+## 6. Dormant CloudKit Compatibility Contract
+
+이 절과 7–8절의 CloudKit 세부 내용은 2026-08-10 구현 이력을 보존하기 위한 비활성 호환 계약이다. 현재 앱은 CloudKit을 초기화하거나 Script를 불러오거나 사용자 화면에 노출하지 않는다.
 
 ### Container and Database
 
@@ -215,7 +217,7 @@ CloudKit은 로컬 검색 데이터베이스가 아니라 동기화 전송 계�
 - 파일을 먼저 업로드하고, Asset Version, Asset 포인터 순으로 반영한다.
 - 일부 업로드가 실패해도 로컬 transaction은 되돌리지 않으며 Outbox에서 재시도한다.
 
-## 7. Sync Cycle
+## 7. Dormant Sync Cycle
 
 WWA Manager가 실행 중이고 네트워크와 CloudKit 인증이 유효할 때 다음 순서로 동작한다.
 
@@ -239,7 +241,7 @@ WWA Manager가 실행 중이고 네트워크와 CloudKit 인증이 유효할 때
 
 웹앱이 닫혀 있는 동안의 지속 동기화는 보장하지 않는다.
 
-## 8. Conflict Rules
+## 8. Dormant Cloud Conflict Rules
 
 | 충돌 | 처리 |
 |---|---|
@@ -298,8 +300,7 @@ previews/<fileId>.<ext>
 - 복원 데이터는 새 `generationId`의 staging namespace에 적재한다.
 - 검증이 끝나면 `activeGenerationId`만 전환한다.
 - 이전 generation은 복원 직후 삭제하지 않아 실패 시 되돌릴 수 있게 한다.
-- CloudKit 동기화 중에는 복원을 시작하지 않으며, 복원 중 CloudKit sync를 일시 중지한다.
-- CloudKit에서는 새 generation 업로드가 완료된 뒤 `WWAArchiveRoot.activeGenerationId`를 변경한다.
+- 복원 적용 중에는 다른 Archive Data 작업을 시작하지 않는다.
 - Stable ID counter는 복원 데이터의 최댓값보다 낮아지지 않으며 이전에 발급된 ID를 재사용하지 않는다.
 
 ## 11. Legacy Migration
@@ -330,11 +331,9 @@ previews/<fileId>.<ext>
 
 - IndexedDB transaction 실패 시 어느 일부도 `Saved`로 표시하지 않는다.
 - Preview 생성 실패는 Original 영구 저장 전에 사용자에게 알린다.
-- CloudKit 오류는 Local Save 성공을 취소하지 않는다.
 - 저장 공간 부족 시 새 파일 쓰기를 중단하고 기존 데이터를 유지한다.
-- CloudKit 사용자 계정이 바뀌면 기존 로컬 Archive와 자동 병합하지 않고 계정 불일치로 중지한다.
-- Production schema가 기대 버전과 다르면 동기화를 중지하고 로컬 전용으로 유지한다.
-- 알 수 없는 schema version의 원격 Record는 삭제하거나 덮어쓰지 않는다.
+- 지원하지 않는 ZIP schema version은 기존 Local Archive를 바꾸지 않고 거부한다.
+- 다른 기기의 Archive는 검증된 전체 ZIP 복원으로만 가져오며 자동 병합하지 않는다.
 
 ## 13. Implementation Order
 
@@ -343,19 +342,19 @@ previews/<fileId>.<ext>
 3. Edit Metadata, Replace Image, Version History
 4. Legacy `localStorage` 읽기 전용 migration
 5. ZIP 생성·검증·staged restore
-6. CloudKit Development container와 인증
-7. ID block reservation
-8. Pull, Outbox push, retry, change token
-9. Metadata·image conflict UI
-10. iPhone 393px·430px, iPad, PC, HEIC/JPEG, offline, restore 검증
-11. Production schema 배포와 체크포인트 release
+6. IndexedDB local Stable ID block reservation
+7. CloudKit 초기화·사용자 화면 비활성화
+8. iPhone 393px·430px, iPad, PC, HEIC/JPEG, offline, restore 검증
+9. GitHub Pages 체크포인트 release
+10. LEGO Record·Story Connections 통합
 
 ## 14. Approved Decisions
 
-2026-08-09 다음 다섯 항목을 함께 승인했다.
+2026-08-11 다음 여섯 항목을 승인했다. 이 결정은 2026-08-09의 CloudKit 사용 승인을 대체한다.
 
 1. 사용자용 Stable ID와 내부 Sync ID를 분리한다.
 2. Asset 이미지와 Version 파일을 별도 Record로 저장한다.
-3. Stable ID는 기기별 25개 블록 예약 방식으로 발급한다.
-4. CloudKit은 private database의 `WWAArchive` custom zone과 공통 `WWAEntity` envelope를 사용한다.
-5. ZIP 복원은 새 generation에 적재한 뒤 활성 generation을 전환하는 전체 교체 방식만 사용한다.
+3. Stable ID는 IndexedDB high-water를 기준으로 로컬 25개 블록 예약 방식으로 발급한다.
+4. CloudKit 자동 동기화와 Apple Developer 유료 가입을 사용하지 않는다.
+5. Full ZIP Backup을 장기 보존과 기기 이동의 공식 수단으로 사용한다.
+6. ZIP 복원은 새 generation에 적재한 뒤 활성 generation을 전환하는 전체 교체 방식만 사용한다.
