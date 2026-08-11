@@ -1743,7 +1743,7 @@
       background: #F7F9FC;
       color: var(--wwa-blue);
       font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 12px;
+      font-size: 16px;
       outline: none;
     }
 
@@ -2410,6 +2410,8 @@
     }
 
     /* Add Asset Editor — a focused archival intake surface. */
+    #wwa-home-complete-castle.is-movie-detail-view .wwa-bottom-nav,
+    #wwa-home-complete-castle.is-asset-detail-view .wwa-bottom-nav,
     #wwa-home-complete-castle.is-asset-editor-view .wwa-bottom-nav {
       display: none;
     }
@@ -11618,7 +11620,11 @@
         assetDetail.classList.remove("is-visible");
         assetEditor.classList.remove("is-visible");
         archiveData.classList.add("is-visible");
-        root.classList.remove("is-asset-editor-view");
+        root.classList.remove(
+          "is-movie-detail-view",
+          "is-asset-detail-view",
+          "is-asset-editor-view"
+        );
         root.classList.add("is-assets-view", "is-archive-data-view");
         setAssetsSurface(true);
         setActiveTab("Assets");
@@ -12346,6 +12352,7 @@
         assets.classList.remove("is-visible");
         assetDetail.classList.remove("is-visible");
         assetEditor.classList.add("is-visible");
+        root.classList.remove("is-asset-detail-view");
         root.classList.add("is-asset-editor-view");
         setAssetsSurface(true);
         setActiveTab("Assets");
@@ -12794,6 +12801,8 @@
 
         assets.classList.remove("is-visible");
         assetDetail.classList.add("is-visible");
+        root.classList.remove("is-asset-editor-view", "is-archive-data-view");
+        root.classList.add("is-asset-detail-view", "is-assets-view");
         setAssetsSurface(true);
         setActiveTab("Assets");
         window.scrollTo({ top: 0, behavior: "auto" });
@@ -12804,6 +12813,7 @@
         if (assetDetailReplacing) return;
         activeAsset = null;
         assetDetail.classList.remove("is-visible");
+        root.classList.remove("is-asset-detail-view");
         assets.classList.add("is-visible");
         window.scrollTo({ top: 0, behavior: "auto" });
         window.setTimeout(() => {
@@ -13400,12 +13410,14 @@
           detailTitle.textContent = movie.title;
           home.classList.add("is-hidden");
           detail.classList.add("is-visible");
+          root.classList.add("is-movie-detail-view");
           back.focus();
         });
       });
 
       back.addEventListener("click", () => {
         detail.classList.remove("is-visible");
+        root.classList.remove("is-movie-detail-view");
         home.classList.remove("is-hidden");
         root.querySelector(".wwa-movie-card").focus();
       });
@@ -13420,7 +13432,12 @@
             archiveData.classList.remove("is-visible");
             assets.classList.remove("is-visible");
             home.classList.remove("is-hidden");
-            root.classList.remove("is-assets-view", "is-archive-data-view");
+            root.classList.remove(
+              "is-movie-detail-view",
+              "is-asset-detail-view",
+              "is-assets-view",
+              "is-archive-data-view"
+            );
             setAssetsSurface(false);
             setActiveTab("Home");
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -13433,7 +13450,11 @@
             archiveData.classList.remove("is-visible");
             home.classList.add("is-hidden");
             assets.classList.add("is-visible");
-            root.classList.remove("is-archive-data-view");
+            root.classList.remove(
+              "is-movie-detail-view",
+              "is-asset-detail-view",
+              "is-archive-data-view"
+            );
             root.classList.add("is-assets-view");
             setAssetsSurface(true);
             setActiveTab("Assets");

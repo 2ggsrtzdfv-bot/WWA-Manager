@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+### Detail Navigation and Search Input Fix Implemented — 2026-08-11
+
+- Assets Library 검색 입력값을 iPhone Safari 자동 확대 방지 기준인 실제 `16px`로 통일.
+- Movie Detail과 Asset Detail을 최상위 탐색 화면이 아닌 집중 상세 화면으로 처리해 하단 내비게이션을 숨기고, Back으로 목록에 복귀하면 다시 표시하도록 수정.
+- Add/Edit Asset과 Archive Data의 기존 하단 내비게이션 숨김 규칙, `Home / Assets / Collection / Pages` 배포 순서와 LEGO Record 구현 시 `Collection → Records` 전환 규칙은 변경하지 않음.
+
 ### Reset Test Archive Implemented — 2026-08-11
 
 - 백업·복원 검증으로 생성된 테스트 Local Archive만 폐기할 수 있도록 Manager 내부 `Archive Data`에 `Reset Test Archive`를 추가.
