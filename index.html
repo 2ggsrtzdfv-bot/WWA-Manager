@@ -1564,8 +1564,32 @@
     }
 
     #wwa-home-complete-castle .wwa-records-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 16px;
       padding-bottom: 21px;
       border-bottom: 1px solid rgba(111, 118, 130, 0.24);
+    }
+
+    #wwa-home-complete-castle .wwa-records-heading {
+      min-width: 0;
+    }
+
+    #wwa-home-complete-castle .wwa-add-record {
+      appearance: none;
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--wwa-blue);
+      border-radius: 3px;
+      background: var(--wwa-blue);
+      color: var(--wwa-winter);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
     }
 
     #wwa-home-complete-castle .wwa-records-kicker,
@@ -1860,13 +1884,256 @@
     }
 
     #wwa-home-complete-castle .wwa-record-filter:focus-visible,
-    #wwa-home-complete-castle .wwa-record-button:focus-visible {
+    #wwa-home-complete-castle .wwa-record-button:focus-visible,
+    #wwa-home-complete-castle .wwa-add-record:focus-visible {
       outline: 2px solid var(--wwa-patronus);
       outline-offset: 3px;
     }
 
     #wwa-home-complete-castle .wwa-record-button:active {
       background: rgba(127, 183, 230, 0.08);
+    }
+
+    /* LEGO Record Add/Edit — one focused source form, never a collection dashboard. */
+    #wwa-home-complete-castle.is-record-editor-view .wwa-bottom-nav {
+      display: none;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor {
+      display: none;
+      min-height: 100vh;
+      margin: 0 -16px;
+      padding: 18px 20px calc(32px + env(safe-area-inset-bottom));
+      background: #F7F9FC;
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor.is-visible {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor:focus {
+      outline: none;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-topbar {
+      display: flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 23px;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-back {
+      appearance: none;
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      gap: 7px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--wwa-blue);
+      font: 650 11px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-back svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.5;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-position {
+      color: var(--wwa-stone);
+      font: 700 8px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-heading {
+      margin: 0;
+      color: var(--wwa-blue);
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: clamp(28px, 7.6vw, 34px);
+      font-weight: 500;
+      line-height: 1.04;
+      letter-spacing: -0.028em;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-intro {
+      margin: 9px 0 0;
+      color: var(--wwa-stone);
+      font: 400 11px/1.55 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-status {
+      min-height: 19px;
+      margin: 13px 0 0;
+      color: var(--wwa-stone);
+      font: 650 10px/1.45 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-status.is-error {
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-section {
+      margin: 0;
+      padding: 21px 0 5px;
+      border: 0;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-section + .wwa-record-editor-section {
+      margin-top: 17px;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-legend {
+      width: 100%;
+      margin: 0 0 15px;
+      padding: 0;
+      color: var(--wwa-stone);
+      font: 700 8px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 10px;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-grid.is-three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    #wwa-home-complete-castle .wwa-record-field {
+      display: grid;
+      min-width: 0;
+      gap: 7px;
+      margin-bottom: 17px;
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-record-field-label {
+      color: var(--wwa-blue);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: 0.035em;
+    }
+
+    #wwa-home-complete-castle .wwa-record-field-label small {
+      margin-left: 5px;
+      color: var(--wwa-stone);
+      font-size: 9px;
+      font-weight: 560;
+      letter-spacing: 0;
+    }
+
+    #wwa-home-complete-castle .wwa-record-field input,
+    #wwa-home-complete-castle .wwa-record-field select,
+    #wwa-home-complete-castle .wwa-record-field textarea {
+      appearance: none;
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 12px;
+      border: 1px solid rgba(111, 118, 130, 0.32);
+      border-radius: 3px;
+      background: #F7F9FC;
+      color: var(--wwa-blue);
+      font: 400 16px/1.35 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      outline: none;
+    }
+
+    #wwa-home-complete-castle .wwa-record-field select {
+      padding-right: 34px;
+      background-image: linear-gradient(45deg, transparent 50%, var(--wwa-stone) 50%), linear-gradient(135deg, var(--wwa-stone) 50%, transparent 50%);
+      background-position: calc(100% - 17px) 20px, calc(100% - 12px) 20px;
+      background-repeat: no-repeat;
+      background-size: 5px 5px, 5px 5px;
+    }
+
+    #wwa-home-complete-castle .wwa-record-field textarea {
+      min-height: 112px;
+      resize: vertical;
+    }
+
+    #wwa-home-complete-castle .wwa-record-field input[readonly] {
+      background: rgba(199, 204, 214, 0.15);
+      color: var(--wwa-stone);
+    }
+
+    #wwa-home-complete-castle .wwa-record-field input:focus,
+    #wwa-home-complete-castle .wwa-record-field select:focus,
+    #wwa-home-complete-castle .wwa-record-field textarea:focus {
+      border-color: var(--wwa-patronus);
+      box-shadow: 0 0 0 2px rgba(127, 183, 230, 0.16);
+    }
+
+    #wwa-home-complete-castle .wwa-record-field [aria-invalid="true"] {
+      border-color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-record-field-help,
+    #wwa-home-complete-castle .wwa-record-field-error {
+      margin: 0;
+      color: var(--wwa-stone);
+      font: 400 10px/1.45 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-record-field-error {
+      display: none;
+      color: var(--wwa-blue);
+      font-weight: 650;
+    }
+
+    #wwa-home-complete-castle .wwa-record-field-error.is-visible {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 9px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-button {
+      appearance: none;
+      min-height: 48px;
+      padding: 0 12px;
+      border: 1px solid rgba(26, 42, 68, 0.3);
+      border-radius: 3px;
+      background: transparent;
+      color: var(--wwa-blue);
+      font: 700 10px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-button.is-primary {
+      border-color: var(--wwa-blue);
+      background: var(--wwa-blue);
+      color: var(--wwa-winter);
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-button:disabled,
+    #wwa-home-complete-castle .wwa-record-editor-back:disabled {
+      cursor: wait;
+      opacity: 0.58;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor-back:focus-visible,
+    #wwa-home-complete-castle .wwa-record-editor-button:focus-visible {
+      outline: 2px solid var(--wwa-patronus);
+      outline-offset: 3px;
     }
 
     /* v0.2 Assets main — a quiet preservation room for verified source material. */
@@ -3501,6 +3768,11 @@
         padding-inline: 16px;
       }
 
+      #wwa-home-complete-castle .wwa-record-editor {
+        margin-inline: -12px;
+        padding-inline: 16px;
+      }
+
       #wwa-home-complete-castle .wwa-asset-detail {
         margin-inline: -12px;
         padding-inline: 16px;
@@ -3532,6 +3804,14 @@
 
       #wwa-home-complete-castle .wwa-records-title {
         font-size: 34px;
+      }
+
+      #wwa-home-complete-castle .wwa-records-header {
+        gap: 10px;
+      }
+
+      #wwa-home-complete-castle .wwa-add-record {
+        padding-inline: 9px;
       }
 
       #wwa-home-complete-castle .wwa-add-asset {
@@ -3616,9 +3896,12 @@
 
     <section class="wwa-records" aria-label="LEGO Records archive" tabindex="-1">
       <header class="wwa-records-header">
-        <p class="wwa-records-kicker">Original Set Records</p>
-        <h1 class="wwa-records-title">LEGO Records</h1>
-        <p class="wwa-records-intro">One source Record for each LEGO set in the WWA Archive.</p>
+        <div class="wwa-records-heading">
+          <p class="wwa-records-kicker">Original Set Records</p>
+          <h1 class="wwa-records-title">LEGO Records</h1>
+          <p class="wwa-records-intro">One source Record for each LEGO set in the WWA Archive.</p>
+        </div>
+        <button class="wwa-add-record" type="button">Add Record</button>
       </header>
 
       <label class="wwa-records-search">
@@ -3888,6 +4171,170 @@
         <div class="wwa-asset-editor-actions">
           <button class="wwa-asset-editor-button" type="button" data-editor-action="cancel">Cancel</button>
           <button class="wwa-asset-editor-button is-primary" type="submit">Save Asset</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="wwa-record-editor" aria-labelledby="wwa-record-editor-heading" tabindex="-1">
+      <div class="wwa-record-editor-topbar">
+        <button class="wwa-record-editor-back" type="button" aria-label="Return to LEGO Records">
+          <i data-lucide="arrow-left" aria-hidden="true"></i><span>Records</span>
+        </button>
+        <span class="wwa-record-editor-position">Add Record</span>
+      </div>
+
+      <form class="wwa-record-editor-form" novalidate>
+        <h2 class="wwa-record-editor-heading" id="wwa-record-editor-heading">New LEGO Record</h2>
+        <p class="wwa-record-editor-intro">세트번호별 공식 원본 Record 하나를 Local Archive에 저장합니다.</p>
+        <p class="wwa-record-editor-status" role="status" aria-live="polite"></p>
+
+        <fieldset class="wwa-record-editor-section">
+          <legend class="wwa-record-editor-legend">Record Identity</legend>
+          <label class="wwa-record-field">
+            <span class="wwa-record-field-label">Set Number <small>Required</small></span>
+            <input name="setNumber" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="40" placeholder="76419">
+            <span class="wwa-record-field-help">공백을 제거한 Set Number가 같으면 중복 Record로 판단합니다.</span>
+            <span class="wwa-record-field-error" data-record-error="setNumber"></span>
+          </label>
+          <label class="wwa-record-field">
+            <span class="wwa-record-field-label">Set Name <small>Required</small></span>
+            <input name="setName" type="text" autocomplete="off" spellcheck="false" maxlength="180" placeholder="Official LEGO set name">
+            <span class="wwa-record-field-error" data-record-error="setName"></span>
+          </label>
+        </fieldset>
+
+        <fieldset class="wwa-record-editor-section">
+          <legend class="wwa-record-editor-legend">Official Information</legend>
+          <div class="wwa-record-editor-grid">
+            <label class="wwa-record-field">
+              <span class="wwa-record-field-label">Release Date</span>
+              <input name="releaseDate" type="text" inputmode="numeric" autocomplete="off" maxlength="10" placeholder="YYYY / YYYY-MM / YYYY-MM-DD">
+              <span class="wwa-record-field-error" data-record-error="releaseDate"></span>
+            </label>
+            <label class="wwa-record-field">
+              <span class="wwa-record-field-label">Pieces</span>
+              <input name="pieces" type="number" inputmode="numeric" min="0" step="1" placeholder="0">
+              <span class="wwa-record-field-error" data-record-error="pieces"></span>
+            </label>
+          </div>
+          <label class="wwa-record-field">
+            <span class="wwa-record-field-label">Minifigures</span>
+            <textarea name="minifigures" placeholder="공식 원문 이름을 한 줄에 하나씩 입력"></textarea>
+            <span class="wwa-record-field-help">Count: <strong data-record-minifigure-count>0</strong> · 입력한 공식 이름 목록에서 자동 계산합니다.</span>
+          </label>
+          <div class="wwa-record-editor-grid is-three">
+            <label class="wwa-record-field">
+              <span class="wwa-record-field-label">Height</span>
+              <input name="sizeHeight" type="number" inputmode="decimal" min="0" step="any" placeholder="—">
+              <span class="wwa-record-field-error" data-record-error="sizeHeight"></span>
+            </label>
+            <label class="wwa-record-field">
+              <span class="wwa-record-field-label">Width</span>
+              <input name="sizeWidth" type="number" inputmode="decimal" min="0" step="any" placeholder="—">
+              <span class="wwa-record-field-error" data-record-error="sizeWidth"></span>
+            </label>
+            <label class="wwa-record-field">
+              <span class="wwa-record-field-label">Depth</span>
+              <input name="sizeDepth" type="number" inputmode="decimal" min="0" step="any" placeholder="—">
+              <span class="wwa-record-field-error" data-record-error="sizeDepth"></span>
+            </label>
+          </div>
+          <label class="wwa-record-field">
+            <span class="wwa-record-field-label">Size Unit</span>
+            <input name="sizeUnit" type="text" autocomplete="off" maxlength="12" placeholder="cm">
+            <span class="wwa-record-field-error" data-record-error="sizeUnit"></span>
+          </label>
+          <div class="wwa-record-editor-grid">
+            <label class="wwa-record-field">
+              <span class="wwa-record-field-label">MSRP Amount</span>
+              <input name="msrpAmount" type="number" inputmode="decimal" min="0" step="any" placeholder="0">
+              <span class="wwa-record-field-error" data-record-error="msrpAmount"></span>
+            </label>
+            <label class="wwa-record-field">
+              <span class="wwa-record-field-label">MSRP Currency</span>
+              <input name="msrpCurrency" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="12" placeholder="KRW">
+              <span class="wwa-record-field-error" data-record-error="msrpCurrency"></span>
+            </label>
+          </div>
+          <label class="wwa-record-field">
+            <span class="wwa-record-field-label">Official Source</span>
+            <input name="officialSource" type="text" autocomplete="off" spellcheck="false" maxlength="500" placeholder="Official LEGO source or URL">
+            <span class="wwa-record-field-error" data-record-error="officialSource"></span>
+          </label>
+          <label class="wwa-record-field">
+            <span class="wwa-record-field-label">Checked On</span>
+            <input name="checkedOn" type="date">
+            <span class="wwa-record-field-error" data-record-error="checkedOn"></span>
+          </label>
+        </fieldset>
+
+        <fieldset class="wwa-record-editor-section">
+          <legend class="wwa-record-editor-legend">My Archive</legend>
+          <div class="wwa-record-editor-grid">
+            <label class="wwa-record-field">
+              <span class="wwa-record-field-label">My Price Amount</span>
+              <input name="myPriceAmount" type="number" inputmode="decimal" min="0" step="any" placeholder="0">
+              <span class="wwa-record-field-error" data-record-error="myPriceAmount"></span>
+            </label>
+            <label class="wwa-record-field">
+              <span class="wwa-record-field-label">My Price Currency</span>
+              <input name="myPriceCurrency" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="12" placeholder="KRW">
+              <span class="wwa-record-field-error" data-record-error="myPriceCurrency"></span>
+            </label>
+          </div>
+          <label class="wwa-record-field">
+            <span class="wwa-record-field-label">Purchase Date</span>
+            <input name="purchaseDate" type="date">
+          </label>
+          <label class="wwa-record-field">
+            <span class="wwa-record-field-label">Purchase Store</span>
+            <input name="purchaseStore" type="text" autocomplete="off" maxlength="180" placeholder="Store or official seller">
+          </label>
+          <label class="wwa-record-field">
+            <span class="wwa-record-field-label">Collection Scope</span>
+            <select name="collectionScope">
+              <option value="Reference">Reference</option>
+              <option value="Owned">Owned</option>
+              <option value="Wanted">Wanted</option>
+            </select>
+            <span class="wwa-record-field-help">Collection Plan의 Owned / Wanted 계산에 사용되며 LEGO Record 원본은 복제하지 않습니다.</span>
+          </label>
+        </fieldset>
+
+        <fieldset class="wwa-record-editor-section">
+          <legend class="wwa-record-editor-legend">Archive Classification</legend>
+          <label class="wwa-record-field">
+            <span class="wwa-record-field-label">Primary Set Family</span>
+            <input name="primarySetFamily" type="text" value="Unassigned" readonly>
+            <span class="wwa-record-field-help">Set Family 목록은 별도 승인 전 자동 분류하지 않습니다.</span>
+          </label>
+          <div class="wwa-record-editor-grid">
+            <label class="wwa-record-field">
+              <span class="wwa-record-field-label">Record Verification</span>
+              <select name="recordVerification">
+                <option value="Draft">Draft</option>
+                <option value="Review">Review</option>
+                <option value="Verified">Verified</option>
+              </select>
+              <span class="wwa-record-field-error" data-record-error="recordVerification"></span>
+            </label>
+            <label class="wwa-record-field">
+              <span class="wwa-record-field-label">Record Lifecycle</span>
+              <select name="recordLifecycle">
+                <option value="Active">Active</option>
+                <option value="Archived">Archived</option>
+              </select>
+            </label>
+          </div>
+          <label class="wwa-record-field">
+            <span class="wwa-record-field-label">Primary Book Placement</span>
+            <input name="primaryBookPlacement" type="text" value="Not placed" readonly>
+          </label>
+        </fieldset>
+
+        <div class="wwa-record-editor-actions">
+          <button class="wwa-record-editor-button" type="button" data-record-editor-action="cancel">Cancel</button>
+          <button class="wwa-record-editor-button is-primary" type="submit">Save Record</button>
         </div>
       </form>
     </section>
@@ -4739,6 +5186,23 @@
         "directSubject"
       ]);
 
+      const WWA_RECORD_VERIFICATIONS = new Set([
+        "Draft",
+        "Review",
+        "Verified"
+      ]);
+
+      const WWA_RECORD_LIFECYCLES = new Set([
+        "Active",
+        "Archived"
+      ]);
+
+      const WWA_COLLECTION_SCOPES = new Set([
+        "Reference",
+        "Owned",
+        "Wanted"
+      ]);
+
       const WWA_STORAGE_IMAGE_MIME_BY_EXTENSION = {
         jpg: "image/jpeg",
         jpeg: "image/jpeg",
@@ -4775,6 +5239,256 @@
         return typeof value === "string"
           ? value.trim()
           : "";
+      }
+
+      function createWwaRecordValidationError(message, field) {
+        const error = new Error(message);
+        error.name = "WWARecordValidationError";
+        error.code = "record-validation-failed";
+        error.field = field;
+        return error;
+      }
+
+      function normalizeWwaSetNumber(value) {
+        return getWwaTrimmedString(value).replace(/\s+/g, "");
+      }
+
+      function normalizeWwaRecordNumber(value, field) {
+        if (value === null || value === undefined || value === "") {
+          return null;
+        }
+        const number = Number(value);
+        if (!Number.isFinite(number) || number < 0) {
+          throw createWwaRecordValidationError(
+            "0 이상의 숫자로 입력해 주세요.",
+            field
+          );
+        }
+        return number;
+      }
+
+      function normalizeWwaRecordInteger(value, field) {
+        const number = normalizeWwaRecordNumber(value, field);
+        if (number !== null && !Number.isInteger(number)) {
+          throw createWwaRecordValidationError(
+            "정수로 입력해 주세요.",
+            field
+          );
+        }
+        return number;
+      }
+
+      function isWwaValidPartialDate(value) {
+        if (!value) return true;
+        const match = /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/.exec(value);
+        if (!match) return false;
+        const year = Number(match[1]);
+        const month = match[2] ? Number(match[2]) : null;
+        const day = match[3] ? Number(match[3]) : null;
+        if (year < 1900 || year > 2200) return false;
+        if (month === null) return true;
+        if (month < 1 || month > 12) return false;
+        if (day === null) return true;
+        const maximumDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+        return day >= 1 && day <= maximumDay;
+      }
+
+      function normalizeWwaLegoRecordInput(input) {
+        const existingRecord = input && input.existingRecord || null;
+        const setNumber = normalizeWwaSetNumber(input && input.setNumber);
+        const setName = getWwaTrimmedString(input && input.setName);
+        const releaseDate = getWwaTrimmedString(input && input.releaseDate);
+        const recordVerification = getWwaTrimmedString(
+          input && input.recordVerification
+        ) || "Draft";
+        const recordLifecycle = getWwaTrimmedString(
+          input && input.recordLifecycle
+        ) || "Active";
+        const collectionScope = getWwaTrimmedString(
+          input && input.collectionScope
+        ) || "Reference";
+        const officialSource = getWwaTrimmedString(
+          input && input.officialSource
+        );
+        const checkedOn = getWwaTrimmedString(input && input.checkedOn);
+        const enteredMinifigures = Array.from(new Set(
+          (Array.isArray(input && input.minifigures)
+            ? input.minifigures
+            : String(input && input.minifigures || "").split(/\r?\n/)
+          ).map(getWwaTrimmedString).filter(Boolean)
+        ));
+        const preserveLegacyMinifigures =
+          enteredMinifigures.length === 0 &&
+          existingRecord &&
+          !Array.isArray(existingRecord.minifigures) &&
+          existingRecord.minifigures !== null &&
+          existingRecord.minifigures !== undefined;
+        const minifigures = preserveLegacyMinifigures
+          ? existingRecord.minifigures
+          : enteredMinifigures;
+        const minifigureCount = preserveLegacyMinifigures
+          ? Number(existingRecord.minifigureCount ?? existingRecord.minifigures) || 0
+          : enteredMinifigures.length;
+
+        if (!setNumber) {
+          throw createWwaRecordValidationError(
+            "Set Number를 입력해 주세요.",
+            "setNumber"
+          );
+        }
+        if (!setName) {
+          throw createWwaRecordValidationError(
+            "Set Name을 입력해 주세요.",
+            "setName"
+          );
+        }
+        if (!isWwaValidPartialDate(releaseDate)) {
+          throw createWwaRecordValidationError(
+            "YYYY, YYYY-MM 또는 YYYY-MM-DD 형식으로 입력해 주세요.",
+            "releaseDate"
+          );
+        }
+        if (!WWA_RECORD_VERIFICATIONS.has(recordVerification)) {
+          throw createWwaRecordValidationError(
+            "Record Verification 값을 확인해 주세요.",
+            "recordVerification"
+          );
+        }
+        if (!WWA_RECORD_LIFECYCLES.has(recordLifecycle)) {
+          throw createWwaRecordValidationError(
+            "Record Lifecycle 값을 확인해 주세요.",
+            "recordLifecycle"
+          );
+        }
+        if (!WWA_COLLECTION_SCOPES.has(collectionScope)) {
+          throw createWwaRecordValidationError(
+            "Collection Scope 값을 확인해 주세요.",
+            "collectionScope"
+          );
+        }
+
+        const pieces = normalizeWwaRecordInteger(input && input.pieces, "pieces");
+        const sizeHeight = normalizeWwaRecordNumber(
+          input && input.sizeHeight,
+          "sizeHeight"
+        );
+        const sizeWidth = normalizeWwaRecordNumber(
+          input && input.sizeWidth,
+          "sizeWidth"
+        );
+        const sizeDepth = normalizeWwaRecordNumber(
+          input && input.sizeDepth,
+          "sizeDepth"
+        );
+        const sizeUnit = getWwaTrimmedString(input && input.sizeUnit);
+        const hasSize = [sizeHeight, sizeWidth, sizeDepth].some(
+          (value) => value !== null
+        );
+        if (hasSize && !sizeUnit) {
+          throw createWwaRecordValidationError(
+            "Size 값을 입력했다면 Unit도 입력해 주세요.",
+            "sizeUnit"
+          );
+        }
+
+        const msrpAmount = normalizeWwaRecordNumber(
+          input && input.msrpAmount,
+          "msrpAmount"
+        );
+        const msrpCurrency = getWwaTrimmedString(
+          input && input.msrpCurrency
+        ).toUpperCase();
+        if ((msrpAmount === null) !== !msrpCurrency) {
+          throw createWwaRecordValidationError(
+            "MSRP Amount와 Currency를 함께 입력해 주세요.",
+            msrpAmount === null ? "msrpAmount" : "msrpCurrency"
+          );
+        }
+
+        const myPriceAmount = normalizeWwaRecordNumber(
+          input && input.myPriceAmount,
+          "myPriceAmount"
+        );
+        const myPriceCurrency = getWwaTrimmedString(
+          input && input.myPriceCurrency
+        ).toUpperCase();
+        if ((myPriceAmount === null) !== !myPriceCurrency) {
+          throw createWwaRecordValidationError(
+            "My Price Amount와 Currency를 함께 입력해 주세요.",
+            myPriceAmount === null ? "myPriceAmount" : "myPriceCurrency"
+          );
+        }
+
+        if (recordVerification === "Verified") {
+          if (!officialSource) {
+            throw createWwaRecordValidationError(
+              "Verified에는 Official Source가 필요합니다.",
+              "officialSource"
+            );
+          }
+          if (!checkedOn) {
+            throw createWwaRecordValidationError(
+              "Verified에는 Checked On이 필요합니다.",
+              "checkedOn"
+            );
+          }
+          if (!releaseDate || pieces === null) {
+            throw createWwaRecordValidationError(
+              "Verified에는 확인된 Release Date와 Pieces가 필요합니다.",
+              !releaseDate ? "releaseDate" : "pieces"
+            );
+          }
+        }
+
+        const normalizedSize = !hasSize && !sizeUnit &&
+          existingRecord && existingRecord.size &&
+          typeof existingRecord.size !== "object"
+            ? existingRecord.size
+            : {
+                height: sizeHeight,
+                width: sizeWidth,
+                depth: sizeDepth,
+                unit: sizeUnit || null
+              };
+        const normalizedMsrp = msrpAmount === null && !msrpCurrency &&
+          existingRecord && existingRecord.msrp !== null &&
+          existingRecord.msrp !== undefined &&
+          typeof existingRecord.msrp !== "object"
+            ? existingRecord.msrp
+            : {
+                amount: msrpAmount,
+                currency: msrpCurrency || null
+              };
+        const normalizedMyPrice = myPriceAmount === null && !myPriceCurrency &&
+          existingRecord && existingRecord.myPrice !== null &&
+          existingRecord.myPrice !== undefined &&
+          typeof existingRecord.myPrice !== "object"
+            ? existingRecord.myPrice
+            : {
+                amount: myPriceAmount,
+                currency: myPriceCurrency || null
+              };
+
+        return {
+          setNumber,
+          setName,
+          releaseDate: releaseDate || null,
+          pieces,
+          minifigures,
+          minifigureCount,
+          size: normalizedSize,
+          msrp: normalizedMsrp,
+          officialSource: officialSource || null,
+          checkedOn: checkedOn || null,
+          myPrice: normalizedMyPrice,
+          purchaseDate: getWwaTrimmedString(input && input.purchaseDate) || null,
+          purchaseStore: getWwaTrimmedString(input && input.purchaseStore) || null,
+          collectionScope,
+          primarySetFamily: "Unassigned",
+          recordVerification,
+          recordLifecycle,
+          primaryBookPlacement: "Not placed"
+        };
       }
 
       function getWwaFilenameExtension(filename) {
@@ -7932,16 +8646,17 @@
         }
       }
 
-      function chooseWwaAssetReservation(
+      function chooseWwaStableIdReservation(
         reservations,
-        identity
+        identity,
+        entityType
       ) {
         return reservations
           .filter((reservation) => {
             const nextValue = Number(reservation.nextValue);
             const endValue = Number(reservation.endValue);
             return reservation &&
-              reservation.entityType === "Asset" &&
+              reservation.entityType === entityType &&
               reservation.deviceId === identity.deviceId &&
               (!reservation.archiveId ||
                 reservation.archiveId === identity.archiveId) &&
@@ -7956,8 +8671,20 @@
           )[0] || null;
       }
 
+      function chooseWwaAssetReservation(reservations, identity) {
+        return chooseWwaStableIdReservation(
+          reservations,
+          identity,
+          "Asset"
+        );
+      }
+
       function formatWwaAssetStableId(value) {
         return "AST-" + String(value).padStart(6, "0");
+      }
+
+      function formatWwaLegoRecordStableId(value) {
+        return "SET-" + String(value).padStart(6, "0");
       }
 
       function createWwaAssetFieldClocks(
@@ -8044,6 +8771,211 @@
           createdAt: now,
           updatedAt: now
         };
+      }
+
+      const WWA_LEGO_RECORD_CLOCK_FIELDS = Object.freeze([
+        "setNumber",
+        "setName",
+        "releaseDate",
+        "pieces",
+        "minifigures",
+        "minifigureCount",
+        "size",
+        "msrp",
+        "officialSource",
+        "checkedOn",
+        "myPrice",
+        "purchaseDate",
+        "purchaseStore",
+        "collectionScope",
+        "primarySetFamily",
+        "recordVerification",
+        "recordLifecycle",
+        "primaryBookPlacement"
+      ]);
+
+      function getWwaChangedRecordFields(current, normalized) {
+        if (!current) return WWA_LEGO_RECORD_CLOCK_FIELDS.slice();
+        return WWA_LEGO_RECORD_CLOCK_FIELDS.filter((field) =>
+          JSON.stringify(current[field] ?? null) !==
+            JSON.stringify(normalized[field] ?? null)
+        );
+      }
+
+      function updateWwaLegoRecordFieldClocks(
+        currentClocks,
+        changedFields,
+        now,
+        deviceId
+      ) {
+        const next = { ...(currentClocks || {}) };
+        changedFields.forEach((field) => {
+          next[field] = { updatedAt: now, deviceId };
+        });
+        return next;
+      }
+
+      async function saveWwaLegoRecord(storage, recordSyncId, input) {
+        const normalized = normalizeWwaLegoRecordInput(input);
+        const transaction = storage.database.transaction([
+          "archiveRoots",
+          "idReservations",
+          "legoRecords",
+          "outbox"
+        ], "readwrite");
+        const completion = waitForWwaTransaction(transaction);
+
+        try {
+          const [archiveRoot, reservations, allRecords] = await Promise.all([
+            requestWwaResult(
+              transaction.objectStore("archiveRoots").get(storage.archiveId)
+            ),
+            requestWwaResult(
+              transaction.objectStore("idReservations")
+                .index("entityType").getAll("LegoRecord")
+            ),
+            requestWwaResult(
+              transaction.objectStore("legoRecords").getAll()
+            )
+          ]);
+
+          if (!archiveRoot || !archiveRoot.activeGenerationId) {
+            throw new Error("Active WWA generation is missing.");
+          }
+
+          const identity = {
+            archiveId: storage.archiveId,
+            generationId: archiveRoot.activeGenerationId,
+            deviceId: storage.deviceId
+          };
+          const activeRecords = allRecords.filter((record) =>
+            isWwaActiveGenerationRecord(
+              record,
+              identity.archiveId,
+              identity.generationId
+            )
+          );
+          const current = recordSyncId
+            ? activeRecords.find((record) => record.syncId === recordSyncId)
+            : null;
+
+          if (recordSyncId && !current) {
+            throw new Error("LEGO Record를 현재 Archive에서 찾을 수 없습니다.");
+          }
+
+          const setNumberKey = normalized.setNumber.toUpperCase();
+          const duplicate = activeRecords.find((record) =>
+            record.syncId !== recordSyncId &&
+            normalizeWwaSetNumber(record.setNumber).toUpperCase() ===
+              setNumberKey
+          );
+          if (duplicate) {
+            throw createWwaRecordValidationError(
+              "같은 Set Number의 LEGO Record가 이미 있습니다.",
+              "setNumber"
+            );
+          }
+
+          let reservation = null;
+          let stableId = current && getWwaTrimmedString(current.stableId);
+          const syncId = current ? current.syncId : createWwaIdentityId();
+          if (!current) {
+            reservation = chooseWwaStableIdReservation(
+              reservations,
+              identity,
+              "LegoRecord"
+            );
+            if (!reservation) {
+              throw new Error(
+                "LEGO Record ID 예약이 준비되지 않았습니다. 다시 시도해 주세요."
+              );
+            }
+            stableId = formatWwaLegoRecordStableId(
+              Number(reservation.nextValue)
+            );
+            const stableIdCollision = activeRecords.some((record) =>
+              getWwaTrimmedString(record.stableId) === stableId
+            );
+            if (stableIdCollision) {
+              throw new Error(
+                "Stable LEGO Record ID is already in use: " + stableId
+              );
+            }
+          }
+
+          if (!stableId) {
+            throw new Error("Stable LEGO Record ID is missing.");
+          }
+
+          const now = new Date().toISOString();
+          const changedFields = getWwaChangedRecordFields(
+            current,
+            normalized
+          );
+          const record = {
+            ...(current || {}),
+            archiveId: identity.archiveId,
+            generationId: identity.generationId,
+            syncId,
+            stableId,
+            ...normalized,
+            createdAt: current && current.createdAt || now,
+            updatedAt: now,
+            deletedAt: null,
+            fieldClocks: updateWwaLegoRecordFieldClocks(
+              current && current.fieldClocks,
+              changedFields,
+              now,
+              identity.deviceId
+            ),
+            cloudChangeTag: current && current.cloudChangeTag || null
+          };
+
+          transaction.objectStore("legoRecords").put(record);
+          if (reservation) {
+            transaction.objectStore("idReservations").put({
+              ...reservation,
+              nextValue: Number(reservation.nextValue) + 1,
+              updatedAt: now
+            });
+          }
+
+          const operation = createWwaOutboxOperation(
+            identity,
+            "LegoRecord",
+            syncId,
+            "legoRecords",
+            [],
+            now,
+            current ? {
+              baseCloudChangeTag: current.cloudChangeTag || null,
+              baseFieldClocks: current.fieldClocks || {},
+              changedFields
+            } : { changedFields }
+          );
+          transaction.objectStore("outbox").add(operation);
+
+          await completion;
+          return {
+            status: current ? "updated" : "saved",
+            stableId,
+            syncId,
+            changedFields,
+            outboxOperationId: operation.operationId
+          };
+        } catch (error) {
+          try {
+            transaction.abort();
+          } catch (abortError) {
+            // The transaction may already have completed or aborted.
+          }
+          try {
+            await completion;
+          } catch (transactionError) {
+            // Preserve the first validation or transaction error.
+          }
+          throw error;
+        }
       }
 
       function isWwaCloudKitConfigured() {
@@ -9542,8 +10474,23 @@
         storage,
         entityType = "Asset"
       ) {
+        const entityConfig = {
+          Asset: {
+            storeName: "assets",
+            pattern: /^AST-(\d{6,})$/
+          },
+          LegoRecord: {
+            storeName: "legoRecords",
+            pattern: /^SET-(\d{6,})$/
+          }
+        }[entityType];
+        if (!entityConfig) {
+          throw new Error(
+            "Local Archive Stable ID type is not supported: " + entityType
+          );
+        }
         const transaction = storage.database.transaction(
-          ["settings", "idReservations", "assets"],
+          ["settings", "idReservations", entityConfig.storeName],
           "readwrite"
         );
         const completion = waitForWwaTransaction(transaction);
@@ -9551,10 +10498,12 @@
           const settings = transaction.objectStore("settings");
           const reservationsStore = transaction.objectStore("idReservations");
           const highWaterKey = "stableIdHighWaterMarks:" + storage.archiveId;
-          const [highWaterRecord, reservations, assets] = await Promise.all([
+          const [highWaterRecord, reservations, entityRecords] = await Promise.all([
             requestWwaResult(settings.get(highWaterKey)),
             requestWwaResult(reservationsStore.getAll()),
-            requestWwaResult(transaction.objectStore("assets").getAll())
+            requestWwaResult(
+              transaction.objectStore(entityConfig.storeName).getAll()
+            )
           ]);
           const activeReservations = reservations
             .filter((reservation) =>
@@ -9596,19 +10545,17 @@
               maximum,
               Number(reservation.endValue || 0)
             ), 0);
-          const recordHighWater = entityType === "Asset"
-            ? assets.reduce((maximum, asset) => {
-                if (!asset || asset.archiveId !== storage.archiveId) {
-                  return maximum;
-                }
-                const match = /^AST-(\d{6,})$/.exec(
-                  getWwaTrimmedString(asset.stableId)
-                );
-                return match
-                  ? Math.max(maximum, Number(match[1]))
-                  : maximum;
-              }, 0)
-            : 0;
+          const recordHighWater = entityRecords.reduce((maximum, record) => {
+            if (!record || record.archiveId !== storage.archiveId) {
+              return maximum;
+            }
+            const match = entityConfig.pattern.exec(
+              getWwaTrimmedString(record.stableId)
+            );
+            return match
+              ? Math.max(maximum, Number(match[1]))
+              : maximum;
+          }, 0);
           const highWater = Math.max(
             storedHighWater,
             reservationHighWater,
@@ -9673,6 +10620,7 @@
           promotedCount += promotedInPass;
         } while (promotedInPass === 25 && promotedCount < 2500);
         await ensureWwaLocalStableIdReservation(storage, "Asset");
+        await ensureWwaLocalStableIdReservation(storage, "LegoRecord");
         return {
           status: "local-archive-ready",
           promotedDrafts: promotedCount
@@ -11682,6 +12630,31 @@
       const recordFilterButtons = root.querySelectorAll(
         ".wwa-record-filter"
       );
+      const addRecordButton = root.querySelector(".wwa-add-record");
+      const recordEditor = root.querySelector(".wwa-record-editor");
+      const recordEditorBack = root.querySelector(".wwa-record-editor-back");
+      const recordEditorForm = root.querySelector(".wwa-record-editor-form");
+      const recordEditorPosition = root.querySelector(
+        ".wwa-record-editor-position"
+      );
+      const recordEditorHeading = root.querySelector(
+        ".wwa-record-editor-heading"
+      );
+      const recordEditorIntro = root.querySelector(
+        ".wwa-record-editor-intro"
+      );
+      const recordEditorStatus = root.querySelector(
+        ".wwa-record-editor-status"
+      );
+      const recordEditorCancel = root.querySelector(
+        '[data-record-editor-action="cancel"]'
+      );
+      const recordEditorSubmit = recordEditorForm.querySelector(
+        '[type="submit"]'
+      );
+      const recordMinifigureCount = recordEditorForm.querySelector(
+        "[data-record-minifigure-count]"
+      );
       const assets = root.querySelector(".wwa-assets");
       const archiveData = root.querySelector(".wwa-archive-data");
       const archiveDataOpen = root.querySelector(".wwa-archive-data-open");
@@ -11772,6 +12745,10 @@
       let legoRecordRows = [];
       let recordsLoadState = "loading";
       let restoredRecordObjectUrls = new Set();
+      let activeLegoRecord = null;
+      let activeRecordEditorTrigger = null;
+      let recordEditorDirty = false;
+      let recordEditorSaving = false;
       let activeAssetFilter = "All";
       let lastAssetTrigger = null;
       let activeAsset = null;
@@ -11922,6 +12899,7 @@
         }
 
         return {
+          record: { ...record },
           stableId: getWwaTrimmedString(record.stableId),
           syncId: getWwaTrimmedString(record.syncId),
           setNumber,
@@ -12012,7 +12990,7 @@
 
           button.append(frame, copy, chevron);
           button.addEventListener("click", () => {
-            showNotice("Record Detail · next approved phase");
+            openWwaRecordEditor(record.record, button);
           });
           item.append(button);
           recordsList.append(item);
@@ -12079,6 +13057,267 @@
           renderLegoRecords();
           console.error("WWA LEGO Record restore failed.", error);
           throw error;
+        }
+      };
+
+      const getWwaRecordEditorField = (name) =>
+        recordEditorForm.elements.namedItem(name);
+
+      const setWwaRecordEditorStatus = (message, isError = false) => {
+        recordEditorStatus.textContent = message;
+        recordEditorStatus.classList.toggle("is-error", isError);
+      };
+
+      const clearWwaRecordEditorErrors = () => {
+        recordEditorForm.querySelectorAll("[data-record-error]").forEach(
+          (element) => {
+            element.textContent = "";
+            element.classList.remove("is-visible");
+          }
+        );
+        recordEditorForm.querySelectorAll("[aria-invalid]").forEach(
+          (element) => element.removeAttribute("aria-invalid")
+        );
+      };
+
+      const showWwaRecordEditorError = (error) => {
+        const field = error && error.field;
+        const input = field ? getWwaRecordEditorField(field) : null;
+        const message = error && error.message
+          ? error.message
+          : "LEGO Record를 저장하지 못했습니다.";
+        if (input) {
+          input.setAttribute("aria-invalid", "true");
+          const fieldError = recordEditorForm.querySelector(
+            '[data-record-error="' + field + '"]'
+          );
+          if (fieldError) {
+            fieldError.textContent = message;
+            fieldError.classList.add("is-visible");
+          }
+          input.focus();
+        }
+        setWwaRecordEditorStatus(message, true);
+      };
+
+      const getWwaRecordEditorMinifigures = () =>
+        getWwaRecordEditorField("minifigures").value
+          .split(/\r?\n/)
+          .map((value) => value.trim())
+          .filter(Boolean);
+
+      const updateWwaRecordEditorMinifigureCount = () => {
+        const names = Array.from(new Set(getWwaRecordEditorMinifigures()));
+        if (
+          names.length === 0 &&
+          activeLegoRecord &&
+          !Array.isArray(activeLegoRecord.minifigures)
+        ) {
+          recordMinifigureCount.textContent = String(
+            Number(
+              activeLegoRecord.minifigureCount ??
+              activeLegoRecord.minifigures
+            ) || 0
+          );
+          return;
+        }
+        recordMinifigureCount.textContent = String(names.length);
+      };
+
+      const getWwaRecordEditorInput = () => ({
+        existingRecord: activeLegoRecord,
+        setNumber: getWwaRecordEditorField("setNumber").value,
+        setName: getWwaRecordEditorField("setName").value,
+        releaseDate: getWwaRecordEditorField("releaseDate").value,
+        pieces: getWwaRecordEditorField("pieces").value,
+        minifigures: getWwaRecordEditorMinifigures(),
+        sizeHeight: getWwaRecordEditorField("sizeHeight").value,
+        sizeWidth: getWwaRecordEditorField("sizeWidth").value,
+        sizeDepth: getWwaRecordEditorField("sizeDepth").value,
+        sizeUnit: getWwaRecordEditorField("sizeUnit").value,
+        msrpAmount: getWwaRecordEditorField("msrpAmount").value,
+        msrpCurrency: getWwaRecordEditorField("msrpCurrency").value,
+        officialSource: getWwaRecordEditorField("officialSource").value,
+        checkedOn: getWwaRecordEditorField("checkedOn").value,
+        myPriceAmount: getWwaRecordEditorField("myPriceAmount").value,
+        myPriceCurrency: getWwaRecordEditorField("myPriceCurrency").value,
+        purchaseDate: getWwaRecordEditorField("purchaseDate").value,
+        purchaseStore: getWwaRecordEditorField("purchaseStore").value,
+        collectionScope: getWwaRecordEditorField("collectionScope").value,
+        recordVerification: getWwaRecordEditorField(
+          "recordVerification"
+        ).value,
+        recordLifecycle: getWwaRecordEditorField("recordLifecycle").value
+      });
+
+      const setWwaRecordEditorFieldValue = (name, value) => {
+        const field = getWwaRecordEditorField(name);
+        if (field) field.value = value === null || value === undefined
+          ? ""
+          : String(value);
+      };
+
+      const openWwaRecordEditor = (record = null, trigger = null) => {
+        activeLegoRecord = record ? { ...record } : null;
+        activeRecordEditorTrigger = trigger || addRecordButton;
+        recordEditorForm.reset();
+        clearWwaRecordEditorErrors();
+
+        const size = record && record.size && typeof record.size === "object"
+          ? record.size
+          : {};
+        const msrp = record && record.msrp && typeof record.msrp === "object"
+          ? record.msrp
+          : {};
+        const myPrice = record && record.myPrice &&
+          typeof record.myPrice === "object"
+          ? record.myPrice
+          : {};
+        const minifigures = record && Array.isArray(record.minifigures)
+          ? record.minifigures
+          : [];
+
+        setWwaRecordEditorFieldValue("setNumber", record && record.setNumber);
+        setWwaRecordEditorFieldValue("setName", record && record.setName);
+        setWwaRecordEditorFieldValue("releaseDate", record && record.releaseDate);
+        setWwaRecordEditorFieldValue("pieces", record && record.pieces);
+        setWwaRecordEditorFieldValue("minifigures", minifigures.join("\n"));
+        setWwaRecordEditorFieldValue("sizeHeight", size.height);
+        setWwaRecordEditorFieldValue("sizeWidth", size.width);
+        setWwaRecordEditorFieldValue("sizeDepth", size.depth);
+        setWwaRecordEditorFieldValue("sizeUnit", size.unit);
+        setWwaRecordEditorFieldValue("msrpAmount", msrp.amount);
+        setWwaRecordEditorFieldValue("msrpCurrency", msrp.currency);
+        setWwaRecordEditorFieldValue(
+          "officialSource",
+          record && (record.officialSource || record.source)
+        );
+        setWwaRecordEditorFieldValue("checkedOn", record && record.checkedOn);
+        setWwaRecordEditorFieldValue("myPriceAmount", myPrice.amount);
+        setWwaRecordEditorFieldValue("myPriceCurrency", myPrice.currency);
+        setWwaRecordEditorFieldValue("purchaseDate", record && record.purchaseDate);
+        setWwaRecordEditorFieldValue("purchaseStore", record && record.purchaseStore);
+        setWwaRecordEditorFieldValue(
+          "collectionScope",
+          record && WWA_COLLECTION_SCOPES.has(record.collectionScope)
+            ? record.collectionScope
+            : "Reference"
+        );
+        setWwaRecordEditorFieldValue(
+          "recordVerification",
+          record && WWA_RECORD_VERIFICATIONS.has(record.recordVerification)
+            ? record.recordVerification
+            : "Draft"
+        );
+        setWwaRecordEditorFieldValue(
+          "recordLifecycle",
+          record && record.recordLifecycle === "Archived"
+            ? "Archived"
+            : "Active"
+        );
+        setWwaRecordEditorFieldValue("primarySetFamily", "Unassigned");
+        setWwaRecordEditorFieldValue("primaryBookPlacement", "Not placed");
+        updateWwaRecordEditorMinifigureCount();
+
+        const isEdit = Boolean(record);
+        recordEditorPosition.textContent = isEdit ? "Edit Record" : "Add Record";
+        recordEditorHeading.textContent = isEdit
+          ? "Edit LEGO Record"
+          : "New LEGO Record";
+        recordEditorIntro.textContent = isEdit
+          ? "기존 SET ID를 유지하며 공식 정보와 Archive 메타데이터를 수정합니다."
+          : "세트번호별 공식 원본 Record 하나를 Local Archive에 저장합니다.";
+        recordEditorSubmit.textContent = isEdit ? "Save Changes" : "Save Record";
+        setWwaRecordEditorStatus(
+          isEdit && record.stableId
+            ? record.stableId + " · Stable ID retained"
+            : "Stable SET ID는 첫 저장 완료 시 발급됩니다."
+        );
+        recordEditorDirty = false;
+        recordEditorSaving = false;
+        recordEditorBack.disabled = false;
+        recordEditorCancel.disabled = false;
+        recordEditorSubmit.disabled = false;
+
+        recordsScreen.classList.remove("is-visible");
+        recordEditor.classList.add("is-visible");
+        root.classList.add("is-record-editor-view", "is-records-view");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.setTimeout(
+          () => recordEditor.focus({ preventScroll: true }),
+          180
+        );
+      };
+
+      const closeWwaRecordEditor = (restoreFocus = true) => {
+        recordEditor.classList.remove("is-visible");
+        root.classList.remove("is-record-editor-view");
+        recordsScreen.classList.add("is-visible");
+        activeLegoRecord = null;
+        recordEditorDirty = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (restoreFocus && activeRecordEditorTrigger) {
+          window.setTimeout(() => activeRecordEditorTrigger.focus(), 180);
+        }
+      };
+
+      const requestCloseWwaRecordEditor = () => {
+        if (recordEditorSaving) return;
+        if (
+          recordEditorDirty &&
+          !window.confirm(
+            "Discard Changes?\n\n저장하지 않은 LEGO Record 변경사항을 버리고 나갈까요?"
+          )
+        ) {
+          return;
+        }
+        closeWwaRecordEditor();
+      };
+
+      const saveWwaRecordEditor = async (event) => {
+        event.preventDefault();
+        if (recordEditorSaving) return;
+        clearWwaRecordEditorErrors();
+        const input = getWwaRecordEditorInput();
+        const previousLifecycle = activeLegoRecord &&
+          activeLegoRecord.recordLifecycle === "Archived"
+            ? "Archived"
+            : "Active";
+        if (
+          previousLifecycle !== "Archived" &&
+          input.recordLifecycle === "Archived" &&
+          !window.confirm(
+            "Archive LEGO Record?\n\nRecord와 연결 자료는 삭제되지 않으며 다시 Active로 복원할 수 있습니다."
+          )
+        ) {
+          return;
+        }
+
+        recordEditorSaving = true;
+        recordEditorBack.disabled = true;
+        recordEditorCancel.disabled = true;
+        recordEditorSubmit.disabled = true;
+        setWwaRecordEditorStatus("Saving LEGO Record…");
+
+        try {
+          const result = await window.WWAStorage.saveLegoRecord(
+            activeLegoRecord && activeLegoRecord.syncId,
+            input
+          );
+          recordEditorDirty = false;
+          await restoreWwaLegoRecordsFromStorage();
+          closeWwaRecordEditor(false);
+          showNotice(
+            (result.status === "updated" ? "Updated · " : "Saved · ") +
+            result.stableId
+          );
+        } catch (error) {
+          showWwaRecordEditorError(error);
+        } finally {
+          recordEditorSaving = false;
+          recordEditorBack.disabled = false;
+          recordEditorCancel.disabled = false;
+          recordEditorSubmit.disabled = false;
         }
       };
 
@@ -13639,6 +14878,30 @@
       });
 
       recordsSearch.addEventListener("input", renderLegoRecords);
+      addRecordButton.addEventListener("click", () => {
+        openWwaRecordEditor(null, addRecordButton);
+      });
+      recordEditorBack.addEventListener("click", requestCloseWwaRecordEditor);
+      recordEditorCancel.addEventListener("click", requestCloseWwaRecordEditor);
+      recordEditorForm.addEventListener("submit", saveWwaRecordEditor);
+      recordEditorForm.addEventListener("input", (event) => {
+        if (!recordEditor.classList.contains("is-visible")) return;
+        recordEditorDirty = true;
+        const fieldName = event.target && event.target.name;
+        if (fieldName) {
+          const fieldError = recordEditorForm.querySelector(
+            '[data-record-error="' + fieldName + '"]'
+          );
+          if (fieldError) {
+            fieldError.textContent = "";
+            fieldError.classList.remove("is-visible");
+          }
+          event.target.removeAttribute("aria-invalid");
+        }
+        if (fieldName === "minifigures") {
+          updateWwaRecordEditorMinifigureCount();
+        }
+      });
 
       filterButtons.forEach((button) => {
         button.addEventListener("click", () => {
@@ -14013,7 +15276,11 @@
         event.target.removeAttribute("aria-invalid");
       });
       window.addEventListener("beforeunload", (event) => {
-        if (!assetEditorDirty || !assetEditor.classList.contains("is-visible")) return;
+        const hasUnsavedAsset = assetEditorDirty &&
+          assetEditor.classList.contains("is-visible");
+        const hasUnsavedRecord = recordEditorDirty &&
+          recordEditor.classList.contains("is-visible");
+        if (!hasUnsavedAsset && !hasUnsavedRecord) return;
         event.preventDefault();
         event.returnValue = "";
       });
@@ -14054,9 +15321,15 @@
         if (reason === "asset-add") {
           await ensureWwaLocalStableIdReservation(storage, "Asset");
         }
+        if (reason === "record-save") {
+          await ensureWwaLocalStableIdReservation(storage, "LegoRecord");
+        }
         const result = await mutation(storage);
         if (reason === "asset-add" || reason === "archive-restore") {
           await ensureWwaLocalStableIdReservation(storage, "Asset");
+        }
+        if (reason === "record-save") {
+          await ensureWwaLocalStableIdReservation(storage, "LegoRecord");
         }
         return result;
       };
@@ -14104,6 +15377,15 @@
         loadLegoRecords: async () => loadWwaStoredLegoRecords(
           await wwaArchiveReady
         ),
+        saveLegoRecord: async (recordSyncId, input) =>
+          runWwaStoredMutation(
+            (storage) => saveWwaLegoRecord(
+              storage,
+              recordSyncId || null,
+              input
+            ),
+            "record-save"
+          ),
         createFullBackup: async () => createWwaFullBackup(
           await wwaArchiveReady
         ),
@@ -14197,12 +15479,14 @@
             assetDetail.classList.remove("is-visible");
             archiveData.classList.remove("is-visible");
             recordsScreen.classList.remove("is-visible");
+            recordEditor.classList.remove("is-visible");
             assets.classList.remove("is-visible");
             home.classList.remove("is-hidden");
             root.classList.remove(
               "is-movie-detail-view",
               "is-asset-detail-view",
               "is-records-view",
+              "is-record-editor-view",
               "is-assets-view",
               "is-archive-data-view"
             );
@@ -14217,11 +15501,13 @@
             assetDetail.classList.remove("is-visible");
             archiveData.classList.remove("is-visible");
             assets.classList.remove("is-visible");
+            recordEditor.classList.remove("is-visible");
             home.classList.add("is-hidden");
             recordsScreen.classList.add("is-visible");
             root.classList.remove(
               "is-movie-detail-view",
               "is-asset-detail-view",
+              "is-record-editor-view",
               "is-assets-view",
               "is-archive-data-view"
             );
@@ -14244,12 +15530,14 @@
             assetDetail.classList.remove("is-visible");
             archiveData.classList.remove("is-visible");
             recordsScreen.classList.remove("is-visible");
+            recordEditor.classList.remove("is-visible");
             home.classList.add("is-hidden");
             assets.classList.add("is-visible");
             root.classList.remove(
               "is-movie-detail-view",
               "is-asset-detail-view",
               "is-records-view",
+              "is-record-editor-view",
               "is-archive-data-view"
             );
             root.classList.add("is-assets-view");

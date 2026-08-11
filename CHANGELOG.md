@@ -4,6 +4,21 @@
 
 ## [Unreleased]
 
+### Add/Edit LEGO Record Implemented — 2026-08-12
+
+- `LEGO Records` 상단에 44px 이상 `Add Record` 진입점을 추가하고, Add/Edit 집중 편집 화면에서 하단 내비게이션을 숨기도록 구현.
+- `Record Identity / Official Information / My Archive / Archive Classification` 순서로 Set Number·Set Name, 부분 Release Date, Pieces, 공식 원문 Minifigure 이름 목록과 자동 Count, 구조화 Size, MSRP, 구매정보, Collection Scope, Verification·Lifecycle을 입력하도록 연결.
+- 새 Record는 Local Archive의 `LegoRecord` 번호 블록을 원자적으로 소비해 `SET-000001` 형식의 Stable ID를 발급하고, Edit에서는 기존 `syncId / SET ID / createdAt`을 유지.
+- 모든 공백을 제거하고 대소문자를 통일한 Set Number 기준으로 활성 generation 전체를 다시 확인해 중복 생성을 차단하며, Add/Edit Record와 Outbox·번호 소비를 하나의 IndexedDB transaction으로 저장.
+- `Verified` 전환에는 Official Source, Checked On, 확인된 Release Date·Pieces를 요구하고, 오류를 해당 필드 아래 한글 문장과 `aria-invalid`로 표시.
+- Minifigures는 중복을 제거한 공식 이름 목록으로 저장하고 Count를 자동 계산하며, Size와 MSRP·My Price는 값·단위를 분리하고 통화를 자동 환산하지 않도록 유지.
+- Collection Plan의 기반값인 `Reference / Owned / Wanted`만 Record에 저장하고, 수집률·희소성·단종 임박도·구매 순위 화면은 승인된 별도 단계까지 구현하지 않음.
+- `Primary Set Family = Unassigned`, `Primary Book Placement = Not placed`를 읽기 전용으로 유지해 미승인 자동 분류와 WWA Page 배치를 추가하지 않음.
+- Active에서 Archived로 전환할 때만 확인창을 표시하고, 저장하지 않고 Back·Cancel 시 `Discard Changes` 확인을 적용. Record Detail 구현 전에는 기존 목록 행에서 Edit 화면으로 직접 진입하도록 연결.
+- 기존 Migration Record의 숫자형 Minifigure Count, 문자열 Size, 단일값 Price를 다른 필드만 편집할 때 조용히 지우지 않고 원형 보존.
+- iPhone `393px / 430px` DOM·IndexedDB 통합 검증에서 Add/Edit, `SET` ID 유지, Set Number 수정·중복 차단, Verified 조건, Archive·Discard 확인, transaction 충돌 롤백, Verified ZIP 내 LEGO Record 포함, 16px 입력, 44px 이상 터치 영역을 확인.
+- 기존 Home 영화 8개, Records 검색·5개 필터·대표 Asset, Assets 필터 6개, IndexedDB 20개 Store, Detail 화면 하단 내비게이션 숨김과 `localStorage` 비접촉을 유지.
+
 ### LEGO Records List Implemented — 2026-08-11
 
 - 하단 내비게이션을 승인된 `Home / Records / Assets / Pages` 순서로 전환하고 기존 임시 `Collection` 진입점을 첫 실제 `Records` 화면으로 교체.
@@ -318,10 +333,11 @@
 
 ### Next
 
-1. iPhone Photos의 JPEG/HEIC 저장, 앱 재실행 유지, 오프라인 열람·편집, Verified ZIP 백업·복원 실기기 검증
-2. iPad·PC 보조 화면 검증
-3. 승인된 규칙에 따른 LEGO Record 목록·Add/Edit·Detail 설계
-4. LEGO Record 구현·검증·배포 후 Story Connections 통합
+1. iPhone용 LEGO Record Detail 설계·승인·구현·검증
+2. Records 내부 Collection Plan 별도 설계·승인·구현
+3. Story Connections 통합
+4. WWA Page 구현
+5. iPhone 전체 기능·저장·백업 최종 검증 후 iPad 지원·PC 보조 화면 마무리
 
 ## [Repository Checkpoint] — 2026-08-09
 
