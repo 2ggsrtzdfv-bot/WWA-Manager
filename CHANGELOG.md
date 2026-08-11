@@ -4,6 +4,26 @@
 
 ## [Unreleased]
 
+### LEGO Records List Implemented — 2026-08-11
+
+- 하단 내비게이션을 승인된 `Home / Records / Assets / Pages` 순서로 전환하고 기존 임시 `Collection` 진입점을 첫 실제 `Records` 화면으로 교체.
+- iPhone Archive Surface에 `LEGO Records` 제목, `Set Number / Set Name` 검색, `All / Draft / Review / Verified / Archived` 필터와 전체 폭 목록 행을 구현.
+- 활성 Archive generation의 `legoRecords` Store만 읽고 공백 제거·대소문자 통일 Set Number 기준으로 중복 표시를 방지하며, 예시 Record를 만들지 않고 실제 저장 데이터만 표시.
+- 각 행에 Set Number, Set Name, `Release Year · Pieces`, `Record Verification`, `Record Lifecycle`을 분리 표시하고 오른쪽 `›` 탐색 구조를 적용.
+- `relatedLegoRecord` 관계로 연결된 LEGO 공식 제품 이미지, 공식 박스 이미지, 직접 촬영, Blueprint 순으로 대표 Asset을 선택하고 제품 전체가 잘리지 않는 `contain` 방식을 적용.
+- 현재 깨끗한 Archive에서는 `00 LEGO Records`와 조용한 빈 상태를 표시하며 Add/Edit, Record Detail, Collection Plan의 작동하지 않는 진입점은 이번 화면에 추가하지 않음.
+- iPhone `393px / 430px` DOM·IndexedDB 통합 검증에서 빈 상태, 저장 Record 복원, 검색, 5개 상태 필터, 대표 Asset, 16px 검색 입력, 44px 이상 터치 영역을 확인.
+- 기존 Home 영화 8개, Assets 필터 6개, IndexedDB 20개 Store, Movie Detail·Asset Detail 하단 내비게이션 숨김과 `localStorage` 비접촉을 유지.
+
+### Collection Plan Direction Approved — 2026-08-11
+
+- 수집률, 희소성, 미보유 세트 구매 순위는 LEGO Record 본체나 하단 내비게이션에 섞지 않고 향후 `Records` 내부의 별도 `Collection Plan` 기능으로 관리.
+- 미보유 세트도 별도 중복 데이터가 아니라 세트번호당 하나의 LEGO Record를 `Wanted` 범위로 관리하고 구매 후 같은 Record를 `Owned`로 전환해 기존 `SET` ID와 조사 이력을 유지.
+- `Collection Progress`는 `Owned ÷ (Owned + Wanted)`로 계산하고 `Reference / Archived`는 현재 수집률에서 제외.
+- `Purchase Priority`는 현재 단종되지 않은 Wanted 세트 중 공식 `Retiring Soon`, 예상 단종 시점, `High / Medium / Low / Unassessed` 단종 가능성 순으로 자동 정렬하며, 이미 단종된 세트는 `Retired Wanted`로 분리.
+- `Rarity`는 단종 가능성과 별도 정보로 유지하고 동일한 단종 위험에서만 보조 정렬 기준으로 사용. 각 단종 판단에는 Availability, Retirement Risk, Expected Retirement, Retirement Source, Checked On을 함께 기록.
+- Collection Plan 진입점은 해당 기능의 별도 설계·승인·구현 단계 전까지 화면에 추가하지 않음.
+
 ### Detail Navigation and Search Input Fix Implemented — 2026-08-11
 
 - Assets Library 검색 입력값을 iPhone Safari 자동 확대 방지 기준인 실제 `16px`로 통일.
