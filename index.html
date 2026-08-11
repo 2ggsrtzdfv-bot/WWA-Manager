@@ -5298,6 +5298,48 @@
         return entry && entry.blob instanceof Blob ? entry.blob : null;
       }
 
+      function getWwaBackupFileMimeType(fileRecord) {
+        const declaredMimeType = getWwaTrimmedString(
+          fileRecord && fileRecord.mimeType
+        ).toLowerCase();
+        if (declaredMimeType.startsWith("image/")) {
+          return declaredMimeType;
+        }
+
+        const extension = getWwaBackupExtension(
+          fileRecord && (
+            fileRecord.extension ||
+            getWwaFilenameExtension(fileRecord.originalFilename)
+          ),
+          ""
+        );
+        const inferredMimeType =
+          WWA_STORAGE_IMAGE_MIME_BY_EXTENSION[extension] || "";
+        if (!inferredMimeType) {
+          throw getWwaBackupError(
+            "Archive 이미지 형식을 확인할 수 없습니다."
+          );
+        }
+        return inferredMimeType;
+      }
+
+      function rehydrateWwaBackupFile(entries, fileRecord) {
+        const blob = getWwaBackupEntryBlob(
+          entries,
+          fileRecord && fileRecord.backupPath
+        );
+        if (!blob) {
+          throw getWwaBackupError("Archive 이미지 파일이 없습니다.");
+        }
+        const mimeType = getWwaBackupFileMimeType(fileRecord);
+        return {
+          blob: blob.type === mimeType
+            ? blob
+            : blob.slice(0, blob.size, mimeType),
+          mimeType
+        };
+      }
+
       async function readWwaBackupJson(entries, path) {
         const blob = getWwaBackupEntryBlob(entries, path);
         if (!blob) {
@@ -5579,6 +5621,7 @@
         const physicalPaths = new Set();
 
         for (const fileRecord of records.files) {
+          getWwaBackupFileMimeType(fileRecord);
           const path = normalizeWwaBackupPath(fileRecord.backupPath);
           const expectedFolder = fileRecord.role === "original"
             ? "originals/"
@@ -5608,6 +5651,7 @@
             if (!fileRecord || typeof fileRecord !== "object") {
               throw getWwaBackupError("Draft의 " + role + " 파일 정보가 없습니다.");
             }
+            getWwaBackupFileMimeType(fileRecord);
             const path = normalizeWwaBackupPath(fileRecord.backupPath);
             if (!path.startsWith(role === "original" ? "originals/" : "previews/")) {
               throw getWwaBackupError("Draft 파일 경로가 올바르지 않습니다.");
@@ -6121,18 +6165,29 @@
         );
 
         records.files = sourceRecords.files.map((record) => {
-          const blob = getWwaBackupEntryBlob(staged.entries, record.backupPath);
+          const restoredFile = rehydrateWwaBackupFile(
+            staged.entries,
+            record
+          );
           const { backupPath, ...metadata } = record;
-          return withGeneration({ ...metadata, blob });
+          return withGeneration({
+            ...metadata,
+            mimeType: restoredFile.mimeType,
+            blob: restoredFile.blob
+          });
         });
         records.drafts = sourceRecords.drafts.map((record) => {
           const restoreDraftFile = (fileRecord) => {
-            const blob = getWwaBackupEntryBlob(
+            const restoredFile = rehydrateWwaBackupFile(
               staged.entries,
-              fileRecord.backupPath
+              fileRecord
             );
             const { backupPath, ...metadata } = fileRecord;
-            return { ...metadata, blob };
+            return {
+              ...metadata,
+              mimeType: restoredFile.mimeType,
+              blob: restoredFile.blob
+            };
           };
           return withGeneration({
             ...record,

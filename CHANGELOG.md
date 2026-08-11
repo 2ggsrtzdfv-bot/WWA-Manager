@@ -4,6 +4,40 @@
 
 ## [Unreleased]
 
+### iPhone Full Restore Image MIME Fix Implemented — 2026-08-11
+
+- iPhone 실기기에서 `WWA_Backup_2026-08-11_0340.zip`을 검증·복원한 뒤 `AST-000001` Record와 `Version 1`은 유지되지만 Original 미리보기가 표시되지 않는 문제를 확인.
+- ZIP의 이미지 바이트와 `archive.json`의 `mimeType = image/png` 메타데이터는 정상이며, ZIP에서 추출한 무형식 Blob을 새 generation에 그대로 적재해 iPhone Safari가 이미지를 해석하지 못한 것이 원인으로 확정.
+- 복원 적재 시 각 Original·Preview Blob에 저장된 MIME 형식을 다시 부여하고, MIME 메타데이터가 비어 있는 호환 백업은 승인된 이미지 확장자에서 안전하게 형식을 복원하도록 수정.
+- 백업 형식과 checksum은 변경하지 않아 기존 `WWA_Backup_2026-08-11_0340.zip`을 새로 만들지 않고 수정 배포본에서 다시 검증·복원할 수 있도록 유지.
+- DOM·IndexedDB 통합 검증에서 ZIP 추출 직후 `type = ""` 상태를 재현한 뒤 Original·Preview가 `image/png`로 복원되고, 원본 바이트·`AST-000001`·`Version 1`·다음 안전 번호 구간이 유지되는 것을 확인.
+- 이번 체크포인트는 로컬 수정·검증만 포함하며 GitHub 반영과 GitHub Pages 배포는 포함하지 않음.
+
+### iPhone Backup Folder Approved — 2026-08-11
+
+- WWA 백업 ZIP의 공식 보관 위치를 `iCloud Drive / WWA Backup` 폴더로 확정.
+- iPhone Safari에서 `WWA_Backup_2026-08-11_0321.zip` 생성 후 앱 자체 검증 완료 상태를 확인.
+- 해당 백업은 `0 files`인 빈 Archive 백업이므로 ZIP 생성·검증 성공만 확인한 것으로 기록하며, 실제 Asset·Version History가 포함된 복원 검증은 별도로 진행.
+- iCloud Drive는 사용자가 백업 생성 때 선택하는 파일 보관 위치이며 앱 자동 동기화 계층으로 사용하지 않음.
+
+### LEGO Record and Navigation Rules Approved — 2026-08-11
+
+- 하단 내비게이션을 `Home / Records / Assets / Pages`로 확정하고, 현재 `Collection`을 LEGO Record 기능 구현 시 `Records`로 변경하되 별도 컬렉션 메뉴는 만들지 않기로 승인.
+- LEGO Record 필수값을 `Set Number / Set Name`, 새 Record 기본값을 `Draft / Active / Unassigned / Not placed`로 확정.
+- 모든 공백을 제거한 동일 Set Number를 중복으로 판단하며, Set Number 수정 시 중복 검사를 다시 수행하고 기존 `SET` ID는 유지하도록 확정.
+- Record의 `Verified` 조건을 공식 출처, `Checked On`, 확인 가능한 핵심 공식 정보로 확정.
+- 가격은 금액·통화를 분리하고 자동 환산하지 않으며, Release Date 부분 날짜, 실제 Purchase Date, 이름 목록 기반 Minifigure 수, `Height / Width / Depth + Unit` Size 구조를 승인.
+- Location 중복은 전체 경로, Subject 중복은 `Subject Type + 공식 원문 이름`을 기준으로 확정.
+- Story Connection 기본 상태를 `Review`, 중복 기준을 `Record + Film + Location + Subject + Narrative Scope` 조합으로 확정하고 기존 Verified Evidence·Checked On 조건을 유지.
+- 이 체크포인트는 승인 규칙과 다음 작업 기준만 기록하며 `index.html`과 공개 배포본은 변경하지 않음.
+
+### Local Archive Release Deployed — 2026-08-11
+
+- 로컬 체크포인트의 파일 트리를 GitHub `main` 배포 커밋 `b7e3bc6`과 해시 단위로 대조해 동일함을 확인.
+- 공개 GitHub Pages의 Home 8개 영화, 하단 내비게이션 4개, `Local Archive / Full ZIP Backup / Full Restore` 노출을 확인.
+- Cloud Sync, Apple 로그인, Sync Now가 공개 화면에 노출되지 않는 것을 확인.
+- 다음 개발 브랜치는 배포된 `origin/main`에서 시작하며, 이전 로컬 체크포인트 브랜치는 감사 이력으로 보존.
+
 ### Local Archive + Full ZIP Backup Adopted as Official Storage — 2026-08-11
 
 - Apple Developer 유료 가입과 CloudKit 자동 동기화를 사용하지 않기로 한 최신 승인을 반영하고, 공식 저장 방식을 `Local-First + Full ZIP Backup`으로 변경.
@@ -244,17 +278,15 @@
 
 ### Pending Decision
 
-- 하단 내비게이션 최종 명칭과 순서.
-  - 과거 승인안: `Contents / Records / Assets / Pages / Settings`
-  - 최근 시안안: `Home / Archive / Assets / WWA Page / Settings`
-  - 현재 배포본: `Home / Assets / Collection / Pages`
-  - 별도 승인 전 명칭이나 순서를 변경하지 않음.
+- `Primary Book Placement`, WWA Page 순서, 대표 페이지, 페이지별 크롭·배치는 WWA Page 단계까지 보류.
+- Set Family 목록은 별도 승인 전 자동 분류하지 않고 `Unassigned`를 유지.
 
 ### Next
 
-1. 승인된 로컬 체크포인트의 GitHub 반영과 GitHub Pages 배포 검증
-2. iPhone 393/430px, iPad·PC, HEIC/JPEG, 오프라인 저장, Verified ZIP 백업·복원 실기기 검증
-3. LEGO Record·Story Connections 통합
+1. iPhone Photos의 JPEG/HEIC 저장, 앱 재실행 유지, 오프라인 열람·편집, Verified ZIP 백업·복원 실기기 검증
+2. iPad·PC 보조 화면 검증
+3. 승인된 규칙에 따른 LEGO Record 목록·Add/Edit·Detail 설계
+4. LEGO Record 구현·검증·배포 후 Story Connections 통합
 
 ## [Repository Checkpoint] — 2026-08-09
 

@@ -81,6 +81,8 @@ WWA의 제작 흐름은 다음 순서를 따른다.
 ## 6. LEGO Record Rules
 
 - 한 세트번호에는 하나의 LEGO Record만 존재한다.
+- `Set Number`의 모든 공백을 제거한 값이 같으면 같은 Record로 판단하고 중복 생성을 차단한다.
+- `Set Number` 수정은 허용하되 저장 전에 중복 검사를 다시 수행하며, 기존 `SET` ID는 유지한다.
 - 같은 세트를 영화별로 복제하지 않는다.
 - 한 Record는 여러 영화·장소·Subject와 연결할 수 있다.
 - Film·Location 요약 목록은 `Story Connection`에서 자동 생성한다.
@@ -89,11 +91,12 @@ WWA의 제작 흐름은 다음 순서를 따른다.
 - 미확정 Set Family는 `Unassigned`로 둔다.
 - Set Family를 새로운 메인 탐색 메뉴로 확장하지 않는다.
 - `Primary Book Placement`는 WWA Page 단계 전까지 `Not placed`를 유지한다.
+- 새 Record의 기본값은 `Draft / Active / Unassigned / Not placed`다.
 
 기본 LEGO Record 항목:
 
-- Set Number
-- Set Name
+- Set Number (필수)
+- Set Name (필수)
 - Release Date
 - Pieces
 - Minifigures
@@ -103,12 +106,21 @@ WWA의 제작 흐름은 다음 순서를 따른다.
 - Purchase Date
 - Purchase Store
 
+필드 저장 규칙:
+
+- `Release Date`는 확인된 범위에 따라 연도, 연·월, 연·월·일의 부분 날짜를 허용한다.
+- `Purchase Date`는 실제 구매일을 기록하며 모르면 공란으로 둔다.
+- `Minifigures`는 공식 원문 이름 목록으로 저장하고 개수는 목록에서 자동 계산한다.
+- `Size`는 `Height / Width / Depth + Unit`으로 분리하며 모르는 값은 공란으로 둔다.
+- `MSRP`와 `My Price`는 금액과 통화를 분리 저장하며 자동 환산하지 않는다.
+
 Record 상태는 의미별로 분리한다.
 
 - `Record Verification`: `Draft / Review / Verified`
 - `Record Lifecycle`: `Active / Archived`
 
 `Archived`는 검증 실패를 뜻하지 않는다.
+`Verified`는 공식 출처, `Checked On`, 확인 가능한 핵심 공식 정보가 모두 있을 때만 허용한다.
 
 ## 7. Story Connection Rules
 
@@ -126,6 +138,11 @@ Film과 Location의 실제 관계는 `Story Connection` 단위로 저장한다. 
 - Checked On
 
 장소가 여러 영화에 등장하면 영화별 Story Connection을 만든다. 영화와 직접 연결되지 않는 장소는 `Series-wide` 관계를 허용한다.
+
+- 새 Story Connection의 기본 상태는 `Review`다.
+- `Record + Film + Location + Subject + Narrative Scope` 조합이 같으면 중복 생성을 차단한다.
+- Location은 전체 경로가 같을 때만 중복으로 판단한다.
+- Subject는 `Subject Type + 공식 원문 이름`이 같을 때 중복으로 판단한다.
 
 ### Narrative Scope
 
@@ -253,7 +270,7 @@ WWA의 저장 방식은 `Local-First + Full ZIP Backup`으로 고정한다.
 - 전체 ZIP 백업을 장기 보존과 기기 이동의 공식 수단으로 유지한다.
 - ZIP에는 Archive 데이터, Asset 원본, Preview, 모든 이미지 버전과 백업 식별 정보를 포함한다.
 - 복원은 파일 검증이 완료되기 전 기존 로컬 데이터를 변경하지 않는다.
-- ZIP은 아이폰 파일 앱, iCloud Drive 또는 사용자가 선택한 별도 위치에 보관할 수 있다. iCloud Drive는 파일 보관 위치이며 앱 자동 동기화 계층이 아니다.
+- WWA 백업 ZIP의 공식 보관 위치는 `iCloud Drive / WWA Backup` 폴더다. 백업 생성 때 사용자가 해당 폴더를 저장 위치로 선택하며, iCloud Drive는 파일 보관 위치이지 앱 자동 동기화 계층이 아니다.
 - `localStorage`는 영구 Asset 원본 저장소로 사용하지 않는다.
 
 ## 9. Stable IDs
@@ -279,7 +296,12 @@ WWA의 저장 방식은 `Local-First + Full ZIP Backup`으로 고정한다.
 
 메인 정보 구조는 영화와 이야기에서 출발해야 한다. `Collection`을 독립적인 메인 탐색축으로 확장하지 않는다.
 
-현재 하단 내비게이션 명칭에는 과거 승인안, 최근 시안안, 배포본 간 차이가 있으므로 별도 확인 전 이름이나 순서를 변경하지 않는다. 이 보류는 영화 중심 아카이브 원칙을 변경하지 않는다.
+하단 내비게이션 명칭과 순서는 `Home / Records / Assets / Pages`로 고정한다.
+
+- 현재 배포본의 `Collection`은 LEGO Record 기능 구현 시 `Records`로 변경한다.
+- 별도의 컬렉션 메인 메뉴를 만들지 않는다.
+- 하단 내비게이션은 최상위 탐색 화면에만 표시한다.
+- Add/Edit 등 집중 편집 화면에서는 하단 내비게이션을 숨긴다.
 
 ## 12. Deferred Decisions
 
@@ -294,5 +316,4 @@ WWA의 저장 방식은 `Local-First + Full ZIP Backup`으로 고정한다.
 
 또한 다음 항목은 별도 승인 전 구현하지 않는다.
 
-- 하단 내비게이션의 최종 명칭과 순서
 - 승인되지 않은 자동 분류·자동 책 배치

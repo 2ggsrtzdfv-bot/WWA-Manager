@@ -1,6 +1,6 @@
 # WWA Manager Design Guide
 
-Last updated: 2026-08-09
+Last updated: 2026-08-11
 Status: Approved baseline
 
 이 문서는 WWA Manager의 승인된 시각·인터랙션 규칙을 정의한다. WWA는 관리 대시보드나 팬덤 테마 앱이 아니라 영화와 LEGO 자료를 편집하는 뮤지엄 아카이브 제작 도구다.
@@ -96,7 +96,8 @@ WWA는 두 가지 화면 체계를 사용한다.
 - 상세 화면은 상단 Back과 명확한 화면 제목을 사용한다.
 - 목록 행 전체를 누르면 상세 화면을 연다.
 - 행 오른쪽에는 텍스트 `Open` 버튼 대신 `›`를 표시한다.
-- 최종 하단 내비게이션 명칭과 순서는 `WWA_PROTOCOL.md`의 보류 규칙을 따른다.
+- 하단 내비게이션 명칭과 순서는 `Home / Records / Assets / Pages`로 고정한다.
+- `Collection`은 LEGO Record 기능 구현 시 `Records`로 변경하며 별도 컬렉션 메뉴를 만들지 않는다.
 
 ## 7. Lists, Cards, and States
 
