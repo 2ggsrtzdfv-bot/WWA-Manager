@@ -4,6 +4,15 @@
 
 ## [Unreleased]
 
+### Reset Test Archive Implemented — 2026-08-11
+
+- 백업·복원 검증으로 생성된 테스트 Local Archive만 폐기할 수 있도록 Manager 내부 `Archive Data`에 `Reset Test Archive`를 추가.
+- `RESET`을 정확히 직접 입력하기 전에는 실행 버튼을 비활성화하고, 실행 시 IndexedDB `WWA_Manager`의 Asset·Original·Preview·Version History·번호 예약값을 함께 삭제하도록 구현.
+- ZIP 백업 파일, Safari의 다른 웹사이트 데이터, 기존 `localStorage`는 변경하지 않으며 삭제 성공 뒤 새 Archive ID와 새 번호 예약 구간을 만들도록 페이지를 다시 초기화.
+- 다른 WWA Manager 탭이 데이터베이스 삭제를 막으면 해당 탭을 닫아야 한다는 상태를 화면에 표시하고, 현재 탭의 데이터베이스 연결은 삭제 전에 닫도록 구현.
+- Archive Surface의 `Winter White #F7F9FC`, 3px 모서리, 44px 이상 터치 영역, 16px 확인 입력값과 영문 기능명·한글 안내 규칙을 유지.
+- DOM·IndexedDB 통합 검증에서 테스트 Asset·Version·File 제거, 새 Archive ID 생성, `1–25 / next 1` 번호 예약, 오입력 차단, 다른 탭 차단 안내 후 삭제 계속, `localStorage` 비접촉을 확인.
+
 ### iPhone Full Restore Image MIME Fix Implemented — 2026-08-11
 
 - iPhone 실기기에서 `WWA_Backup_2026-08-11_0340.zip`을 검증·복원한 뒤 `AST-000001` Record와 `Version 1`은 유지되지만 Original 미리보기가 표시되지 않는 문제를 확인.
@@ -11,7 +20,7 @@
 - 복원 적재 시 각 Original·Preview Blob에 저장된 MIME 형식을 다시 부여하고, MIME 메타데이터가 비어 있는 호환 백업은 승인된 이미지 확장자에서 안전하게 형식을 복원하도록 수정.
 - 백업 형식과 checksum은 변경하지 않아 기존 `WWA_Backup_2026-08-11_0340.zip`을 새로 만들지 않고 수정 배포본에서 다시 검증·복원할 수 있도록 유지.
 - DOM·IndexedDB 통합 검증에서 ZIP 추출 직후 `type = ""` 상태를 재현한 뒤 Original·Preview가 `image/png`로 복원되고, 원본 바이트·`AST-000001`·`Version 1`·다음 안전 번호 구간이 유지되는 것을 확인.
-- 이번 체크포인트는 로컬 수정·검증만 포함하며 GitHub 반영과 GitHub Pages 배포는 포함하지 않음.
+- 원격 `main` 커밋 `dab005d`에 수정 코드를 반영했으며, iPhone에서 기존 백업을 다시 복원해 Original·Preview·Version 이미지가 표시되는 것을 실기기로 확인.
 
 ### iPhone Backup Folder Approved — 2026-08-11
 
