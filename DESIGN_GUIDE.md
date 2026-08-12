@@ -181,6 +181,9 @@ WWA는 두 가지 화면 체계를 사용한다.
 - `API Key`, `Catalog Import`, `Needs Official Check`, `Official Check`에는 영문 제목 아래 작은 한글 설명을 둔다.
 - API Key 오류는 입력 필드 아래, 조회 진행·제한·부분 실패는 현재 단계 안의 조용한 상태 문구로 표시한다.
 - `Verified`는 상태 Select에서 직접 고르지 않고 `Complete Official Check`를 통해서만 전환하며, 잘못된 공식 주소는 `Official Source` 필드 아래에 표시한다.
+- 부분 `Release Date`는 iPhone에서 `YYYY-MM`과 `YYYY-MM-DD`의 하이픈을 직접 입력할 수 있는 키보드를 제공한다.
+- `Complete Official Check` 성공 직후 Action을 `Official Check Complete`로 바꾸고 바로 아래에 완료 문구를 표시하며, 저장된 Verified Record를 다시 열 때도 완료 상태를 복원한다.
+- Set Number·Release Date·Pieces·Official Source를 검증 후 수정하면 기존 완료 표시와 `Checked On`을 초기화하고 `Review`로 되돌려 재검증을 요구한다.
 - 자동조회 적용 필드를 직접 수정하면 해당 `Imported · Rebrickable` 표시를 즉시 제거하고 남은 적용 항목만 `Catalog Import`에 표시한다.
 
 ## 13. Motion and Accessibility

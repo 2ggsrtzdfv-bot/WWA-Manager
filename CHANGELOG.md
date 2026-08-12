@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+### iPhone Release Date Input and Official Check Feedback Implemented — 2026-08-12
+
+- LEGO Record의 `Release Date` 입력을 iPhone에서 하이픈을 입력할 수 있는 전체 키보드로 변경해 승인된 `YYYY / YYYY-MM / YYYY-MM-DD` 부분 날짜를 모두 직접 기록할 수 있도록 수정.
+- `Complete Official Check` 성공 즉시 Action을 `Official Check Complete`로 변경하고 버튼 바로 아래에 한글 완료 문구를 표시해 화면 아래의 Verification까지 이동하지 않아도 결과를 확인하도록 개선.
+- 저장된 Verified Record를 다시 열 때 공식 주소·Release Date·Pieces·Checked On·Verification을 재확인해 완료 Action과 안내 문구를 복원.
+- Set Number·Release Date·Pieces·Official Source를 검증 후 수정하면 `Review`로 되돌리고 `Checked On`과 완료 피드백을 초기화해 이전 검증 상태가 변경값에 남지 않도록 보강.
+- 잘못된 공식 주소·날짜·Pieces는 기존 필드 오류와 함께 Official Check Action 바로 아래에도 오류 원인을 표시.
+
 ### Official Source and Catalog Attribution Guard Implemented — 2026-08-12
 
 - LEGO Record의 `Verified`를 상태 Select에서 직접 선택하지 못하게 하고 `Complete Official Check`를 통해서만 전환하도록 변경하되, 최종 IndexedDB 저장 계층에서도 공식 출처를 동일하게 재검증하도록 보강.

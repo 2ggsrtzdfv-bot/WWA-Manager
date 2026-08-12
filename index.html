@@ -2293,6 +2293,25 @@
       gap: 8px;
     }
 
+    #wwa-home-complete-castle .wwa-record-catalog-action.is-complete {
+      border-color: var(--wwa-blue);
+      background: var(--wwa-blue);
+      color: var(--wwa-winter);
+    }
+
+    #wwa-home-complete-castle .wwa-record-official-status {
+      min-height: 15px;
+      margin: 0;
+      color: var(--wwa-stone);
+      font: 400 10px/1.45 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-record-official-status.is-complete,
+    #wwa-home-complete-castle .wwa-record-official-status.is-error {
+      color: var(--wwa-blue);
+      font-weight: 650;
+    }
+
     #wwa-home-complete-castle .wwa-catalog-flow {
       display: none;
       min-height: calc(100vh - 36px);
@@ -4604,7 +4623,7 @@
           <div class="wwa-record-editor-grid">
             <label class="wwa-record-field">
               <span class="wwa-record-field-label">Release Date</span>
-              <input name="releaseDate" type="text" inputmode="numeric" autocomplete="off" maxlength="10" placeholder="YYYY / YYYY-MM / YYYY-MM-DD">
+              <input name="releaseDate" type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="10" placeholder="YYYY / YYYY-MM / YYYY-MM-DD">
               <span class="wwa-record-field-error" data-record-error="releaseDate"></span>
             </label>
             <label class="wwa-record-field">
@@ -4668,6 +4687,7 @@
               <a class="wwa-record-catalog-link" data-record-official-action="search" href="https://www.lego.com/ko-kr/search" target="_blank" rel="noreferrer">Open LEGO Official Search</a>
               <a class="wwa-record-catalog-link" data-record-official-action="instructions" href="https://www.lego.com/ko-kr/service/buildinginstructions" target="_blank" rel="noreferrer">Find LEGO Instructions</a>
               <button class="wwa-record-catalog-action" type="button" data-record-official-action="complete">Complete Official Check</button>
+              <p class="wwa-record-official-status" data-record-official-status role="status" aria-live="polite"></p>
             </div>
           </div>
           <div class="wwa-record-catalog-summary" data-record-catalog-summary hidden>
@@ -13587,6 +13607,9 @@
       const recordOfficialComplete = recordEditorForm.querySelector(
         '[data-record-official-action="complete"]'
       );
+      const recordOfficialStatus = recordEditorForm.querySelector(
+        "[data-record-official-status]"
+      );
       const catalogFlow = recordEditor.querySelector(".wwa-catalog-flow");
       const catalogFlowBack = catalogFlow.querySelector(".wwa-catalog-flow-back");
       const catalogPanels = Array.from(
@@ -14275,6 +14298,73 @@
         ].join("-");
       };
 
+      const setWwaOfficialCheckFeedback = (state = "idle", message = "") => {
+        const isComplete = state === "complete";
+        recordOfficialComplete.textContent = isComplete
+          ? "Official Check Complete"
+          : "Complete Official Check";
+        recordOfficialComplete.classList.toggle("is-complete", isComplete);
+        recordOfficialStatus.textContent = message;
+        recordOfficialStatus.classList.toggle("is-complete", isComplete);
+        recordOfficialStatus.classList.toggle("is-error", state === "error");
+      };
+
+      const hasWwaCompleteOfficialCheck = () => {
+        const sourceKind = getWwaLegoOfficialSourceKind(
+          getWwaRecordEditorField("officialSource").value,
+          getWwaRecordEditorField("setNumber").value
+        );
+        const releaseDate = getWwaTrimmedString(
+          getWwaRecordEditorField("releaseDate").value
+        );
+        const piecesValue = getWwaTrimmedString(
+          getWwaRecordEditorField("pieces").value
+        );
+        const pieces = Number(piecesValue);
+        return Boolean(
+          sourceKind &&
+          releaseDate &&
+          isWwaValidPartialDate(releaseDate) &&
+          piecesValue &&
+          Number.isInteger(pieces) &&
+          pieces >= 0 &&
+          getWwaTrimmedString(getWwaRecordEditorField("checkedOn").value) &&
+          getWwaRecordEditorField("recordVerification").value === "Verified"
+        );
+      };
+
+      const syncWwaOfficialCheckFeedback = () => {
+        if (hasWwaCompleteOfficialCheck()) {
+          setWwaOfficialCheckFeedback(
+            "complete",
+            "LEGO 공식 자료 검증이 완료된 Record입니다."
+          );
+          return;
+        }
+        setWwaOfficialCheckFeedback();
+      };
+
+      const invalidateWwaOfficialCheckAfterEdit = (fieldName) => {
+        if (![
+          "setNumber",
+          "releaseDate",
+          "pieces",
+          "officialSource"
+        ].includes(fieldName)) return;
+        if (
+          getWwaRecordEditorField("recordVerification").value === "Verified"
+        ) {
+          setWwaRecordEditorFieldValue("recordVerification", "Review");
+          setWwaRecordEditorFieldValue("checkedOn", "");
+          setWwaOfficialCheckFeedback(
+            "idle",
+            "공식 확인 항목이 변경되어 다시 확인이 필요합니다."
+          );
+          return;
+        }
+        setWwaOfficialCheckFeedback();
+      };
+
       const completeWwaOfficialCheck = () => {
         clearWwaRecordEditorErrors();
         const officialSource = getWwaTrimmedString(
@@ -14284,6 +14374,10 @@
           officialSource,
           getWwaRecordEditorField("setNumber").value
         )) {
+          setWwaOfficialCheckFeedback(
+            "error",
+            "LEGO 공식 주소와 현재 Set Number를 확인해 주세요."
+          );
           showWwaRecordEditorError(
             createWwaRecordValidationError(
               "현재 Set Number와 일치하는 LEGO 공식 상품 페이지 또는 공식 조립 설명서 주소를 입력해 주세요.",
@@ -14296,6 +14390,10 @@
           getWwaRecordEditorField("releaseDate").value
         );
         if (!releaseDate || !isWwaValidPartialDate(releaseDate)) {
+          setWwaOfficialCheckFeedback(
+            "error",
+            "확인된 Release Date 형식을 확인해 주세요."
+          );
           showWwaRecordEditorError(
             createWwaRecordValidationError(
               "확인된 Release Date를 YYYY, YYYY-MM 또는 YYYY-MM-DD로 입력해 주세요.",
@@ -14304,8 +14402,15 @@
           );
           return;
         }
-        const pieces = Number(getWwaRecordEditorField("pieces").value);
-        if (!Number.isInteger(pieces) || pieces < 0) {
+        const piecesValue = getWwaTrimmedString(
+          getWwaRecordEditorField("pieces").value
+        );
+        const pieces = Number(piecesValue);
+        if (!piecesValue || !Number.isInteger(pieces) || pieces < 0) {
+          setWwaOfficialCheckFeedback(
+            "error",
+            "LEGO 공식 자료에서 확인한 Pieces를 입력해 주세요."
+          );
           showWwaRecordEditorError(
             createWwaRecordValidationError(
               "LEGO 공식 자료에서 확인한 Pieces를 입력해 주세요.",
@@ -14316,6 +14421,10 @@
         }
         setWwaRecordEditorFieldValue("checkedOn", getWwaLocalIsoDate());
         setWwaRecordEditorFieldValue("recordVerification", "Verified");
+        setWwaOfficialCheckFeedback(
+          "complete",
+          "LEGO 공식 자료 검증이 완료되었습니다. Checked On과 Verified를 적용했습니다."
+        );
         recordEditorDirty = true;
         setWwaRecordEditorStatus(
           "Official check complete · LEGO 공식 자료와 확인일을 기록했습니다."
@@ -14749,6 +14858,10 @@
         };
         setWwaRecordEditorFieldValue("recordVerification", "Review");
         setWwaRecordEditorFieldValue("checkedOn", "");
+        setWwaOfficialCheckFeedback(
+          "idle",
+          "Rebrickable 정보를 적용했습니다. LEGO 공식 자료로 다시 확인해 주세요."
+        );
         recordEditorDirty = true;
         updateWwaRecordEditorMinifigureCount();
         renderWwaRecordCatalogImport();
@@ -15081,6 +15194,7 @@
         setWwaRecordEditorFieldValue("primaryBookPlacement", "Not placed");
         updateWwaRecordEditorMinifigureCount();
         updateWwaOfficialLinks();
+        syncWwaOfficialCheckFeedback();
         renderWwaRecordCatalogImport();
         setWwaRecordCatalogStatus("");
         syncWwaRebrickableConnection();
@@ -16822,6 +16936,13 @@
           event.target.removeAttribute("aria-invalid");
         }
         removeWwaManualCatalogAttribution(fieldName);
+        invalidateWwaOfficialCheckAfterEdit(fieldName);
+        if (
+          fieldName === "recordVerification" &&
+          event.target.value !== "Verified"
+        ) {
+          setWwaOfficialCheckFeedback();
+        }
         if (fieldName === "minifigures") {
           updateWwaRecordEditorMinifigureCount();
         }
