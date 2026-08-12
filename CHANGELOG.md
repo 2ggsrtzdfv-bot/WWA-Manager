@@ -4,6 +4,30 @@
 
 ## [Unreleased]
 
+### Official Source and Catalog Attribution Guard Implemented — 2026-08-12
+
+- LEGO Record의 `Verified`를 상태 Select에서 직접 선택하지 못하게 하고 `Complete Official Check`를 통해서만 전환하도록 변경하되, 최종 IndexedDB 저장 계층에서도 공식 출처를 동일하게 재검증하도록 보강.
+- Official Source를 HTTPS `lego.com`의 현재 Set Number와 일치하는 공식 상품 페이지 또는 공식 조립 설명서로 제한하고, 일반 사이트·LEGO 검색 결과·다른 세트번호·HTTP·위장 도메인·Rebrickable 주소를 필드 오류로 차단.
+- Rebrickable 적용 후 Set Name·Release Date·Pieces·Minifigures를 직접 수정하면 해당 항목을 `catalogImport.appliedFields`와 `Imported · Rebrickable` 표시에서 즉시 제거하고, 적용 항목이 모두 제거되면 Catalog Import 기록 전체를 제거하도록 수정.
+- 기존 `catalogImport` 구조와 20개 IndexedDB Store·ZIP format version을 변경하지 않아 이전 Record와 Full ZIP Backup·Restore 호환성을 유지.
+- 위험한 공식 출처 6종 차단, 일치하는 LEGO 상품 페이지·조립 설명서 허용, 수동 수정 출처 제거, API Key 비노출, `429` 재시도, 선택 적용, Stable ID, ZIP Backup·Restore와 `393px / 430px` 기존 화면 회귀를 통합 검증.
+
+### Rebrickable Catalog Import Implemented — 2026-08-12
+
+- `Add/Edit LEGO Record`의 Set Number 아래에 영문 단독 `Find Set Information` Action과 기기별 `Rebrickable · Connected` 상태를 추가하고, API Key 미연결 시 집중형 `Connect Rebrickable` 전체 화면으로 이어지도록 구현.
+- Rebrickable 개인 API Key를 IndexedDB `settings`에만 저장하고 모든 요청에서 URL 파라미터 대신 `Authorization: key …` 헤더를 사용하며 Record·Asset·Outbox·GitHub 코드·Full ZIP Backup에서 제외.
+- 최초 연결은 API Key 정상 확인 뒤에만 저장하고 `Reconnect`는 새 키 검증 성공 뒤 기존 키를 교체하며, `Remove Connection`은 기존 LEGO Record와 Catalog Import 기록을 유지한 채 키만 삭제.
+- `76419` 입력을 Rebrickable의 `76419-1`로 조회하고, 세트 기본정보 뒤 약 1초 간격으로 Minifigure 목록을 순차 요청하며 `429` 안내시간 뒤 한 번 자동 재시도하도록 구현.
+- 세트 기본정보만 성공하고 Minifigure 조회가 실패하면 기본정보를 보존한 `Retry Minifigures` Action을 제공하고, 실제 미니피겨 없음과 조회 실패를 별도 한글 상태 문구로 구분.
+- Add 조회는 `Review Set Information`에서 Set Name·Release Year·Pieces·중복 제거 Minifigure 원문 이름 목록을 검토한 뒤 적용하고, Edit 조회는 `Review Record Updates`에서 변경 항목만 `Current Record / Rebrickable`로 비교해 항목별 선택 적용.
+- 기존 값이 있으면 `Keep Current`, 비어 있으면 `Use Rebrickable`을 기본 선택하며, 더 정확한 부분 Release Date·Stable SET ID·Size·가격·구매정보·Classification·Official Source를 자동으로 낮추거나 덮어쓰지 않도록 유지.
+- 실제 적용한 값이 있으면 `Record Verification = Review`, `Checked On = null`로 전환하고 최신 적용 기록만 `catalogImport(provider / providerSetNumber / sourceUrl / importedAt / appliedFields)`에 저장해 LEGO Record와 Verified ZIP에 포함.
+- Rebrickable 원본 API 응답·이미지·Theme은 저장하지 않고, 적용 필드에는 `Imported · Rebrickable`을 표시하며 `Catalog Import` 전체 폭 목록에서 조회일과 적용 항목을 확인하도록 구현.
+- `Official Check`에서 LEGO 공식 상품 페이지 또는 공식 조립 설명서 주소, 부분 Release Date, Pieces를 확인한 뒤 현재 날짜와 `Verified`를 기록하도록 연결하고, 단종 세트의 공식 조립 설명서 검증 예외를 유지.
+- 버튼·클릭형 Action은 영문만, 새 섹션·필드는 영문 아래 작은 한글 설명, 오류·진행 안내는 해당 위치의 한글 문구로 구성하고 Add/Edit·Catalog Flow에서 하단 내비게이션을 계속 숨김.
+- iPhone `393px / 430px` DOM·IndexedDB 통합 검증에서 최초 연결, Header 인증, `429` 재시도, 중복 Minifigure 이름 제거, 부분 실패 후 단독 재조회, 선택 적용, 공식 검증 전환, Stable ID 유지, API Key의 Record·URL·ZIP 비노출, Full Restore 후 Catalog Import 보존과 API Key 미복원을 확인.
+- 기존 Add/Edit Record, Records List, Asset Detail, Home 영화 8개, Assets 필터 6개, IndexedDB 20개 Store와 기존 Full ZIP 검증 회귀 테스트를 통과했으며 Official Source·Catalog Attribution 안전 보강까지 포함해 GitHub `main`과 Pages에 배포.
+
 ### Add/Edit LEGO Record Implemented — 2026-08-12
 
 - `LEGO Records` 상단에 44px 이상 `Add Record` 진입점을 추가하고, Add/Edit 집중 편집 화면에서 하단 내비게이션을 숨기도록 구현.

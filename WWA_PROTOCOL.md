@@ -1,6 +1,6 @@
 # WWA Manager Protocol
 
-Last updated: 2026-08-11
+Last updated: 2026-08-12
 Status: Approved baseline
 
 이 문서는 WWA Manager의 제품 목적, 승인된 아키텍처, 데이터 원칙, 개발 절차를 고정하는 최상위 기준이다. 기능이나 화면을 설계·구현할 때 이 문서와 `DESIGN_GUIDE.md`, `CHANGELOG.md`를 먼저 확인한다. 저장·백업 구현은 승인된 `STORAGE_SYNC_DESIGN.md`의 데이터 계약도 함께 따른다.
@@ -121,6 +121,27 @@ Record 상태는 의미별로 분리한다.
 
 `Archived`는 검증 실패를 뜻하지 않는다.
 `Verified`는 공식 출처, `Checked On`, 확인 가능한 핵심 공식 정보가 모두 있을 때만 허용한다.
+
+### Rebrickable Catalog Import
+
+- Rebrickable은 LEGO Record의 기본 카탈로그 정보를 보조 입력하는 선택형 조회 수단이며 LEGO 공식 검증 출처가 아니다.
+- 조회는 `Add/Edit Record`의 `Find Set Information` 버튼을 눌렀을 때만 실행한다.
+- 사용자가 `76419`를 입력하면 API에는 `76419-1`로 조회하되 WWA Record에는 사용자가 입력한 `76419`를 저장한다.
+- 자동조회 결과는 별도 전체 화면에서 검토한 뒤 적용하며 기존 값을 자동으로 덮어쓰지 않는다.
+- Add에서는 Set Name, 확인된 연도, Pieces, 공식 원문 Minifigure 이름 목록을 적용할 수 있다.
+- Edit에서는 변경된 항목만 비교하고 기존 값이 있으면 `Keep Current`, 비어 있으면 `Use Rebrickable`을 기본으로 한다.
+- 더 정확한 부분 Release Date를 Rebrickable 연도로 낮추지 않으며 Minifigures는 목록 전체를 선택한다.
+- 적용된 Record는 `Review`로 전환하고 `Checked On`을 비운다. 기존 `Official Source`는 유지한다.
+- Rebrickable 이미지, Theme, API 원문 응답은 Record나 Asset에 저장하지 않는다.
+- 실제 적용한 최신 조회 기록만 `catalogImport`로 저장한다: `provider / providerSetNumber / sourceUrl / importedAt / appliedFields`.
+- 자동조회 적용 뒤 Set Name·Release Date·Pieces·Minifigures를 직접 수정하면 해당 항목을 `appliedFields`에서 즉시 제거하고 `Imported · Rebrickable` 표시도 제거한다. 적용 항목이 하나도 남지 않으면 `catalogImport` 전체를 제거하며, 출처를 다시 연결하려면 재조회 후 다시 적용한다.
+- `catalogImport`는 Record와 Full ZIP Backup에 포함하지만 Rebrickable API Key는 포함하지 않는다.
+- API Key는 현재 기기의 IndexedDB `settings`에만 저장하며 GitHub 코드, Record, Asset, ZIP, URL, 오류 문구에 넣지 않는다.
+- API 요청은 `Authorization: key …` 헤더를 사용하고 순차 실행한다. `429`는 안내된 대기시간 뒤 한 번만 자동 재시도한다.
+- UI에서는 `Verified`를 직접 선택하지 않고 `Complete Official Check`를 통해서만 전환한다. 최종 저장 계층에서도 같은 검증을 다시 수행한다.
+- Official Source는 HTTPS `lego.com`의 현재 Set Number와 일치하는 공식 상품 페이지 또는 공식 조립 설명서만 인정한다. LEGO 검색 결과·다른 세트번호·위장 도메인·Rebrickable 주소는 인정하지 않는다.
+- LEGO 공식 상품 페이지 또는 공식 조립 설명서 중 하나로 Release Date·Pieces·Official Source를 확인하고 `Checked On`을 기록해야 `Verified`로 완료할 수 있다.
+- 상품 페이지가 내려간 단종 세트도 공식 조립 설명서로 검증할 수 있으며, 공식 자료에서 확인되지 않는 Size·한국 MSRP·정확한 날짜는 공란으로 둔다.
 
 ## 7. Story Connection Rules
 
@@ -288,7 +309,8 @@ WWA의 저장 방식은 `Local-First + Full ZIP Backup`으로 고정한다.
 ## 10. Language Rules
 
 - 화면명, 필드명, 상태값: 영어
-- 설명, 입력 안내, 오류, 확인 문구: 한글
+- 섹션명·필드명 아래의 작은 설명, 입력 안내, 오류, 확인 문구: 한글
+- 버튼과 클릭형 Action: 영문 단독 표기
 - 영화명, LEGO 세트명, 장소명: 공식 원문 유지
 - 공식 명칭과 코드값을 임의 번역하거나 축약하지 않는다.
 

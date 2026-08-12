@@ -1,6 +1,6 @@
 # WWA Storage and Backup Design
 
-Last updated: 2026-08-11
+Last updated: 2026-08-12
 Status: Approved — Local Archive Operating Contract
 
 이 문서는 승인된 `Local-First + Full ZIP Backup` 아키텍처의 공식 구현 계약이다. Apple Developer 유료 가입과 CloudKit 자동 동기화는 사용하지 않는다. 기존 CloudKit 구현 계약과 호환 Store는 데이터 구조 보존을 위해 이 문서에 남기지만 실행하거나 사용자 화면에 노출하지 않는다. 이 운영 경계가 아래의 과거 CloudKit 세부 계약보다 우선한다.
@@ -75,6 +75,17 @@ Local Archive는 IndexedDB의 high-water와 기존 Asset·예약 범위를 함�
 | `syncState` | `key` | 비활성 CloudKit 구현의 호환 상태 | 없음 |
 | `conflicts` | `conflictId` | 비활성 CloudKit 구현의 호환 충돌 기록 | `status`, `entityType`, `entitySyncId`, `createdAt` |
 | `migrationLog` | `migrationId` | 이전 실행·검증·완료 기록 | `state`, `completedAt` |
+
+### Device-only Integration Settings
+
+- Rebrickable API Key는 `settings`의 `rebrickableApiKey` Record에만 저장한다.
+- 이 값은 기기·브라우저 프로필 전용이며 Archive Entity가 아니다.
+- Full ZIP Backup, Restore staging, LEGO Record, Asset, Outbox, GitHub 코드에 포함하지 않는다.
+- Full Restore는 현재 기기의 연결값을 가져오거나 덮어쓰지 않는다.
+- `Reset Test Archive` 또는 브라우저 사이트 데이터 삭제 시에는 IndexedDB와 함께 제거된다.
+- 실제 적용한 카탈로그 출처 기록은 LEGO Record의 `catalogImport`에 저장하므로 Full ZIP Backup과 Restore 대상이다.
+- `catalogImport.appliedFields`는 아직 수동 수정되지 않은 실제 Rebrickable 적용 항목만 유지한다. 적용 뒤 직접 수정된 항목은 제거하고 남은 항목이 없으면 `catalogImport`를 제거한다.
+- `Verified` LEGO Record 저장은 UI 상태와 관계없이 저장 계층에서 다시 검증하며, 현재 Set Number와 일치하는 HTTPS `lego.com` 공식 상품 페이지 또는 공식 조립 설명서만 Official Source로 인정한다.
 
 ## 4. Asset Records
 

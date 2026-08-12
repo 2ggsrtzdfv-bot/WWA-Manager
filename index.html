@@ -2035,6 +2035,15 @@
       letter-spacing: 0;
     }
 
+    #wwa-home-complete-castle .wwa-record-field-label .wwa-record-import-marker {
+      display: block;
+      margin: 4px 0 0;
+      color: var(--wwa-stone);
+      font-size: 9px;
+      font-weight: 560;
+      letter-spacing: 0.025em;
+    }
+
     #wwa-home-complete-castle .wwa-record-field input,
     #wwa-home-complete-castle .wwa-record-field select,
     #wwa-home-complete-castle .wwa-record-field textarea {
@@ -2134,6 +2143,385 @@
     #wwa-home-complete-castle .wwa-record-editor-button:focus-visible {
       outline: 2px solid var(--wwa-patronus);
       outline-offset: 3px;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-tools {
+      display: grid;
+      gap: 10px;
+      margin: -2px 0 18px;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-action,
+    #wwa-home-complete-castle .wwa-record-catalog-link {
+      appearance: none;
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      border: 1px solid rgba(26, 42, 68, 0.3);
+      border-radius: 3px;
+      background: transparent;
+      color: var(--wwa-blue);
+      font: 700 10px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.075em;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-action.is-primary {
+      border-color: var(--wwa-blue);
+      background: var(--wwa-blue);
+      color: var(--wwa-winter);
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-action:disabled {
+      cursor: wait;
+      opacity: 0.56;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-action:focus-visible,
+    #wwa-home-complete-castle .wwa-record-catalog-link:focus-visible,
+    #wwa-home-complete-castle .wwa-catalog-flow-back:focus-visible {
+      outline: 2px solid var(--wwa-patronus);
+      outline-offset: 3px;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-connection {
+      display: flex;
+      min-height: 28px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--wwa-stone);
+      font: 600 10px/1.4 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-manage {
+      appearance: none;
+      min-height: 44px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--wwa-blue);
+      font: 700 10px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.035em;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-status {
+      min-height: 15px;
+      margin: 0;
+      color: var(--wwa-stone);
+      font: 400 10px/1.45 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-status.is-error {
+      color: var(--wwa-blue);
+      font-weight: 650;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-summary,
+    #wwa-home-complete-castle .wwa-record-official-check {
+      display: grid;
+      gap: 12px;
+      margin: 4px 0 18px;
+      padding: 18px 0 0;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-summary[hidden] {
+      display: none;
+    }
+
+    #wwa-home-complete-castle .wwa-record-subheading {
+      margin: 0;
+      color: var(--wwa-blue);
+      font: 700 12px/1.3 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.025em;
+    }
+
+    #wwa-home-complete-castle .wwa-record-subheading small {
+      display: block;
+      margin-top: 4px;
+      color: var(--wwa-stone);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-facts,
+    #wwa-home-complete-castle .wwa-catalog-review-list {
+      margin: 0;
+      border-top: 1px solid rgba(111, 118, 130, 0.18);
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-fact,
+    #wwa-home-complete-castle .wwa-catalog-review-row {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr);
+      gap: 14px;
+      align-items: start;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.18);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-fact dt,
+    #wwa-home-complete-castle .wwa-catalog-review-row dt {
+      color: var(--wwa-stone);
+      font-size: 10px;
+      font-weight: 650;
+      line-height: 1.4;
+    }
+
+    #wwa-home-complete-castle .wwa-record-catalog-fact dd,
+    #wwa-home-complete-castle .wwa-catalog-review-row dd {
+      min-width: 0;
+      margin: 0;
+      overflow-wrap: anywhere;
+      color: var(--wwa-blue);
+      font-size: 12px;
+      line-height: 1.45;
+      white-space: pre-line;
+    }
+
+    #wwa-home-complete-castle .wwa-record-official-actions {
+      display: grid;
+      gap: 8px;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-flow {
+      display: none;
+      min-height: calc(100vh - 36px);
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor.is-catalog-flow .wwa-record-editor-topbar,
+    #wwa-home-complete-castle .wwa-record-editor.is-catalog-flow > .wwa-record-editor-form {
+      display: none;
+    }
+
+    #wwa-home-complete-castle .wwa-record-editor.is-catalog-flow .wwa-catalog-flow {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-flow-topbar {
+      display: flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 23px;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-flow-back {
+      appearance: none;
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      gap: 7px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--wwa-blue);
+      font: 650 11px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-flow-back svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.5;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-flow-position {
+      color: var(--wwa-stone);
+      font: 700 8px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-panel[hidden] {
+      display: none;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-heading {
+      margin: 0;
+      color: var(--wwa-blue);
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: clamp(28px, 7.6vw, 34px);
+      font-weight: 500;
+      line-height: 1.04;
+      letter-spacing: -0.028em;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-intro,
+    #wwa-home-complete-castle .wwa-catalog-note,
+    #wwa-home-complete-castle .wwa-catalog-panel-status {
+      margin: 9px 0 0;
+      color: var(--wwa-stone);
+      font: 400 11px/1.55 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-panel-status {
+      min-height: 18px;
+      margin-top: 13px;
+      font-size: 10px;
+      font-weight: 650;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-panel-status.is-error {
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-form,
+    #wwa-home-complete-castle .wwa-catalog-review {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-field {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 17px;
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-field-label {
+      color: var(--wwa-blue);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: 0.035em;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-field-label small {
+      display: block;
+      margin-top: 4px;
+      color: var(--wwa-stone);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-field input {
+      appearance: none;
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 12px;
+      border: 1px solid rgba(111, 118, 130, 0.32);
+      border-radius: 3px;
+      background: #F7F9FC;
+      color: var(--wwa-blue);
+      font: 400 16px/1.35 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      outline: none;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-field input:focus {
+      border-color: var(--wwa-patronus);
+      box-shadow: 0 0 0 2px rgba(127, 183, 230, 0.16);
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-field-error {
+      display: none;
+      color: var(--wwa-blue);
+      font: 650 10px/1.45 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-field-error.is-visible {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-inline-link {
+      width: fit-content;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      color: var(--wwa-blue);
+      font: 700 10px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.035em;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 9px;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-review-list {
+      margin-top: 20px;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-compare-row {
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-compare-title {
+      margin: 0 0 12px;
+      color: var(--wwa-blue);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-choice {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr);
+      gap: 9px;
+      align-items: start;
+      min-height: 44px;
+      padding: 9px 0;
+      color: var(--wwa-blue);
+      font-size: 12px;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-choice input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--wwa-patronus);
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-choice strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--wwa-stone);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-choice span {
+      display: block;
+      overflow-wrap: anywhere;
+      white-space: pre-line;
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-needs-check {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-catalog-needs-check ul {
+      margin: 10px 0 0;
+      padding: 0 0 0 17px;
+      color: var(--wwa-stone);
+      font: 400 11px/1.7 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     /* v0.2 Assets main — a quiet preservation room for verified source material. */
@@ -4196,6 +4584,14 @@
             <span class="wwa-record-field-help">공백을 제거한 Set Number가 같으면 중복 Record로 판단합니다.</span>
             <span class="wwa-record-field-error" data-record-error="setNumber"></span>
           </label>
+          <div class="wwa-record-catalog-tools">
+            <button class="wwa-record-catalog-action is-primary" type="button" data-record-catalog-action="find">Find Set Information</button>
+            <div class="wwa-record-catalog-connection">
+              <span data-record-catalog-connection>Rebrickable · Checking…</span>
+              <button class="wwa-record-catalog-manage" type="button" data-record-catalog-action="manage" hidden>Manage Connection</button>
+            </div>
+            <p class="wwa-record-catalog-status" data-record-catalog-status role="status" aria-live="polite"></p>
+          </div>
           <label class="wwa-record-field">
             <span class="wwa-record-field-label">Set Name <small>Required</small></span>
             <input name="setName" type="text" autocomplete="off" spellcheck="false" maxlength="180" placeholder="Official LEGO set name">
@@ -4266,6 +4662,18 @@
             <input name="checkedOn" type="date">
             <span class="wwa-record-field-error" data-record-error="checkedOn"></span>
           </label>
+          <div class="wwa-record-official-check">
+            <h3 class="wwa-record-subheading">Official Check <small>LEGO 공식 상품 페이지 또는 공식 조립 설명서로 확인합니다.</small></h3>
+            <div class="wwa-record-official-actions">
+              <a class="wwa-record-catalog-link" data-record-official-action="search" href="https://www.lego.com/ko-kr/search" target="_blank" rel="noreferrer">Open LEGO Official Search</a>
+              <a class="wwa-record-catalog-link" data-record-official-action="instructions" href="https://www.lego.com/ko-kr/service/buildinginstructions" target="_blank" rel="noreferrer">Find LEGO Instructions</a>
+              <button class="wwa-record-catalog-action" type="button" data-record-official-action="complete">Complete Official Check</button>
+            </div>
+          </div>
+          <div class="wwa-record-catalog-summary" data-record-catalog-summary hidden>
+            <h3 class="wwa-record-subheading">Catalog Import <small>자동조회에 실제 적용한 출처와 조회 시점을 기록합니다.</small></h3>
+            <dl class="wwa-record-catalog-facts" data-record-catalog-facts></dl>
+          </div>
         </fieldset>
 
         <fieldset class="wwa-record-editor-section">
@@ -4314,7 +4722,7 @@
               <select name="recordVerification">
                 <option value="Draft">Draft</option>
                 <option value="Review">Review</option>
-                <option value="Verified">Verified</option>
+                <option value="Verified" disabled>Verified</option>
               </select>
               <span class="wwa-record-field-error" data-record-error="recordVerification"></span>
             </label>
@@ -4337,6 +4745,72 @@
           <button class="wwa-record-editor-button is-primary" type="submit">Save Record</button>
         </div>
       </form>
+
+      <section class="wwa-catalog-flow" aria-label="Rebrickable Catalog Import" tabindex="-1">
+        <div class="wwa-catalog-flow-topbar">
+          <button class="wwa-catalog-flow-back" type="button" aria-label="Back to LEGO Record">
+            <i data-lucide="arrow-left" aria-hidden="true"></i><span>Record</span>
+          </button>
+          <span class="wwa-catalog-flow-position">Catalog Import</span>
+        </div>
+
+        <section class="wwa-catalog-panel" data-catalog-panel="connect">
+          <h2 class="wwa-catalog-heading">Connect Rebrickable</h2>
+          <p class="wwa-catalog-intro">세트정보 자동조회를 위해 Rebrickable 개인 API 키를 한 번 연결합니다.</p>
+          <p class="wwa-catalog-panel-status" data-catalog-connect-status role="status" aria-live="polite"></p>
+          <form class="wwa-catalog-form" data-catalog-connect-form novalidate>
+            <label class="wwa-catalog-field">
+              <span class="wwa-catalog-field-label">API Key · Required <small>계정 비밀번호가 아닌 Rebrickable 개인 API 키를 입력해 주세요. 키는 이 기기에만 저장되며 ZIP Backup에는 포함되지 않습니다.</small></span>
+              <input name="apiKey" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="180">
+              <span class="wwa-catalog-field-error" data-catalog-error="connect-key" role="alert"></span>
+            </label>
+            <a class="wwa-catalog-inline-link" href="https://rebrickable.com/api/" target="_blank" rel="noreferrer">Get API Key</a>
+            <div class="wwa-catalog-actions">
+              <button class="wwa-record-catalog-action" type="button" data-catalog-action="cancel">Cancel</button>
+              <button class="wwa-record-catalog-action is-primary" type="submit">Connect &amp; Continue</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="wwa-catalog-panel" data-catalog-panel="review" hidden>
+          <h2 class="wwa-catalog-heading" data-catalog-review-heading>Review Set Information</h2>
+          <p class="wwa-catalog-intro" data-catalog-review-intro>Rebrickable에서 가져온 정보를 확인한 뒤 Record에 적용합니다. 이 정보는 LEGO 공식 검증 자료가 아닙니다.</p>
+          <p class="wwa-catalog-panel-status" data-catalog-review-status role="status" aria-live="polite"></p>
+          <div class="wwa-catalog-review" data-catalog-review-content></div>
+          <div class="wwa-catalog-needs-check">
+            <h3 class="wwa-record-subheading">Needs Official Check <small>LEGO 공식 자료에서 확인되지 않는 항목은 공란으로 유지할 수 있습니다.</small></h3>
+            <ul>
+              <li>Exact Release Date</li>
+              <li>Size</li>
+              <li>KR MSRP</li>
+              <li>Official Source</li>
+              <li>Checked On</li>
+            </ul>
+          </div>
+          <div class="wwa-catalog-actions">
+            <button class="wwa-record-catalog-action" type="button" data-catalog-action="back">Back</button>
+            <button class="wwa-record-catalog-action is-primary" type="button" data-catalog-action="apply">Apply Information</button>
+          </div>
+        </section>
+
+        <section class="wwa-catalog-panel" data-catalog-panel="manage" hidden>
+          <h2 class="wwa-catalog-heading">Rebrickable Connection</h2>
+          <p class="wwa-catalog-intro">API 키는 현재 브라우저 프로필의 기기 전용 설정값으로만 보관됩니다.</p>
+          <p class="wwa-catalog-panel-status" data-catalog-manage-status role="status" aria-live="polite">Rebrickable · Connected</p>
+          <form class="wwa-catalog-form" data-catalog-manage-form novalidate>
+            <label class="wwa-catalog-field">
+              <span class="wwa-catalog-field-label">New API Key <small>새 키가 정상 확인된 뒤에만 기존 연결을 교체합니다.</small></span>
+              <input name="apiKey" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="180">
+              <span class="wwa-catalog-field-error" data-catalog-error="manage-key" role="alert"></span>
+            </label>
+            <div class="wwa-catalog-actions">
+              <button class="wwa-record-catalog-action" type="button" data-catalog-action="remove">Remove Connection</button>
+              <button class="wwa-record-catalog-action is-primary" type="submit">Reconnect</button>
+            </div>
+          </form>
+          <p class="wwa-catalog-note">연결을 삭제해도 기존 LEGO Record와 Catalog Import 기록은 유지됩니다.</p>
+        </section>
+      </section>
     </section>
 
     <section class="wwa-archive-data" aria-labelledby="wwa-archive-data-heading" tabindex="-1">
@@ -4443,6 +4917,19 @@
       const WWA_SCHEMA_VERSION = 1;
 
       const WWA_BACKUP_FORMAT_VERSION = 1;
+
+      const WWA_REBRICKABLE_API_BASE =
+        "https://rebrickable.com/api/v3/lego";
+
+      const WWA_REBRICKABLE_API_KEY_SETTING =
+        "rebrickableApiKey";
+
+      const WWA_REBRICKABLE_APPLIED_FIELDS = new Set([
+        "Set Name",
+        "Release Date",
+        "Pieces",
+        "Minifigures"
+      ]);
 
       const WWA_CLOUD_SYNC_ENABLED = false;
 
@@ -5293,6 +5780,77 @@
         return day >= 1 && day <= maximumDay;
       }
 
+      function isWwaRebrickableSource(value) {
+        try {
+          const source = new URL(getWwaTrimmedString(value));
+          return source.hostname === "rebrickable.com" ||
+            source.hostname.endsWith(".rebrickable.com");
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function getWwaLegoOfficialSourceKind(value, setNumber) {
+        let source;
+        try {
+          source = new URL(getWwaTrimmedString(value));
+        } catch (error) {
+          return null;
+        }
+        const hostname = source.hostname.toLowerCase();
+        if (
+          source.protocol !== "https:" ||
+          (hostname !== "lego.com" && hostname !== "www.lego.com") ||
+          source.username ||
+          source.password ||
+          (source.port && source.port !== "443")
+        ) {
+          return null;
+        }
+
+        const expectedSetNumber = normalizeWwaSetNumber(setNumber)
+          .replace(/-\d+$/, "")
+          .toUpperCase();
+        if (!expectedSetNumber) return null;
+
+        let segments;
+        try {
+          segments = source.pathname.split("/").filter(Boolean)
+            .map((segment) => decodeURIComponent(segment));
+        } catch (error) {
+          return null;
+        }
+        const lowered = segments.map((segment) => segment.toLowerCase());
+        const normalizeSourceSetNumber = (candidate) =>
+          normalizeWwaSetNumber(candidate)
+            .replace(/-\d+$/, "")
+            .toUpperCase();
+
+        const productIndex = lowered.indexOf("product");
+        if (productIndex >= 0 && productIndex === segments.length - 2) {
+          const match = segments[productIndex + 1].match(
+            /(?:^|-)(\d{3,}(?:-\d+)?)$/
+          );
+          if (
+            match &&
+            normalizeSourceSetNumber(match[1]) === expectedSetNumber
+          ) {
+            return "product";
+          }
+        }
+
+        const instructionsIndex = lowered.indexOf("buildinginstructions");
+        if (
+          instructionsIndex >= 0 &&
+          instructionsIndex === segments.length - 2 &&
+          normalizeSourceSetNumber(segments[instructionsIndex + 1]) ===
+            expectedSetNumber
+        ) {
+          return "instructions";
+        }
+        return null;
+      }
+
       function normalizeWwaLegoRecordInput(input) {
         const existingRecord = input && input.existingRecord || null;
         const setNumber = normalizeWwaSetNumber(input && input.setNumber);
@@ -5419,10 +5977,22 @@
           );
         }
 
+        if (officialSource && isWwaRebrickableSource(officialSource)) {
+          throw createWwaRecordValidationError(
+            "Rebrickable 주소는 Official Source로 사용할 수 없습니다.",
+            "officialSource"
+          );
+        }
         if (recordVerification === "Verified") {
           if (!officialSource) {
             throw createWwaRecordValidationError(
               "Verified에는 Official Source가 필요합니다.",
+              "officialSource"
+            );
+          }
+          if (!getWwaLegoOfficialSourceKind(officialSource, setNumber)) {
+            throw createWwaRecordValidationError(
+              "현재 Set Number와 일치하는 LEGO 공식 상품 페이지 또는 공식 조립 설명서 주소를 입력해 주세요.",
               "officialSource"
             );
           }
@@ -5468,6 +6038,66 @@
                 amount: myPriceAmount,
                 currency: myPriceCurrency || null
               };
+        const catalogImportInput = input && input.catalogImport;
+        let catalogImport = existingRecord && existingRecord.catalogImport
+          ? {
+              ...existingRecord.catalogImport,
+              appliedFields: Array.isArray(
+                existingRecord.catalogImport.appliedFields
+              )
+                ? existingRecord.catalogImport.appliedFields.slice()
+                : []
+            }
+          : null;
+        if (catalogImportInput === null) {
+          catalogImport = null;
+        } else if (catalogImportInput !== undefined) {
+          const provider = getWwaTrimmedString(catalogImportInput.provider);
+          const providerSetNumber = getWwaTrimmedString(
+            catalogImportInput.providerSetNumber
+          );
+          const sourceUrl = getWwaTrimmedString(catalogImportInput.sourceUrl);
+          const importedAt = getWwaTrimmedString(catalogImportInput.importedAt);
+          const appliedFields = Array.from(new Set(
+            (Array.isArray(catalogImportInput.appliedFields)
+              ? catalogImportInput.appliedFields
+              : []
+            ).map(getWwaTrimmedString).filter((field) =>
+              WWA_REBRICKABLE_APPLIED_FIELDS.has(field)
+            )
+          ));
+          let source;
+          try {
+            source = new URL(sourceUrl);
+          } catch (error) {
+            source = null;
+          }
+          if (
+            provider !== "Rebrickable" ||
+            !providerSetNumber ||
+            !source ||
+            source.protocol !== "https:" ||
+            !(
+              source.hostname === "rebrickable.com" ||
+              source.hostname.endsWith(".rebrickable.com")
+            ) ||
+            !importedAt ||
+            Number.isNaN(Date.parse(importedAt)) ||
+            appliedFields.length === 0
+          ) {
+            throw createWwaRecordValidationError(
+              "Catalog Import 기록을 확인해 주세요.",
+              "setNumber"
+            );
+          }
+          catalogImport = {
+            provider,
+            providerSetNumber,
+            sourceUrl: source.href,
+            importedAt: new Date(importedAt).toISOString(),
+            appliedFields
+          };
+        }
 
         return {
           setNumber,
@@ -5487,7 +6117,8 @@
           primarySetFamily: "Unassigned",
           recordVerification,
           recordLifecycle,
-          primaryBookPlacement: "Not placed"
+          primaryBookPlacement: "Not placed",
+          catalogImport
         };
       }
 
@@ -8791,7 +9422,8 @@
         "primarySetFamily",
         "recordVerification",
         "recordLifecycle",
-        "primaryBookPlacement"
+        "primaryBookPlacement",
+        "catalogImport"
       ]);
 
       function getWwaChangedRecordFields(current, normalized) {
@@ -8976,6 +9608,279 @@
           }
           throw error;
         }
+      }
+
+      async function readWwaRebrickableApiKey(storage) {
+        const transaction = storage.database.transaction(
+          "settings",
+          "readonly"
+        );
+        const completion = waitForWwaTransaction(transaction);
+        const record = await requestWwaResult(
+          transaction.objectStore("settings").get(
+            WWA_REBRICKABLE_API_KEY_SETTING
+          )
+        );
+        await completion;
+        return getWwaTrimmedString(record && record.value);
+      }
+
+      async function saveWwaRebrickableApiKey(storage, apiKey) {
+        const normalizedKey = getWwaTrimmedString(apiKey);
+        if (!normalizedKey) {
+          throw new Error("API 키를 입력해 주세요.");
+        }
+        const transaction = storage.database.transaction(
+          "settings",
+          "readwrite"
+        );
+        const completion = waitForWwaTransaction(transaction);
+        const settings = transaction.objectStore("settings");
+        const existing = await requestWwaResult(
+          settings.get(WWA_REBRICKABLE_API_KEY_SETTING)
+        );
+        const now = new Date().toISOString();
+        settings.put({
+          key: WWA_REBRICKABLE_API_KEY_SETTING,
+          value: normalizedKey,
+          createdAt: existing && existing.createdAt || now,
+          updatedAt: now
+        });
+        await completion;
+        return { connected: true };
+      }
+
+      async function removeWwaRebrickableApiKey(storage) {
+        const transaction = storage.database.transaction(
+          "settings",
+          "readwrite"
+        );
+        const completion = waitForWwaTransaction(transaction);
+        transaction.objectStore("settings").delete(
+          WWA_REBRICKABLE_API_KEY_SETTING
+        );
+        await completion;
+        return { connected: false };
+      }
+
+      function createWwaRebrickableError(code, message, status = 0) {
+        const error = new Error(message);
+        error.name = "WWARebrickableError";
+        error.code = code;
+        error.status = status;
+        return error;
+      }
+
+      function waitWwaMilliseconds(milliseconds) {
+        return new Promise((resolve) => {
+          window.setTimeout(resolve, Math.max(0, milliseconds));
+        });
+      }
+
+      function getWwaRebrickableRetryDelay(response, payload) {
+        const retryAfter = Number(
+          response && response.headers && response.headers.get("Retry-After")
+        );
+        if (Number.isFinite(retryAfter) && retryAfter > 0) {
+          return Math.min(15000, Math.max(1000, retryAfter * 1000));
+        }
+        const detail = getWwaTrimmedString(payload && payload.detail);
+        const match = detail.match(/available\s+in\s+(\d+)\s+seconds?/i);
+        const detailSeconds = match ? Number(match[1]) : 2;
+        return Math.min(15000, Math.max(1000, detailSeconds * 1000));
+      }
+
+      async function requestWwaRebrickableJson(
+        apiKey,
+        path,
+        options = {}
+      ) {
+        const normalizedKey = getWwaTrimmedString(apiKey);
+        if (!normalizedKey) {
+          throw createWwaRebrickableError(
+            "missing-key",
+            "Rebrickable API 키를 연결해 주세요."
+          );
+        }
+        let response;
+        const controller = typeof AbortController === "function"
+          ? new AbortController()
+          : null;
+        const timeoutId = controller
+          ? window.setTimeout(() => controller.abort(), 15000)
+          : null;
+        try {
+          response = await window.fetch(
+            WWA_REBRICKABLE_API_BASE + path,
+            {
+              method: "GET",
+              headers: {
+                Accept: "application/json",
+                Authorization: "key " + normalizedKey
+              },
+              cache: "no-store",
+              credentials: "omit",
+              ...(controller ? { signal: controller.signal } : {})
+            }
+          );
+        } catch (error) {
+          throw createWwaRebrickableError(
+            "network",
+            "인터넷 연결을 확인한 뒤 다시 시도해 주세요."
+          );
+        } finally {
+          if (timeoutId !== null) window.clearTimeout(timeoutId);
+        }
+
+        let payload = null;
+        try {
+          payload = await response.json();
+        } catch (error) {
+          payload = null;
+        }
+        if (response.ok) return payload;
+
+        if (response.status === 429 && options.retry !== false) {
+          const delay = getWwaRebrickableRetryDelay(response, payload);
+          if (typeof options.onThrottle === "function") {
+            options.onThrottle(delay);
+          }
+          await waitWwaMilliseconds(delay);
+          return requestWwaRebrickableJson(apiKey, path, {
+            ...options,
+            retry: false
+          });
+        }
+        if (response.status === 401 || response.status === 403) {
+          throw createWwaRebrickableError(
+            "invalid-key",
+            "API 키를 확인할 수 없습니다.",
+            response.status
+          );
+        }
+        if (response.status === 404) {
+          throw createWwaRebrickableError(
+            "not-found",
+            "해당 Set Number를 찾을 수 없습니다. 번호를 확인하거나 직접 입력해 주세요.",
+            response.status
+          );
+        }
+        if (response.status === 429) {
+          throw createWwaRebrickableError(
+            "throttled",
+            "요청이 많습니다. 잠시 뒤 다시 시도해 주세요.",
+            response.status
+          );
+        }
+        throw createWwaRebrickableError(
+          "request-failed",
+          "Rebrickable 정보를 가져오지 못했습니다. 잠시 뒤 다시 시도해 주세요.",
+          response.status
+        );
+      }
+
+      function getWwaRebrickableSetNumber(setNumber) {
+        const normalized = normalizeWwaSetNumber(setNumber);
+        if (!normalized) {
+          throw createWwaRecordValidationError(
+            "Set Number를 입력해 주세요.",
+            "setNumber"
+          );
+        }
+        return /-\d+$/.test(normalized)
+          ? normalized
+          : normalized + "-1";
+      }
+
+      async function validateWwaRebrickableApiKey(apiKey, onThrottle) {
+        await requestWwaRebrickableJson(
+          apiKey,
+          "/colors/?page_size=1",
+          { onThrottle }
+        );
+        return true;
+      }
+
+      async function fetchWwaRebrickableSetInformation(
+        apiKey,
+        setNumber,
+        options = {}
+      ) {
+        const providerSetNumber = getWwaRebrickableSetNumber(setNumber);
+        const requestOptions = {
+          onThrottle: options.onThrottle
+        };
+        if (typeof options.onProgress === "function") {
+          options.onProgress("set");
+        }
+        const setData = await requestWwaRebrickableJson(
+          apiKey,
+          "/sets/" + encodeURIComponent(providerSetNumber) + "/",
+          requestOptions
+        );
+        if (
+          !setData ||
+          !getWwaTrimmedString(setData.set_num) ||
+          !getWwaTrimmedString(setData.name)
+        ) {
+          throw createWwaRebrickableError(
+            "invalid-response",
+            "세트 기본 정보의 형식을 확인할 수 없습니다."
+          );
+        }
+        if (typeof options.onSetLoaded === "function") {
+          await options.onSetLoaded(setData);
+        }
+
+        await waitWwaMilliseconds(1050);
+        if (typeof options.onProgress === "function") {
+          options.onProgress("minifigures");
+        }
+
+        let minifigures = [];
+        let minifigureState = "none";
+        let minifigureError = null;
+        try {
+          const minifigureData = await requestWwaRebrickableJson(
+            apiKey,
+            "/sets/" + encodeURIComponent(providerSetNumber) +
+              "/minifigs/?page_size=1000",
+            requestOptions
+          );
+          minifigures = Array.from(new Set(
+            (Array.isArray(minifigureData && minifigureData.results)
+              ? minifigureData.results
+              : []
+            ).map((item) => getWwaTrimmedString(item && item.set_name))
+              .filter(Boolean)
+          ));
+          minifigureState = minifigures.length ? "loaded" : "none";
+        } catch (error) {
+          if (error && error.code === "invalid-key") throw error;
+          minifigureState = "failed";
+          minifigureError = error;
+        }
+
+        return {
+          provider: "Rebrickable",
+          providerSetNumber: getWwaTrimmedString(setData.set_num) ||
+            providerSetNumber,
+          setName: getWwaTrimmedString(setData.name),
+          releaseYear: Number.isInteger(Number(setData.year))
+            ? String(Number(setData.year))
+            : "",
+          pieces: Number.isInteger(Number(setData.num_parts)) &&
+            Number(setData.num_parts) >= 0
+              ? Number(setData.num_parts)
+              : null,
+          minifigures,
+          minifigureState,
+          minifigureError,
+          sourceUrl: getWwaTrimmedString(setData.set_url) ||
+            "https://rebrickable.com/sets/" +
+              encodeURIComponent(providerSetNumber) + "/",
+          importedAt: new Date().toISOString()
+        };
       }
 
       function isWwaCloudKitConfigured() {
@@ -12655,6 +13560,74 @@
       const recordMinifigureCount = recordEditorForm.querySelector(
         "[data-record-minifigure-count]"
       );
+      const recordCatalogFind = recordEditorForm.querySelector(
+        '[data-record-catalog-action="find"]'
+      );
+      const recordCatalogManage = recordEditorForm.querySelector(
+        '[data-record-catalog-action="manage"]'
+      );
+      const recordCatalogConnection = recordEditorForm.querySelector(
+        "[data-record-catalog-connection]"
+      );
+      const recordCatalogStatus = recordEditorForm.querySelector(
+        "[data-record-catalog-status]"
+      );
+      const recordCatalogSummary = recordEditorForm.querySelector(
+        "[data-record-catalog-summary]"
+      );
+      const recordCatalogFacts = recordEditorForm.querySelector(
+        "[data-record-catalog-facts]"
+      );
+      const recordOfficialSearch = recordEditorForm.querySelector(
+        '[data-record-official-action="search"]'
+      );
+      const recordOfficialInstructions = recordEditorForm.querySelector(
+        '[data-record-official-action="instructions"]'
+      );
+      const recordOfficialComplete = recordEditorForm.querySelector(
+        '[data-record-official-action="complete"]'
+      );
+      const catalogFlow = recordEditor.querySelector(".wwa-catalog-flow");
+      const catalogFlowBack = catalogFlow.querySelector(".wwa-catalog-flow-back");
+      const catalogPanels = Array.from(
+        catalogFlow.querySelectorAll("[data-catalog-panel]")
+      );
+      const catalogConnectForm = catalogFlow.querySelector(
+        "[data-catalog-connect-form]"
+      );
+      const catalogConnectStatus = catalogFlow.querySelector(
+        "[data-catalog-connect-status]"
+      );
+      const catalogManageForm = catalogFlow.querySelector(
+        "[data-catalog-manage-form]"
+      );
+      const catalogManageStatus = catalogFlow.querySelector(
+        "[data-catalog-manage-status]"
+      );
+      const catalogReviewHeading = catalogFlow.querySelector(
+        "[data-catalog-review-heading]"
+      );
+      const catalogReviewIntro = catalogFlow.querySelector(
+        "[data-catalog-review-intro]"
+      );
+      const catalogReviewStatus = catalogFlow.querySelector(
+        "[data-catalog-review-status]"
+      );
+      const catalogReviewContent = catalogFlow.querySelector(
+        "[data-catalog-review-content]"
+      );
+      const catalogApplyButton = catalogFlow.querySelector(
+        '[data-catalog-action="apply"]'
+      );
+      const catalogCancelButton = catalogFlow.querySelector(
+        '[data-catalog-action="cancel"]'
+      );
+      const catalogBackButton = catalogFlow.querySelector(
+        '[data-catalog-action="back"]'
+      );
+      const catalogRemoveButton = catalogFlow.querySelector(
+        '[data-catalog-action="remove"]'
+      );
       const assets = root.querySelector(".wwa-assets");
       const archiveData = root.querySelector(".wwa-archive-data");
       const archiveDataOpen = root.querySelector(".wwa-archive-data-open");
@@ -12749,6 +13722,12 @@
       let activeRecordEditorTrigger = null;
       let recordEditorDirty = false;
       let recordEditorSaving = false;
+      let recordCatalogImport = null;
+      let rebrickableApiKey = "";
+      let pendingCatalogResult = null;
+      let catalogFlowBusy = false;
+      let catalogFlowPanel = null;
+      let catalogConnectionCheck = 0;
       let activeAssetFilter = "All";
       let lastAssetTrigger = null;
       let activeAsset = null;
@@ -13068,6 +14047,883 @@
         recordEditorStatus.classList.toggle("is-error", isError);
       };
 
+      const cloneWwaCatalogImport = (catalogImport) => {
+        if (!catalogImport || typeof catalogImport !== "object") return null;
+        return {
+          provider: getWwaTrimmedString(catalogImport.provider),
+          providerSetNumber: getWwaTrimmedString(
+            catalogImport.providerSetNumber
+          ),
+          sourceUrl: getWwaTrimmedString(catalogImport.sourceUrl),
+          importedAt: getWwaTrimmedString(catalogImport.importedAt),
+          appliedFields: Array.isArray(catalogImport.appliedFields)
+            ? catalogImport.appliedFields.slice()
+            : []
+        };
+      };
+
+      const removeWwaManualCatalogAttribution = (fieldName) => {
+        const appliedFieldByInput = {
+          setName: "Set Name",
+          releaseDate: "Release Date",
+          pieces: "Pieces",
+          minifigures: "Minifigures"
+        };
+        const appliedField = appliedFieldByInput[fieldName];
+        if (
+          !recordCatalogImport ||
+          !appliedField ||
+          !recordCatalogImport.appliedFields.includes(appliedField)
+        ) {
+          return;
+        }
+        const remainingFields = recordCatalogImport.appliedFields.filter(
+          (field) => field !== appliedField
+        );
+        recordCatalogImport = remainingFields.length
+          ? { ...recordCatalogImport, appliedFields: remainingFields }
+          : null;
+        renderWwaRecordCatalogImport();
+        setWwaRecordCatalogStatus(
+          appliedField +
+            "을(를) 직접 수정하여 해당 Catalog Import 출처 표시를 제거했습니다."
+        );
+      };
+
+      const setWwaRecordCatalogStatus = (message, isError = false) => {
+        recordCatalogStatus.textContent = message;
+        recordCatalogStatus.classList.toggle("is-error", isError);
+      };
+
+      const setWwaCatalogPanelStatus = (element, message, isError = false) => {
+        element.textContent = message;
+        element.classList.toggle("is-error", isError);
+      };
+
+      const setWwaCatalogFieldError = (name, message) => {
+        const error = catalogFlow.querySelector(
+          '[data-catalog-error="' + name + '"]'
+        );
+        const form = name === "manage-key"
+          ? catalogManageForm
+          : catalogConnectForm;
+        const input = form.elements.namedItem("apiKey");
+        if (error) {
+          error.textContent = message;
+          error.classList.add("is-visible");
+        }
+        input.setAttribute("aria-invalid", "true");
+        input.focus();
+      };
+
+      const clearWwaCatalogFieldErrors = (form) => {
+        form.querySelectorAll("[data-catalog-error]").forEach((error) => {
+          error.textContent = "";
+          error.classList.remove("is-visible");
+        });
+        form.querySelectorAll("[aria-invalid]").forEach((input) => {
+          input.removeAttribute("aria-invalid");
+        });
+      };
+
+      const setWwaCatalogFlowBusy = (isBusy) => {
+        catalogFlowBusy = isBusy;
+        catalogFlow.setAttribute("aria-busy", isBusy ? "true" : "false");
+        catalogFlow.querySelectorAll("button, input").forEach((control) => {
+          control.disabled = isBusy;
+        });
+        recordCatalogFind.disabled = isBusy || recordEditorSaving;
+        recordCatalogManage.disabled = isBusy || recordEditorSaving;
+      };
+
+      const showWwaCatalogPanel = (panelName) => {
+        catalogFlowPanel = panelName;
+        catalogPanels.forEach((panel) => {
+          panel.hidden = panel.dataset.catalogPanel !== panelName;
+        });
+        recordEditor.classList.add("is-catalog-flow");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.setTimeout(() => {
+          catalogFlow.focus({ preventScroll: true });
+        }, 180);
+      };
+
+      const closeWwaCatalogFlow = () => {
+        recordEditor.classList.remove("is-catalog-flow");
+        catalogFlowPanel = null;
+        pendingCatalogResult = null;
+        setWwaCatalogFlowBusy(false);
+        catalogConnectForm.reset();
+        catalogManageForm.reset();
+        clearWwaCatalogFieldErrors(catalogConnectForm);
+        clearWwaCatalogFieldErrors(catalogManageForm);
+        setWwaCatalogPanelStatus(catalogConnectStatus, "");
+        setWwaCatalogPanelStatus(
+          catalogManageStatus,
+          rebrickableApiKey
+            ? "Rebrickable · Connected"
+            : "Rebrickable · Not connected"
+        );
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.setTimeout(() => recordCatalogFind.focus(), 180);
+      };
+
+      const syncWwaRebrickableConnection = async () => {
+        const check = ++catalogConnectionCheck;
+        recordCatalogConnection.textContent = "Rebrickable · Checking…";
+        recordCatalogManage.hidden = true;
+        try {
+          const storage = await wwaArchiveReady;
+          const apiKey = await readWwaRebrickableApiKey(storage);
+          if (check !== catalogConnectionCheck) return;
+          rebrickableApiKey = apiKey;
+          recordCatalogConnection.textContent = apiKey
+            ? "Rebrickable · Connected"
+            : "Rebrickable · Not connected";
+          recordCatalogManage.hidden = !apiKey;
+        } catch (error) {
+          if (check !== catalogConnectionCheck) return;
+          rebrickableApiKey = "";
+          recordCatalogConnection.textContent = "Rebrickable · Unavailable";
+          recordCatalogManage.hidden = true;
+          setWwaRecordCatalogStatus(
+            "Rebrickable 연결 상태를 확인하지 못했습니다.",
+            true
+          );
+        }
+      };
+
+      const appendWwaCatalogFact = (container, label, value) => {
+        const row = document.createElement("div");
+        row.className = "wwa-record-catalog-fact";
+        const term = document.createElement("dt");
+        term.textContent = label;
+        const description = document.createElement("dd");
+        description.textContent = value;
+        row.append(term, description);
+        container.append(row);
+      };
+
+      const renderWwaRecordCatalogImport = () => {
+        recordCatalogFacts.replaceChildren();
+        recordEditorForm.querySelectorAll(".wwa-record-import-marker")
+          .forEach((marker) => marker.remove());
+        if (!recordCatalogImport) {
+          recordCatalogSummary.hidden = true;
+          return;
+        }
+        const markerFields = new Map([
+          ["Set Name", "setName"],
+          ["Release Date", "releaseDate"],
+          ["Pieces", "pieces"],
+          ["Minifigures", "minifigures"]
+        ]);
+        recordCatalogImport.appliedFields.forEach((appliedField) => {
+          const field = getWwaRecordEditorField(markerFields.get(appliedField));
+          const label = field && field.closest(".wwa-record-field")
+            ?.querySelector(".wwa-record-field-label");
+          if (!label) return;
+          const marker = document.createElement("small");
+          marker.className = "wwa-record-import-marker";
+          marker.textContent = "Imported · Rebrickable";
+          label.append(marker);
+        });
+        appendWwaCatalogFact(
+          recordCatalogFacts,
+          "Imported From",
+          recordCatalogImport.provider || "Rebrickable"
+        );
+        appendWwaCatalogFact(
+          recordCatalogFacts,
+          "Rebrickable Set Number",
+          recordCatalogImport.providerSetNumber || "Not recorded"
+        );
+        appendWwaCatalogFact(
+          recordCatalogFacts,
+          "Imported On",
+          getWwaTrimmedString(recordCatalogImport.importedAt).slice(0, 10) ||
+            "Not recorded"
+        );
+        appendWwaCatalogFact(
+          recordCatalogFacts,
+          "Applied Fields",
+          recordCatalogImport.appliedFields.join(", ") || "Not recorded"
+        );
+        recordCatalogSummary.hidden = false;
+      };
+
+      const updateWwaOfficialLinks = () => {
+        const setNumber = normalizeWwaSetNumber(
+          getWwaRecordEditorField("setNumber").value
+        );
+        recordOfficialSearch.href = setNumber
+          ? "https://www.lego.com/ko-kr/search?q=" +
+              encodeURIComponent(setNumber)
+          : "https://www.lego.com/ko-kr/search";
+        recordOfficialInstructions.href = setNumber
+          ? "https://www.lego.com/ko-kr/service/buildinginstructions/" +
+              encodeURIComponent(setNumber)
+          : "https://www.lego.com/ko-kr/service/buildinginstructions";
+      };
+
+      const getWwaLocalIsoDate = () => {
+        const now = new Date();
+        return [
+          String(now.getFullYear()).padStart(4, "0"),
+          String(now.getMonth() + 1).padStart(2, "0"),
+          String(now.getDate()).padStart(2, "0")
+        ].join("-");
+      };
+
+      const completeWwaOfficialCheck = () => {
+        clearWwaRecordEditorErrors();
+        const officialSource = getWwaTrimmedString(
+          getWwaRecordEditorField("officialSource").value
+        );
+        if (!getWwaLegoOfficialSourceKind(
+          officialSource,
+          getWwaRecordEditorField("setNumber").value
+        )) {
+          showWwaRecordEditorError(
+            createWwaRecordValidationError(
+              "현재 Set Number와 일치하는 LEGO 공식 상품 페이지 또는 공식 조립 설명서 주소를 입력해 주세요.",
+              "officialSource"
+            )
+          );
+          return;
+        }
+        const releaseDate = getWwaTrimmedString(
+          getWwaRecordEditorField("releaseDate").value
+        );
+        if (!releaseDate || !isWwaValidPartialDate(releaseDate)) {
+          showWwaRecordEditorError(
+            createWwaRecordValidationError(
+              "확인된 Release Date를 YYYY, YYYY-MM 또는 YYYY-MM-DD로 입력해 주세요.",
+              "releaseDate"
+            )
+          );
+          return;
+        }
+        const pieces = Number(getWwaRecordEditorField("pieces").value);
+        if (!Number.isInteger(pieces) || pieces < 0) {
+          showWwaRecordEditorError(
+            createWwaRecordValidationError(
+              "LEGO 공식 자료에서 확인한 Pieces를 입력해 주세요.",
+              "pieces"
+            )
+          );
+          return;
+        }
+        setWwaRecordEditorFieldValue("checkedOn", getWwaLocalIsoDate());
+        setWwaRecordEditorFieldValue("recordVerification", "Verified");
+        recordEditorDirty = true;
+        setWwaRecordEditorStatus(
+          "Official check complete · LEGO 공식 자료와 확인일을 기록했습니다."
+        );
+      };
+
+      const getWwaCatalogProgressMessage = (state) => {
+        if (state === "set") return "세트 기본 정보를 확인하고 있습니다…";
+        if (state === "minifigures") {
+          return "미니피겨 정보를 확인하고 있습니다…";
+        }
+        return "Rebrickable 정보를 확인하고 있습니다…";
+      };
+
+      const handleWwaCatalogThrottle = () => {
+        const message = "요청이 많아 잠시 기다린 뒤 다시 확인합니다…";
+        if (catalogFlowPanel === "connect") {
+          setWwaCatalogPanelStatus(catalogConnectStatus, message);
+        } else if (catalogFlowPanel === "manage") {
+          setWwaCatalogPanelStatus(catalogManageStatus, message);
+        } else if (catalogFlowPanel === "review") {
+          setWwaCatalogPanelStatus(catalogReviewStatus, message);
+        } else {
+          setWwaRecordCatalogStatus(message);
+        }
+      };
+
+      const getWwaCatalogMinifigureLabel = (result) => {
+        if (result.minifigureState === "failed") {
+          return "미니피겨 정보를 가져오지 못했습니다.";
+        }
+        if (result.minifigureState === "none") {
+          return "등록된 미니피겨가 없습니다.";
+        }
+        return result.minifigures.join("\n");
+      };
+
+      const appendWwaCatalogReviewRow = (container, label, value) => {
+        const row = document.createElement("div");
+        row.className = "wwa-catalog-review-row";
+        const term = document.createElement("dt");
+        term.textContent = label;
+        const description = document.createElement("dd");
+        description.textContent = value;
+        row.append(term, description);
+        container.append(row);
+      };
+
+      const getWwaCatalogCurrentMinifigures = () => {
+        const enteredNames = getWwaRecordEditorMinifigures();
+        if (enteredNames.length) return enteredNames;
+        if (
+          activeLegoRecord &&
+          !Array.isArray(activeLegoRecord.minifigures) &&
+          activeLegoRecord.minifigures !== null &&
+          activeLegoRecord.minifigures !== undefined
+        ) {
+          const count = Number(
+            activeLegoRecord.minifigureCount ??
+              activeLegoRecord.minifigures
+          ) || 0;
+          return count > 0 ? ["Legacy count · " + count] : [];
+        }
+        return enteredNames;
+      };
+
+      const isWwaCatalogValueEmpty = (value) => {
+        if (Array.isArray(value)) return value.length === 0;
+        return value === null || value === undefined || value === "";
+      };
+
+      const getWwaCatalogDisplayValue = (value) => {
+        if (Array.isArray(value)) {
+          return value.length ? value.join("\n") : "Not recorded";
+        }
+        if (value === null || value === undefined || value === "") {
+          return "Not recorded";
+        }
+        return String(value);
+      };
+
+      const getWwaCatalogEditChanges = (result) => {
+        const currentReleaseDate = getWwaTrimmedString(
+          getWwaRecordEditorField("releaseDate").value
+        );
+        const currentMinifigures = getWwaCatalogCurrentMinifigures();
+        const changes = [
+          {
+            key: "setName",
+            label: "Set Name",
+            current: getWwaRecordEditorField("setName").value.trim(),
+            next: result.setName,
+            appliedField: "Set Name"
+          },
+          {
+            key: "releaseDate",
+            label: "Release Year",
+            current: currentReleaseDate,
+            next: result.releaseYear,
+            appliedField: "Release Date",
+            protected: currentReleaseDate.length > 4
+          },
+          {
+            key: "pieces",
+            label: "Pieces",
+            current: getWwaRecordEditorField("pieces").value === ""
+              ? null
+              : Number(getWwaRecordEditorField("pieces").value),
+            next: result.pieces,
+            appliedField: "Pieces"
+          }
+        ];
+        if (result.minifigureState !== "failed") {
+          changes.push({
+            key: "minifigures",
+            label: "Minifigures",
+            current: currentMinifigures,
+            next: result.minifigures,
+            appliedField: "Minifigures"
+          });
+        }
+        return changes.filter((change) =>
+          !change.protected &&
+          (change.key === "minifigures" ||
+            !isWwaCatalogValueEmpty(change.next)) &&
+          JSON.stringify(change.current) !== JSON.stringify(change.next)
+        );
+      };
+
+      const updateWwaCatalogApplyControl = () => {
+        if (!activeLegoRecord) {
+          catalogApplyButton.disabled = catalogFlowBusy;
+          return;
+        }
+        const selected = catalogReviewContent.querySelector(
+          'input[type="radio"][value="use"]:checked'
+        );
+        catalogApplyButton.disabled = catalogFlowBusy || !selected;
+      };
+
+      const renderWwaCatalogReview = () => {
+        const result = pendingCatalogResult;
+        catalogReviewContent.replaceChildren();
+        if (!result) return;
+        const isEdit = Boolean(activeLegoRecord);
+        catalogReviewHeading.textContent = isEdit
+          ? "Review Record Updates"
+          : "Review Set Information";
+        catalogReviewIntro.textContent = isEdit
+          ? "현재 Record와 Rebrickable 값을 항목별로 비교한 뒤 적용할 변경만 선택합니다."
+          : "Rebrickable에서 가져온 정보를 확인한 뒤 Record에 적용합니다. 이 정보는 LEGO 공식 검증 자료가 아닙니다.";
+        catalogApplyButton.textContent = isEdit
+          ? "Apply Selected Changes"
+          : "Apply Information";
+
+        if (!isEdit) {
+          const list = document.createElement("dl");
+          list.className = "wwa-catalog-review-list";
+          appendWwaCatalogReviewRow(
+            list,
+            "Set Number",
+            result.providerSetNumber
+          );
+          appendWwaCatalogReviewRow(list, "Set Name", result.setName);
+          appendWwaCatalogReviewRow(
+            list,
+            "Release Date",
+            result.releaseYear || "Not recorded"
+          );
+          appendWwaCatalogReviewRow(
+            list,
+            "Pieces",
+            result.pieces === null ? "Not recorded" : String(result.pieces)
+          );
+          appendWwaCatalogReviewRow(
+            list,
+            "Minifigures",
+            getWwaCatalogMinifigureLabel(result)
+          );
+          appendWwaCatalogReviewRow(list, "Imported From", "Rebrickable");
+          appendWwaCatalogReviewRow(
+            list,
+            "Imported On",
+            result.importedAt.slice(0, 10)
+          );
+          catalogReviewContent.append(list);
+          catalogApplyButton.disabled = false;
+        } else {
+          const changes = getWwaCatalogEditChanges(result);
+          if (!changes.length) {
+            const empty = document.createElement("p");
+            empty.className = "wwa-catalog-note";
+            empty.textContent = "No catalog changes found";
+            catalogReviewContent.append(empty);
+            catalogApplyButton.disabled = true;
+          } else {
+            changes.forEach((change) => {
+              const row = document.createElement("div");
+              row.className = "wwa-catalog-compare-row";
+              row.dataset.catalogField = change.key;
+              row.dataset.appliedField = change.appliedField;
+              const title = document.createElement("h3");
+              title.className = "wwa-catalog-compare-title";
+              title.textContent = change.label;
+
+              const createChoice = (value, heading, choiceValue) => {
+                const label = document.createElement("label");
+                label.className = "wwa-catalog-choice";
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "catalog-" + change.key;
+                input.value = choiceValue;
+                input.checked = choiceValue === (
+                  isWwaCatalogValueEmpty(change.current) ? "use" : "keep"
+                );
+                const copy = document.createElement("span");
+                const strong = document.createElement("strong");
+                strong.textContent = heading;
+                const text = document.createElement("span");
+                text.textContent = getWwaCatalogDisplayValue(value);
+                copy.append(strong, text);
+                label.append(input, copy);
+                return label;
+              };
+
+              row.append(
+                title,
+                createChoice(change.current, "Current Record", "keep"),
+                createChoice(change.next, "Rebrickable", "use")
+              );
+              catalogReviewContent.append(row);
+            });
+            updateWwaCatalogApplyControl();
+          }
+        }
+
+        if (result.minifigureState === "failed") {
+          const retry = document.createElement("button");
+          retry.type = "button";
+          retry.className = "wwa-record-catalog-action";
+          retry.dataset.catalogAction = "retry-minifigures";
+          retry.textContent = "Retry Minifigures";
+          catalogReviewContent.append(retry);
+          setWwaCatalogPanelStatus(
+            catalogReviewStatus,
+            "세트 기본 정보는 확인했지만 미니피겨 정보는 가져오지 못했습니다.",
+            true
+          );
+        } else if (result.minifigureState === "none") {
+          setWwaCatalogPanelStatus(
+            catalogReviewStatus,
+            "등록된 미니피겨가 없습니다."
+          );
+        } else {
+          setWwaCatalogPanelStatus(
+            catalogReviewStatus,
+            "Rebrickable 조회 결과를 확인해 주세요."
+          );
+        }
+      };
+
+      const handleWwaCatalogLookupError = (error, source) => {
+        const message = getWwaTrimmedString(error && error.message) ||
+          "Rebrickable 정보를 가져오지 못했습니다.";
+        if (error && error.code === "invalid-key") {
+          if (source === "connect") {
+            setWwaCatalogFieldError("connect-key", message);
+            setWwaCatalogPanelStatus(catalogConnectStatus, message, true);
+          } else {
+            setWwaRecordCatalogStatus(
+              "Rebrickable 연결을 다시 확인해 주세요.",
+              true
+            );
+            showWwaCatalogPanel("manage");
+            setWwaCatalogPanelStatus(catalogManageStatus, message, true);
+          }
+          return;
+        }
+        if (error && error.code === "not-found") {
+          if (recordEditor.classList.contains("is-catalog-flow")) {
+            closeWwaCatalogFlow();
+          }
+          showWwaRecordEditorError(
+            createWwaRecordValidationError(message, "setNumber")
+          );
+          return;
+        }
+        if (source === "connect") {
+          setWwaCatalogPanelStatus(catalogConnectStatus, message, true);
+        } else {
+          setWwaRecordCatalogStatus(message, true);
+        }
+      };
+
+      const runWwaCatalogLookup = async (apiKey, source) => {
+        clearWwaRecordEditorErrors();
+        setWwaCatalogFlowBusy(true);
+        setWwaRecordCatalogStatus(
+          getWwaCatalogProgressMessage("set")
+        );
+        try {
+          const result = await fetchWwaRebrickableSetInformation(
+            apiKey,
+            getWwaRecordEditorField("setNumber").value,
+            {
+              onProgress: (state) => {
+                const message = getWwaCatalogProgressMessage(state);
+                setWwaRecordCatalogStatus(message);
+                if (source === "connect") {
+                  setWwaCatalogPanelStatus(catalogConnectStatus, message);
+                }
+              },
+              onThrottle: handleWwaCatalogThrottle,
+              onSetLoaded: source === "connect" &&
+                apiKey !== rebrickableApiKey
+                ? async () => {
+                    const storage = await wwaArchiveReady;
+                    await saveWwaRebrickableApiKey(storage, apiKey);
+                    rebrickableApiKey = getWwaTrimmedString(apiKey);
+                    recordCatalogConnection.textContent =
+                      "Rebrickable · Connected";
+                    recordCatalogManage.hidden = false;
+                  }
+                : null
+            }
+          );
+          pendingCatalogResult = result;
+          renderWwaCatalogReview();
+          showWwaCatalogPanel("review");
+          setWwaRecordCatalogStatus("");
+        } catch (error) {
+          handleWwaCatalogLookupError(error, source);
+        } finally {
+          setWwaCatalogFlowBusy(false);
+          updateWwaCatalogApplyControl();
+        }
+      };
+
+      const startWwaCatalogLookup = async () => {
+        const setNumber = normalizeWwaSetNumber(
+          getWwaRecordEditorField("setNumber").value
+        );
+        if (!setNumber) {
+          showWwaRecordEditorError(
+            createWwaRecordValidationError(
+              "Set Number를 입력해 주세요.",
+              "setNumber"
+            )
+          );
+          return;
+        }
+        if (!rebrickableApiKey) {
+          catalogConnectForm.reset();
+          clearWwaCatalogFieldErrors(catalogConnectForm);
+          setWwaCatalogPanelStatus(catalogConnectStatus, "");
+          showWwaCatalogPanel("connect");
+          window.setTimeout(() => {
+            catalogConnectForm.elements.namedItem("apiKey").focus();
+          }, 180);
+          return;
+        }
+        await runWwaCatalogLookup(rebrickableApiKey, "editor");
+      };
+
+      const applyWwaCatalogResult = () => {
+        if (!pendingCatalogResult) return;
+        const result = pendingCatalogResult;
+        const appliedFields = [];
+
+        if (!activeLegoRecord) {
+          setWwaRecordEditorFieldValue("setName", result.setName);
+          appliedFields.push("Set Name");
+          if (result.releaseYear) {
+            setWwaRecordEditorFieldValue("releaseDate", result.releaseYear);
+            appliedFields.push("Release Date");
+          }
+          if (result.pieces !== null) {
+            setWwaRecordEditorFieldValue("pieces", result.pieces);
+            appliedFields.push("Pieces");
+          }
+          if (result.minifigureState !== "failed") {
+            setWwaRecordEditorFieldValue(
+              "minifigures",
+              result.minifigures.join("\n")
+            );
+            appliedFields.push("Minifigures");
+          }
+        } else {
+          catalogReviewContent.querySelectorAll(
+            ".wwa-catalog-compare-row"
+          ).forEach((row) => {
+            const selected = row.querySelector(
+              'input[type="radio"][value="use"]:checked'
+            );
+            if (!selected) return;
+            const key = row.dataset.catalogField;
+            if (key === "setName") {
+              setWwaRecordEditorFieldValue("setName", result.setName);
+            } else if (key === "releaseDate") {
+              setWwaRecordEditorFieldValue(
+                "releaseDate",
+                result.releaseYear
+              );
+            } else if (key === "pieces") {
+              setWwaRecordEditorFieldValue("pieces", result.pieces);
+            } else if (key === "minifigures") {
+              setWwaRecordEditorFieldValue(
+                "minifigures",
+                result.minifigures.join("\n")
+              );
+            }
+            appliedFields.push(row.dataset.appliedField);
+          });
+        }
+
+        if (!appliedFields.length) {
+          setWwaCatalogPanelStatus(
+            catalogReviewStatus,
+            "적용할 변경값을 선택해 주세요.",
+            true
+          );
+          return;
+        }
+
+        recordCatalogImport = {
+          provider: "Rebrickable",
+          providerSetNumber: result.providerSetNumber,
+          sourceUrl: result.sourceUrl,
+          importedAt: result.importedAt,
+          appliedFields
+        };
+        setWwaRecordEditorFieldValue("recordVerification", "Review");
+        setWwaRecordEditorFieldValue("checkedOn", "");
+        recordEditorDirty = true;
+        updateWwaRecordEditorMinifigureCount();
+        renderWwaRecordCatalogImport();
+        closeWwaCatalogFlow();
+        setWwaRecordEditorStatus(
+          "Catalog information applied · LEGO 공식 자료 확인 후 저장해 주세요."
+        );
+      };
+
+      const retryWwaCatalogMinifigures = async () => {
+        if (!pendingCatalogResult || !rebrickableApiKey) return;
+        setWwaCatalogFlowBusy(true);
+        setWwaCatalogPanelStatus(
+          catalogReviewStatus,
+          "미니피겨 정보를 다시 확인하고 있습니다…"
+        );
+        try {
+          await waitWwaMilliseconds(1050);
+          const data = await requestWwaRebrickableJson(
+            rebrickableApiKey,
+            "/sets/" + encodeURIComponent(
+              pendingCatalogResult.providerSetNumber
+            ) + "/minifigs/?page_size=1000",
+            { onThrottle: handleWwaCatalogThrottle }
+          );
+          const names = Array.from(new Set(
+            (Array.isArray(data && data.results) ? data.results : [])
+              .map((item) => getWwaTrimmedString(item && item.set_name))
+              .filter(Boolean)
+          ));
+          pendingCatalogResult.minifigures = names;
+          pendingCatalogResult.minifigureState = names.length
+            ? "loaded"
+            : "none";
+          pendingCatalogResult.minifigureError = null;
+          renderWwaCatalogReview();
+        } catch (error) {
+          if (error && error.code === "invalid-key") {
+            handleWwaCatalogLookupError(error, "editor");
+          } else {
+            setWwaCatalogPanelStatus(
+              catalogReviewStatus,
+              getWwaTrimmedString(error && error.message) ||
+                "미니피겨 정보를 가져오지 못했습니다.",
+              true
+            );
+          }
+        } finally {
+          setWwaCatalogFlowBusy(false);
+          updateWwaCatalogApplyControl();
+        }
+      };
+
+      const connectWwaRebrickable = async (event) => {
+        event.preventDefault();
+        if (catalogFlowBusy) return;
+        clearWwaCatalogFieldErrors(catalogConnectForm);
+        const apiKey = getWwaTrimmedString(
+          catalogConnectForm.elements.namedItem("apiKey").value
+        );
+        if (!apiKey) {
+          setWwaCatalogFieldError(
+            "connect-key",
+            "API 키를 입력해 주세요."
+          );
+          return;
+        }
+        setWwaCatalogFlowBusy(true);
+        setWwaCatalogPanelStatus(
+          catalogConnectStatus,
+          "API 키를 확인하고 있습니다…"
+        );
+        try {
+          await validateWwaRebrickableApiKey(
+            apiKey,
+            handleWwaCatalogThrottle
+          );
+          const storage = await wwaArchiveReady;
+          await saveWwaRebrickableApiKey(storage, apiKey);
+          rebrickableApiKey = apiKey;
+          recordCatalogConnection.textContent = "Rebrickable · Connected";
+          recordCatalogManage.hidden = false;
+          setWwaCatalogPanelStatus(
+            catalogConnectStatus,
+            "연결했습니다. 세트 기본 정보를 확인합니다…"
+          );
+          await waitWwaMilliseconds(1050);
+        } catch (error) {
+          const message = getWwaTrimmedString(error && error.message) ||
+            "API 키를 확인하지 못했습니다.";
+          if (error && error.code === "invalid-key") {
+            setWwaCatalogFieldError("connect-key", message);
+          }
+          setWwaCatalogPanelStatus(catalogConnectStatus, message, true);
+          setWwaCatalogFlowBusy(false);
+          return;
+        }
+        setWwaCatalogFlowBusy(false);
+        await runWwaCatalogLookup(apiKey, "connect");
+      };
+
+      const reconnectWwaRebrickable = async (event) => {
+        event.preventDefault();
+        if (catalogFlowBusy) return;
+        clearWwaCatalogFieldErrors(catalogManageForm);
+        const apiKey = getWwaTrimmedString(
+          catalogManageForm.elements.namedItem("apiKey").value
+        );
+        if (!apiKey) {
+          setWwaCatalogFieldError(
+            "manage-key",
+            "새 API 키를 입력해 주세요."
+          );
+          return;
+        }
+        setWwaCatalogFlowBusy(true);
+        setWwaCatalogPanelStatus(
+          catalogManageStatus,
+          "새 API 키를 확인하고 있습니다…"
+        );
+        try {
+          await validateWwaRebrickableApiKey(
+            apiKey,
+            handleWwaCatalogThrottle
+          );
+          const storage = await wwaArchiveReady;
+          await saveWwaRebrickableApiKey(storage, apiKey);
+          rebrickableApiKey = apiKey;
+          recordCatalogConnection.textContent = "Rebrickable · Connected";
+          recordCatalogManage.hidden = false;
+          closeWwaCatalogFlow();
+          setWwaRecordCatalogStatus(
+            "Rebrickable 연결을 새 API 키로 교체했습니다."
+          );
+        } catch (error) {
+          const message = getWwaTrimmedString(error && error.message) ||
+            "새 API 키를 확인하지 못했습니다.";
+          if (error && error.code === "invalid-key") {
+            setWwaCatalogFieldError("manage-key", message);
+          }
+          setWwaCatalogPanelStatus(catalogManageStatus, message, true);
+        } finally {
+          setWwaCatalogFlowBusy(false);
+        }
+      };
+
+      const removeWwaRebrickableConnection = async () => {
+        if (catalogFlowBusy) return;
+        setWwaCatalogFlowBusy(true);
+        setWwaCatalogPanelStatus(
+          catalogManageStatus,
+          "Rebrickable 연결을 삭제하고 있습니다…"
+        );
+        try {
+          const storage = await wwaArchiveReady;
+          await removeWwaRebrickableApiKey(storage);
+          rebrickableApiKey = "";
+          recordCatalogConnection.textContent =
+            "Rebrickable · Not connected";
+          recordCatalogManage.hidden = true;
+          closeWwaCatalogFlow();
+          setWwaRecordCatalogStatus(
+            "Rebrickable 연결을 삭제했습니다. 기존 Record는 유지됩니다."
+          );
+        } catch (error) {
+          setWwaCatalogPanelStatus(
+            catalogManageStatus,
+            "Rebrickable 연결을 삭제하지 못했습니다.",
+            true
+          );
+        } finally {
+          setWwaCatalogFlowBusy(false);
+        }
+      };
+
       const clearWwaRecordEditorErrors = () => {
         recordEditorForm.querySelectorAll("[data-record-error]").forEach(
           (element) => {
@@ -13147,7 +15003,8 @@
         recordVerification: getWwaRecordEditorField(
           "recordVerification"
         ).value,
-        recordLifecycle: getWwaRecordEditorField("recordLifecycle").value
+        recordLifecycle: getWwaRecordEditorField("recordLifecycle").value,
+        catalogImport: cloneWwaCatalogImport(recordCatalogImport)
       });
 
       const setWwaRecordEditorFieldValue = (name, value) => {
@@ -13159,8 +15016,13 @@
 
       const openWwaRecordEditor = (record = null, trigger = null) => {
         activeLegoRecord = record ? { ...record } : null;
+        recordCatalogImport = cloneWwaCatalogImport(
+          record && record.catalogImport
+        );
+        pendingCatalogResult = null;
         activeRecordEditorTrigger = trigger || addRecordButton;
         recordEditorForm.reset();
+        recordEditor.classList.remove("is-catalog-flow");
         clearWwaRecordEditorErrors();
 
         const size = record && record.size && typeof record.size === "object"
@@ -13218,6 +15080,10 @@
         setWwaRecordEditorFieldValue("primarySetFamily", "Unassigned");
         setWwaRecordEditorFieldValue("primaryBookPlacement", "Not placed");
         updateWwaRecordEditorMinifigureCount();
+        updateWwaOfficialLinks();
+        renderWwaRecordCatalogImport();
+        setWwaRecordCatalogStatus("");
+        syncWwaRebrickableConnection();
 
         const isEdit = Boolean(record);
         recordEditorPosition.textContent = isEdit ? "Edit Record" : "Add Record";
@@ -13250,10 +15116,13 @@
       };
 
       const closeWwaRecordEditor = (restoreFocus = true) => {
+        recordEditor.classList.remove("is-catalog-flow");
         recordEditor.classList.remove("is-visible");
         root.classList.remove("is-record-editor-view");
         recordsScreen.classList.add("is-visible");
         activeLegoRecord = null;
+        recordCatalogImport = null;
+        pendingCatalogResult = null;
         recordEditorDirty = false;
         window.scrollTo({ top: 0, behavior: "smooth" });
         if (restoreFocus && activeRecordEditorTrigger) {
@@ -14884,6 +16753,60 @@
       recordEditorBack.addEventListener("click", requestCloseWwaRecordEditor);
       recordEditorCancel.addEventListener("click", requestCloseWwaRecordEditor);
       recordEditorForm.addEventListener("submit", saveWwaRecordEditor);
+      recordCatalogFind.addEventListener("click", startWwaCatalogLookup);
+      recordCatalogManage.addEventListener("click", () => {
+        clearWwaCatalogFieldErrors(catalogManageForm);
+        catalogManageForm.reset();
+        setWwaCatalogPanelStatus(
+          catalogManageStatus,
+          rebrickableApiKey
+            ? "Rebrickable · Connected"
+            : "Rebrickable · Not connected"
+        );
+        showWwaCatalogPanel("manage");
+      });
+      recordOfficialComplete.addEventListener(
+        "click",
+        completeWwaOfficialCheck
+      );
+      catalogFlowBack.addEventListener("click", () => {
+        if (!catalogFlowBusy) closeWwaCatalogFlow();
+      });
+      catalogCancelButton.addEventListener("click", () => {
+        if (!catalogFlowBusy) closeWwaCatalogFlow();
+      });
+      catalogBackButton.addEventListener("click", () => {
+        if (!catalogFlowBusy) closeWwaCatalogFlow();
+      });
+      catalogApplyButton.addEventListener("click", applyWwaCatalogResult);
+      catalogRemoveButton.addEventListener(
+        "click",
+        removeWwaRebrickableConnection
+      );
+      catalogConnectForm.addEventListener("submit", connectWwaRebrickable);
+      catalogManageForm.addEventListener("submit", reconnectWwaRebrickable);
+      catalogConnectForm.addEventListener("input", () => {
+        clearWwaCatalogFieldErrors(catalogConnectForm);
+        setWwaCatalogPanelStatus(catalogConnectStatus, "");
+      });
+      catalogManageForm.addEventListener("input", () => {
+        clearWwaCatalogFieldErrors(catalogManageForm);
+        setWwaCatalogPanelStatus(
+          catalogManageStatus,
+          "Rebrickable · Connected"
+        );
+      });
+      catalogReviewContent.addEventListener("change", (event) => {
+        if (event.target && event.target.type === "radio") {
+          updateWwaCatalogApplyControl();
+        }
+      });
+      catalogReviewContent.addEventListener("click", (event) => {
+        const button = event.target.closest(
+          '[data-catalog-action="retry-minifigures"]'
+        );
+        if (button) retryWwaCatalogMinifigures();
+      });
       recordEditorForm.addEventListener("input", (event) => {
         if (!recordEditor.classList.contains("is-visible")) return;
         recordEditorDirty = true;
@@ -14898,8 +16821,27 @@
           }
           event.target.removeAttribute("aria-invalid");
         }
+        removeWwaManualCatalogAttribution(fieldName);
         if (fieldName === "minifigures") {
           updateWwaRecordEditorMinifigureCount();
+        }
+        if (fieldName === "setNumber") {
+          updateWwaOfficialLinks();
+          if (recordCatalogImport) {
+            const currentSetNumber = normalizeWwaSetNumber(
+              event.target.value
+            ).replace(/-\d+$/, "").toUpperCase();
+            const importedSetNumber = normalizeWwaSetNumber(
+              recordCatalogImport.providerSetNumber
+            ).replace(/-\d+$/, "").toUpperCase();
+            if (currentSetNumber !== importedSetNumber) {
+              recordCatalogImport = null;
+              renderWwaRecordCatalogImport();
+              setWwaRecordCatalogStatus(
+                "Set Number가 변경되어 이전 Catalog Import 연결을 제거했습니다."
+              );
+            }
+          }
         }
       });
 

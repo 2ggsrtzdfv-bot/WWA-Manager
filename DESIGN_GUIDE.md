@@ -1,6 +1,6 @@
 # WWA Manager Design Guide
 
-Last updated: 2026-08-11
+Last updated: 2026-08-12
 Status: Approved baseline
 
 이 문서는 WWA Manager의 승인된 시각·인터랙션 규칙을 정의한다. WWA는 관리 대시보드나 팬덤 테마 앱이 아니라 영화와 LEGO 자료를 편집하는 뮤지엄 아카이브 제작 도구다.
@@ -159,7 +159,9 @@ WWA는 두 가지 화면 체계를 사용한다.
 
 ## 12. Forms and Feedback
 
-- 필드명·상태값은 영어, 설명·오류·확인 문구는 한글로 표시한다.
+- 섹션명·필드명·상태값은 영어로 표시하고, 설명이 필요한 항목은 바로 아래에 작은 한글 설명을 둔다.
+- 버튼과 클릭형 Action은 영문만 표시하며 버튼 안이나 바로 아래에 한글 보조문을 반복하지 않는다.
+- 오류·확인·진행 안내는 해당 필드나 Action 가까이에 한글로 표시한다.
 - 필수값 누락과 관계 오류는 필드 바로 아래에 표시한다.
 - 저장되지 않은 변경사항이 있을 때 화면을 나가면 `Discard Changes` 확인창을 표시한다.
 - 확인창은 다음 경우에만 사용한다.
@@ -168,6 +170,18 @@ WWA는 두 가지 화면 체계를 사용한다.
   - Archive
 - 일반 저장 완료, 필터 변경, 상세 열기에는 확인창을 사용하지 않는다.
 - 성공·오류 피드백은 짧고 조용한 방식으로 제공하며 화면을 가리지 않는다.
+
+### Rebrickable Catalog Flow
+
+- `Connect Rebrickable`, `Review Set Information`, `Review Record Updates`, Connection 관리는 Archive Surface의 전체 화면 집중 단계로 구성한다.
+- Add/Edit Record의 입력값은 Catalog Flow로 이동하고 돌아와도 유지한다.
+- 조회 결과와 기존 값 비교는 카드 묶음보다 얇은 구분선의 전체 폭 세로 목록을 사용한다.
+- Edit 비교는 `Current Record / Rebrickable`을 항목별 라디오 선택으로 표시하며 선택 터치 영역을 최소 44px로 유지한다.
+- `Find Set Information`, `Connect & Continue`, `Apply Information`, `Apply Selected Changes`, `Reconnect`, `Remove Connection`은 영문 단독 버튼으로 표시한다.
+- `API Key`, `Catalog Import`, `Needs Official Check`, `Official Check`에는 영문 제목 아래 작은 한글 설명을 둔다.
+- API Key 오류는 입력 필드 아래, 조회 진행·제한·부분 실패는 현재 단계 안의 조용한 상태 문구로 표시한다.
+- `Verified`는 상태 Select에서 직접 고르지 않고 `Complete Official Check`를 통해서만 전환하며, 잘못된 공식 주소는 `Official Source` 필드 아래에 표시한다.
+- 자동조회 적용 필드를 직접 수정하면 해당 `Imported · Rebrickable` 표시를 즉시 제거하고 남은 적용 항목만 `Catalog Import`에 표시한다.
 
 ## 13. Motion and Accessibility
 
