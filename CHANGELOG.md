@@ -4,6 +4,15 @@
 
 ## [Unreleased]
 
+### WWA Pages Phase 1 Implemented — 2026-08-13
+
+- 하단 `Pages`를 실제 Archive 화면으로 활성화하고 기존 다음 단계 안내를 제거해 Page 수, 빈 상태, 저장된 Page 목록을 표시.
+- `Add Page` 집중 편집 화면에서 활성 `Verified` LEGO Record를 선택한 뒤 해당 Record에 연결된 `Verified · LEGO Official Product Image`만 선택하도록 제한.
+- Page 저장 시 `PAGE-000001` 형식의 Stable ID, Page Record, Page Placement와 선택 Asset의 `Production Status = In Use` 변경을 하나의 IndexedDB transaction으로 처리해 부분 저장을 차단.
+- 같은 Record와 같은 Image 조합의 중복 Page 생성을 차단하고, 크롭·실제 Book 배치는 승인된 다음 단계까지 `null`로 유지.
+- 기존 `pages`·`pagePlacements` Store, Full ZIP 관계 검증, Outbox·20개 Store·단일 `index.html` 구조를 그대로 사용해 schema version과 Backup format version을 변경하지 않음.
+- iPhone `393px` DOM·IndexedDB 통합 검증에서 Pages 진입, Add Page의 하단 내비게이션 숨김, Record별 공식 이미지 필터, 원자적 저장, Asset `In Use` 전환, Page 재로드 유지와 기존 Records·Record Editor·Asset Detail 회귀를 확인.
+
 ### iPhone Release Date Input and Official Check Feedback Implemented — 2026-08-12
 
 - LEGO Record의 `Release Date` 입력을 iPhone에서 하이픈을 입력할 수 있는 전체 키보드로 변경해 승인된 `YYYY / YYYY-MM / YYYY-MM-DD` 부분 날짜를 모두 직접 기록할 수 있도록 수정.

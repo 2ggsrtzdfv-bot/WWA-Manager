@@ -2543,6 +2543,359 @@
       font: 400 11px/1.7 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
+    /* v0.4 Pages — Record and verified Asset placement index. */
+    #wwa-home-complete-castle.is-pages-view .wwa-shell {
+      background: var(--wwa-winter) !important;
+    }
+
+    #wwa-home-complete-castle .wwa-pages,
+    #wwa-home-complete-castle .wwa-page-editor {
+      display: none;
+      min-height: 100vh;
+      margin: 0 -16px;
+      padding: 26px 20px calc(58px + env(safe-area-inset-bottom));
+      background: #F7F9FC;
+      color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-pages.is-visible,
+    #wwa-home-complete-castle .wwa-page-editor.is-visible {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-pages:focus,
+    #wwa-home-complete-castle .wwa-page-editor:focus {
+      outline: none;
+    }
+
+    #wwa-home-complete-castle .wwa-pages-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 16px;
+      padding-bottom: 21px;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.24);
+    }
+
+    #wwa-home-complete-castle .wwa-pages-kicker,
+    #wwa-home-complete-castle .wwa-pages-intro,
+    #wwa-home-complete-castle .wwa-pages-count,
+    #wwa-home-complete-castle .wwa-pages-empty,
+    #wwa-home-complete-castle .wwa-page-card-id,
+    #wwa-home-complete-castle .wwa-page-card-meta,
+    #wwa-home-complete-castle .wwa-page-card-state,
+    #wwa-home-complete-castle .wwa-page-editor-position,
+    #wwa-home-complete-castle .wwa-page-editor-intro,
+    #wwa-home-complete-castle .wwa-page-field,
+    #wwa-home-complete-castle .wwa-page-editor-status {
+      font-family: "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-pages-kicker {
+      margin: 0 0 6px;
+      color: var(--wwa-stone);
+      font-size: 9px;
+      font-weight: 650;
+      line-height: 1.2;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-pages-title,
+    #wwa-home-complete-castle .wwa-page-editor-heading {
+      margin: 0;
+      color: var(--wwa-blue);
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: 38px;
+      font-weight: 500;
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+    }
+
+    #wwa-home-complete-castle .wwa-pages-intro,
+    #wwa-home-complete-castle .wwa-page-editor-intro {
+      margin: 12px 0 0;
+      max-width: 310px;
+      color: var(--wwa-stone);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    #wwa-home-complete-castle .wwa-add-page {
+      appearance: none;
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--wwa-blue);
+      border-radius: 3px;
+      background: var(--wwa-blue);
+      color: var(--wwa-winter);
+      font: 700 9px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-pages-count {
+      margin: 23px 0 11px;
+      padding-bottom: 11px;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+      color: var(--wwa-stone);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-pages-list {
+      display: grid;
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    #wwa-home-complete-castle .wwa-page-card {
+      display: grid;
+      grid-template-columns: 98px minmax(0, 1fr);
+      gap: 15px;
+      min-width: 0;
+      padding: 16px 0 18px;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-page-card-preview {
+      display: flex;
+      width: 98px;
+      height: 98px;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(111, 118, 130, 0.24);
+      border-radius: 3px;
+      background: #FFFFFF;
+    }
+
+    #wwa-home-complete-castle .wwa-page-card-preview img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    #wwa-home-complete-castle .wwa-page-card-copy {
+      min-width: 0;
+      align-self: center;
+    }
+
+    #wwa-home-complete-castle .wwa-page-card-id {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--wwa-stone);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+    }
+
+    #wwa-home-complete-castle .wwa-page-card-title {
+      display: block;
+      overflow: hidden;
+      color: var(--wwa-blue);
+      font: 500 20px/1.05 "Bluu Next", Georgia, serif;
+      letter-spacing: -0.025em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #wwa-home-complete-castle .wwa-page-card-meta,
+    #wwa-home-complete-castle .wwa-page-card-state {
+      display: block;
+      margin-top: 7px;
+      color: var(--wwa-stone);
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    #wwa-home-complete-castle .wwa-page-card-state {
+      color: var(--wwa-blue);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-pages-empty {
+      display: none;
+      margin: 58px auto 0;
+      max-width: 280px;
+      color: var(--wwa-stone);
+      font-size: 11px;
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    #wwa-home-complete-castle .wwa-pages-empty.is-visible {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-pages-empty strong,
+    #wwa-home-complete-castle .wwa-pages-empty span {
+      display: block;
+    }
+
+    #wwa-home-complete-castle .wwa-pages-empty strong {
+      margin-bottom: 7px;
+      color: var(--wwa-blue);
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    #wwa-home-complete-castle .wwa-page-editor {
+      padding-bottom: calc(28px + env(safe-area-inset-bottom));
+    }
+
+    #wwa-home-complete-castle .wwa-page-editor-topbar {
+      display: flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 23px;
+      border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-page-editor-back {
+      appearance: none;
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      gap: 7px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--wwa-blue);
+      font: 650 11px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-page-editor-back svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.5;
+    }
+
+    #wwa-home-complete-castle .wwa-page-editor-position {
+      color: var(--wwa-stone);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    #wwa-home-complete-castle .wwa-page-editor-form {
+      margin-top: 27px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-page-field {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 19px;
+      color: var(--wwa-blue);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: 0.035em;
+    }
+
+    #wwa-home-complete-castle .wwa-page-field small {
+      display: block;
+      margin-top: 3px;
+      color: var(--wwa-stone);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    #wwa-home-complete-castle .wwa-page-field select {
+      appearance: none;
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 38px 10px 12px;
+      border: 1px solid rgba(111, 118, 130, 0.32);
+      border-radius: 3px;
+      background: #F7F9FC url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236F7682' d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 13px center;
+      color: var(--wwa-blue);
+      font: 400 16px/1.35 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      outline: none;
+    }
+
+    #wwa-home-complete-castle .wwa-page-field select:focus {
+      border-color: var(--wwa-patronus);
+      box-shadow: 0 0 0 2px rgba(127, 183, 230, 0.16);
+    }
+
+    #wwa-home-complete-castle .wwa-page-field select:disabled {
+      color: rgba(111, 118, 130, 0.7);
+      background-color: rgba(199, 204, 214, 0.15);
+    }
+
+    #wwa-home-complete-castle .wwa-page-field-error {
+      min-height: 15px;
+      color: var(--wwa-blue);
+      font-size: 10px;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    #wwa-home-complete-castle .wwa-page-editor-status {
+      min-height: 18px;
+      margin: 15px 0 0;
+      color: var(--wwa-stone);
+      font-size: 10px;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    #wwa-home-complete-castle .wwa-page-editor-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 9px;
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(111, 118, 130, 0.2);
+    }
+
+    #wwa-home-complete-castle .wwa-page-editor-action {
+      appearance: none;
+      min-height: 48px;
+      padding: 0 12px;
+      border: 1px solid rgba(26, 42, 68, 0.34);
+      border-radius: 3px;
+      background: transparent;
+      color: var(--wwa-blue);
+      font: 700 10px/1.2 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-page-editor-action.is-primary {
+      border-color: var(--wwa-blue);
+      background: var(--wwa-blue);
+      color: var(--wwa-winter);
+    }
+
+    #wwa-home-complete-castle .wwa-page-editor-action:disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    #wwa-home-complete-castle.is-page-editor-view .wwa-bottom-nav {
+      display: none;
+    }
+
     /* v0.2 Assets main — a quiet preservation room for verified source material. */
 
     #wwa-home-complete-castle .wwa-assets {
@@ -4373,6 +4726,59 @@
       <p class="wwa-assets-count" aria-live="polite">09 archived materials</p>
       <div class="wwa-assets-grid"></div>
       <p class="wwa-assets-empty">No materials match this archive view.</p>
+    </section>
+
+    <section class="wwa-pages" aria-label="WWA Pages archive" tabindex="-1">
+      <header class="wwa-pages-header">
+        <div>
+          <p class="wwa-pages-kicker">Book Production</p>
+          <h1 class="wwa-pages-title">WWA Pages</h1>
+          <p class="wwa-pages-intro">LEGO Records and verified Assets prepared for the WWA Book.</p>
+        </div>
+        <button class="wwa-add-page" type="button">Add Page</button>
+      </header>
+
+      <p class="wwa-pages-count" aria-live="polite">00 WWA Pages</p>
+      <ol class="wwa-pages-list"></ol>
+      <p class="wwa-pages-empty" aria-live="polite"><strong>No WWA Pages yet</strong><span>검증된 LEGO Record와 공식 제품 이미지를 연결해 첫 Page를 만드세요.</span></p>
+    </section>
+
+    <section class="wwa-page-editor" aria-labelledby="wwa-page-editor-heading" tabindex="-1">
+      <div class="wwa-page-editor-topbar">
+        <button class="wwa-page-editor-back" type="button" aria-label="Back to WWA Pages">
+          <i data-lucide="arrow-left" aria-hidden="true"></i><span>Pages</span>
+        </button>
+        <span class="wwa-page-editor-position">New WWA Page</span>
+      </div>
+
+      <header>
+        <h2 class="wwa-page-editor-heading" id="wwa-page-editor-heading">Add Page</h2>
+        <p class="wwa-page-editor-intro">Record와 공식 제품 이미지를 연결합니다. 크롭과 실제 Book 배치는 다음 단계에서 설정합니다.</p>
+      </header>
+
+      <form class="wwa-page-editor-form" novalidate>
+        <label class="wwa-page-field">
+          <span>LEGO Record · Required <small>Page의 기준이 될 검증된 LEGO Record를 선택해 주세요.</small></span>
+          <select name="legoRecordSyncId" required>
+            <option value="">Choose LEGO Record</option>
+          </select>
+          <span class="wwa-page-field-error" data-page-error="legoRecordSyncId" role="alert"></span>
+        </label>
+
+        <label class="wwa-page-field">
+          <span>Official Product Image · Required <small>선택한 Record에 연결된 Verified 공식 제품 이미지만 표시됩니다.</small></span>
+          <select name="assetSyncId" required disabled>
+            <option value="">Choose Official Product Image</option>
+          </select>
+          <span class="wwa-page-field-error" data-page-error="assetSyncId" role="alert"></span>
+        </label>
+
+        <p class="wwa-page-editor-status" role="status" aria-live="polite"></p>
+        <div class="wwa-page-editor-actions">
+          <button class="wwa-page-editor-action" type="button" data-page-action="cancel">Cancel</button>
+          <button class="wwa-page-editor-action is-primary" type="submit">Save Page</button>
+        </div>
+      </form>
     </section>
 
     <section class="wwa-asset-detail" aria-live="polite" aria-label="Selected asset detail" tabindex="-1">
@@ -9338,6 +9744,10 @@
         return "SET-" + String(value).padStart(6, "0");
       }
 
+      function formatWwaPageStableId(value) {
+        return "PAGE-" + String(value).padStart(6, "0");
+      }
+
       function createWwaAssetFieldClocks(
         normalizedInput,
         now,
@@ -11407,6 +11817,10 @@
           LegoRecord: {
             storeName: "legoRecords",
             pattern: /^SET-(\d{6,})$/
+          },
+          Page: {
+            storeName: "pages",
+            pattern: /^PAGE-(\d{6,})$/
           }
         }[entityType];
         if (!entityConfig) {
@@ -11546,6 +11960,7 @@
         } while (promotedInPass === 25 && promotedCount < 2500);
         await ensureWwaLocalStableIdReservation(storage, "Asset");
         await ensureWwaLocalStableIdReservation(storage, "LegoRecord");
+        await ensureWwaLocalStableIdReservation(storage, "Page");
         return {
           status: "local-archive-ready",
           promotedDrafts: promotedCount
@@ -13360,6 +13775,463 @@
         }
       }
 
+      async function loadWwaStoredPages(storage) {
+        const storeNames = [
+          "archiveRoots",
+          "legoRecords",
+          "assets",
+          "assetVersions",
+          "files",
+          "assetLinks",
+          "pages",
+          "pagePlacements"
+        ];
+        const transaction = storage.database.transaction(
+          storeNames,
+          "readonly"
+        );
+        const completion = waitForWwaTransaction(transaction);
+
+        try {
+          const [archiveRoot, ...collections] = await Promise.all([
+            requestWwaResult(
+              transaction.objectStore("archiveRoots").get(storage.archiveId)
+            ),
+            ...storeNames
+              .filter((storeName) => storeName !== "archiveRoots")
+              .map((storeName) => requestWwaResult(
+                transaction.objectStore(storeName).getAll()
+              ))
+          ]);
+          await completion;
+
+          if (!archiveRoot || !archiveRoot.activeGenerationId) {
+            throw new Error("Active WWA generation is missing.");
+          }
+
+          const generationId = archiveRoot.activeGenerationId;
+          const [
+            allLegoRecords,
+            allAssets,
+            allVersions,
+            allFiles,
+            allLinks,
+            allPages,
+            allPlacements
+          ] = collections;
+          const isActive = (record) => isWwaActiveGenerationRecord(
+            record,
+            storage.archiveId,
+            generationId
+          );
+          const records = chooseWwaUniqueLegoRecords(
+            allLegoRecords.filter((record) =>
+              isActive(record) &&
+              record.recordVerification === "Verified" &&
+              record.recordLifecycle !== "Archived"
+            )
+          );
+          const recordsById = new Map(
+            records.map((record) => [record.syncId, record])
+          );
+          const assets = chooseWwaUniqueAssets(
+            allAssets.filter((asset) =>
+              isActive(asset) &&
+              asset.type === "LEGO Official Product Image" &&
+              asset.sourceStatus === "Verified" &&
+              asset.productionStatus !== "Archived"
+            )
+          );
+          const assetsById = new Map(
+            assets.map((asset) => [asset.syncId, asset])
+          );
+          const versionsById = new Map(
+            allVersions.filter(isActive).map((version) => [
+              version.versionId,
+              version
+            ])
+          );
+          const filesById = new Map(
+            allFiles.filter(isActive).map((file) => [file.fileId, file])
+          );
+          const linkedRecordIdsByAsset = new Map();
+
+          allLinks
+            .filter((link) =>
+              isActive(link) &&
+              link.relationType === "relatedLegoRecord" &&
+              assetsById.has(link.assetSyncId) &&
+              recordsById.has(link.targetSyncId)
+            )
+            .forEach((link) => {
+              if (!linkedRecordIdsByAsset.has(link.assetSyncId)) {
+                linkedRecordIdsByAsset.set(link.assetSyncId, new Set());
+              }
+              linkedRecordIdsByAsset.get(link.assetSyncId).add(
+                link.targetSyncId
+              );
+            });
+
+          const eligibleAssets = assets.map((asset) => ({
+            asset,
+            recordSyncIds: Array.from(
+              linkedRecordIdsByAsset.get(asset.syncId) || []
+            )
+          })).filter((entry) => entry.recordSyncIds.length);
+          const eligibleAssetIds = new Set(
+            eligibleAssets.map((entry) => entry.asset.syncId)
+          );
+          const placementsByPage = new Map();
+
+          allPlacements.filter(isActive).forEach((placement) => {
+            if (!placementsByPage.has(placement.pageSyncId)) {
+              placementsByPage.set(placement.pageSyncId, []);
+            }
+            placementsByPage.get(placement.pageSyncId).push(placement);
+          });
+
+          const pages = allPages
+            .filter((page) =>
+              isActive(page) &&
+              recordsById.has(page.legoRecordSyncId)
+            )
+            .sort((left, right) =>
+              String(right.updatedAt || "").localeCompare(
+                String(left.updatedAt || "")
+              )
+            )
+            .map((page) => {
+              const placement = (
+                placementsByPage.get(page.syncId) || []
+              ).find((item) => eligibleAssetIds.has(item.assetSyncId)) || null;
+              const asset = placement
+                ? assetsById.get(placement.assetSyncId)
+                : null;
+              const version = asset
+                ? versionsById.get(asset.currentVersionId)
+                : null;
+              const previewFile = version
+                ? filesById.get(version.previewFileId)
+                : null;
+
+              return {
+                page,
+                record: recordsById.get(page.legoRecordSyncId),
+                placement,
+                asset,
+                previewBlob: previewFile && previewFile.blob
+                  ? previewFile.blob
+                  : null
+              };
+            });
+
+          return {
+            generationId,
+            records,
+            assets: eligibleAssets,
+            pages
+          };
+        } catch (error) {
+          try {
+            await completion;
+          } catch (transactionError) {
+            // Preserve the first read error.
+          }
+          throw error;
+        }
+      }
+
+      async function saveWwaPage(storage, input) {
+        const legoRecordSyncId = getWwaTrimmedString(
+          input && input.legoRecordSyncId
+        );
+        const assetSyncId = getWwaTrimmedString(
+          input && input.assetSyncId
+        );
+        if (!legoRecordSyncId) {
+          const error = new Error("LEGO Record를 선택해 주세요.");
+          error.field = "legoRecordSyncId";
+          throw error;
+        }
+        if (!assetSyncId) {
+          const error = new Error("Official Product Image를 선택해 주세요.");
+          error.field = "assetSyncId";
+          throw error;
+        }
+
+        const storeNames = [
+          "archiveRoots",
+          "idReservations",
+          "legoRecords",
+          "assets",
+          "assetLinks",
+          "pages",
+          "pagePlacements",
+          "outbox"
+        ];
+        const transaction = storage.database.transaction(
+          storeNames,
+          "readwrite"
+        );
+        const completion = waitForWwaTransaction(transaction);
+
+        try {
+          const [
+            archiveRoot,
+            reservations,
+            allLegoRecords,
+            allAssets,
+            allLinks,
+            allPages,
+            allPlacements
+          ] = await Promise.all([
+            requestWwaResult(
+              transaction.objectStore("archiveRoots").get(storage.archiveId)
+            ),
+            requestWwaResult(
+              transaction.objectStore("idReservations")
+                .index("entityType").getAll("Page")
+            ),
+            requestWwaResult(
+              transaction.objectStore("legoRecords").getAll()
+            ),
+            requestWwaResult(
+              transaction.objectStore("assets").getAll()
+            ),
+            requestWwaResult(
+              transaction.objectStore("assetLinks").getAll()
+            ),
+            requestWwaResult(
+              transaction.objectStore("pages").getAll()
+            ),
+            requestWwaResult(
+              transaction.objectStore("pagePlacements").getAll()
+            )
+          ]);
+
+          if (!archiveRoot || !archiveRoot.activeGenerationId) {
+            throw new Error("Active WWA generation is missing.");
+          }
+          const identity = {
+            archiveId: storage.archiveId,
+            generationId: archiveRoot.activeGenerationId,
+            deviceId: storage.deviceId
+          };
+          const isActive = (record) => isWwaActiveGenerationRecord(
+            record,
+            identity.archiveId,
+            identity.generationId
+          );
+          const record = allLegoRecords.find((item) =>
+            isActive(item) && item.syncId === legoRecordSyncId
+          );
+          if (
+            !record ||
+            record.recordVerification !== "Verified" ||
+            record.recordLifecycle === "Archived"
+          ) {
+            const error = new Error(
+              "현재 Archive의 Verified LEGO Record를 선택해 주세요."
+            );
+            error.field = "legoRecordSyncId";
+            throw error;
+          }
+          const asset = allAssets.find((item) =>
+            isActive(item) && item.syncId === assetSyncId
+          );
+          if (
+            !asset ||
+            asset.type !== "LEGO Official Product Image" ||
+            asset.sourceStatus !== "Verified" ||
+            asset.productionStatus === "Archived"
+          ) {
+            const error = new Error(
+              "Verified LEGO Official Product Image를 선택해 주세요."
+            );
+            error.field = "assetSyncId";
+            throw error;
+          }
+          const hasRecordLink = allLinks.some((link) =>
+            isActive(link) &&
+            link.assetSyncId === assetSyncId &&
+            link.targetSyncId === legoRecordSyncId &&
+            link.relationType === "relatedLegoRecord"
+          );
+          if (!hasRecordLink) {
+            const error = new Error(
+              "선택한 이미지는 이 LEGO Record에 연결되어 있지 않습니다."
+            );
+            error.field = "assetSyncId";
+            throw error;
+          }
+
+          const activePages = allPages.filter(isActive);
+          const activePageIds = new Set(
+            activePages.map((page) => page.syncId)
+          );
+          const duplicate = allPlacements.find((placement) =>
+            isActive(placement) &&
+            activePageIds.has(placement.pageSyncId) &&
+            placement.assetSyncId === assetSyncId &&
+            activePages.some((page) =>
+              page.syncId === placement.pageSyncId &&
+              page.legoRecordSyncId === legoRecordSyncId
+            )
+          );
+          if (duplicate) {
+            throw new Error(
+              "같은 Record와 Image로 만든 WWA Page가 이미 있습니다."
+            );
+          }
+
+          const reservation = chooseWwaStableIdReservation(
+            reservations,
+            identity,
+            "Page"
+          );
+          if (!reservation) {
+            throw new Error(
+              "WWA Page ID 예약이 준비되지 않았습니다. 다시 시도해 주세요."
+            );
+          }
+          const stableId = formatWwaPageStableId(
+            Number(reservation.nextValue)
+          );
+          if (activePages.some((page) => page.stableId === stableId)) {
+            throw new Error("Stable WWA Page ID is already in use: " + stableId);
+          }
+
+          const now = new Date().toISOString();
+          const syncId = createWwaIdentityId();
+          const placementId = createWwaIdentityId();
+          const title = getWwaTrimmedString(
+            record.setName || record.title || record.name
+          ) || "Untitled WWA Page";
+          const page = {
+            archiveId: identity.archiveId,
+            generationId: identity.generationId,
+            syncId,
+            stableId,
+            legoRecordSyncId,
+            primaryAssetSyncId: assetSyncId,
+            title,
+            setNumber: getWwaTrimmedString(record.setNumber),
+            status: "Draft",
+            createdAt: now,
+            updatedAt: now,
+            deletedAt: null,
+            cloudChangeTag: null
+          };
+          const placement = {
+            archiveId: identity.archiveId,
+            generationId: identity.generationId,
+            syncId: placementId,
+            placementId,
+            pageSyncId: syncId,
+            assetSyncId,
+            role: "LEGO Official Product Image",
+            crop: null,
+            createdAt: now,
+            updatedAt: now,
+            deletedAt: null,
+            cloudChangeTag: null
+          };
+
+          transaction.objectStore("pages").add(page);
+          transaction.objectStore("pagePlacements").add(placement);
+          transaction.objectStore("idReservations").put({
+            ...reservation,
+            nextValue: Number(reservation.nextValue) + 1,
+            updatedAt: now
+          });
+
+          const pageOperation = createWwaOutboxOperation(
+            identity,
+            "Page",
+            syncId,
+            "pages",
+            [],
+            now,
+            { changedFields: [
+              "legoRecordSyncId",
+              "primaryAssetSyncId",
+              "title",
+              "setNumber",
+              "status"
+            ] }
+          );
+          transaction.objectStore("outbox").add(pageOperation);
+
+          let assetOperation = null;
+          if (asset.productionStatus !== "In Use") {
+            const previousClocks = asset.fieldClocks || {};
+            transaction.objectStore("assets").put({
+              ...asset,
+              productionStatus: "In Use",
+              updatedAt: now,
+              fieldClocks: {
+                ...previousClocks,
+                productionStatus: { updatedAt: now, deviceId: identity.deviceId }
+              }
+            });
+            assetOperation = createWwaOutboxOperation(
+              identity,
+              "Asset",
+              assetSyncId,
+              "assets",
+              [],
+              now,
+              {
+                baseCloudChangeTag: asset.cloudChangeTag || null,
+                baseFieldClocks: previousClocks,
+                changedFields: ["productionStatus"]
+              }
+            );
+            transaction.objectStore("outbox").add(assetOperation);
+          }
+
+          const placementOperation = createWwaOutboxOperation(
+            identity,
+            "PagePlacement",
+            placementId,
+            "pagePlacements",
+            [
+              pageOperation.operationId,
+              ...(assetOperation ? [assetOperation.operationId] : [])
+            ],
+            now,
+            { changedFields: [
+              "pageSyncId",
+              "assetSyncId",
+              "role",
+              "crop"
+            ] }
+          );
+          transaction.objectStore("outbox").add(placementOperation);
+
+          await completion;
+          return {
+            status: "saved",
+            stableId,
+            syncId,
+            placementId,
+            assetProductionStatus: "In Use"
+          };
+        } catch (error) {
+          try {
+            transaction.abort();
+          } catch (abortError) {
+            // The transaction may already have completed or aborted.
+          }
+          try {
+            await completion;
+          } catch (transactionError) {
+            // Preserve the first validation or transaction error.
+          }
+          throw error;
+        }
+      }
+
       async function loadWwaStoredAssets(storage) {
         const storeNames = [
           "archiveRoots",
@@ -13652,6 +14524,21 @@
         '[data-catalog-action="remove"]'
       );
       const assets = root.querySelector(".wwa-assets");
+      const pagesScreen = root.querySelector(".wwa-pages");
+      const pagesCount = root.querySelector(".wwa-pages-count");
+      const pagesList = root.querySelector(".wwa-pages-list");
+      const pagesEmpty = root.querySelector(".wwa-pages-empty");
+      const addPageButton = root.querySelector(".wwa-add-page");
+      const pageEditor = root.querySelector(".wwa-page-editor");
+      const pageEditorBack = root.querySelector(".wwa-page-editor-back");
+      const pageEditorForm = root.querySelector(".wwa-page-editor-form");
+      const pageEditorCancel = root.querySelector('[data-page-action="cancel"]');
+      const pageEditorSubmit = pageEditorForm.querySelector('[type="submit"]');
+      const pageRecordSelect = pageEditorForm.elements.namedItem(
+        "legoRecordSyncId"
+      );
+      const pageAssetSelect = pageEditorForm.elements.namedItem("assetSyncId");
+      const pageEditorStatus = root.querySelector(".wwa-page-editor-status");
       const archiveData = root.querySelector(".wwa-archive-data");
       const archiveDataOpen = root.querySelector(".wwa-archive-data-open");
       const archiveDataBack = root.querySelector(".wwa-archive-data-back");
@@ -13764,6 +14651,13 @@
       let archiveDataBusy = false;
       let stagedRestoreToken = null;
       let restoredAssetObjectUrls = new Set();
+      let restoredPageObjectUrls = new Set();
+      let pageRows = [];
+      let pageRecords = [];
+      let pageAssets = [];
+      let pagesLoadState = "loading";
+      let pageEditorDirty = false;
+      let pageEditorSaving = false;
       const movies = [
         { code: "F01", year: "2001", title: "Philosopher\u2019s Stone", alt: "Official landscape key art for Harry Potter and the Philosopher's Stone" },
         { code: "F02", year: "2002", title: "Chamber of Secrets", alt: "Official landscape key art for Harry Potter and the Chamber of Secrets" },
@@ -13858,6 +14752,270 @@
         document.body.classList.toggle("wwa-assets-mode", isAssetsSurface);
         if (themeColor) themeColor.content = isAssetsSurface ? "#F7F9FC" : "#050E15";
         if (colorScheme) colorScheme.content = isAssetsSurface ? "light" : "dark";
+      };
+
+      const getWwaPageRecordLabel = (record) => {
+        const setNumber = getWwaTrimmedString(record && record.setNumber)
+          .replace(/-\d+$/, "");
+        const setName = getWwaTrimmedString(
+          record && (record.setName || record.title || record.name)
+        ) || "Untitled LEGO Record";
+        return (setNumber ? setNumber + " · " : "") + setName;
+      };
+
+      const clearWwaPageEditorErrors = () => {
+        pageEditorForm.querySelectorAll("[data-page-error]").forEach(
+          (element) => { element.textContent = ""; }
+        );
+        pageEditorForm.querySelectorAll("[aria-invalid]").forEach(
+          (element) => element.removeAttribute("aria-invalid")
+        );
+      };
+
+      const setWwaPageEditorStatus = (message) => {
+        pageEditorStatus.textContent = message || "";
+      };
+
+      const renderWwaPageRecordOptions = () => {
+        const selected = pageRecordSelect.value;
+        pageRecordSelect.replaceChildren();
+        const placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = "Choose LEGO Record";
+        pageRecordSelect.appendChild(placeholder);
+        pageRecords.forEach((record) => {
+          const option = document.createElement("option");
+          option.value = record.syncId;
+          option.textContent = getWwaPageRecordLabel(record);
+          pageRecordSelect.appendChild(option);
+        });
+        pageRecordSelect.value = pageRecords.some(
+          (record) => record.syncId === selected
+        ) ? selected : "";
+      };
+
+      const renderWwaPageAssetOptions = () => {
+        const recordSyncId = pageRecordSelect.value;
+        const selected = pageAssetSelect.value;
+        const eligible = pageAssets.filter((entry) =>
+          entry.recordSyncIds.includes(recordSyncId)
+        );
+        pageAssetSelect.replaceChildren();
+        const placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = recordSyncId
+          ? eligible.length
+            ? "Choose Official Product Image"
+            : "No verified official image linked"
+          : "Choose LEGO Record first";
+        pageAssetSelect.appendChild(placeholder);
+        eligible.forEach((entry) => {
+          const option = document.createElement("option");
+          option.value = entry.asset.syncId;
+          option.textContent = [
+            getWwaTrimmedString(entry.asset.stableId),
+            getWwaTrimmedString(entry.asset.title)
+          ].filter(Boolean).join(" · ");
+          pageAssetSelect.appendChild(option);
+        });
+        pageAssetSelect.disabled = !recordSyncId || eligible.length === 0;
+        pageAssetSelect.value = eligible.some(
+          (entry) => entry.asset.syncId === selected
+        ) ? selected : "";
+        if (recordSyncId && eligible.length === 0) {
+          setWwaPageEditorStatus(
+            "이 Record에 연결된 Verified LEGO Official Product Image가 없습니다."
+          );
+        } else if (!pageEditorSaving) {
+          setWwaPageEditorStatus(
+            pageRecords.length
+              ? "Page 저장 시 선택한 Asset은 In Use로 변경됩니다."
+              : "먼저 Verified LEGO Record를 만들어 주세요."
+          );
+        }
+      };
+
+      const renderWwaPages = () => {
+        pagesList.replaceChildren();
+        pagesCount.textContent = pagesLoadState === "failed"
+          ? "WWA Pages unavailable"
+          : String(pageRows.length).padStart(2, "0") +
+            (pageRows.length === 1 ? " WWA Page" : " WWA Pages");
+        pagesEmpty.classList.toggle(
+          "is-visible",
+          pagesLoadState !== "loading" && pageRows.length === 0
+        );
+        if (pagesLoadState === "failed") {
+          pagesEmpty.querySelector("strong").textContent =
+            "Pages could not be loaded";
+          pagesEmpty.querySelector("span").textContent =
+            "Local Archive를 읽지 못했습니다. 새로고침 후 다시 확인해 주세요.";
+          return;
+        }
+        pagesEmpty.querySelector("strong").textContent = "No WWA Pages yet";
+        pagesEmpty.querySelector("span").textContent =
+          "검증된 LEGO Record와 공식 제품 이미지를 연결해 첫 Page를 만드세요.";
+
+        pageRows.forEach((entry) => {
+          const item = document.createElement("li");
+          const card = document.createElement("article");
+          card.className = "wwa-page-card";
+          const preview = document.createElement("span");
+          preview.className = "wwa-page-card-preview";
+          const image = document.createElement("img");
+          image.src = entry.previewUrl || emptyAssetPreview;
+          image.alt = entry.asset
+            ? getWwaTrimmedString(entry.asset.title) + " preview"
+            : "WWA Page image unavailable";
+          preview.appendChild(image);
+          const copy = document.createElement("span");
+          copy.className = "wwa-page-card-copy";
+          const id = document.createElement("span");
+          id.className = "wwa-page-card-id";
+          id.textContent = getWwaTrimmedString(entry.page.stableId) || "WWA PAGE";
+          const title = document.createElement("strong");
+          title.className = "wwa-page-card-title";
+          title.textContent = getWwaTrimmedString(entry.page.title) ||
+            getWwaPageRecordLabel(entry.record);
+          const meta = document.createElement("span");
+          meta.className = "wwa-page-card-meta";
+          meta.textContent = getWwaPageRecordLabel(entry.record);
+          const state = document.createElement("span");
+          state.className = "wwa-page-card-state";
+          state.textContent = (entry.page.status || "Draft") + " · Asset In Use";
+          copy.append(id, title, meta, state);
+          card.append(preview, copy);
+          item.appendChild(card);
+          pagesList.appendChild(item);
+        });
+      };
+
+      const restoreWwaPagesFromStorage = async () => {
+        pagesLoadState = "loading";
+        try {
+          const result = await window.WWAStorage.loadPages();
+          const nextUrls = new Set();
+          const nextRows = result.pages.map((entry) => ({
+            ...entry,
+            previewUrl: entry.previewBlob
+              ? createWwaStoredPreviewUrl(entry.previewBlob, nextUrls)
+              : ""
+          }));
+          const previousUrls = restoredPageObjectUrls;
+          restoredPageObjectUrls = nextUrls;
+          pageRows = nextRows;
+          pageRecords = result.records;
+          pageAssets = result.assets;
+          pagesLoadState = "ready";
+          revokeWwaObjectUrls(previousUrls);
+          renderWwaPages();
+          renderWwaPageRecordOptions();
+          renderWwaPageAssetOptions();
+          return result;
+        } catch (error) {
+          pagesLoadState = "failed";
+          pageRows = [];
+          pageRecords = [];
+          pageAssets = [];
+          renderWwaPages();
+          throw error;
+        }
+      };
+
+      const openWwaPageEditor = async () => {
+        if (pagesLoadState !== "ready") {
+          try {
+            await restoreWwaPagesFromStorage();
+          } catch (error) {
+            showNotice("Pages could not be loaded");
+            return;
+          }
+        }
+        pageEditorForm.reset();
+        clearWwaPageEditorErrors();
+        renderWwaPageRecordOptions();
+        renderWwaPageAssetOptions();
+        pageEditorDirty = false;
+        pageEditorSaving = false;
+        pageEditorBack.disabled = false;
+        pageEditorCancel.disabled = false;
+        pageEditorSubmit.disabled = false;
+        pagesScreen.classList.remove("is-visible");
+        pageEditor.classList.add("is-visible");
+        root.classList.add("is-page-editor-view", "is-pages-view");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.setTimeout(
+          () => pageEditor.focus({ preventScroll: true }),
+          180
+        );
+      };
+
+      const closeWwaPageEditor = (restoreFocus = true) => {
+        pageEditor.classList.remove("is-visible");
+        root.classList.remove("is-page-editor-view");
+        pagesScreen.classList.add("is-visible");
+        pageEditorDirty = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (restoreFocus) {
+          window.setTimeout(() => addPageButton.focus(), 180);
+        }
+      };
+
+      const requestCloseWwaPageEditor = () => {
+        if (
+          pageEditorDirty &&
+          !window.confirm("저장하지 않은 Page 선택을 취소할까요?")
+        ) return;
+        closeWwaPageEditor();
+      };
+
+      const showWwaPageEditorError = (error) => {
+        const field = getWwaTrimmedString(error && error.field);
+        const message = getWwaTrimmedString(error && error.message) ||
+          "WWA Page를 저장하지 못했습니다.";
+        const input = field
+          ? pageEditorForm.elements.namedItem(field)
+          : null;
+        if (input) {
+          input.setAttribute("aria-invalid", "true");
+          const target = pageEditorForm.querySelector(
+            '[data-page-error="' + field + '"]'
+          );
+          if (target) target.textContent = message;
+          input.focus();
+        }
+        setWwaPageEditorStatus(message);
+      };
+
+      const saveWwaPageEditor = async (event) => {
+        event.preventDefault();
+        if (pageEditorSaving) return;
+        clearWwaPageEditorErrors();
+        pageEditorSaving = true;
+        pageEditorBack.disabled = true;
+        pageEditorCancel.disabled = true;
+        pageEditorSubmit.disabled = true;
+        setWwaPageEditorStatus("Page와 Asset 배치를 안전하게 저장하는 중입니다.");
+        try {
+          const result = await window.WWAStorage.savePage({
+            legoRecordSyncId: pageRecordSelect.value,
+            assetSyncId: pageAssetSelect.value
+          });
+          await Promise.all([
+            restoreWwaPagesFromStorage(),
+            restoreWwaAssetsFromStorage()
+          ]);
+          pageEditorDirty = false;
+          closeWwaPageEditor(false);
+          showNotice(result.stableId + " · Page saved");
+        } catch (error) {
+          showWwaPageEditorError(error);
+        } finally {
+          pageEditorSaving = false;
+          pageEditorBack.disabled = false;
+          pageEditorCancel.disabled = false;
+          pageEditorSubmit.disabled = false;
+        }
       };
 
       const getWwaRecordReleaseYear = (record) => {
@@ -17338,12 +18496,30 @@
         }
         event.target.removeAttribute("aria-invalid");
       });
+      addPageButton.addEventListener("click", openWwaPageEditor);
+      pageEditorBack.addEventListener("click", requestCloseWwaPageEditor);
+      pageEditorCancel.addEventListener("click", requestCloseWwaPageEditor);
+      pageEditorForm.addEventListener("submit", saveWwaPageEditor);
+      pageRecordSelect.addEventListener("change", () => {
+        pageEditorDirty = true;
+        clearWwaPageEditorErrors();
+        renderWwaPageAssetOptions();
+      });
+      pageAssetSelect.addEventListener("change", () => {
+        pageEditorDirty = true;
+        clearWwaPageEditorErrors();
+        setWwaPageEditorStatus(
+          "Page 저장 시 선택한 Asset은 In Use로 변경됩니다."
+        );
+      });
       window.addEventListener("beforeunload", (event) => {
         const hasUnsavedAsset = assetEditorDirty &&
           assetEditor.classList.contains("is-visible");
         const hasUnsavedRecord = recordEditorDirty &&
           recordEditor.classList.contains("is-visible");
-        if (!hasUnsavedAsset && !hasUnsavedRecord) return;
+        const hasUnsavedPage = pageEditorDirty &&
+          pageEditor.classList.contains("is-visible");
+        if (!hasUnsavedAsset && !hasUnsavedRecord && !hasUnsavedPage) return;
         event.preventDefault();
         event.returnValue = "";
       });
@@ -17351,6 +18527,7 @@
         if (!event.persisted) {
           revokeWwaObjectUrls(restoredRecordObjectUrls);
           revokeWwaObjectUrls(restoredAssetObjectUrls);
+          revokeWwaObjectUrls(restoredPageObjectUrls);
         }
       });
 
@@ -17387,12 +18564,18 @@
         if (reason === "record-save") {
           await ensureWwaLocalStableIdReservation(storage, "LegoRecord");
         }
+        if (reason === "page-save") {
+          await ensureWwaLocalStableIdReservation(storage, "Page");
+        }
         const result = await mutation(storage);
         if (reason === "asset-add" || reason === "archive-restore") {
           await ensureWwaLocalStableIdReservation(storage, "Asset");
         }
         if (reason === "record-save") {
           await ensureWwaLocalStableIdReservation(storage, "LegoRecord");
+        }
+        if (reason === "page-save") {
+          await ensureWwaLocalStableIdReservation(storage, "Page");
         }
         return result;
       };
@@ -17439,6 +18622,13 @@
         ),
         loadLegoRecords: async () => loadWwaStoredLegoRecords(
           await wwaArchiveReady
+        ),
+        loadPages: async () => loadWwaStoredPages(
+          await wwaArchiveReady
+        ),
+        savePage: async (input) => runWwaStoredMutation(
+          (storage) => saveWwaPage(storage, input),
+          "page-save"
         ),
         saveLegoRecord: async (recordSyncId, input) =>
           runWwaStoredMutation(
@@ -17493,7 +18683,8 @@
             entityType
           ),
         restoreLegoRecords: restoreWwaLegoRecordsFromStorage,
-        restoreAssets: restoreWwaAssetsFromStorage
+        restoreAssets: restoreWwaAssetsFromStorage,
+        restorePages: restoreWwaPagesFromStorage
       });
 
       wwaStorageReady.catch((error) => {
@@ -17510,6 +18701,9 @@
       });
       restoreWwaAssetsFromStorage().catch(() => {
         // The existing Library remains visible when restoration fails.
+      });
+      restoreWwaPagesFromStorage().catch(() => {
+        // The Pages screen reports the read failure without changing data.
       });
 
       root.querySelectorAll(".wwa-movie-card").forEach((card) => {
@@ -17544,6 +18738,8 @@
             recordsScreen.classList.remove("is-visible");
             recordEditor.classList.remove("is-visible");
             assets.classList.remove("is-visible");
+            pagesScreen.classList.remove("is-visible");
+            pageEditor.classList.remove("is-visible");
             home.classList.remove("is-hidden");
             root.classList.remove(
               "is-movie-detail-view",
@@ -17551,7 +18747,9 @@
               "is-records-view",
               "is-record-editor-view",
               "is-assets-view",
-              "is-archive-data-view"
+              "is-archive-data-view",
+              "is-pages-view",
+              "is-page-editor-view"
             );
             setAssetsSurface(false);
             setActiveTab("Home");
@@ -17564,6 +18762,8 @@
             assetDetail.classList.remove("is-visible");
             archiveData.classList.remove("is-visible");
             assets.classList.remove("is-visible");
+            pagesScreen.classList.remove("is-visible");
+            pageEditor.classList.remove("is-visible");
             recordEditor.classList.remove("is-visible");
             home.classList.add("is-hidden");
             recordsScreen.classList.add("is-visible");
@@ -17572,7 +18772,9 @@
               "is-asset-detail-view",
               "is-record-editor-view",
               "is-assets-view",
-              "is-archive-data-view"
+              "is-archive-data-view",
+              "is-pages-view",
+              "is-page-editor-view"
             );
             root.classList.add("is-records-view");
             setAssetsSurface(true);
@@ -17594,6 +18796,8 @@
             archiveData.classList.remove("is-visible");
             recordsScreen.classList.remove("is-visible");
             recordEditor.classList.remove("is-visible");
+            pagesScreen.classList.remove("is-visible");
+            pageEditor.classList.remove("is-visible");
             home.classList.add("is-hidden");
             assets.classList.add("is-visible");
             root.classList.remove(
@@ -17601,7 +18805,9 @@
               "is-asset-detail-view",
               "is-records-view",
               "is-record-editor-view",
-              "is-archive-data-view"
+              "is-archive-data-view",
+              "is-pages-view",
+              "is-page-editor-view"
             );
             root.classList.add("is-assets-view");
             setAssetsSurface(true);
@@ -17611,7 +18817,37 @@
             return;
           }
 
-          showNotice(tab + " · Coming in the next WWA phase");
+          if (tab === "Pages") {
+            detail.classList.remove("is-visible");
+            assetDetail.classList.remove("is-visible");
+            archiveData.classList.remove("is-visible");
+            recordsScreen.classList.remove("is-visible");
+            recordEditor.classList.remove("is-visible");
+            assets.classList.remove("is-visible");
+            pageEditor.classList.remove("is-visible");
+            home.classList.add("is-hidden");
+            pagesScreen.classList.add("is-visible");
+            root.classList.remove(
+              "is-movie-detail-view",
+              "is-asset-detail-view",
+              "is-records-view",
+              "is-record-editor-view",
+              "is-assets-view",
+              "is-archive-data-view",
+              "is-page-editor-view"
+            );
+            root.classList.add("is-pages-view");
+            setAssetsSurface(true);
+            setActiveTab("Pages");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            restoreWwaPagesFromStorage().catch(() => {
+              // The Pages screen reports the read failure without changing data.
+            });
+            window.setTimeout(
+              () => pagesScreen.focus({ preventScroll: true }),
+              250
+            );
+          }
         });
       });
     })();
