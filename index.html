@@ -4895,7 +4895,7 @@
               <option value="Official Film Still">Official Film Still</option>
               <option value="LEGO Official Product Image">LEGO Official Product Image</option>
               <option value="LEGO Official Box Image">LEGO Official Box Image</option>
-              <option value="Official Blueprint">Official Blueprint</option>
+              <option value="WWA Blueprint">WWA Blueprint</option>
               <option value="My Photography">My Photography</option>
               <option value="WWA Original">WWA Original</option>
             </select>
@@ -4913,9 +4913,9 @@
           </label>
 
           <label class="wwa-asset-field">
-            <span class="wwa-asset-field-label">Source Link <small>Official material required</small></span>
+            <span class="wwa-asset-field-label">Source Link <small>Required for official material</small></span>
             <input name="sourceLink" type="url" inputmode="url" autocomplete="url" placeholder="https://" aria-describedby="wwa-asset-source-link-help wwa-asset-source-link-error">
-            <span class="wwa-asset-field-help" id="wwa-asset-source-link-help">공식 Film·LEGO·Blueprint 자료는 원문 링크가 필요합니다.</span>
+            <span class="wwa-asset-field-help" id="wwa-asset-source-link-help">공식 Film·LEGO 자료에는 원문 링크가 필요합니다. WWA Blueprint는 제작 근거 링크를 선택적으로 기록합니다.</span>
             <span class="wwa-asset-field-error" id="wwa-asset-source-link-error" data-error-for="sourceLink" role="alert"></span>
           </label>
 
@@ -5459,7 +5459,7 @@
       const WWA_LEGACY_ASSET_TYPE_MAP = Object.freeze({
         legoOfficial: "LEGO Official Product Image",
         boxArt: "LEGO Official Box Image",
-        blueprint: "Official Blueprint",
+        blueprint: "WWA Blueprint",
         movieStill: "Official Film Still",
         myPhoto: "My Photography"
       });
@@ -5467,7 +5467,7 @@
       const WWA_LEGACY_ASSET_LABELS = Object.freeze({
         legoOfficial: "LEGO Official Product Image",
         boxArt: "LEGO Official Box Image",
-        blueprint: "Official Blueprint",
+        blueprint: "WWA Blueprint",
         movieStill: "Official Film Still",
         minifigures: "Minifigures",
         myPhoto: "My Photography"
@@ -6067,7 +6067,7 @@
         "Official Film Still",
         "LEGO Official Product Image",
         "LEGO Official Box Image",
-        "Official Blueprint",
+        "WWA Blueprint",
         "My Photography",
         "WWA Original"
       ]);
@@ -6075,9 +6075,52 @@
       const WWA_OFFICIAL_ASSET_TYPES = new Set([
         "Official Film Still",
         "LEGO Official Product Image",
-        "LEGO Official Box Image",
-        "Official Blueprint"
+        "LEGO Official Box Image"
       ]);
+
+      const WWA_BLUEPRINT_ASSET_TYPE = "WWA Blueprint";
+      const WWA_LEGACY_BLUEPRINT_ASSET_TYPE = "Official Blueprint";
+
+      function normalizeWwaAssetType(value) {
+        const type = getWwaTrimmedString(value);
+        return type === WWA_LEGACY_BLUEPRINT_ASSET_TYPE
+          ? WWA_BLUEPRINT_ASSET_TYPE
+          : type;
+      }
+
+      function normalizeWwaLegacyBlueprintTypesInArchive(archive) {
+        if (!archive || !archive.records || typeof archive.records !== "object") {
+          return 0;
+        }
+        const records = archive.records;
+        let normalizedCount = 0;
+        (Array.isArray(records.assets) ? records.assets : []).forEach((asset) => {
+          if (asset && asset.type === WWA_LEGACY_BLUEPRINT_ASSET_TYPE) {
+            asset.type = WWA_BLUEPRINT_ASSET_TYPE;
+            normalizedCount += 1;
+          }
+        });
+        (Array.isArray(records.drafts) ? records.drafts : []).forEach((draft) => {
+          if (
+            draft &&
+            draft.metadata &&
+            draft.metadata.type === WWA_LEGACY_BLUEPRINT_ASSET_TYPE
+          ) {
+            draft.metadata.type = WWA_BLUEPRINT_ASSET_TYPE;
+            normalizedCount += 1;
+          }
+        });
+        (Array.isArray(records.pagePlacements)
+          ? records.pagePlacements
+          : []
+        ).forEach((placement) => {
+          if (placement && placement.role === WWA_LEGACY_BLUEPRINT_ASSET_TYPE) {
+            placement.role = WWA_BLUEPRINT_ASSET_TYPE;
+            normalizedCount += 1;
+          }
+        });
+        return normalizedCount;
+      }
 
       const WWA_ASSET_SOURCE_STATUSES = new Set([
         "Source Needed",
@@ -6674,7 +6717,7 @@
           );
         }
 
-        const type = getWwaTrimmedString(input.type);
+        const type = normalizeWwaAssetType(input.type);
         if (!WWA_ASSET_TYPES.has(type)) {
           throw createWwaAssetValidationError(
             "승인된 Asset Type을 선택해 주세요.",
@@ -6781,7 +6824,7 @@
           );
         }
 
-        const type = getWwaTrimmedString(input.type);
+        const type = normalizeWwaAssetType(input.type);
         if (!WWA_ASSET_TYPES.has(type)) {
           throw createWwaAssetValidationError(
             "승인된 Asset Type을 선택해 주세요.",
@@ -8285,6 +8328,7 @@
 
         const manifest = await readWwaBackupJson(entries, "manifest.json");
         const archive = await readWwaBackupJson(entries, "archive.json");
+        normalizeWwaLegacyBlueprintTypesInArchive(archive);
         const validation = await validateWwaBackupArchive(
           manifest,
           archive,
@@ -11950,6 +11994,144 @@
         }
       }
 
+      async function migrateWwaLegacyBlueprintAssetTypes(storage) {
+        const transaction = storage.database.transaction(
+          ["assets", "drafts", "pagePlacements", "outbox"],
+          "readwrite"
+        );
+        const completion = waitForWwaTransaction(transaction);
+        try {
+          const assetsStore = transaction.objectStore("assets");
+          const draftsStore = transaction.objectStore("drafts");
+          const placementsStore = transaction.objectStore("pagePlacements");
+          const outboxStore = transaction.objectStore("outbox");
+          const [assets, drafts, placements] = await Promise.all([
+            requestWwaResult(assetsStore.getAll()),
+            requestWwaResult(draftsStore.getAll()),
+            requestWwaResult(placementsStore.getAll())
+          ]);
+          const now = new Date().toISOString();
+          const identity = {
+            archiveId: storage.archiveId,
+            generationId: storage.generationId,
+            deviceId: storage.deviceId
+          };
+          let assetsUpdated = 0;
+          let draftsUpdated = 0;
+          let placementsUpdated = 0;
+
+          assets.forEach((asset) => {
+            if (
+              !isWwaActiveGenerationRecord(
+                asset,
+                storage.archiveId,
+                storage.generationId
+              ) ||
+              asset.type !== WWA_LEGACY_BLUEPRINT_ASSET_TYPE
+            ) {
+              return;
+            }
+            const nextAsset = {
+              ...asset,
+              type: WWA_BLUEPRINT_ASSET_TYPE,
+              updatedAt: now,
+              fieldClocks: updateWwaAssetFieldClocks(
+                asset.fieldClocks,
+                ["type"],
+                now,
+                storage.deviceId
+              )
+            };
+            assetsStore.put(nextAsset);
+            outboxStore.add(createWwaOutboxOperation(
+              identity,
+              "Asset",
+              asset.syncId,
+              "assets",
+              [],
+              now,
+              {
+                baseCloudChangeTag: asset.cloudChangeTag || null,
+                baseFieldClocks: asset.fieldClocks || {},
+                changedFields: ["type"]
+              }
+            ));
+            assetsUpdated += 1;
+          });
+
+          drafts.forEach((draft) => {
+            if (
+              !isWwaActiveGenerationRecord(
+                draft,
+                storage.archiveId,
+                storage.generationId
+              ) ||
+              !draft.metadata ||
+              draft.metadata.type !== WWA_LEGACY_BLUEPRINT_ASSET_TYPE
+            ) {
+              return;
+            }
+            draftsStore.put({
+              ...draft,
+              metadata: {
+                ...draft.metadata,
+                type: WWA_BLUEPRINT_ASSET_TYPE
+              },
+              updatedAt: now
+            });
+            draftsUpdated += 1;
+          });
+
+          placements.forEach((placement) => {
+            if (
+              !isWwaActiveGenerationRecord(
+                placement,
+                storage.archiveId,
+                storage.generationId
+              ) ||
+              placement.role !== WWA_LEGACY_BLUEPRINT_ASSET_TYPE
+            ) {
+              return;
+            }
+            placementsStore.put({
+              ...placement,
+              role: WWA_BLUEPRINT_ASSET_TYPE,
+              updatedAt: now
+            });
+            outboxStore.add(createWwaOutboxOperation(
+              identity,
+              "PagePlacement",
+              placement.placementId,
+              "pagePlacements",
+              [],
+              now,
+              { changedFields: ["role"] }
+            ));
+            placementsUpdated += 1;
+          });
+
+          await completion;
+          return {
+            status: "normalized",
+            assetsUpdated,
+            draftsUpdated,
+            placementsUpdated
+          };
+        } catch (error) {
+          try {
+            transaction.abort();
+          } catch (abortError) {
+            // The transaction may already have completed or aborted.
+          }
+          try {
+            await completion;
+          } catch (transactionError) {
+            // Preserve the first migration error.
+          }
+          throw error;
+        }
+      }
+
       async function initializeWwaLocalArchive(storage) {
         let promotedCount = 0;
         let promotedInPass = 0;
@@ -13718,7 +13900,7 @@
             ["LEGO Official Product Image", 0],
             ["LEGO Official Box Image", 1],
             ["My Photography", 2],
-            ["Official Blueprint", 3]
+            ["WWA Blueprint", 3]
           ]);
           const candidateAssetsByRecord = new Map();
 
@@ -17027,9 +17209,10 @@
       };
 
       const getAssetFilterFromType = (type) => {
+        type = normalizeWwaAssetType(type);
         if (type === "Official Film Still") return "Film";
         if (type === "LEGO Official Product Image" || type === "LEGO Official Box Image") return "LEGO";
-        if (type === "Official Blueprint") return "Blueprint";
+        if (type === "WWA Blueprint") return "Blueprint";
         if (type === "My Photography") return "My Photo";
         if (type === "WWA Original") return "WWA";
         return "All";
@@ -17122,7 +17305,7 @@
         const title = getWwaTrimmedString(asset.title);
         const stableId = getWwaTrimmedString(asset.stableId);
         const syncId = getWwaTrimmedString(asset.syncId);
-        const type = getWwaTrimmedString(asset.type);
+        const type = normalizeWwaAssetType(asset.type);
 
         if (!title || !stableId || !syncId || !WWA_ASSET_TYPES.has(type)) {
           throw new Error("Stored Asset metadata is incomplete.");
@@ -17187,7 +17370,7 @@
         const previewFile = draft.preview || {};
         const draftId = getWwaTrimmedString(draft.draftId);
         const title = getWwaTrimmedString(metadata.title);
-        const storedType = getWwaTrimmedString(metadata.type);
+        const storedType = normalizeWwaAssetType(metadata.type);
         const isMigrationReview = draft.state === "Migration Review";
         const type = isMigrationReview ? "Type Needed" : storedType;
 
@@ -18547,6 +18730,7 @@
         wwaStorageReady,
         wwaLegacyMigrationReady
       ]).then(async ([storage]) => {
+        await migrateWwaLegacyBlueprintAssetTypes(storage);
         await initializeWwaLocalArchive(storage);
         return storage;
       });

@@ -204,7 +204,7 @@ Asset은 이미지 원본과 출처·검증·사용 관계를 보존하는 독�
 - LEGO 공식 제품 이미지
 - LEGO 공식 박스 이미지
 - 공식 영화 스틸
-- 공식 Blueprint
+- WWA가 공식 자료를 참고해 직접 제작한 Blueprint
 - 사용자가 직접 촬영한 굿즈·세트 이미지
 - 사용자 제작 WWA 원본 로고·브랜드 자료
 
@@ -224,11 +224,14 @@ Asset Type은 다음 6종으로 고정한다.
 | `Official Film Still` | 공식 영화 장면 이미지 | `Film` |
 | `LEGO Official Product Image` | LEGO 공식 제품 이미지 | `LEGO` |
 | `LEGO Official Box Image` | LEGO 공식 박스 이미지 | `LEGO` |
-| `Official Blueprint` | 공식 설계도·도면 | `Blueprint` |
+| `WWA Blueprint` | WWA가 직접 제작한 도면·구조 시각화 | `Blueprint` |
 | `My Photography` | 직접 촬영한 세트·굿즈 사진 | `My Photo` |
 | `WWA Original` | 사용자 원본 로고·브랜드 자료 | `WWA` |
 
 - 목록 필터는 `Film / LEGO / Blueprint / My Photo / WWA`로 표시한다.
+- `WWA Blueprint`는 LEGO·영화사의 공식 원본이 아니라 WWA 제작 Asset이다. 화면과 데이터에서 `Official`로 표기하지 않는다.
+- `WWA Blueprint`의 `Source`에는 제작 근거나 참고 범위를 기록한다. `Source Link`는 선택 사항이며, `Verified`는 제작 근거를 확인했다는 뜻이지 공식 자료라는 뜻이 아니다.
+- `WWA Blueprint`를 Story Connection의 공식 Evidence로 자동 연결하지 않는다. 근거로 사용할 때는 출처가 검증된 공식 Asset을 별도로 연결한다.
 - `Film Poster`, 캡처 이미지, AI 생성물은 Asset Type에 추가하지 않는다.
 - 새 Asset Type은 별도 승인 없이 추가하거나 기존 타입과 합치지 않는다.
 

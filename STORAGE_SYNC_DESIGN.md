@@ -328,11 +328,13 @@ previews/<fileId>.<ext>
 |---|---|
 | `legoOfficial` | `LEGO Official Product Image` |
 | `boxArt` | `LEGO Official Box Image` |
-| `blueprint` | `Official Blueprint` |
+| `blueprint` | `WWA Blueprint` |
 | `movieStill` | `Official Film Still` |
 | `myPhoto` | `My Photography` |
 
 - 기존 `minifigures` 이미지는 출처와 유형을 안전하게 단정할 수 없으므로 자동 분류하지 않는다. Migration Review Draft로 보존하고 사용자가 승인된 6종 중 하나를 선택한 뒤 영구 Asset으로 저장한다.
+- 이전 IndexedDB 또는 Full ZIP의 `Official Blueprint` 값은 복원 검증 뒤 `WWA Blueprint`로 정규화한다. 기존 Stable ID·Sync ID·Version·관계는 변경하지 않고 Type 값만 승계한다.
+- `WWA Blueprint`는 공식 자료 유형 집합에 포함하지 않으므로 Source Link 필수 검증을 적용하지 않는다.
 - Data URL 이미지는 이미 압축된 파생본이므로 `reason = legacy-import`와 품질 경고를 기록한다.
 - Migration은 같은 source checksum에 대해 한 번만 실행되는 idempotent 작업으로 만든다.
 - IndexedDB Record 수, Blob 해시, 관계 참조 검증이 끝나도 기존 `localStorage`는 즉시 삭제하지 않는다.

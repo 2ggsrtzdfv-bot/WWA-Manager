@@ -139,6 +139,7 @@ WWA는 두 가지 화면 체계를 사용한다.
 
 - Assets Library: 검색·필터, 정돈된 썸네일, 핵심 출처·제작 상태
 - Asset Type 필터: `Film / LEGO / Blueprint / My Photo / WWA`
+- `Blueprint` 필터는 WWA가 직접 제작한 `WWA Blueprint`만 포함하며 `Official Blueprint`로 표기하지 않는다.
 - Asset Detail: 큰 원본 미리보기, Source, Archive Relations, Evidence Usage
 - Edit Asset: 영문 필드명과 상태값, 한글 설명과 오류 안내
 - Related Record: 연결된 LEGO Record 표시

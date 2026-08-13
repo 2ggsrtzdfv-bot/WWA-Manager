@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+### WWA Blueprint Classification Corrected — 2026-08-13
+
+- 잘못 분류된 `Official Blueprint`를 WWA가 직접 제작하는 `WWA Blueprint`로 교체하고 Asset Type 6종과 `Blueprint` 목록 필터 수는 그대로 유지.
+- `WWA Blueprint`를 공식 자료 집합에서 제외해 Source Link를 선택 사항으로 바꾸고, 공식 Evidence로 자동 취급하지 않는 운영 규칙을 Protocol과 Design Guide에 명시.
+- 기존 IndexedDB와 Full ZIP Backup의 `Official Blueprint` 값을 로드·복원 시 `WWA Blueprint`로 정규화하되 기존 `AST` Stable ID, Sync ID, Version History, Asset Link, Page Placement를 유지.
+- 새 Legacy Migration은 `blueprint` key를 곧바로 `WWA Blueprint`로 변환하며, 화면 선택지와 Record 대표 Asset 우선순위도 같은 명칭으로 통일.
+
 ### WWA Pages Phase 1 Implemented — 2026-08-13
 
 - 하단 `Pages`를 실제 Archive 화면으로 활성화하고 기존 다음 단계 안내를 제거해 Page 수, 빈 상태, 저장된 Page 목록을 표시.
@@ -320,7 +327,7 @@
 - `Official Film Still`
 - `LEGO Official Product Image`
 - `LEGO Official Box Image`
-- `Official Blueprint`
+- `WWA Blueprint` (2026-08-13 분류 정정)
 - `My Photography`
 - `WWA Original`
 - 목록 필터는 `Film / LEGO / Blueprint / My Photo / WWA`로 고정.
