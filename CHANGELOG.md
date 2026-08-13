@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+### A4 Working Baseline and Hardcover Goal Approved — 2026-08-14
+
+- WWA Page의 현재 작업 판형과 임시 출력 기준을 A4 Portrait `210 × 297 mm`로 승인.
+- 최종 WWA Book은 양장본을 목표로 하되, 일반 양장/Layflat 구조와 인쇄소·용지·예상 총 페이지 수가 정해질 때까지 최종 판형·spine·gutter는 확정하지 않음.
+- 이미 완료된 Asset·Backup·LEGO Record·WWA Pages Phase 1을 반영해 `WWA_PROTOCOL.md`의 오래된 진행 순서를 현재 WWA Page Production 단계로 교체.
+- 다음 승인 작업은 최종 양장 제본 구조와 예상 총 페이지 수 결정으로 고정하며 앱 코드와 IndexedDB schema는 변경하지 않음.
+
 ### WWA Blueprint Classification Corrected — 2026-08-13
 
 - 잘못 분류된 `Official Blueprint`를 WWA가 직접 제작하는 `WWA Blueprint`로 교체하고 Asset Type 6종과 `Blueprint` 목록 필터 수는 그대로 유지.
@@ -379,7 +386,7 @@
 - `Primary Book Placement`, WWA Page 순서, 대표 페이지, 페이지별 크롭·배치는 WWA Page 단계까지 보류.
 - Set Family 목록은 별도 승인 전 자동 분류하지 않고 `Unassigned`를 유지.
 
-### Next
+### Historical Next — Superseded by 2026-08-14 WWA Page Production Sequence
 
 1. iPhone용 LEGO Record Detail 설계·승인·구현·검증
 2. Records 내부 Collection Plan 별도 설계·승인·구현

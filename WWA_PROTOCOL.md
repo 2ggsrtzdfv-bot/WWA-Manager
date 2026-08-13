@@ -69,14 +69,18 @@ WWA의 제작 흐름은 다음 순서를 따른다.
 - 사용자 수정과 겹치는 파일은 보존하고, 불명확한 충돌은 임의 병합하지 않는다.
 - 구현 후 iPhone을 우선으로 테스트하고, 승인된 체크포인트만 배포한다.
 
-현재 승인된 다음 진행 순서:
+현재 승인 상태와 다음 진행 순서:
 
-1. Add/Edit Asset IndexedDB 로컬 저장 구현
-2. Edit Metadata·Replace Image·Version History 구현
-3. 기존 `localStorage` 읽기 전용 이전과 전체 ZIP 백업·복원 구현
-4. Local Archive + Full ZIP Backup 공식 저장 방식 전환
-5. iPhone 로컬 저장·백업·복원 검증
-6. LEGO Record·Story Connections 통합
+- Asset 저장·편집·Version History, Legacy Migration, Full ZIP Backup·Restore, LEGO Record, WWA Pages Phase 1은 구현·검증·배포 완료 상태다.
+- WWA Page의 현재 작업 판형과 임시 출력 기준은 A4 Portrait `210 × 297 mm`로 승인한다.
+- 최종 출판물은 양장본을 목표로 하되 인쇄소·일반 양장/Layflat 구조·용지·예상 총 페이지 수가 정해질 때까지 최종 판형, spine, gutter는 확정하지 않는다.
+
+1. 최종 양장 제본 구조와 예상 총 페이지 수 승인
+2. 왼쪽 Story Page·오른쪽 LEGO Archive Page의 필수·선택 Slot 승인
+3. 첫 두 개 Slot 기반 Template 설계·승인
+4. `PAGE-000001`에 필요한 Story Connection Record와 Evidence Link 구현
+5. WWA Page Editor·Preview 구현과 iPhone 검증
+6. Print Provider Profile·PDF Export·교정쇄 절차 설계
 
 ## 6. LEGO Record Rules
 
