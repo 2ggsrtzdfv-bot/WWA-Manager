@@ -4,12 +4,19 @@
 
 ## [Unreleased]
 
+### Standard Hardcover Binding Approved — 2026-08-21
+
+- 최종 WWA Book의 제본 구조를 `일반 양장(비 Layflat)`으로 승인하고 A4 Portrait 작업·임시 출력 기준은 그대로 유지.
+- Spread의 양쪽 면을 각각 독립적으로 완결하며 글자·얼굴·로고·정렬 기준선 등 필수 정보를 중앙 접힘선에 걸치거나 넘기지 않는 `Center-safe` 원칙을 확정.
+- 중앙을 잇는 장식 배경은 gutter 손실과 좌우 어긋남이 생겨도 의미가 유지되는 경우에만 허용하고, 최종 gutter·spine 수치는 인쇄소·용지·총 페이지 수 확정 뒤 결정.
+- 다음 승인 작업을 예상 총 페이지 수 범위와 설계 기준 페이지 수 결정으로 전환하며 앱 코드와 IndexedDB schema는 변경하지 않음.
+
 ### A4 Working Baseline and Hardcover Goal Approved — 2026-08-14
 
 - WWA Page의 현재 작업 판형과 임시 출력 기준을 A4 Portrait `210 × 297 mm`로 승인.
-- 최종 WWA Book은 양장본을 목표로 하되, 일반 양장/Layflat 구조와 인쇄소·용지·예상 총 페이지 수가 정해질 때까지 최종 판형·spine·gutter는 확정하지 않음.
+- 최종 WWA Book은 양장본을 목표로 하되, 이 시점에는 일반 양장/Layflat 구조와 인쇄소·용지·예상 총 페이지 수가 정해질 때까지 최종 판형·spine·gutter를 확정하지 않았음. 제본 구조는 2026-08-21 승인으로 대체됨.
 - 이미 완료된 Asset·Backup·LEGO Record·WWA Pages Phase 1을 반영해 `WWA_PROTOCOL.md`의 오래된 진행 순서를 현재 WWA Page Production 단계로 교체.
-- 다음 승인 작업은 최종 양장 제본 구조와 예상 총 페이지 수 결정으로 고정하며 앱 코드와 IndexedDB schema는 변경하지 않음.
+- 당시 다음 승인 작업은 최종 양장 제본 구조와 예상 총 페이지 수 결정으로 고정했으며 앱 코드와 IndexedDB schema는 변경하지 않았음.
 
 ### WWA Blueprint Classification Corrected — 2026-08-13
 

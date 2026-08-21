@@ -1,6 +1,6 @@
 # WWA Manager Protocol
 
-Last updated: 2026-08-12
+Last updated: 2026-08-21
 Status: Approved baseline
 
 이 문서는 WWA Manager의 제품 목적, 승인된 아키텍처, 데이터 원칙, 개발 절차를 고정하는 최상위 기준이다. 기능이나 화면을 설계·구현할 때 이 문서와 `DESIGN_GUIDE.md`, `CHANGELOG.md`를 먼저 확인한다. 저장·백업 구현은 승인된 `STORAGE_SYNC_DESIGN.md`의 데이터 계약도 함께 따른다.
@@ -73,9 +73,11 @@ WWA의 제작 흐름은 다음 순서를 따른다.
 
 - Asset 저장·편집·Version History, Legacy Migration, Full ZIP Backup·Restore, LEGO Record, WWA Pages Phase 1은 구현·검증·배포 완료 상태다.
 - WWA Page의 현재 작업 판형과 임시 출력 기준은 A4 Portrait `210 × 297 mm`로 승인한다.
-- 최종 출판물은 양장본을 목표로 하되 인쇄소·일반 양장/Layflat 구조·용지·예상 총 페이지 수가 정해질 때까지 최종 판형, spine, gutter는 확정하지 않는다.
+- 최종 출판물은 `일반 양장(비 Layflat)`으로 제작한다.
+- Spread의 왼쪽·오른쪽 면은 각각 독립적으로 완결하며, 글자·얼굴·로고·정렬 기준선 등 필수 정보는 중앙 접힘선을 넘지 않는다. 중앙을 잇는 장식 배경은 제본 손실과 좌우 어긋남이 생겨도 의미가 유지되는 경우에만 허용한다.
+- 인쇄소·용지·예상 총 페이지 수가 정해질 때까지 최종 판형, spine, gutter 수치는 확정하지 않는다.
 
-1. 최종 양장 제본 구조와 예상 총 페이지 수 승인
+1. 예상 총 페이지 수 범위와 설계 기준 페이지 수 승인
 2. 왼쪽 Story Page·오른쪽 LEGO Archive Page의 필수·선택 Slot 승인
 3. 첫 두 개 Slot 기반 Template 설계·승인
 4. `PAGE-000001`에 필요한 Story Connection Record와 Evidence Link 구현
