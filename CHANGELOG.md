@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+### 192-page Book Plan Approved — 2026-08-21
+
+- 표지와 양장 보드를 제외한 인쇄 내지 PDF의 허용 범위를 `160–224 pages`, 설계 기준을 `192 pages`, 현재 권장 최대치를 `240 pages`로 승인.
+- 192 pages를 Front Matter 8 pages, 영화 8편 Chapter Opener 16 pages, WWA Record 80 Spreads 160 pages, Index·Credits·Colophon 8 pages로 배정.
+- 240 pages를 넘는 콘텐츠는 한 권의 spine과 gutter를 계속 키우지 않고 다음 Volume으로 분권하며, 실제 spine·gutter 수치는 인쇄소와 용지 확정 후 계산.
+- 다음 승인 작업을 왼쪽 Story Page·오른쪽 LEGO Archive Page의 필수·선택 Slot 결정으로 전환하며 앱 코드와 IndexedDB schema는 변경하지 않음.
+
 ### Standard Hardcover Binding Approved — 2026-08-21
 
 - 최종 WWA Book의 제본 구조를 `일반 양장(비 Layflat)`으로 승인하고 A4 Portrait 작업·임시 출력 기준은 그대로 유지.
