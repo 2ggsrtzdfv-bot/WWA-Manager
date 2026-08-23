@@ -1,6 +1,6 @@
 # WWA Manager Protocol
 
-Last updated: 2026-08-21
+Last updated: 2026-08-23
 Status: Approved baseline
 
 이 문서는 WWA Manager의 제품 목적, 승인된 아키텍처, 데이터 원칙, 개발 절차를 고정하는 최상위 기준이다. 기능이나 화면을 설계·구현할 때 이 문서와 `DESIGN_GUIDE.md`, `CHANGELOG.md`를 먼저 확인한다. 저장·백업 구현은 승인된 `STORAGE_SYNC_DESIGN.md`의 데이터 계약도 함께 따른다.
@@ -77,13 +77,13 @@ WWA의 제작 흐름은 다음 순서를 따른다.
 - Spread의 왼쪽·오른쪽 면은 각각 독립적으로 완결하며, 글자·얼굴·로고·정렬 기준선 등 필수 정보는 중앙 접힘선을 넘지 않는다. 중앙을 잇는 장식 배경은 제본 손실과 좌우 어긋남이 생겨도 의미가 유지되는 경우에만 허용한다.
 - 인쇄 내지 PDF의 허용 범위는 `160–224 pages`, 설계 기준은 `192 pages`, 현재 권장 최대치는 `240 pages`로 승인한다. 240 pages를 넘으면 한 권을 비대하게 확장하지 않고 다음 Volume으로 분권한다.
 - 192 pages 기준으로 Front Matter 8 pages, 영화 8편 Chapter Opener 16 pages, WWA Record 80 Spreads 160 pages, Index·Credits·Colophon 8 pages를 배정한다.
+- 현재 정식 WWA Record Template은 `WWA Standard Spread v1` 하나만 사용한다. 왼쪽 Story Page와 오른쪽 LEGO Archive Page의 고정 역할과 반복 리듬을 유지하며, 이미지 비율 차이는 별도 Template이 아니라 Slot의 Fit·Crop·Focus로 처리한다.
+- `Type B`는 현재 Template이나 구현 대상이 아니다. 실제 Page 제작에서 Standard Spread로 해결할 수 없는 반복 문제가 검증되고 별도 승인을 받은 경우에만 `Future Candidate`로 재검토한다.
 - 인쇄소·용지가 정해질 때까지 최종 판형, spine, gutter 수치는 확정하지 않는다.
 
-1. 왼쪽 Story Page·오른쪽 LEGO Archive Page의 필수·선택 Slot 승인
-2. 첫 두 개 Slot 기반 Template 설계·승인
-3. `PAGE-000001`에 필요한 Story Connection Record와 Evidence Link 구현
-4. WWA Page Editor·Preview 구현과 iPhone 검증
-5. Print Provider Profile·PDF Export·교정쇄 절차 설계
+1. `PAGE-000001`에 필요한 Story Connection Record와 Evidence Link 구현
+2. `WWA Standard Spread v1` 기반 WWA Page Editor·Preview 구현과 iPhone 검증
+3. Print Provider Profile·PDF Export·교정쇄 절차 설계
 
 ## 6. LEGO Record Rules
 

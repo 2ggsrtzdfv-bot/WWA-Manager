@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+### Single Standard Spread Direction Approved — 2026-08-23
+
+- 현재 정식 WWA Record Template을 `WWA Standard Spread v1` 하나로 승인하고, 80개 Record Spread에 동일한 왼쪽 Story / 오른쪽 LEGO Archive 역할과 반복 리듬을 적용.
+- 필수 Slot을 Story Context·Primary Evidence·Story·Evidence Source와 Record Header·Official Product Image·Set Information·My Collection으로 확정하고, 나머지는 선택 Slot으로 유지.
+- 이미지 비율 차이는 별도 Template이 아니라 Slot의 Fit·Crop·Focus로 처리하며 선택 자료가 없을 때는 다른 레이아웃으로 자동 전환하지 않고 여백을 유지.
+- `Type B`는 현재 Template·UI·schema 구현 대상에서 제외하고, 실제 Page 제작에서 Standard Spread의 반복 한계가 검증될 때만 별도 승인 후 재검토하는 `Future Candidate`로 보류.
+- 다음 작업을 `PAGE-000001`의 Story Connection Record와 Evidence Link 구현으로 전환하며 현재 앱 코드와 IndexedDB schema는 변경하지 않음.
+
 ### 192-page Book Plan Approved — 2026-08-21
 
 - 표지와 양장 보드를 제외한 인쇄 내지 PDF의 허용 범위를 `160–224 pages`, 설계 기준을 `192 pages`, 현재 권장 최대치를 `240 pages`로 승인.
