@@ -14219,15 +14219,15 @@
             storage.archiveId,
             generationId
           );
-          const records = chooseWwaUniqueLegoRecords(
-            allLegoRecords.filter((record) =>
-              isActive(record) &&
-              record.recordVerification === "Verified" &&
-              record.recordLifecycle !== "Archived"
-            )
+          const storedRecords = chooseWwaUniqueLegoRecords(
+            allLegoRecords.filter(isActive)
+          );
+          const records = storedRecords.filter((record) =>
+            record.recordVerification === "Verified" &&
+            record.recordLifecycle !== "Archived"
           );
           const recordsById = new Map(
-            records.map((record) => [record.syncId, record])
+            storedRecords.map((record) => [record.syncId, record])
           );
           const films = allFilms.filter(isActive).sort((left, right) =>
             String(left.code || left.filmCode || left.stableId || "")
@@ -14237,16 +14237,21 @@
           );
           const locations = allLocations.filter(isActive);
           const subjects = allSubjects.filter(isActive);
-          const assets = chooseWwaUniqueAssets(
+          const storedProductAssets = chooseWwaUniqueAssets(
             allAssets.filter((asset) =>
               isActive(asset) &&
-              asset.type === "LEGO Official Product Image" &&
-              asset.sourceStatus === "Verified" &&
-              asset.productionStatus !== "Archived"
+              asset.type === "LEGO Official Product Image"
             )
+          );
+          const assets = storedProductAssets.filter((asset) =>
+            asset.sourceStatus === "Verified" &&
+            asset.productionStatus !== "Archived"
           );
           const assetsById = new Map(
             assets.map((asset) => [asset.syncId, asset])
+          );
+          const storedProductAssetsById = new Map(
+            storedProductAssets.map((asset) => [asset.syncId, asset])
           );
           const versionsById = new Map(
             allVersions.filter(isActive).map((version) => [
@@ -14281,8 +14286,8 @@
               linkedRecordIdsByAsset.get(asset.syncId) || []
             )
           })).filter((entry) => entry.recordSyncIds.length);
-          const eligibleAssetIds = new Set(
-            eligibleAssets.map((entry) => entry.asset.syncId)
+          const storedProductAssetIds = new Set(
+            storedProductAssets.map((asset) => asset.syncId)
           );
           const storyAssets = chooseWwaUniqueAssets(
             allAssets.filter((asset) =>
@@ -14361,9 +14366,11 @@
             .map((page) => {
               const placement = (
                 placementsByPage.get(page.syncId) || []
-              ).find((item) => eligibleAssetIds.has(item.assetSyncId)) || null;
+              ).find((item) =>
+                storedProductAssetIds.has(item.assetSyncId)
+              ) || null;
               const asset = placement
-                ? assetsById.get(placement.assetSyncId)
+                ? storedProductAssetsById.get(placement.assetSyncId)
                 : null;
               const version = asset
                 ? versionsById.get(asset.currentVersionId)
@@ -15963,7 +15970,13 @@
           meta.textContent = getWwaPageRecordLabel(entry.record);
           const state = document.createElement("span");
           state.className = "wwa-page-card-state";
-          state.textContent = entry.storyConnection
+          const recordState = entry.record.recordVerification !== "Verified"
+            ? " · Record " +
+              (entry.record.recordVerification || "Draft")
+            : entry.record.recordLifecycle === "Archived"
+              ? " · Record Archived"
+              : "";
+          state.textContent = (entry.storyConnection
             ? (entry.page.status || "Draft") + " · " +
               (entry.evidenceLinks.length
                 ? "Story Review · " + entry.evidenceLinks.length +
@@ -15971,7 +15984,8 @@
                     ? " Evidence"
                     : " Evidence")
                 : "Needs Evidence")
-            : (entry.page.status || "Draft") + " · Story Needed";
+            : (entry.page.status || "Draft") + " · Story Needed") +
+            recordState;
           copy.append(id, title, meta, state);
           card.append(preview, copy);
           card.addEventListener("click", () => openWwaStoryEditor(entry, card));

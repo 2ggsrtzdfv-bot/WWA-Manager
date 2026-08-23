@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+### Existing Page Visibility Recovery — 2026-08-23
+
+- 저장된 WWA Page가 연결 LEGO Record의 Verification 또는 Lifecycle 상태 변화 때문에 목록에서 사라지지 않도록 Page 목록 복원 조건을 수정.
+- `Add Page`의 새 선택 후보는 기존과 동일하게 활성 `Verified` LEGO Record와 검증된 공식 제품 이미지만 허용하되, 이미 저장된 Page와 Product Image Placement는 현재 검증 상태와 관계없이 보존해 표시.
+- 기존 Page의 Record가 `Draft / Review / Archived`이면 Page 카드 상태에 함께 표시해 원본 관계를 숨기거나 새 Page 생성을 유도하지 않도록 처리.
+
 ### Story Connection Page Linking Implemented — 2026-08-23
 
 - 저장된 WWA Page 카드를 Story Connection 집중 편집 화면으로 연결하고, 현재 승인 범위인 `Series-wide 또는 Film 1개 + Location Path + Narrative Scope = Location` 맥락을 기록하도록 구현.
