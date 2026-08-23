@@ -5514,6 +5514,9 @@
 
       const WWA_SCHEMA_VERSION = 1;
 
+      const WWA_INITIAL_PAGE_BOOTSTRAP_SETTING =
+        "pageBootstrap:76419:v1";
+
       const WWA_BACKUP_FORMAT_VERSION = 1;
 
       const WWA_REBRICKABLE_API_BASE =
@@ -14738,6 +14741,84 @@
         }
       }
 
+      async function readWwaInitialPageBootstrap(storage) {
+        const transaction = storage.database.transaction(
+          ["settings"],
+          "readonly"
+        );
+        const completion = waitForWwaTransaction(transaction);
+        const setting = await requestWwaResult(
+          transaction.objectStore("settings").get(
+            WWA_INITIAL_PAGE_BOOTSTRAP_SETTING
+          )
+        );
+        await completion;
+        return setting && setting.value ? setting.value : null;
+      }
+
+      async function markWwaInitialPageBootstrap(storage, value) {
+        const transaction = storage.database.transaction(
+          ["settings"],
+          "readwrite"
+        );
+        const completion = waitForWwaTransaction(transaction);
+        const now = new Date().toISOString();
+        transaction.objectStore("settings").put({
+          key: WWA_INITIAL_PAGE_BOOTSTRAP_SETTING,
+          value,
+          createdAt: now,
+          updatedAt: now
+        });
+        await completion;
+      }
+
+      async function bootstrapWwaInitialPage(storage) {
+        const previousBootstrap = await readWwaInitialPageBootstrap(storage);
+        if (previousBootstrap) {
+          return { status: "already-checked", ...previousBootstrap };
+        }
+
+        const snapshot = await loadWwaStoredPages(storage);
+        if (snapshot.pages.length) {
+          const existingPage = snapshot.pages[0].page;
+          const result = {
+            status: "existing",
+            pageSyncId: existingPage.syncId,
+            stableId: existingPage.stableId
+          };
+          await markWwaInitialPageBootstrap(storage, result);
+          return result;
+        }
+
+        const record = snapshot.records.find((entry) =>
+          getWwaTrimmedString(entry.setNumber)
+            .replace(/\s+/g, "") === "76419"
+        );
+        if (!record) {
+          return { status: "pending-record" };
+        }
+
+        const productImage = snapshot.assets.find((entry) =>
+          entry.recordSyncIds.includes(record.syncId)
+        );
+        if (!productImage) {
+          return { status: "pending-product-image" };
+        }
+
+        await ensureWwaLocalStableIdReservation(storage, "Page");
+        const saved = await saveWwaPage(storage, {
+          legoRecordSyncId: record.syncId,
+          assetSyncId: productImage.asset.syncId
+        });
+        const result = {
+          status: "created",
+          pageSyncId: saved.syncId,
+          stableId: saved.stableId
+        };
+        await markWwaInitialPageBootstrap(storage, result);
+        return result;
+      }
+
       function getWwaLocationPath(location) {
         if (!location) return "";
         return Array.isArray(location.path)
@@ -19860,6 +19941,11 @@
       ]).then(async ([storage]) => {
         await migrateWwaLegacyBlueprintAssetTypes(storage);
         await initializeWwaLocalArchive(storage);
+        try {
+          await bootstrapWwaInitialPage(storage);
+        } catch (error) {
+          console.error("WWA initial Page recovery failed.", error);
+        }
         return storage;
       });
 

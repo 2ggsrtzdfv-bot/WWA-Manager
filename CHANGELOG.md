@@ -9,6 +9,7 @@
 - 기존 Page가 연결한 LEGO Record와 Product Image를 `Sync ID`로 직접 복원해, 같은 세트 번호나 Stable ID를 가진 중복 후보가 있어도 Page가 목록에서 사라지지 않도록 수정.
 - 연결 Record가 삭제되었거나 누락된 경우에도 Page 자체는 유지해 표시하고 카드에 `Record Deleted / Missing` 상태를 노출.
 - `Add Page`의 새 선택 후보는 계속 활성 `Verified` LEGO Record와 검증된 공식 제품 이미지만 허용.
+- 활성 Page가 하나도 없고 `76419`의 Verified Record와 연결된 공식 제품 이미지가 준비된 Archive에서는 최초 Page를 한 번만 자동 생성해 `PAGE-000001` 작업을 즉시 복구.
 
 ### Existing Page Visibility Recovery — 2026-08-23
 
