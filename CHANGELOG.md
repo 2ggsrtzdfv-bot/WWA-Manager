@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+### Existing Page Relationship Recovery — 2026-08-23
+
+- 기존 Page가 연결한 LEGO Record와 Product Image를 `Sync ID`로 직접 복원해, 같은 세트 번호나 Stable ID를 가진 중복 후보가 있어도 Page가 목록에서 사라지지 않도록 수정.
+- 연결 Record가 삭제되었거나 누락된 경우에도 Page 자체는 유지해 표시하고 카드에 `Record Deleted / Missing` 상태를 노출.
+- `Add Page`의 새 선택 후보는 계속 활성 `Verified` LEGO Record와 검증된 공식 제품 이미지만 허용.
+
 ### Existing Page Visibility Recovery — 2026-08-23
 
 - 저장된 WWA Page가 연결 LEGO Record의 Verification 또는 Lifecycle 상태 변화 때문에 목록에서 사라지지 않도록 Page 목록 복원 조건을 수정.

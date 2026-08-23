@@ -14219,15 +14219,22 @@
             storage.archiveId,
             generationId
           );
-          const storedRecords = chooseWwaUniqueLegoRecords(
-            allLegoRecords.filter(isActive)
+          const currentGenerationRecords = allLegoRecords.filter((record) =>
+            record &&
+            record.archiveId === storage.archiveId &&
+            record.generationId === generationId
           );
-          const records = storedRecords.filter((record) =>
+          const activeStoredRecords = currentGenerationRecords.filter(
+            (record) => !record.deletedAt
+          );
+          const records = chooseWwaUniqueLegoRecords(
+            activeStoredRecords
+          ).filter((record) =>
             record.recordVerification === "Verified" &&
             record.recordLifecycle !== "Archived"
           );
           const recordsById = new Map(
-            storedRecords.map((record) => [record.syncId, record])
+            currentGenerationRecords.map((record) => [record.syncId, record])
           );
           const films = allFilms.filter(isActive).sort((left, right) =>
             String(left.code || left.filmCode || left.stableId || "")
@@ -14237,21 +14244,29 @@
           );
           const locations = allLocations.filter(isActive);
           const subjects = allSubjects.filter(isActive);
-          const storedProductAssets = chooseWwaUniqueAssets(
-            allAssets.filter((asset) =>
-              isActive(asset) &&
+          const currentGenerationProductAssets = allAssets.filter(
+            (asset) =>
+              asset &&
+              asset.archiveId === storage.archiveId &&
+              asset.generationId === generationId &&
               asset.type === "LEGO Official Product Image"
-            )
           );
-          const assets = storedProductAssets.filter((asset) =>
-            asset.sourceStatus === "Verified" &&
-            asset.productionStatus !== "Archived"
+          const activeProductAssets = currentGenerationProductAssets.filter(
+            (asset) => !asset.deletedAt
+          );
+          const assets = chooseWwaUniqueAssets(activeProductAssets).filter(
+            (asset) =>
+              asset.sourceStatus === "Verified" &&
+              asset.productionStatus !== "Archived"
           );
           const assetsById = new Map(
             assets.map((asset) => [asset.syncId, asset])
           );
           const storedProductAssetsById = new Map(
-            storedProductAssets.map((asset) => [asset.syncId, asset])
+            currentGenerationProductAssets.map((asset) => [
+              asset.syncId,
+              asset
+            ])
           );
           const versionsById = new Map(
             allVersions.filter(isActive).map((version) => [
@@ -14287,7 +14302,7 @@
             )
           })).filter((entry) => entry.recordSyncIds.length);
           const storedProductAssetIds = new Set(
-            storedProductAssets.map((asset) => asset.syncId)
+            currentGenerationProductAssets.map((asset) => asset.syncId)
           );
           const storyAssets = chooseWwaUniqueAssets(
             allAssets.filter((asset) =>
@@ -14354,16 +14369,22 @@
           });
 
           const pages = allPages
-            .filter((page) =>
-              isActive(page) &&
-              recordsById.has(page.legoRecordSyncId)
-            )
+            .filter(isActive)
             .sort((left, right) =>
               String(right.updatedAt || "").localeCompare(
                 String(left.updatedAt || "")
               )
             )
             .map((page) => {
+              const storedRecord = recordsById.get(page.legoRecordSyncId);
+              const record = storedRecord || {
+                syncId: page.legoRecordSyncId,
+                setNumber: page.setNumber,
+                setName: page.title,
+                title: page.title,
+                recordVerification: "Missing",
+                recordLifecycle: "Missing"
+              };
               const placement = (
                 placementsByPage.get(page.syncId) || []
               ).find((item) =>
@@ -14384,7 +14405,8 @@
 
               return {
                 page,
-                record: recordsById.get(page.legoRecordSyncId),
+                record,
+                recordMissing: !storedRecord,
                 placement,
                 asset,
                 storyConnection,
@@ -15970,12 +15992,16 @@
           meta.textContent = getWwaPageRecordLabel(entry.record);
           const state = document.createElement("span");
           state.className = "wwa-page-card-state";
-          const recordState = entry.record.recordVerification !== "Verified"
-            ? " · Record " +
-              (entry.record.recordVerification || "Draft")
-            : entry.record.recordLifecycle === "Archived"
-              ? " · Record Archived"
-              : "";
+          const recordState = entry.recordMissing
+            ? " · Record Missing"
+            : entry.record.deletedAt
+              ? " · Record Deleted"
+              : entry.record.recordVerification !== "Verified"
+                ? " · Record " +
+                  (entry.record.recordVerification || "Draft")
+                : entry.record.recordLifecycle === "Archived"
+                  ? " · Record Archived"
+                  : "";
           state.textContent = (entry.storyConnection
             ? (entry.page.status || "Draft") + " · " +
               (entry.evidenceLinks.length
