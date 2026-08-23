@@ -165,6 +165,57 @@ cloudChangeTag
 - 같은 SHA-256 파일은 중복 저장하지 않고 기존 `fileId`를 재사용할 수 있다.
 - 원본이 현재 구현의 압축 Data URL에서 이전된 경우 `legacy-import`로 표시하고 원본 화질이라고 오인하지 않게 한다.
 
+## 4.1 Story Connection and Page Link Records
+
+### `storyConnections`
+
+```text
+archiveId
+generationId
+syncId
+stableId
+legoRecordSyncId
+filmMode             Film | Series-wide
+filmSyncId
+filmSyncIds
+locationSyncId
+locationSyncIds
+locationPath
+locationPaths
+subjectSyncIds
+narrativeScope       Location
+status               Review | Verified
+connectionNote
+checkedOn
+createdAt
+updatedAt
+deletedAt
+cloudChangeTag
+```
+
+- 현재 첫 구현은 Page 제작에 필요한 `Location` Scope만 입력한다. 복수 Film·Subject·Archive 입력은 별도 승인 범위다.
+- Location 원본이 있으면 Sync ID와 전체 경로를 함께 보존하고, 아직 원본이 없으면 전체 경로 문자열을 저장한 `Review` 연결을 허용한다.
+- 새 연결과 편집 연결은 저장 계층에서 동일한 중복 키를 검사하며 기존 연결 편집은 `CON` Stable ID를 유지한다.
+
+### `evidenceLinks`
+
+```text
+archiveId
+generationId
+syncId
+linkId
+connectionSyncId
+assetSyncId
+createdAt
+updatedAt
+deletedAt
+cloudChangeTag
+```
+
+- 현재 Page 연결 UI는 선택 Context에 직접 연결된 `Verified · Official Film Still`만 Evidence로 허용한다.
+- Evidence가 없어도 `Review` Story Connection은 저장할 수 있으며 `Verified` 전환 조건은 Protocol의 Evidence·Checked On 규칙을 그대로 따른다.
+- Story Connection·Evidence Link·Evidence Asset `In Use` 변경·Page Primary 연결·Outbox는 단일 transaction으로 저장한다.
+
 ## 5. Local Save Transactions
 
 ### Add Asset

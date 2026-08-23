@@ -2549,7 +2549,8 @@
     }
 
     #wwa-home-complete-castle .wwa-pages,
-    #wwa-home-complete-castle .wwa-page-editor {
+    #wwa-home-complete-castle .wwa-page-editor,
+    #wwa-home-complete-castle .wwa-story-editor {
       display: none;
       min-height: 100vh;
       margin: 0 -16px;
@@ -2559,12 +2560,14 @@
     }
 
     #wwa-home-complete-castle .wwa-pages.is-visible,
-    #wwa-home-complete-castle .wwa-page-editor.is-visible {
+    #wwa-home-complete-castle .wwa-page-editor.is-visible,
+    #wwa-home-complete-castle .wwa-story-editor.is-visible {
       display: block;
     }
 
     #wwa-home-complete-castle .wwa-pages:focus,
-    #wwa-home-complete-castle .wwa-page-editor:focus {
+    #wwa-home-complete-castle .wwa-page-editor:focus,
+    #wwa-home-complete-castle .wwa-story-editor:focus {
       outline: none;
     }
 
@@ -2655,12 +2658,24 @@
     }
 
     #wwa-home-complete-castle .wwa-page-card {
+      appearance: none;
       display: grid;
       grid-template-columns: 98px minmax(0, 1fr);
       gap: 15px;
+      width: 100%;
       min-width: 0;
       padding: 16px 0 18px;
+      border: 0;
       border-bottom: 1px solid rgba(111, 118, 130, 0.2);
+      background: transparent;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-page-card:focus-visible {
+      outline: 2px solid var(--wwa-patronus);
+      outline-offset: 3px;
     }
 
     #wwa-home-complete-castle .wwa-page-card-preview {
@@ -2750,7 +2765,8 @@
       font-weight: 500;
     }
 
-    #wwa-home-complete-castle .wwa-page-editor {
+    #wwa-home-complete-castle .wwa-page-editor,
+    #wwa-home-complete-castle .wwa-story-editor {
       padding-bottom: calc(28px + env(safe-area-inset-bottom));
     }
 
@@ -2818,20 +2834,36 @@
       letter-spacing: 0;
     }
 
-    #wwa-home-complete-castle .wwa-page-field select {
+    #wwa-home-complete-castle .wwa-page-field select,
+    #wwa-home-complete-castle .wwa-page-field input,
+    #wwa-home-complete-castle .wwa-page-field textarea {
       appearance: none;
       width: 100%;
       min-height: 48px;
-      padding: 10px 38px 10px 12px;
+      padding: 10px 12px;
       border: 1px solid rgba(111, 118, 130, 0.32);
       border-radius: 3px;
-      background: #F7F9FC url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236F7682' d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 13px center;
+      background-color: #F7F9FC;
       color: var(--wwa-blue);
       font: 400 16px/1.35 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       outline: none;
     }
 
-    #wwa-home-complete-castle .wwa-page-field select:focus {
+    #wwa-home-complete-castle .wwa-page-field select {
+      padding-right: 38px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236F7682' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-position: right 13px center;
+      background-repeat: no-repeat;
+    }
+
+    #wwa-home-complete-castle .wwa-page-field textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    #wwa-home-complete-castle .wwa-page-field select:focus,
+    #wwa-home-complete-castle .wwa-page-field input:focus,
+    #wwa-home-complete-castle .wwa-page-field textarea:focus {
       border-color: var(--wwa-patronus);
       box-shadow: 0 0 0 2px rgba(127, 183, 230, 0.16);
     }
@@ -2839,6 +2871,86 @@
     #wwa-home-complete-castle .wwa-page-field select:disabled {
       color: rgba(111, 118, 130, 0.7);
       background-color: rgba(199, 204, 214, 0.15);
+    }
+
+    #wwa-home-complete-castle .wwa-story-context {
+      display: grid;
+      gap: 5px;
+      margin: 21px 0 0;
+      padding: 14px;
+      border: 1px solid rgba(111, 118, 130, 0.24);
+      border-radius: 3px;
+      background: #FFFFFF;
+      font: 400 11px/1.45 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #wwa-home-complete-castle .wwa-story-context strong {
+      color: var(--wwa-blue);
+      font-family: "Bluu Next", Georgia, serif;
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    #wwa-home-complete-castle .wwa-story-context span {
+      color: var(--wwa-stone);
+    }
+
+    #wwa-home-complete-castle .wwa-evidence-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    #wwa-home-complete-castle .wwa-evidence-option {
+      display: grid;
+      grid-template-columns: 20px 48px minmax(0, 1fr);
+      min-height: 64px;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 9px;
+      border: 1px solid rgba(111, 118, 130, 0.24);
+      border-radius: 3px;
+      background: #FFFFFF;
+      color: var(--wwa-blue);
+      cursor: pointer;
+    }
+
+    #wwa-home-complete-castle .wwa-evidence-option input {
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      accent-color: var(--wwa-blue);
+    }
+
+    #wwa-home-complete-castle .wwa-evidence-option img {
+      display: block;
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 2px;
+      background: rgba(199, 204, 214, 0.18);
+    }
+
+    #wwa-home-complete-castle .wwa-evidence-option-copy {
+      min-width: 0;
+      font-size: 10px;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+
+    #wwa-home-complete-castle .wwa-evidence-option-copy small {
+      display: block;
+      margin-top: 3px;
+      color: var(--wwa-stone);
+      font-size: 9px;
+      font-weight: 400;
+    }
+
+    #wwa-home-complete-castle .wwa-evidence-empty {
+      margin: 0;
+      padding: 13px;
+      border: 1px dashed rgba(111, 118, 130, 0.34);
+      color: var(--wwa-stone);
+      font: 400 10px/1.5 "WWA Source Sans 3", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     #wwa-home-complete-castle .wwa-page-field-error {
@@ -2892,7 +3004,8 @@
       opacity: 0.5;
     }
 
-    #wwa-home-complete-castle.is-page-editor-view .wwa-bottom-nav {
+    #wwa-home-complete-castle.is-page-editor-view .wwa-bottom-nav,
+    #wwa-home-complete-castle.is-story-editor-view .wwa-bottom-nav {
       display: none;
     }
 
@@ -4777,6 +4890,65 @@
         <div class="wwa-page-editor-actions">
           <button class="wwa-page-editor-action" type="button" data-page-action="cancel">Cancel</button>
           <button class="wwa-page-editor-action is-primary" type="submit">Save Page</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="wwa-story-editor" aria-labelledby="wwa-story-editor-heading" tabindex="-1">
+      <div class="wwa-page-editor-topbar">
+        <button class="wwa-page-editor-back wwa-story-editor-back" type="button" aria-label="Back to WWA Pages">
+          <i data-lucide="arrow-left" aria-hidden="true"></i><span>Pages</span>
+        </button>
+        <span class="wwa-page-editor-position wwa-story-editor-position">WWA Page</span>
+      </div>
+
+      <header>
+        <h2 class="wwa-page-editor-heading" id="wwa-story-editor-heading">Story Connection</h2>
+        <p class="wwa-page-editor-intro">왼쪽 Story Page의 실제 맥락과 검증 근거를 Page에 연결합니다.</p>
+      </header>
+
+      <div class="wwa-story-context" aria-live="polite">
+        <strong class="wwa-story-context-title">WWA Page</strong>
+        <span class="wwa-story-context-meta"></span>
+      </div>
+
+      <form class="wwa-page-editor-form wwa-story-editor-form" novalidate>
+        <label class="wwa-page-field">
+          <span>Film · Required <small>영화 하나 또는 영화 전체에 걸친 Series-wide를 선택합니다.</small></span>
+          <select name="filmContext" required>
+            <option value="series-wide">Series-wide</option>
+          </select>
+          <span class="wwa-page-field-error" data-story-error="filmContext" role="alert"></span>
+        </label>
+
+        <label class="wwa-page-field">
+          <span>Location Path · Required <small>전체 장소 경로를 기록합니다. 예: Hogwarts › Great Hall</small></span>
+          <input name="locationPath" type="text" list="wwa-story-location-options" autocomplete="off" required>
+          <datalist id="wwa-story-location-options"></datalist>
+          <span class="wwa-page-field-error" data-story-error="locationPath" role="alert"></span>
+        </label>
+
+        <label class="wwa-page-field">
+          <span>Narrative Scope <small>이번 연결은 장소 자체를 중심으로 하는 Location Scope입니다.</small></span>
+          <input name="narrativeScope" type="text" value="Location" readonly>
+        </label>
+
+        <div class="wwa-page-field">
+          <span>Evidence Assets · Optional <small>선택한 Film 또는 Location에 직접 연결된 Verified Official Film Still만 표시됩니다.</small></span>
+          <div class="wwa-evidence-list"></div>
+          <p class="wwa-evidence-empty">연결 가능한 Verified Official Film Still이 없습니다. Story Connection은 Review로 저장하고 Evidence는 나중에 추가할 수 있습니다.</p>
+          <span class="wwa-page-field-error" data-story-error="evidenceAssetSyncIds" role="alert"></span>
+        </div>
+
+        <label class="wwa-page-field">
+          <span>Connection Note · Optional <small>장소와 LEGO Record의 관계를 검토할 때 필요한 근거를 기록합니다.</small></span>
+          <textarea name="connectionNote" maxlength="1200"></textarea>
+        </label>
+
+        <p class="wwa-page-editor-status wwa-story-editor-status" role="status" aria-live="polite"></p>
+        <div class="wwa-page-editor-actions">
+          <button class="wwa-page-editor-action" type="button" data-story-action="cancel">Cancel</button>
+          <button class="wwa-page-editor-action is-primary" type="submit">Save Connection</button>
         </div>
       </form>
     </section>
@@ -8007,6 +8179,12 @@
         const legoRecordIds = new Set(
           records.legoRecords.map((record) => record.syncId)
         );
+        const filmIds = new Set(
+          records.films.map((record) => record.syncId)
+        );
+        const locationIds = new Set(
+          records.locations.map((record) => record.syncId)
+        );
         records.storyConnections.forEach((connection) => {
           if (
             connection.legoRecordSyncId &&
@@ -8014,10 +8192,17 @@
           ) {
             throw getWwaBackupError("Story Connection의 LEGO Record 참조가 없습니다.");
           }
+          if (
+            (connection.filmSyncIds || []).some((syncId) =>
+              !filmIds.has(syncId)
+            ) ||
+            (connection.locationSyncIds || []).some((syncId) =>
+              !locationIds.has(syncId)
+            )
+          ) {
+            throw getWwaBackupError("Story Connection의 Context 참조가 없습니다.");
+          }
         });
-        const locationIds = new Set(
-          records.locations.map((record) => record.syncId)
-        );
         records.locations.forEach((location) => {
           if (location.parentId && !locationIds.has(location.parentId)) {
             throw getWwaBackupError("Location의 상위 경로 참조가 없습니다.");
@@ -8032,6 +8217,15 @@
           }
         });
         const pageIds = new Set(records.pages.map((record) => record.syncId));
+        records.pages.forEach((page) => {
+          if (
+            !legoRecordIds.has(page.legoRecordSyncId) ||
+            (page.primaryStoryConnectionSyncId &&
+              !connectionIds.has(page.primaryStoryConnectionSyncId))
+          ) {
+            throw getWwaBackupError("WWA Page 참조가 완전하지 않습니다.");
+          }
+        });
         records.pagePlacements.forEach((placement) => {
           if (
             !pageIds.has(placement.pageSyncId) ||
@@ -9786,6 +9980,10 @@
 
       function formatWwaLegoRecordStableId(value) {
         return "SET-" + String(value).padStart(6, "0");
+      }
+
+      function formatWwaStoryConnectionStableId(value) {
+        return "CON-" + String(value).padStart(6, "0");
       }
 
       function formatWwaPageStableId(value) {
@@ -11862,6 +12060,10 @@
             storeName: "legoRecords",
             pattern: /^SET-(\d{6,})$/
           },
+          StoryConnection: {
+            storeName: "storyConnections",
+            pattern: /^CON-(\d{6,})$/
+          },
           Page: {
             storeName: "pages",
             pattern: /^PAGE-(\d{6,})$/
@@ -12142,6 +12344,7 @@
         } while (promotedInPass === 25 && promotedCount < 2500);
         await ensureWwaLocalStableIdReservation(storage, "Asset");
         await ensureWwaLocalStableIdReservation(storage, "LegoRecord");
+        await ensureWwaLocalStableIdReservation(storage, "StoryConnection");
         await ensureWwaLocalStableIdReservation(storage, "Page");
         return {
           status: "local-archive-ready",
@@ -13960,11 +14163,16 @@
       async function loadWwaStoredPages(storage) {
         const storeNames = [
           "archiveRoots",
+          "films",
+          "locations",
+          "subjects",
           "legoRecords",
           "assets",
           "assetVersions",
           "files",
           "assetLinks",
+          "storyConnections",
+          "evidenceLinks",
           "pages",
           "pagePlacements"
         ];
@@ -13993,11 +14201,16 @@
 
           const generationId = archiveRoot.activeGenerationId;
           const [
+            allFilms,
+            allLocations,
+            allSubjects,
             allLegoRecords,
             allAssets,
             allVersions,
             allFiles,
             allLinks,
+            allConnections,
+            allEvidenceLinks,
             allPages,
             allPlacements
           ] = collections;
@@ -14016,6 +14229,14 @@
           const recordsById = new Map(
             records.map((record) => [record.syncId, record])
           );
+          const films = allFilms.filter(isActive).sort((left, right) =>
+            String(left.code || left.filmCode || left.stableId || "")
+              .localeCompare(
+                String(right.code || right.filmCode || right.stableId || "")
+              )
+          );
+          const locations = allLocations.filter(isActive);
+          const subjects = allSubjects.filter(isActive);
           const assets = chooseWwaUniqueAssets(
             allAssets.filter((asset) =>
               isActive(asset) &&
@@ -14063,6 +14284,61 @@
           const eligibleAssetIds = new Set(
             eligibleAssets.map((entry) => entry.asset.syncId)
           );
+          const storyAssets = chooseWwaUniqueAssets(
+            allAssets.filter((asset) =>
+              isActive(asset) &&
+              asset.type === "Official Film Still" &&
+              asset.sourceStatus === "Verified" &&
+              asset.productionStatus !== "Archived"
+            )
+          );
+          const storyAssetIds = new Set(
+            storyAssets.map((asset) => asset.syncId)
+          );
+          const storyRelationsByAsset = new Map();
+          allLinks.filter((link) =>
+            isActive(link) &&
+            storyAssetIds.has(link.assetSyncId) &&
+            ["directFilm", "directLocation"].includes(link.relationType)
+          ).forEach((link) => {
+            if (!storyRelationsByAsset.has(link.assetSyncId)) {
+              storyRelationsByAsset.set(link.assetSyncId, []);
+            }
+            storyRelationsByAsset.get(link.assetSyncId).push({
+              relationType: link.relationType,
+              targetSyncId: link.targetSyncId
+            });
+          });
+          const storyEvidenceAssets = storyAssets.map((asset) => {
+            const version = versionsById.get(asset.currentVersionId);
+            const previewFile = version
+              ? filesById.get(version.previewFileId)
+              : null;
+            return {
+              asset,
+              relations: storyRelationsByAsset.get(asset.syncId) || [],
+              previewBlob: previewFile && previewFile.blob
+                ? previewFile.blob
+                : null
+            };
+          });
+          const connectionsById = new Map(
+            allConnections.filter(isActive).map((connection) => [
+              connection.syncId,
+              connection
+            ])
+          );
+          const evidenceByConnection = new Map();
+          allEvidenceLinks.filter((link) =>
+            isActive(link) &&
+            connectionsById.has(link.connectionSyncId) &&
+            storyAssetIds.has(link.assetSyncId)
+          ).forEach((link) => {
+            if (!evidenceByConnection.has(link.connectionSyncId)) {
+              evidenceByConnection.set(link.connectionSyncId, []);
+            }
+            evidenceByConnection.get(link.connectionSyncId).push(link);
+          });
           const placementsByPage = new Map();
 
           allPlacements.filter(isActive).forEach((placement) => {
@@ -14095,12 +14371,19 @@
               const previewFile = version
                 ? filesById.get(version.previewFileId)
                 : null;
+              const storyConnection = connectionsById.get(
+                page.primaryStoryConnectionSyncId
+              ) || null;
 
               return {
                 page,
                 record: recordsById.get(page.legoRecordSyncId),
                 placement,
                 asset,
+                storyConnection,
+                evidenceLinks: storyConnection
+                  ? evidenceByConnection.get(storyConnection.syncId) || []
+                  : [],
                 previewBlob: previewFile && previewFile.blob
                   ? previewFile.blob
                   : null
@@ -14111,6 +14394,10 @@
             generationId,
             records,
             assets: eligibleAssets,
+            films,
+            locations,
+            subjects,
+            storyEvidenceAssets,
             pages
           };
         } catch (error) {
@@ -14298,6 +14585,10 @@
             primaryAssetSyncId: assetSyncId,
             title,
             setNumber: getWwaTrimmedString(record.setNumber),
+            unitType: "Spread",
+            templateId: "TPL-WWA-STANDARD-V1",
+            templateVersion: 1,
+            primaryStoryConnectionSyncId: null,
             status: "Draft",
             createdAt: now,
             updatedAt: now,
@@ -14339,6 +14630,10 @@
               "primaryAssetSyncId",
               "title",
               "setNumber",
+              "unitType",
+              "templateId",
+              "templateVersion",
+              "primaryStoryConnectionSyncId",
               "status"
             ] }
           );
@@ -14398,6 +14693,461 @@
             syncId,
             placementId,
             assetProductionStatus: "In Use"
+          };
+        } catch (error) {
+          try {
+            transaction.abort();
+          } catch (abortError) {
+            // The transaction may already have completed or aborted.
+          }
+          try {
+            await completion;
+          } catch (transactionError) {
+            // Preserve the first validation or transaction error.
+          }
+          throw error;
+        }
+      }
+
+      function getWwaLocationPath(location) {
+        if (!location) return "";
+        return Array.isArray(location.path)
+          ? location.path.map(getWwaTrimmedString).filter(Boolean).join(" › ")
+          : getWwaTrimmedString(
+              location.fullPath || location.path ||
+              location.name || location.title
+            );
+      }
+
+      function normalizeWwaStoryKey(value) {
+        return getWwaTrimmedString(value)
+          .replace(/\s*[›>]\s*/g, " › ")
+          .replace(/\s+/g, " ")
+          .toLocaleLowerCase("en-US");
+      }
+
+      async function saveWwaStoryConnectionForPage(storage, input) {
+        const pageSyncId = getWwaTrimmedString(input && input.pageSyncId);
+        const filmContext = getWwaTrimmedString(
+          input && input.filmContext
+        ) || "series-wide";
+        const locationPath = getWwaTrimmedString(
+          input && input.locationPath
+        ).replace(/\s*[›>]\s*/g, " › ");
+        const connectionNote = getWwaTrimmedString(
+          input && input.connectionNote
+        );
+        const evidenceAssetSyncIds = Array.from(new Set(
+          Array.isArray(input && input.evidenceAssetSyncIds)
+            ? input.evidenceAssetSyncIds.map(getWwaTrimmedString).filter(Boolean)
+            : []
+        ));
+        if (!pageSyncId) {
+          throw new Error("연결할 WWA Page가 없습니다.");
+        }
+        if (!locationPath) {
+          const error = new Error("Location 전체 경로를 입력해 주세요.");
+          error.field = "locationPath";
+          throw error;
+        }
+
+        const storeNames = [
+          "archiveRoots",
+          "idReservations",
+          "films",
+          "locations",
+          "legoRecords",
+          "assets",
+          "assetLinks",
+          "storyConnections",
+          "evidenceLinks",
+          "pages",
+          "outbox"
+        ];
+        const transaction = storage.database.transaction(
+          storeNames,
+          "readwrite"
+        );
+        const completion = waitForWwaTransaction(transaction);
+
+        try {
+          const [
+            archiveRoot,
+            reservations,
+            allFilms,
+            allLocations,
+            allLegoRecords,
+            allAssets,
+            allAssetLinks,
+            allConnections,
+            allEvidenceLinks,
+            allPages
+          ] = await Promise.all([
+            requestWwaResult(
+              transaction.objectStore("archiveRoots").get(storage.archiveId)
+            ),
+            requestWwaResult(
+              transaction.objectStore("idReservations")
+                .index("entityType").getAll("StoryConnection")
+            ),
+            requestWwaResult(transaction.objectStore("films").getAll()),
+            requestWwaResult(transaction.objectStore("locations").getAll()),
+            requestWwaResult(transaction.objectStore("legoRecords").getAll()),
+            requestWwaResult(transaction.objectStore("assets").getAll()),
+            requestWwaResult(transaction.objectStore("assetLinks").getAll()),
+            requestWwaResult(
+              transaction.objectStore("storyConnections").getAll()
+            ),
+            requestWwaResult(
+              transaction.objectStore("evidenceLinks").getAll()
+            ),
+            requestWwaResult(transaction.objectStore("pages").getAll())
+          ]);
+
+          if (!archiveRoot || !archiveRoot.activeGenerationId) {
+            throw new Error("Active WWA generation is missing.");
+          }
+          const identity = {
+            archiveId: storage.archiveId,
+            generationId: archiveRoot.activeGenerationId,
+            deviceId: storage.deviceId
+          };
+          const isActive = (record) => isWwaActiveGenerationRecord(
+            record,
+            identity.archiveId,
+            identity.generationId
+          );
+          const page = allPages.find((item) =>
+            isActive(item) && item.syncId === pageSyncId
+          );
+          if (!page) throw new Error("현재 Archive의 WWA Page를 찾지 못했습니다.");
+          const legoRecord = allLegoRecords.find((item) =>
+            isActive(item) && item.syncId === page.legoRecordSyncId
+          );
+          if (!legoRecord) {
+            throw new Error("Page에 연결된 LEGO Record를 찾지 못했습니다.");
+          }
+
+          const filmSyncId = filmContext === "series-wide"
+            ? null
+            : filmContext;
+          if (filmSyncId && !allFilms.some((film) =>
+            isActive(film) && film.syncId === filmSyncId
+          )) {
+            const error = new Error("현재 Archive의 Film을 선택해 주세요.");
+            error.field = "filmContext";
+            throw error;
+          }
+          const locationKey = normalizeWwaStoryKey(locationPath);
+          const location = allLocations.find((item) =>
+            isActive(item) &&
+            normalizeWwaStoryKey(getWwaLocationPath(item)) === locationKey
+          ) || null;
+          const activeConnections = allConnections.filter(isActive);
+          const existingConnection = page.primaryStoryConnectionSyncId
+            ? activeConnections.find((connection) =>
+                connection.syncId === page.primaryStoryConnectionSyncId
+              ) || null
+            : null;
+          if (
+            page.primaryStoryConnectionSyncId &&
+            !existingConnection
+          ) {
+            throw new Error("Page의 Story Connection 참조가 완전하지 않습니다.");
+          }
+          if (
+            existingConnection &&
+            existingConnection.legoRecordSyncId !== page.legoRecordSyncId
+          ) {
+            throw new Error("Page와 Story Connection의 LEGO Record가 다릅니다.");
+          }
+
+          const duplicate = activeConnections.find((connection) => {
+            if (existingConnection && connection.syncId === existingConnection.syncId) {
+              return false;
+            }
+            const connectionFilmIds = Array.isArray(connection.filmSyncIds)
+              ? connection.filmSyncIds.map(getWwaTrimmedString).filter(Boolean)
+              : getWwaTrimmedString(connection.filmSyncId)
+                ? [getWwaTrimmedString(connection.filmSyncId)]
+                : [];
+            const connectionLocationPaths = Array.isArray(connection.locationPaths)
+              ? connection.locationPaths
+              : [connection.locationPath];
+            return connection.legoRecordSyncId === page.legoRecordSyncId &&
+              (connection.filmMode === "Series-wide") === !filmSyncId &&
+              connectionFilmIds.join("|") === (filmSyncId || "") &&
+              connectionLocationPaths.some((path) =>
+                normalizeWwaStoryKey(path) === locationKey
+              ) &&
+              (!Array.isArray(connection.subjectSyncIds) ||
+                connection.subjectSyncIds.length === 0) &&
+              connection.narrativeScope === "Location";
+          });
+          if (duplicate) {
+            throw new Error(
+              "같은 Record · Film · Location · Scope의 Story Connection이 이미 있습니다."
+            );
+          }
+
+          const activeAssetsById = new Map(
+            allAssets.filter(isActive).map((asset) => [asset.syncId, asset])
+          );
+          const eligibleEvidenceIds = new Set();
+          allAssetLinks.filter((link) => {
+            if (!isActive(link)) return false;
+            const asset = activeAssetsById.get(link.assetSyncId);
+            if (
+              !asset ||
+              asset.type !== "Official Film Still" ||
+              asset.sourceStatus !== "Verified" ||
+              asset.productionStatus === "Archived"
+            ) return false;
+            return (filmSyncId &&
+                link.relationType === "directFilm" &&
+                link.targetSyncId === filmSyncId) ||
+              (location &&
+                link.relationType === "directLocation" &&
+                link.targetSyncId === location.syncId);
+          }).forEach((link) => eligibleEvidenceIds.add(link.assetSyncId));
+          const invalidEvidence = evidenceAssetSyncIds.find(
+            (syncId) => !eligibleEvidenceIds.has(syncId)
+          );
+          if (invalidEvidence) {
+            const error = new Error(
+              "선택한 Evidence는 이 Film 또는 Location에 직접 연결된 Verified Official Film Still이 아닙니다."
+            );
+            error.field = "evidenceAssetSyncIds";
+            throw error;
+          }
+
+          let reservation = null;
+          let stableId = getWwaTrimmedString(
+            existingConnection && existingConnection.stableId
+          );
+          if (!existingConnection) {
+            reservation = chooseWwaStableIdReservation(
+              reservations,
+              identity,
+              "StoryConnection"
+            );
+            if (!reservation) {
+              throw new Error(
+                "Story Connection ID 예약이 준비되지 않았습니다. 다시 시도해 주세요."
+              );
+            }
+            stableId = formatWwaStoryConnectionStableId(
+              Number(reservation.nextValue)
+            );
+            if (activeConnections.some((connection) =>
+              connection.stableId === stableId
+            )) {
+              throw new Error(
+                "Stable Story Connection ID is already in use: " + stableId
+              );
+            }
+          }
+
+          const now = new Date().toISOString();
+          const connectionSyncId = existingConnection
+            ? existingConnection.syncId
+            : createWwaIdentityId();
+          const connection = {
+            ...(existingConnection || {}),
+            archiveId: identity.archiveId,
+            generationId: identity.generationId,
+            syncId: connectionSyncId,
+            stableId,
+            legoRecordSyncId: page.legoRecordSyncId,
+            filmMode: filmSyncId ? "Film" : "Series-wide",
+            filmSyncId,
+            filmSyncIds: filmSyncId ? [filmSyncId] : [],
+            locationSyncId: location ? location.syncId : null,
+            locationSyncIds: location ? [location.syncId] : [],
+            locationPath,
+            locationPaths: [locationPath],
+            subjectSyncIds: [],
+            narrativeScope: "Location",
+            status: "Review",
+            connectionNote,
+            checkedOn: null,
+            createdAt: existingConnection && existingConnection.createdAt || now,
+            updatedAt: now,
+            deletedAt: null,
+            cloudChangeTag: existingConnection &&
+              existingConnection.cloudChangeTag || null
+          };
+          const connectionsStore = transaction.objectStore("storyConnections");
+          if (existingConnection) connectionsStore.put(connection);
+          else connectionsStore.add(connection);
+          if (reservation) {
+            transaction.objectStore("idReservations").put({
+              ...reservation,
+              nextValue: Number(reservation.nextValue) + 1,
+              updatedAt: now
+            });
+          }
+
+          const connectionOperation = createWwaOutboxOperation(
+            identity,
+            "StoryConnection",
+            connectionSyncId,
+            "storyConnections",
+            [],
+            now,
+            {
+              baseCloudChangeTag: existingConnection &&
+                existingConnection.cloudChangeTag || null,
+              changedFields: [
+                "legoRecordSyncId",
+                "filmMode",
+                "filmSyncId",
+                "filmSyncIds",
+                "locationSyncId",
+                "locationSyncIds",
+                "locationPath",
+                "locationPaths",
+                "subjectSyncIds",
+                "narrativeScope",
+                "status",
+                "connectionNote",
+                "checkedOn"
+              ]
+            }
+          );
+          transaction.objectStore("outbox").add(connectionOperation);
+
+          const evidenceStore = transaction.objectStore("evidenceLinks");
+          const activeEvidence = allEvidenceLinks.filter((link) =>
+            isActive(link) && link.connectionSyncId === connectionSyncId
+          );
+          const selectedEvidenceIds = new Set(evidenceAssetSyncIds);
+          activeEvidence.filter((link) =>
+            !selectedEvidenceIds.has(link.assetSyncId)
+          ).forEach((link) => {
+            evidenceStore.put({ ...link, updatedAt: now, deletedAt: now });
+            transaction.objectStore("outbox").add(createWwaOutboxOperation(
+              identity,
+              "EvidenceLink",
+              link.linkId,
+              "evidenceLinks",
+              [connectionOperation.operationId],
+              now,
+              { changedFields: ["deletedAt"] }
+            ));
+          });
+
+          evidenceAssetSyncIds.forEach((assetSyncId) => {
+            const existingActiveLink = activeEvidence.find((link) =>
+              link.assetSyncId === assetSyncId
+            );
+            if (!existingActiveLink) {
+              const reusableLink = allEvidenceLinks.find((link) =>
+                link.connectionSyncId === connectionSyncId &&
+                link.assetSyncId === assetSyncId
+              );
+              const linkId = reusableLink
+                ? reusableLink.linkId
+                : createWwaIdentityId();
+              evidenceStore.put({
+                ...(reusableLink || {}),
+                archiveId: identity.archiveId,
+                generationId: identity.generationId,
+                syncId: linkId,
+                linkId,
+                connectionSyncId,
+                assetSyncId,
+                createdAt: reusableLink && reusableLink.createdAt || now,
+                updatedAt: now,
+                deletedAt: null,
+                cloudChangeTag: reusableLink && reusableLink.cloudChangeTag || null
+              });
+              transaction.objectStore("outbox").add(createWwaOutboxOperation(
+                identity,
+                "EvidenceLink",
+                linkId,
+                "evidenceLinks",
+                [connectionOperation.operationId],
+                now,
+                { changedFields: [
+                  "connectionSyncId",
+                  "assetSyncId",
+                  "deletedAt"
+                ] }
+              ));
+            }
+
+            const evidenceAsset = activeAssetsById.get(assetSyncId);
+            if (evidenceAsset.productionStatus !== "In Use") {
+              const previousClocks = evidenceAsset.fieldClocks || {};
+              transaction.objectStore("assets").put({
+                ...evidenceAsset,
+                productionStatus: "In Use",
+                updatedAt: now,
+                fieldClocks: {
+                  ...previousClocks,
+                  productionStatus: {
+                    updatedAt: now,
+                    deviceId: identity.deviceId
+                  }
+                }
+              });
+              const assetOperation = createWwaOutboxOperation(
+                identity,
+                "Asset",
+                assetSyncId,
+                "assets",
+                [],
+                now,
+                {
+                  baseCloudChangeTag: evidenceAsset.cloudChangeTag || null,
+                  baseFieldClocks: previousClocks,
+                  changedFields: ["productionStatus"]
+                }
+              );
+              transaction.objectStore("outbox").add(assetOperation);
+            }
+          });
+
+          const updatedPage = {
+            ...page,
+            unitType: "Spread",
+            templateId: "TPL-WWA-STANDARD-V1",
+            templateVersion: 1,
+            primaryStoryConnectionSyncId: connectionSyncId,
+            status: "Draft",
+            updatedAt: now
+          };
+          transaction.objectStore("pages").put(updatedPage);
+          transaction.objectStore("outbox").add(createWwaOutboxOperation(
+            identity,
+            "Page",
+            page.syncId,
+            "pages",
+            [connectionOperation.operationId],
+            now,
+            {
+              baseCloudChangeTag: page.cloudChangeTag || null,
+              changedFields: [
+                "unitType",
+                "templateId",
+                "templateVersion",
+                "primaryStoryConnectionSyncId",
+                "status"
+              ]
+            }
+          ));
+
+          await completion;
+          return {
+            status: "saved",
+            stableId,
+            syncId: connectionSyncId,
+            pageStableId: page.stableId,
+            evidenceCount: evidenceAssetSyncIds.length,
+            reviewState: evidenceAssetSyncIds.length
+              ? "Review"
+              : "Needs Evidence"
           };
         } catch (error) {
           try {
@@ -14721,6 +15471,24 @@
       );
       const pageAssetSelect = pageEditorForm.elements.namedItem("assetSyncId");
       const pageEditorStatus = root.querySelector(".wwa-page-editor-status");
+      const storyEditor = root.querySelector(".wwa-story-editor");
+      const storyEditorBack = root.querySelector(".wwa-story-editor-back");
+      const storyEditorForm = root.querySelector(".wwa-story-editor-form");
+      const storyEditorCancel = storyEditorForm.querySelector(
+        '[data-story-action="cancel"]'
+      );
+      const storyEditorSubmit = storyEditorForm.querySelector('[type="submit"]');
+      const storyFilmSelect = storyEditorForm.elements.namedItem("filmContext");
+      const storyLocationInput = storyEditorForm.elements.namedItem("locationPath");
+      const storyLocationOptions = root.querySelector(
+        "#wwa-story-location-options"
+      );
+      const storyEvidenceList = root.querySelector(".wwa-evidence-list");
+      const storyEvidenceEmpty = root.querySelector(".wwa-evidence-empty");
+      const storyEditorStatus = root.querySelector(".wwa-story-editor-status");
+      const storyEditorPosition = root.querySelector(".wwa-story-editor-position");
+      const storyContextTitle = root.querySelector(".wwa-story-context-title");
+      const storyContextMeta = root.querySelector(".wwa-story-context-meta");
       const archiveData = root.querySelector(".wwa-archive-data");
       const archiveDataOpen = root.querySelector(".wwa-archive-data-open");
       const archiveDataBack = root.querySelector(".wwa-archive-data-back");
@@ -14837,9 +15605,16 @@
       let pageRows = [];
       let pageRecords = [];
       let pageAssets = [];
+      let pageFilms = [];
+      let pageLocations = [];
+      let pageStoryEvidenceAssets = [];
       let pagesLoadState = "loading";
       let pageEditorDirty = false;
       let pageEditorSaving = false;
+      let activeStoryPage = null;
+      let activeStoryTrigger = null;
+      let storyEditorDirty = false;
+      let storyEditorSaving = false;
       const movies = [
         { code: "F01", year: "2001", title: "Philosopher\u2019s Stone", alt: "Official landscape key art for Harry Potter and the Philosopher's Stone" },
         { code: "F02", year: "2002", title: "Chamber of Secrets", alt: "Official landscape key art for Harry Potter and the Chamber of Secrets" },
@@ -14958,6 +15733,124 @@
         pageEditorStatus.textContent = message || "";
       };
 
+      const getWwaFilmLabel = (film) => [
+        getWwaTrimmedString(film && (film.code || film.filmCode || film.stableId)),
+        getWwaTrimmedString(film && (film.title || film.name))
+      ].filter(Boolean).join(" · ") || "Film";
+
+      const clearWwaStoryEditorErrors = () => {
+        storyEditorForm.querySelectorAll("[data-story-error]").forEach(
+          (element) => { element.textContent = ""; }
+        );
+        storyEditorForm.querySelectorAll("[aria-invalid]").forEach(
+          (element) => element.removeAttribute("aria-invalid")
+        );
+      };
+
+      const setWwaStoryEditorStatus = (message) => {
+        storyEditorStatus.textContent = message || "";
+      };
+
+      const renderWwaStoryFilmOptions = (selected = "series-wide") => {
+        storyFilmSelect.replaceChildren();
+        const seriesOption = document.createElement("option");
+        seriesOption.value = "series-wide";
+        seriesOption.textContent = "Series-wide";
+        storyFilmSelect.appendChild(seriesOption);
+        pageFilms.forEach((film) => {
+          const option = document.createElement("option");
+          option.value = film.syncId;
+          option.textContent = getWwaFilmLabel(film);
+          storyFilmSelect.appendChild(option);
+        });
+        storyFilmSelect.value = pageFilms.some(
+          (film) => film.syncId === selected
+        ) ? selected : "series-wide";
+      };
+
+      const renderWwaStoryLocationOptions = (entry) => {
+        const values = new Set(
+          pageLocations.map(getWwaLocationPath).filter(Boolean)
+        );
+        const legacyLocations = entry && entry.record &&
+          entry.record.legacyMigration &&
+          Array.isArray(entry.record.legacyMigration.locations)
+            ? entry.record.legacyMigration.locations
+            : [];
+        legacyLocations.map(getWwaTrimmedString).filter(Boolean)
+          .forEach((value) => values.add(value));
+        storyLocationOptions.replaceChildren();
+        Array.from(values).sort().forEach((value) => {
+          const option = document.createElement("option");
+          option.value = value;
+          storyLocationOptions.appendChild(option);
+        });
+      };
+
+      const getWwaSelectedStoryEvidenceIds = () => Array.from(
+        storyEvidenceList.querySelectorAll('input[type="checkbox"]:checked')
+      ).map((input) => input.value);
+
+      const getWwaEligibleStoryEvidence = () => {
+        const filmSyncId = storyFilmSelect.value === "series-wide"
+          ? ""
+          : storyFilmSelect.value;
+        const locationKey = normalizeWwaStoryKey(storyLocationInput.value);
+        const location = pageLocations.find((item) =>
+          normalizeWwaStoryKey(getWwaLocationPath(item)) === locationKey
+        );
+        return pageStoryEvidenceAssets.filter((entry) =>
+          entry.relations.some((relation) =>
+            (filmSyncId &&
+              relation.relationType === "directFilm" &&
+              relation.targetSyncId === filmSyncId) ||
+            (location &&
+              relation.relationType === "directLocation" &&
+              relation.targetSyncId === location.syncId)
+          )
+        );
+      };
+
+      const renderWwaStoryEvidenceOptions = (selectedIds = null) => {
+        const selected = new Set(
+          selectedIds || getWwaSelectedStoryEvidenceIds()
+        );
+        const eligible = getWwaEligibleStoryEvidence();
+        storyEvidenceList.replaceChildren();
+        eligible.forEach((entry) => {
+          const label = document.createElement("label");
+          label.className = "wwa-evidence-option";
+          const input = document.createElement("input");
+          input.type = "checkbox";
+          input.name = "evidenceAssetSyncIds";
+          input.value = entry.asset.syncId;
+          input.checked = selected.has(entry.asset.syncId);
+          const image = document.createElement("img");
+          image.src = entry.previewUrl || emptyAssetPreview;
+          image.alt = "";
+          const copy = document.createElement("span");
+          copy.className = "wwa-evidence-option-copy";
+          copy.textContent = getWwaTrimmedString(entry.asset.title) ||
+            "Official Film Still";
+          const meta = document.createElement("small");
+          meta.textContent = [
+            getWwaTrimmedString(entry.asset.stableId),
+            "Verified"
+          ].filter(Boolean).join(" · ");
+          copy.appendChild(meta);
+          label.append(input, image, copy);
+          storyEvidenceList.appendChild(label);
+        });
+        storyEvidenceEmpty.hidden = eligible.length > 0;
+        if (!storyEditorSaving) {
+          setWwaStoryEditorStatus(
+            eligible.length
+              ? "Evidence를 선택해도 새 Story Connection은 Review로 저장됩니다."
+              : "Evidence 없이 Review로 저장할 수 있습니다. Page에는 Needs Evidence가 표시됩니다."
+          );
+        }
+      };
+
       const renderWwaPageRecordOptions = () => {
         const selected = pageRecordSelect.value;
         pageRecordSelect.replaceChildren();
@@ -15040,8 +15933,14 @@
 
         pageRows.forEach((entry) => {
           const item = document.createElement("li");
-          const card = document.createElement("article");
+          const card = document.createElement("button");
+          card.type = "button";
           card.className = "wwa-page-card";
+          card.setAttribute(
+            "aria-label",
+            "Open Story Connection for " +
+              (getWwaTrimmedString(entry.page.stableId) || "WWA Page")
+          );
           const preview = document.createElement("span");
           preview.className = "wwa-page-card-preview";
           const image = document.createElement("img");
@@ -15064,9 +15963,18 @@
           meta.textContent = getWwaPageRecordLabel(entry.record);
           const state = document.createElement("span");
           state.className = "wwa-page-card-state";
-          state.textContent = (entry.page.status || "Draft") + " · Asset In Use";
+          state.textContent = entry.storyConnection
+            ? (entry.page.status || "Draft") + " · " +
+              (entry.evidenceLinks.length
+                ? "Story Review · " + entry.evidenceLinks.length +
+                  (entry.evidenceLinks.length === 1
+                    ? " Evidence"
+                    : " Evidence")
+                : "Needs Evidence")
+            : (entry.page.status || "Draft") + " · Story Needed";
           copy.append(id, title, meta, state);
           card.append(preview, copy);
+          card.addEventListener("click", () => openWwaStoryEditor(entry, card));
           item.appendChild(card);
           pagesList.appendChild(item);
         });
@@ -15083,11 +15991,22 @@
               ? createWwaStoredPreviewUrl(entry.previewBlob, nextUrls)
               : ""
           }));
+          const nextStoryEvidenceAssets = result.storyEvidenceAssets.map(
+            (entry) => ({
+              ...entry,
+              previewUrl: entry.previewBlob
+                ? createWwaStoredPreviewUrl(entry.previewBlob, nextUrls)
+                : ""
+            })
+          );
           const previousUrls = restoredPageObjectUrls;
           restoredPageObjectUrls = nextUrls;
           pageRows = nextRows;
           pageRecords = result.records;
           pageAssets = result.assets;
+          pageFilms = result.films;
+          pageLocations = result.locations;
+          pageStoryEvidenceAssets = nextStoryEvidenceAssets;
           pagesLoadState = "ready";
           revokeWwaObjectUrls(previousUrls);
           renderWwaPages();
@@ -15099,6 +16018,9 @@
           pageRows = [];
           pageRecords = [];
           pageAssets = [];
+          pageFilms = [];
+          pageLocations = [];
+          pageStoryEvidenceAssets = [];
           renderWwaPages();
           throw error;
         }
@@ -15197,6 +16119,149 @@
           pageEditorBack.disabled = false;
           pageEditorCancel.disabled = false;
           pageEditorSubmit.disabled = false;
+        }
+      };
+
+      const openWwaStoryEditor = (entry, trigger) => {
+        if (!entry || !entry.page) return;
+        activeStoryPage = entry;
+        activeStoryTrigger = trigger || null;
+        storyEditorForm.reset();
+        clearWwaStoryEditorErrors();
+        renderWwaStoryLocationOptions(entry);
+        const connection = entry.storyConnection;
+        const filmSyncId = connection && (
+          getWwaTrimmedString(connection.filmSyncId) ||
+          (Array.isArray(connection.filmSyncIds) &&
+            getWwaTrimmedString(connection.filmSyncIds[0]))
+        );
+        renderWwaStoryFilmOptions(filmSyncId || "series-wide");
+        const savedLocation = connection && (
+          getWwaTrimmedString(connection.locationPath) ||
+          (Array.isArray(connection.locationPaths) &&
+            getWwaTrimmedString(connection.locationPaths[0]))
+        );
+        const legacyLocation = entry.record &&
+          entry.record.legacyMigration &&
+          Array.isArray(entry.record.legacyMigration.locations)
+            ? getWwaTrimmedString(entry.record.legacyMigration.locations[0])
+            : "";
+        storyLocationInput.value = savedLocation || legacyLocation;
+        storyEditorForm.elements.namedItem("connectionNote").value =
+          getWwaTrimmedString(connection && connection.connectionNote);
+        renderWwaStoryEvidenceOptions(
+          entry.evidenceLinks.map((link) => link.assetSyncId)
+        );
+        storyEditorPosition.textContent =
+          getWwaTrimmedString(entry.page.stableId) || "WWA Page";
+        storyContextTitle.textContent =
+          getWwaTrimmedString(entry.page.title) ||
+          getWwaPageRecordLabel(entry.record);
+        storyContextMeta.textContent = [
+          getWwaPageRecordLabel(entry.record),
+          connection
+            ? getWwaTrimmedString(connection.stableId) || "Story Connection"
+            : "Story Connection not linked"
+        ].filter(Boolean).join(" · ");
+        storyEditorDirty = false;
+        storyEditorSaving = false;
+        storyEditorBack.disabled = false;
+        storyEditorCancel.disabled = false;
+        storyEditorSubmit.disabled = false;
+        pagesScreen.classList.remove("is-visible");
+        storyEditor.classList.add("is-visible");
+        root.classList.add("is-story-editor-view", "is-pages-view");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.setTimeout(
+          () => storyEditor.focus({ preventScroll: true }),
+          180
+        );
+      };
+
+      const closeWwaStoryEditor = (restoreFocus = true) => {
+        storyEditor.classList.remove("is-visible");
+        root.classList.remove("is-story-editor-view");
+        pagesScreen.classList.add("is-visible");
+        storyEditorDirty = false;
+        activeStoryPage = null;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (restoreFocus && activeStoryTrigger) {
+          window.setTimeout(() => activeStoryTrigger.focus(), 180);
+        }
+      };
+
+      const requestCloseWwaStoryEditor = () => {
+        if (
+          storyEditorDirty &&
+          !window.confirm("저장하지 않은 Story Connection 변경을 취소할까요?")
+        ) return;
+        closeWwaStoryEditor();
+      };
+
+      const showWwaStoryEditorError = (error) => {
+        const field = getWwaTrimmedString(error && error.field);
+        const message = getWwaTrimmedString(error && error.message) ||
+          "Story Connection을 저장하지 못했습니다.";
+        const input = field
+          ? storyEditorForm.elements.namedItem(field)
+          : null;
+        if (input && typeof input.setAttribute === "function") {
+          input.setAttribute("aria-invalid", "true");
+          const target = storyEditorForm.querySelector(
+            '[data-story-error="' + field + '"]'
+          );
+          if (target) target.textContent = message;
+          if (typeof input.focus === "function") input.focus();
+        } else if (field === "evidenceAssetSyncIds") {
+          const target = storyEditorForm.querySelector(
+            '[data-story-error="evidenceAssetSyncIds"]'
+          );
+          if (target) target.textContent = message;
+        }
+        setWwaStoryEditorStatus(message);
+      };
+
+      const saveWwaStoryEditor = async (event) => {
+        event.preventDefault();
+        if (storyEditorSaving || !activeStoryPage) return;
+        clearWwaStoryEditorErrors();
+        storyEditorSaving = true;
+        storyEditorBack.disabled = true;
+        storyEditorCancel.disabled = true;
+        storyEditorSubmit.disabled = true;
+        storyEditorForm.setAttribute("aria-busy", "true");
+        setWwaStoryEditorStatus(
+          "Story Connection · Evidence · Page 연결을 함께 저장하는 중입니다."
+        );
+        try {
+          const result = await window.WWAStorage.saveStoryConnection({
+            pageSyncId: activeStoryPage.page.syncId,
+            filmContext: storyFilmSelect.value,
+            locationPath: storyLocationInput.value,
+            evidenceAssetSyncIds: getWwaSelectedStoryEvidenceIds(),
+            connectionNote: storyEditorForm.elements
+              .namedItem("connectionNote").value
+          });
+          await Promise.all([
+            restoreWwaPagesFromStorage(),
+            restoreWwaAssetsFromStorage()
+          ]);
+          storyEditorDirty = false;
+          closeWwaStoryEditor(false);
+          showNotice(
+            result.stableId + " · " +
+              (result.evidenceCount
+                ? "Story linked"
+                : "Needs Evidence")
+          );
+        } catch (error) {
+          showWwaStoryEditorError(error);
+        } finally {
+          storyEditorSaving = false;
+          storyEditorBack.disabled = false;
+          storyEditorCancel.disabled = false;
+          storyEditorSubmit.disabled = false;
+          storyEditorForm.removeAttribute("aria-busy");
         }
       };
 
@@ -18695,6 +19760,22 @@
           "Page 저장 시 선택한 Asset은 In Use로 변경됩니다."
         );
       });
+      storyEditorBack.addEventListener("click", requestCloseWwaStoryEditor);
+      storyEditorCancel.addEventListener("click", requestCloseWwaStoryEditor);
+      storyEditorForm.addEventListener("submit", saveWwaStoryEditor);
+      storyEditorForm.addEventListener("input", (event) => {
+        if (!storyEditor.classList.contains("is-visible")) return;
+        storyEditorDirty = true;
+        clearWwaStoryEditorErrors();
+        if (event.target === storyLocationInput) {
+          renderWwaStoryEvidenceOptions();
+        }
+      });
+      storyFilmSelect.addEventListener("change", () => {
+        storyEditorDirty = true;
+        clearWwaStoryEditorErrors();
+        renderWwaStoryEvidenceOptions();
+      });
       window.addEventListener("beforeunload", (event) => {
         const hasUnsavedAsset = assetEditorDirty &&
           assetEditor.classList.contains("is-visible");
@@ -18702,7 +19783,14 @@
           recordEditor.classList.contains("is-visible");
         const hasUnsavedPage = pageEditorDirty &&
           pageEditor.classList.contains("is-visible");
-        if (!hasUnsavedAsset && !hasUnsavedRecord && !hasUnsavedPage) return;
+        const hasUnsavedStory = storyEditorDirty &&
+          storyEditor.classList.contains("is-visible");
+        if (
+          !hasUnsavedAsset &&
+          !hasUnsavedRecord &&
+          !hasUnsavedPage &&
+          !hasUnsavedStory
+        ) return;
         event.preventDefault();
         event.returnValue = "";
       });
@@ -18751,6 +19839,12 @@
         if (reason === "page-save") {
           await ensureWwaLocalStableIdReservation(storage, "Page");
         }
+        if (reason === "story-connection-save") {
+          await ensureWwaLocalStableIdReservation(
+            storage,
+            "StoryConnection"
+          );
+        }
         const result = await mutation(storage);
         if (reason === "asset-add" || reason === "archive-restore") {
           await ensureWwaLocalStableIdReservation(storage, "Asset");
@@ -18760,6 +19854,12 @@
         }
         if (reason === "page-save") {
           await ensureWwaLocalStableIdReservation(storage, "Page");
+        }
+        if (reason === "story-connection-save") {
+          await ensureWwaLocalStableIdReservation(
+            storage,
+            "StoryConnection"
+          );
         }
         return result;
       };
@@ -18813,6 +19913,10 @@
         savePage: async (input) => runWwaStoredMutation(
           (storage) => saveWwaPage(storage, input),
           "page-save"
+        ),
+        saveStoryConnection: async (input) => runWwaStoredMutation(
+          (storage) => saveWwaStoryConnectionForPage(storage, input),
+          "story-connection-save"
         ),
         saveLegoRecord: async (recordSyncId, input) =>
           runWwaStoredMutation(
@@ -18924,6 +20028,7 @@
             assets.classList.remove("is-visible");
             pagesScreen.classList.remove("is-visible");
             pageEditor.classList.remove("is-visible");
+            storyEditor.classList.remove("is-visible");
             home.classList.remove("is-hidden");
             root.classList.remove(
               "is-movie-detail-view",
@@ -18933,7 +20038,8 @@
               "is-assets-view",
               "is-archive-data-view",
               "is-pages-view",
-              "is-page-editor-view"
+              "is-page-editor-view",
+              "is-story-editor-view"
             );
             setAssetsSurface(false);
             setActiveTab("Home");
@@ -18948,6 +20054,7 @@
             assets.classList.remove("is-visible");
             pagesScreen.classList.remove("is-visible");
             pageEditor.classList.remove("is-visible");
+            storyEditor.classList.remove("is-visible");
             recordEditor.classList.remove("is-visible");
             home.classList.add("is-hidden");
             recordsScreen.classList.add("is-visible");
@@ -18958,7 +20065,8 @@
               "is-assets-view",
               "is-archive-data-view",
               "is-pages-view",
-              "is-page-editor-view"
+              "is-page-editor-view",
+              "is-story-editor-view"
             );
             root.classList.add("is-records-view");
             setAssetsSurface(true);
@@ -18982,6 +20090,7 @@
             recordEditor.classList.remove("is-visible");
             pagesScreen.classList.remove("is-visible");
             pageEditor.classList.remove("is-visible");
+            storyEditor.classList.remove("is-visible");
             home.classList.add("is-hidden");
             assets.classList.add("is-visible");
             root.classList.remove(
@@ -18991,7 +20100,8 @@
               "is-record-editor-view",
               "is-archive-data-view",
               "is-pages-view",
-              "is-page-editor-view"
+              "is-page-editor-view",
+              "is-story-editor-view"
             );
             root.classList.add("is-assets-view");
             setAssetsSurface(true);
@@ -19009,6 +20119,7 @@
             recordEditor.classList.remove("is-visible");
             assets.classList.remove("is-visible");
             pageEditor.classList.remove("is-visible");
+            storyEditor.classList.remove("is-visible");
             home.classList.add("is-hidden");
             pagesScreen.classList.add("is-visible");
             root.classList.remove(
@@ -19018,7 +20129,8 @@
               "is-record-editor-view",
               "is-assets-view",
               "is-archive-data-view",
-              "is-page-editor-view"
+              "is-page-editor-view",
+              "is-story-editor-view"
             );
             root.classList.add("is-pages-view");
             setAssetsSurface(true);

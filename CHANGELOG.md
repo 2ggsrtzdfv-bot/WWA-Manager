@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+### Story Connection Page Linking Implemented — 2026-08-23
+
+- 저장된 WWA Page 카드를 Story Connection 집중 편집 화면으로 연결하고, 현재 승인 범위인 `Series-wide 또는 Film 1개 + Location Path + Narrative Scope = Location` 맥락을 기록하도록 구현.
+- Location 원본이 준비된 경우 전체 경로를 선택 후보로 제공하고, Legacy Record에 보존된 Location 문자열도 후보로 유지해 기존 `76419 / PAGE-000001` 데이터를 다시 만들지 않고 연결할 수 있도록 처리.
+- Evidence 선택지를 선택한 Film 또는 Location에 `directFilm / directLocation`으로 직접 연결된 `Verified · Official Film Still`로 제한하고 LEGO 제품 이미지·WWA Blueprint·미검증·Archived Asset을 제외.
+- Evidence가 없어도 새 Story Connection은 `Review`로 저장하고 Page 목록에 `Needs Evidence`를 표시해 검증 근거를 임의 생성하지 않도록 유지.
+- `CON-000001` 형식의 Stable ID 예약, Story Connection, Evidence Link, Evidence Asset의 `In Use` 전환, Page의 `primaryStoryConnectionSyncId`와 `TPL-WWA-STANDARD-V1` 지정, Outbox 기록을 하나의 IndexedDB transaction으로 처리.
+- 동일 `Record + Film + Location 전체 경로 + Subject 없음 + Location Scope` 중복을 저장 계층에서 차단하고, 기존 Page의 연결을 다시 열면 같은 `CON` ID를 유지해 수정.
+- Full ZIP Restore 검증에 Story Connection의 Film·Location 참조와 Page의 LEGO Record·Primary Story Connection 참조 완전성 검사를 추가하고, 기존 20개 Store·schema version·backup format version은 변경하지 않음.
+
 ### Single Standard Spread Direction Approved — 2026-08-23
 
 - 현재 정식 WWA Record Template을 `WWA Standard Spread v1` 하나로 승인하고, 80개 Record Spread에 동일한 왼쪽 Story / 오른쪽 LEGO Archive 역할과 반복 리듬을 적용.

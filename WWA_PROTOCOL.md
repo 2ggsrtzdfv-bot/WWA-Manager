@@ -71,7 +71,7 @@ WWA의 제작 흐름은 다음 순서를 따른다.
 
 현재 승인 상태와 다음 진행 순서:
 
-- Asset 저장·편집·Version History, Legacy Migration, Full ZIP Backup·Restore, LEGO Record, WWA Pages Phase 1은 구현·검증·배포 완료 상태다.
+- Asset 저장·편집·Version History, Legacy Migration, Full ZIP Backup·Restore, LEGO Record, WWA Pages Phase 1, Story Connection–Page 연결은 구현·검증·배포 완료 상태다.
 - WWA Page의 현재 작업 판형과 임시 출력 기준은 A4 Portrait `210 × 297 mm`로 승인한다.
 - 최종 출판물은 `일반 양장(비 Layflat)`으로 제작한다.
 - Spread의 왼쪽·오른쪽 면은 각각 독립적으로 완결하며, 글자·얼굴·로고·정렬 기준선 등 필수 정보는 중앙 접힘선을 넘지 않는다. 중앙을 잇는 장식 배경은 제본 손실과 좌우 어긋남이 생겨도 의미가 유지되는 경우에만 허용한다.
@@ -81,8 +81,8 @@ WWA의 제작 흐름은 다음 순서를 따른다.
 - `Type B`는 현재 Template이나 구현 대상이 아니다. 실제 Page 제작에서 Standard Spread로 해결할 수 없는 반복 문제가 검증되고 별도 승인을 받은 경우에만 `Future Candidate`로 재검토한다.
 - 인쇄소·용지가 정해질 때까지 최종 판형, spine, gutter 수치는 확정하지 않는다.
 
-1. `PAGE-000001`에 필요한 Story Connection Record와 Evidence Link 구현
-2. `WWA Standard Spread v1` 기반 WWA Page Editor·Preview 구현과 iPhone 검증
+1. `WWA Standard Spread v1`의 실제 Archive 데이터를 사용하는 읽기 전용 Spread Preview 구현과 iPhone 검증
+2. Slot별 원고·Asset·Crop·Focus Editor 구현
 3. Print Provider Profile·PDF Export·교정쇄 절차 설계
 
 ## 6. LEGO Record Rules
@@ -168,6 +168,10 @@ Film과 Location의 실제 관계는 `Story Connection` 단위로 저장한다. 
 장소가 여러 영화에 등장하면 영화별 Story Connection을 만든다. 영화와 직접 연결되지 않는 장소는 `Series-wide` 관계를 허용한다.
 
 - 새 Story Connection의 기본 상태는 `Review`다.
+- 현재 Page 연결 화면은 승인된 첫 범위로 `Series-wide 또는 Film 1개 + Location Path + Narrative Scope = Location`을 지원한다. Cross-Film·Subject·Archive Scope 입력은 해당 편집 범위의 별도 승인 뒤 추가한다.
+- Location 원본이 있으면 `locationSyncIds`와 전체 경로를 함께 저장하고, 아직 원본이 없으면 전체 경로 문자열을 보존해 `Review` 연결을 먼저 만들 수 있다.
+- Evidence 선택지는 선택한 Film 또는 Location에 직접 연결된 `Verified · Official Film Still`만 허용한다. Evidence가 없어도 `Review` 저장은 가능하지만 Page는 `Needs Evidence`로 표시한다.
+- Story Connection·Evidence Link·Page의 Primary Story Connection 지정은 하나의 IndexedDB transaction에서 처리한다.
 - `Record + Film + Location + Subject + Narrative Scope` 조합이 같으면 중복 생성을 차단한다.
 - Location은 전체 경로가 같을 때만 중복으로 판단한다.
 - Subject는 `Subject Type + 공식 원문 이름`이 같을 때 중복으로 판단한다.
