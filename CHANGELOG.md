@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+### Legacy 76419 Initial Page Recovery Corrected — 2026-09-05
+
+- Safari의 기존 `76419`가 Legacy Migration 특성상 LEGO Record `Draft / Review`, 공식 제품 이미지 `Source Needed` 상태로 보존되어도, 두 원본의 직접 연결 관계가 남아 있으면 최초 `PAGE-000001`을 한 번 복구하도록 수정.
+- 이전 generation에서 기록된 `pageBootstrap:76419:v1` 표시가 현재 generation의 빈 Pages 화면을 영구적으로 막지 않도록, 실제 활성 Page 존재 여부를 먼저 확인한 뒤 복구를 다시 실행.
+- 이 1회 복구 예외는 활성 `76419`와 직접 연결된 `LEGO Official Product Image`에만 적용하며, Record Verification과 Asset Source Status는 변경하지 않음.
+- 일반 `Add Page`는 계속 활성 `Verified` LEGO Record와 `Verified · LEGO Official Product Image`만 허용하고, 기존 Record·Asset 원본을 새로 만들거나 덮어쓰지 않음.
+- IndexedDB·DOM 재현 검증에서 오래된 bootstrap 표시를 무시하고 `01 WWA Page / PAGE-000001`을 표시하며, `Review / Source Needed` 보존과 일반 Add Page 검증 차단을 확인.
+
 ### Existing Page Relationship Recovery — 2026-08-23
 
 - 기존 Page가 연결한 LEGO Record와 Product Image를 `Sync ID`로 직접 복원해, 같은 세트 번호나 Stable ID를 가진 중복 후보가 있어도 Page가 목록에서 사라지지 않도록 수정.

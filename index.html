@@ -14442,7 +14442,7 @@
         }
       }
 
-      async function saveWwaPage(storage, input) {
+      async function saveWwaPage(storage, input, options = {}) {
         const legoRecordSyncId = getWwaTrimmedString(
           input && input.legoRecordSyncId
         );
@@ -14526,9 +14526,19 @@
           const record = allLegoRecords.find((item) =>
             isActive(item) && item.syncId === legoRecordSyncId
           );
+          const isInitialRecoveryRecord = Boolean(
+            options.initial76419Recovery === true &&
+            record &&
+            getWwaTrimmedString(record.setNumber)
+              .replace(/\s+/g, "") === "76419" &&
+            record.recordLifecycle !== "Archived"
+          );
           if (
             !record ||
-            record.recordVerification !== "Verified" ||
+            (
+              record.recordVerification !== "Verified" &&
+              !isInitialRecoveryRecord
+            ) ||
             record.recordLifecycle === "Archived"
           ) {
             const error = new Error(
@@ -14540,10 +14550,19 @@
           const asset = allAssets.find((item) =>
             isActive(item) && item.syncId === assetSyncId
           );
+          const isInitialRecoveryAsset = Boolean(
+            isInitialRecoveryRecord &&
+            asset &&
+            asset.type === "LEGO Official Product Image" &&
+            asset.productionStatus !== "Archived"
+          );
           if (
             !asset ||
             asset.type !== "LEGO Official Product Image" ||
-            asset.sourceStatus !== "Verified" ||
+            (
+              asset.sourceStatus !== "Verified" &&
+              !isInitialRecoveryAsset
+            ) ||
             asset.productionStatus === "Archived"
           ) {
             const error = new Error(
@@ -14772,35 +14791,117 @@
         await completion;
       }
 
-      async function bootstrapWwaInitialPage(storage) {
-        const previousBootstrap = await readWwaInitialPageBootstrap(storage);
-        if (previousBootstrap) {
-          return { status: "already-checked", ...previousBootstrap };
+      async function findWwaInitialPageRecoveryCandidate(storage) {
+        const storeNames = [
+          "archiveRoots",
+          "legoRecords",
+          "assets",
+          "assetLinks"
+        ];
+        const transaction = storage.database.transaction(
+          storeNames,
+          "readonly"
+        );
+        const completion = waitForWwaTransaction(transaction);
+        const [archiveRoot, allRecords, allAssets, allLinks] =
+          await Promise.all([
+            requestWwaResult(
+              transaction.objectStore("archiveRoots").get(storage.archiveId)
+            ),
+            requestWwaResult(transaction.objectStore("legoRecords").getAll()),
+            requestWwaResult(transaction.objectStore("assets").getAll()),
+            requestWwaResult(transaction.objectStore("assetLinks").getAll())
+          ]);
+        await completion;
+
+        if (!archiveRoot || !archiveRoot.activeGenerationId) {
+          throw new Error("Active WWA generation is missing.");
+        }
+        const generationId = archiveRoot.activeGenerationId;
+        const isActive = (record) => isWwaActiveGenerationRecord(
+          record,
+          storage.archiveId,
+          generationId
+        );
+        const records = allRecords.filter((record) =>
+          isActive(record) &&
+          getWwaTrimmedString(record.setNumber)
+            .replace(/\s+/g, "") === "76419" &&
+          record.recordLifecycle !== "Archived"
+        );
+        if (!records.length) {
+          return { generationId, record: null, productImage: null };
         }
 
+        const productAssetsById = new Map(
+          allAssets.filter((asset) =>
+            isActive(asset) &&
+            asset.type === "LEGO Official Product Image" &&
+            asset.productionStatus !== "Archived"
+          ).map((asset) => [asset.syncId, asset])
+        );
+        const candidates = [];
+        records.forEach((record) => {
+          allLinks.forEach((link) => {
+            const productImage = productAssetsById.get(link.assetSyncId);
+            if (
+              isActive(link) &&
+              link.relationType === "relatedLegoRecord" &&
+              link.targetSyncId === record.syncId &&
+              productImage
+            ) {
+              candidates.push({ record, productImage });
+            }
+          });
+        });
+        candidates.sort((left, right) => {
+          const leftScore =
+            (left.record.recordVerification === "Verified" ? 4 : 0) +
+            (left.productImage.sourceStatus === "Verified" ? 2 : 0) +
+            (left.productImage.legacyMigration ? 1 : 0);
+          const rightScore =
+            (right.record.recordVerification === "Verified" ? 4 : 0) +
+            (right.productImage.sourceStatus === "Verified" ? 2 : 0) +
+            (right.productImage.legacyMigration ? 1 : 0);
+          return rightScore - leftScore ||
+            String(right.productImage.updatedAt || "").localeCompare(
+              String(left.productImage.updatedAt || "")
+            );
+        });
+        if (!candidates.length) {
+          return { generationId, record: records[0], productImage: null };
+        }
+        return { generationId, ...candidates[0] };
+      }
+
+      async function bootstrapWwaInitialPage(storage) {
         const snapshot = await loadWwaStoredPages(storage);
+        const previousBootstrap = await readWwaInitialPageBootstrap(storage);
         if (snapshot.pages.length) {
           const existingPage = snapshot.pages[0].page;
           const result = {
             status: "existing",
+            generationId: snapshot.generationId,
             pageSyncId: existingPage.syncId,
             stableId: existingPage.stableId
           };
-          await markWwaInitialPageBootstrap(storage, result);
+          if (
+            !previousBootstrap ||
+            previousBootstrap.generationId !== result.generationId ||
+            previousBootstrap.pageSyncId !== result.pageSyncId
+          ) {
+            await markWwaInitialPageBootstrap(storage, result);
+          }
           return result;
         }
 
-        const record = snapshot.records.find((entry) =>
-          getWwaTrimmedString(entry.setNumber)
-            .replace(/\s+/g, "") === "76419"
-        );
+        const recovery = await findWwaInitialPageRecoveryCandidate(storage);
+        const record = recovery.record;
         if (!record) {
           return { status: "pending-record" };
         }
 
-        const productImage = snapshot.assets.find((entry) =>
-          entry.recordSyncIds.includes(record.syncId)
-        );
+        const productImage = recovery.productImage;
         if (!productImage) {
           return { status: "pending-product-image" };
         }
@@ -14808,10 +14909,13 @@
         await ensureWwaLocalStableIdReservation(storage, "Page");
         const saved = await saveWwaPage(storage, {
           legoRecordSyncId: record.syncId,
-          assetSyncId: productImage.asset.syncId
+          assetSyncId: productImage.syncId
+        }, {
+          initial76419Recovery: true
         });
         const result = {
           status: "created",
+          generationId: recovery.generationId,
           pageSyncId: saved.syncId,
           stableId: saved.stableId
         };
